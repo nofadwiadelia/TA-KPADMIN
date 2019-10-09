@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/daftar_mahasiswa', 'Mah@index')->name('/daftar_mahasiswa');
+Route::get('/detail_mahasiswa', 'Mah@index1')->name('/detail_mahasiswa');
+Route::get('/daftar_dosen', 'Mah@index1')->name('/daftar_dosen');
