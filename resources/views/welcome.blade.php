@@ -16,6 +16,10 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- DataTables -->
   <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -69,7 +73,7 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Nama Dosen </a>
+          <a href="#" class="d-block">Admin</a>
         </div>
       </div>
 
@@ -78,17 +82,16 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
+            <li class="nav-item ">
+              <a href="/admin" class="nav-link ">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                   Dashboard
-                  <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/widgets.html" class="nav-link">
+              <a href="/pengumuman" class="nav-link">
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
                   Pengumuman
@@ -102,7 +105,6 @@
                 <p>
                   Daftar User
                   <i class="fas fa-angle-left right"></i>
-                  <span class="badge badge-info right">6</span>
                 </p>
               </a>
               <ul class="nav nav-treeview">
@@ -113,19 +115,19 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav.html" class="nav-link">
+                  <a href="/daftar_dosen" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Dosen</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav.html" class="nav-link">
+                  <a href="/daftar_mentor" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Mentor</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav.html" class="nav-link">
+                  <a href="/daftar_partner" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Partner</p>
                   </a>
@@ -142,39 +144,27 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="pages/layout/top-nav.html" class="nav-link">
+                    <a href="/akun_mahasiswa" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Mahasiswa</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/layout/top-nav.html" class="nav-link">
+                    <a href="/akun_dosen" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Dosen</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/layout/top-nav.html" class="nav-link">
+                    <a href="/akun_mentor" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Mentor</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/layout/top-nav.html" class="nav-link">
+                    <a href="/akun_partner" class="nav-link">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Partner</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/layout/top-nav.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Akademik</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="pages/layout/top-nav.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Pengurus</p>
                     </a>
                   </li>
               </ul>
@@ -189,76 +179,64 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="pages/UI/timeline.html" class="nav-link">
+                  <a href="/persetujuan_kelompok" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Kelompok</p>
+                    <p>Pendaftaran Kelompok</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/UI/ribbons.html" class="nav-link">
+                  <a href="/usulan_pkl" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Periode PKL</p>
+                    <p>Usulan PKL</p>
                   </a>
                 </li>
               </ul>
             </li>
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
-                <i class="nav-icon far fa-calendar-alt"></i>
+                <i class="nav-icon fas fa-users"></i>
                 <p>
-                  Periode Registrasi
+                  Kelompok
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="pages/forms/general.html" class="nav-link">
+                  <a href="/magangListing" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>General Elements</p>
+                    <p>Magang</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/forms/advanced.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Advanced Elements</p>
+                  <a href="pages/tables/data.html" class="nav-link">
+                    <i class="fas fa-times nav-icon"></i>
+                    <p>Ditolak</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/forms/editors.html" class="nav-link">
+                  <a href="/presentasi_kelompok" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Editors</p>
+                    <p>Presentasi</p>
                   </a>
                 </li>
               </ul>
             </li>
+            <li class="nav-item">
+              <a href="/periode" class="nav-link">
+                <i class="nav-icon far fa-clock"></i>
+                <p>
+                  Setting Periode PKL
+                </p>
+              </a>
+            </li>
             <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+              <a href="/lowongan" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
                 <p>
                   Kerjasama
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="pages/tables/simple.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Simple Tables</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/tables/data.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>DataTables</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/tables/jsgrid.html" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>jsGrid</p>
-                  </a>
-                </li>
-              </ul>
             </li>
           </ul>
       </nav>
