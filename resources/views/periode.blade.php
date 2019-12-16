@@ -18,7 +18,7 @@
                     </div>
 					<div class="d-flex flex-row justify-content-center">
                         <div class="col-md-3 ">
-                            <a href="https://pklkomsi.000webhostapp.com/admin/periode/periodeListing" class="btn bg-blue"><i class="fas fa-pencil-alt"></i> Setting Periode PKL</a>
+                            <a href="/edit_periode" class="btn bg-blue"><i class="fas fa-pencil-alt"></i> Setting Periode PKL</a>
                         </div>
                         <div class="col-md-3 ">
                             <a href="/periodeListing" class="btn bg-blue"><i class="far fa-clock"></i> List Periode PKL</a>

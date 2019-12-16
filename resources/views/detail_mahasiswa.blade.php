@@ -48,8 +48,9 @@
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
                                 <li class="nav-item"><a class="nav-link active" href="#info" data-toggle="tab">Info</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Absensi</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#kelompok" data-toggle="tab">Kelompok</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#magang" data-toggle="tab">Magang</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#logbook" data-toggle="tab">Logbook</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#nilai" data-toggle="tab">Penilaian</a></li>
                             </ul>
                         </div><!-- /.card-header -->
@@ -83,140 +84,6 @@
                                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
                                     </div>
                                 </div>
-                            
-                                <div class="tab-pane" id="settings">
-                                    <form class="form-horizontal">
-                                    <div class="form-group row">
-                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputName" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                        <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                                        <div class="col-sm-10">
-                                        <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                        <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="offset-sm-2 col-sm-10">
-                                        <div class="checkbox">
-                                            <label>
-                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                            </label>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="offset-sm-2 col-sm-10">
-                                        <button type="submit" class="btn btn-danger">Submit</button>
-                                        </div>
-                                    </div>
-                                    </form>
-                                </div>
-                                <!-- /.tab-pane -->
-                                <div class="tab-pane" id="nilai">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Penilaian Supervisor</h5>
-                                    </div>
-                                    <div class="card-primary card-outline">
-                                    <div class="card-body table-responsive p-0">
-                                        <table class="table no-border">
-                                                <tr>
-                                                    <th>Skill</th>
-                                                    <th>Kerapihan</th>
-                                                    <th>Sikap</th>
-                                                    <th>Keaktifan</th>
-                                                    <th>Perhatian</th>
-                                                    <th>Kehadiran</th>
-                                                    <th>Jumlah Nilai</th>
-                                                </tr>
-                                                <tr>
-                                                <td>4</td>
-                                                <td>5</td>
-                                                <td>5</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>5</td>
-                                                <td>26</td>
-                                                </tr>
-                                        </table><br/>
-                                    </div>
-                                    </div>
-                                    <div class="card-header">
-                                        <h5 class="card-title">Penilaian Dosen Penguji</h5>
-                                    </div>
-                                    <div class="card-primary card-outline">
-                                    <div class="card-body table-responsive p-0">
-                                        <table class="table no-border">
-                                                <tr>
-                                                    <th>Skill</th>
-                                                    <th>Kerapihan</th>
-                                                    <th>Sikap</th>
-                                                    <th>Keaktifan</th>
-                                                    <th>Perhatian</th>
-                                                    <th>Kehadiran</th>
-                                                    <th>Jumlah Nilai</th>
-                                                </tr>
-                                                <tr>
-                                                <td>4</td>
-                                                <td>5</td>
-                                                <td>5</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>5</td>
-                                                <td>26</td>
-                                                </tr>
-                                        </table><br/>
-                                    </div>
-                                    </div>
-                                    <div class="card-header">
-                                        <h5 class="card-title">Penilaian Dosen Pembimbing</h5>
-                                    </div>
-                                    <div class="card-primary card-outline">
-                                    <div class="card-body table-responsive p-0">
-                                        <table class="table no-border">
-                                                <tr>
-                                                    <th>Skill</th>
-                                                    <th>Kerapihan</th>
-                                                    <th>Sikap</th>
-                                                    <th>Keaktifan</th>
-                                                    <th>Perhatian</th>
-                                                    <th>Kehadiran</th>
-                                                    <th>Jumlah Nilai</th>
-                                                </tr>
-                                                <tr>
-                                                <td>4</td>
-                                                <td>5</td>
-                                                <td>5</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>5</td>
-                                                <td>26</td>
-                                                </tr>
-                                        </table><br/>
-                                    </div>
-                                    </div>
-                                </div>
-                                <!-- /.tab-pane -->
                                 <div class="tab-pane" id="kelompok">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
@@ -290,6 +157,247 @@
                                             <!-- /.col -->
 										</div>   
                                         <br/>
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="magang">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <div class="card-body box-profile">
+                                                <ul class="list-group list-group-unbordered">
+                                                    <li class="list-group-item list-group-unbordered">
+                                                        <h5><i class="fa fa-user" ></i> Dibimbing Dosen <strong>IMAM FAHRURROZI M.Cs</strong></h5>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="text-center">
+                                                <img class="profile-user-img img-fluid img-circle"
+                                                    src="../../dist/img/user4-128x128.jpg"
+                                                    alt="User profile picture">
+                                            </div>
+                                            <h3 class="profile-username text-center">IMAM FAHRURROZI M.Cs</h3>
+							                <p class="text-muted text-center">NIP <br>d001</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body box-profile">
+                                                <ul class="list-group list-group-unbordered">
+                                                    <li class="list-group-item">
+                                                    <b>Email</b> <a class="pull-right">imam.fahrurrozi@ugm.ac.id</a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                    <b>Nomor Telepon</b> <a class="pull-right" >083869281843</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 text-center">
+                                            <div class="card-body box-profile">
+                                                <ul class="list-group list-group-unbordered">
+                                                    <li class="list-group-item list-group-unbordered">
+                                                        <h5><i class="fas fa-building" ></i> Magang di <strong>ICON+</strong></h5>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="text-center">
+                                                <img class="profile-user-img img-fluid img-circle"
+                                                    src="../../dist/img/user4-128x128.jpg"
+                                                    alt="User profile picture">
+                                            </div>
+                                            <h3 class="profile-username text-center">ICON+</h3>
+							                <p class="text-muted text-center"><i style="color: #de0000" class="fa fa-map-marker"></i> Jakarta Timur, DKI Jakarta <br>13640</p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body box-profile">
+                                                <ul class="list-group list-group-unbordered">
+                                                    <li class="list-group-item">
+                                                    <p><b>Deskripsi Instansi</b></p>
+                                                    <p> Didirikan pada tanggal 3 Oktober 2000, PT Indonesia Comnets Plus (ICON+) berfokus pada penyediaan jaringan, jasa, dan content telekomunikasi, khusus untuk mendukung teknologi dan system informasi PT PLN (Persero) dan publik..</p>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                    <p><b>Alamat Instansi</b></p>
+                                                    <p> PT Indonesia Comnets Plus
+                                                    Kawasan PLN Cawang,
+                                                    Jl. Mayjend Sutoyo No. 1, Cililitan
+                                                    Jakarta Timur, 13640.</p>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                    <b>Status Sekarang</b> 
+                                                    <a class="float-right" >
+                                                        <span class='badge bg-success'>Selesai</span>
+                                                    </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- /.tab-pane -->
+                            
+                                <div class="tab-pane" id="logbook">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Logbook</h5>
+                                    </div>
+                                    <div class="card-primary card-outline">
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table no-border">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Tanggal</th>
+                                                    <th>Datang</th>
+                                                    <th>Pulang</th>
+                                                    <th>Kegiatan</th>
+                                                    <th>Keterangan</th>
+                                                </tr>
+                                                <tr>
+                                                <td>1</td>
+                                                <td>24 Juni 2019</td>
+                                                <td>07.30</td>
+                                                <td>16.30</td>
+                                                <td>Mengerjakan frontend</td>
+                                                <td>-</td>
+                                                </tr>
+                                        </table><br/>
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="nilai">
+                                    <div class="row">
+                                        <div class="col-md-12 text-center">
+                                            <p>Nilai Akhir</p>
+                                            <p style="font-size: 40px"><b>4.4295</b></p>
+                                        </div>
+                                    </div>
+                                    <!-- ./row -->
+                                    <div class="row">
+                                        <div class="col-md-3 text-center">
+                                            <p>Nilai Instansi (Supervisor)</p>
+                                            <p style="font-size: 40px"><b>1.35</b></p>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <p>Nilai Dosen Pembimbing</p>
+                                            <p style="font-size: 40px"><b>1.13</b></p>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <p>Nilai Tim Penguji</p>
+                                            <p style="font-size: 40px"><b>1.3</b></p>
+                                        </div>
+                                        <div class="col-md-3 text-center">
+                                            <p>Nilai Total Teman</p>
+                                            <p style="font-size: 40px"><b>0.6495</b></p>
+                                        </div>
+                                    </div>
+                                    <!-- ./row -->
+                                    <div class="card-header">
+                                        <h5 class="card-title">Penilaian Teman</h5>
+                                    </div>
+                                    <div class="card-primary card-outline">
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table no-border">
+                                                <tr>
+                                                    <th>Skill</th>
+                                                    <th>Kerapihan</th>
+                                                    <th>Sikap</th>
+                                                    <th>Keaktifan</th>
+                                                    <th>Perhatian</th>
+                                                    <th>Kehadiran</th>
+                                                    <th>Jumlah Nilai</th>
+                                                </tr>
+                                                <tr>
+                                                <td>4</td>
+                                                <td>5</td>
+                                                <td>5</td>
+                                                <td>4</td>
+                                                <td>3</td>
+                                                <td>5</td>
+                                                <td>26</td>
+                                                </tr>
+                                        </table><br/>
+                                    </div>
+                                    </div>
+                                    <div class="card-header">
+                                        <h5 class="card-title">Penilaian Supervisor</h5>
+                                    </div>
+                                    <div class="card-primary card-outline">
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table no-border">
+                                                <tr>
+                                                    <th>Skill</th>
+                                                    <th>Kerapihan</th>
+                                                    <th>Sikap</th>
+                                                    <th>Keaktifan</th>
+                                                    <th>Perhatian</th>
+                                                    <th>Kehadiran</th>
+                                                    <th>Jumlah Nilai</th>
+                                                </tr>
+                                                <tr>
+                                                <td>4</td>
+                                                <td>5</td>
+                                                <td>5</td>
+                                                <td>4</td>
+                                                <td>3</td>
+                                                <td>5</td>
+                                                <td>26</td>
+                                                </tr>
+                                        </table><br/>
+                                    </div>
+                                    </div>
+                                    <div class="card-header">
+                                        <h5 class="card-title">Penilaian Dosen Penguji</h5>
+                                    </div>
+                                    <div class="card-primary card-outline">
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table no-border">
+                                                <tr>
+                                                    <th>Keterkaitan Isi</th>
+                                                    <th>Kesesuaian Tema</th>
+                                                    <th>Sistematika</th>
+                                                    <th>Ketepatan Waktu</th>
+                                                    <th>Kekompakan</th>
+                                                    <th>Jumlah Nilai</th>
+                                                </tr>
+                                                <tr>
+                                                <td>4</td>
+                                                <td>5</td>
+                                                <td>5</td>
+                                                <td>4</td>
+                                                <td>3</td>
+                                                <td>26</td>
+                                                </tr>
+                                        </table><br/>
+                                    </div>
+                                    </div>
+                                    <div class="card-header">
+                                        <h5 class="card-title">Penilaian Dosen Pembimbing</h5>
+                                    </div>
+                                    <div class="card-primary card-outline">
+                                    <div class="card-body table-responsive p-0">
+                                        <table class="table no-border">
+                                                <tr>
+                                                    <th>Skill</th>
+                                                    <th>Kebersamaan</th>
+                                                    <th>Sikap</th>
+                                                    <th>Keaktifan</th>
+                                                    <th>Jumlah Nilai</th>
+                                                </tr>
+                                                <tr>
+                                                <td>4</td>
+                                                <td>5</td>
+                                                <td>5</td>
+                                                <td>4</td>
+                                                <td>26</td>
+                                                </tr>
+                                        </table><br/>
                                     </div>
                                     </div>
                                 </div>

@@ -35,7 +35,7 @@
                   </td>
                   <td>Win 95+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -46,7 +46,7 @@
                   </td>
                   <td>Win 95+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -57,7 +57,7 @@
                   </td>
                   <td>Win 95+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -68,7 +68,7 @@
                   </td>
                   <td>Win 98+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -77,7 +77,7 @@
                   <td>Internet Explorer 7</td>
                   <td>Win XP SP2+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -86,7 +86,7 @@
                   <td>AOL browser (AOL desktop)</td>
                   <td>Win XP</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -95,7 +95,7 @@
                   <td>Firefox 1.0</td>
                   <td>Win 98+ / OSX.2+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -104,7 +104,7 @@
                   <td>Firefox 1.5</td>
                   <td>Win 98+ / OSX.2+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -113,7 +113,7 @@
                   <td>Firefox 2.0</td>
                   <td>Win 98+ / OSX.2+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -122,7 +122,7 @@
                   <td>Firefox 3.0</td>
                   <td>Win 2k+ / OSX.3+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>
@@ -131,7 +131,7 @@
                   <td>Camino 1.0</td>
                   <td>OSX.2+</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
+                      <a href="/edit_pengumuman" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
                       <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>

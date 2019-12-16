@@ -37,7 +37,7 @@
                   <td>8 February 2018</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="/edit_periode" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                         <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </td>
@@ -49,7 +49,7 @@
                   <td>8 February 2018</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="/edit_periode" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                         <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </td>
@@ -61,7 +61,7 @@
                   <td>8 February 2018</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="/edit_periode" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                         <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </td>
@@ -73,7 +73,7 @@
                   <td>8 February 2018</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="/edit_periode" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                         <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </td>
@@ -85,7 +85,7 @@
                   <td>8 February 2018</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="/edit_periode" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                         <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a> 
                       </div>
                     </td>
@@ -97,7 +97,7 @@
                   <td>8 February 2018</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="/edit_periode" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                         <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </td>

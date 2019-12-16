@@ -45,14 +45,19 @@ class Mah extends Controller
         return view('detailKelompok');
     }
 
-    public function indexpengumumnan()
+    public function indexpengumuman()
     {
         return view('pengumuman');
     }
 
-    public function addpengumumnan()
+    public function addpengumuman()
     {
         return view('add_form_pengumuman');
+    }
+
+    public function editpengumuman()
+    {
+        return view('edit_pengumuman');
     }
 
     public function indexakunmahasiswa()
@@ -111,6 +116,10 @@ class Mah extends Controller
     public function AddNewPeriode()
     {
         return view('add_new_periode');
+    }
+    public function EditPeriode()
+    {
+        return view('edit_periode');
     }
     public function magangListing()
     {

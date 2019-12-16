@@ -21,7 +21,7 @@
                     </div>
 					<div class="row">
                         <div class="col-md-12">
-                            <center><a href="https://pklkomsi.000webhostapp.com/admin/periode/periodeListing" class="btn bg-blue"><i class="fa fa-edit"></i> Setting Periode PKL</a></center>
+                            <center><a href="/periode" class="btn bg-blue"><i class="fa fa-edit"></i> Setting Periode PKL</a></center>
                         </div>
                     </div>
                     <br>
