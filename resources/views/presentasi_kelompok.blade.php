@@ -52,6 +52,9 @@
                   <td>11.00</td>
                   <td>Lab Techno</td>
                   <td class="text-center py-0 align-middle">
+                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
+                  </td>
+                  <td class="text-center py-0 align-middle">
                     <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
                   </td>
                 </tr>

@@ -45,6 +45,7 @@ Route::get('/magangListing', 'Mah@magangListing')->name('/magangListing');
 Route::get('/detailMagang', 'Mah@detailMagang')->name('/detailMagang');
 Route::get('/presentasi_kelompok', 'Mah@presentasiKelompok')->name('/presentasi_kelompok');
 Route::get('/lowongan', 'Mah@lowonganPKL')->name('/lowongan');
+Route::get('/add_lowongan', 'Mah@addlowonganPKL')->name('/add_lowongan');
 
 
 

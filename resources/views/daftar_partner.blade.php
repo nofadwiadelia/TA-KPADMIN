@@ -13,20 +13,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <form role="form">
-                  <div class="col-sm-4">
-                  <p>Saring berdasarkan</p>
-                      <!-- select -->
-                      <div class="form-group">
-                          <select class="form-control form-control-sm">
-                            <option>option 1</option>
-                            <option>option 2</option>
-                            <option>option 3</option>
-                          </select>
-                      </div>
-                      <button type="submit" class="btn btn-default">Filter</button> <br><br>
-                </form>
-              </div>
+                
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>

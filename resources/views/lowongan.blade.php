@@ -13,7 +13,7 @@
             </div>
             <div class="card-body ">
                 <div class="col-sm-12">
-                  <a href="/add_jadwal_presentasi" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Lowongan</a> <br><br>
+                  <a href="/add_lowongan" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Lowongan</a> <br><br>
                 </div>
               <table id="example1" class="table table-bordered table-striped ">
                 <thead>

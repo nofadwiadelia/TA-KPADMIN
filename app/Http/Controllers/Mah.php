@@ -137,5 +137,9 @@ class Mah extends Controller
     {
         return view('lowongan');
     }
+    public function addlowonganPKL()
+    {
+        return view('add_lowongan');
+    }
 }
 

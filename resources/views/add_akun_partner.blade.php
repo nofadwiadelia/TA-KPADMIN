@@ -24,12 +24,6 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="nim" class="col-sm-3 col-form-label">NIM</label>
-                                        <div class="col-sm-9">
-                                        <input type="text" class="form-control" id="nim" placeholder="">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
                                         <label for="teusernamext" class="col-sm-3 col-form-label">Username</label>
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" placeholder="">
