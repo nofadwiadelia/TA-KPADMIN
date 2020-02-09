@@ -12,134 +12,102 @@ class Mah extends Controller
     }
     public function index()
     {
-        return view('daftar_mahasiswa');
+        return view('mahasiswa.daftar_mahasiswa');
     }
     public function index1()
     {
-        return view('detail_mahasiswa');
+        return view('mahasiswa.detail_mahasiswa');
     }
     public function index2()
     {
-        return view('daftar_dosen');
+        return view('dosen.daftar_dosen');
     }
-    public function indexmentor()
+    public function showdosen()
     {
-        return view('daftar_mentor');
+        return view('dosen.detail_dosen');
     }
+    
     public function indexpartner()
     {
-        return view('daftar_partner');
+        return view('perusahaan.daftar_partner');
     }
-
+    public function showpartner()
+    {
+        return view('perusahaan.detail_partner');
+    }
     public function indexpkelompok()
     {
-        return view('persetujuan_kelompok');
+        return view('kelompok.persetujuan_kelompok');
     }
     public function UsulanPKL()
     {
-        return view('usulan_pkl');
+        return view('usulan.usulan_pkl');
     }
-
+    public function detailUsulan()
+    {
+        return view('usulan.detail_usulan');
+    }
     public function detailKelompok()
     {
-        return view('detailKelompok');
+        return view('kelompok.detailKelompok');
     }
 
-    public function indexpengumuman()
+    public function indexakun()
     {
-        return view('pengumuman');
+        return view('akun.daftar_akun');
     }
 
-    public function addpengumuman()
+    public function addakun()
     {
-        return view('add_form_pengumuman');
+        return view('akun.add_akun');
     }
-
-    public function editpengumuman()
+    public function editakun()
     {
-        return view('edit_pengumuman');
-    }
-
-    public function indexakunmahasiswa()
-    {
-        return view('akun_mahasiswa');
-    }
-
-    public function addakunmahasiswa()
-    {
-        return view('add_akun_mahasiswa');
-    }
-    public function editakunmahasiswa()
-    {
-        return view('edit_akun_mahasiswa');
-    }
-    public function indexakundosen()
-    {
-        return view('akun_dosen');
-    }
-    public function addakundosen()
-    {
-        return view('add_akun_dosen');
-    }
-    public function editakundosen()
-    {
-        return view('edit_akun_dosen');
-    }
-    public function indexakunmentor()
-    {
-        return view('akun_mentor');
-    }
-    public function addakunmentor()
-    {
-        return view('add_akun_mentor');
-    }
-    public function editakunmentor()
-    {
-        return view('edit_akun_mentor');
-    }
-    public function indexakunpartner()
-    {
-        return view('akun_partner');
-    }
-    public function addakunpartner()
-    {
-        return view('add_akun_partner');
-    }
-    public function periode()
-    {
-        return view('periode');
+        return view('akun.edit_akun');
     }
     public function periodeListing()
     {
-        return view('periodeListing');
+        return view('periode.periodeListing');
     }
     public function AddNewPeriode()
     {
-        return view('add_new_periode');
+        return view('periode.add_new_periode');
     }
     public function EditPeriode()
     {
-        return view('edit_periode');
+        return view('periode.edit_periode');
     }
     public function magangListing()
     {
-        return view('magangListing');
+        return view('magang.magangListing');
     }
     public function detailMagang()
     {
-        return view('detailMagang');
+        return view('magang.detailMagang');
     }
     public function presentasiKelompok()
     {
-        return view('presentasi_kelompok');
+        return view('presentasi.presentasi_kelompok');
+    }
+    public function addpresentasiKelompok()
+    {
+        return view('presentasi.add_presentasi');
+    }
+    public function editpresentasiKelompok()
+    {
+        return view('presentasi.edit_presentasi');
     }
     public function lowonganPKL()
     {
-        return view('lowongan');
+        return view('lowongan.lowongan');
     }
     public function addlowonganPKL()
     {
-        return view('add_lowongan');
+        return view('lowongan.add_lowongan');
+    }
+    public function login()
+    {
+        return view('login');
     }
 }
 

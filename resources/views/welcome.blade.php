@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="../../plugins/summernote/summernote-bs4.css">
   <!-- daterange picker -->
   <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
+  <!-- toogle onoff-->
+  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -91,11 +93,10 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/pengumuman" class="nav-link">
+              <a href="{{route('pengumuman.index')}}" class="nav-link">
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
                   Pengumuman
-                  <span class="right badge badge-danger">New</span>
                 </p>
               </a>
             </li>
@@ -121,12 +122,6 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/daftar_mentor" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Mentor</p>
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a href="/daftar_partner" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Partner</p>
@@ -135,39 +130,12 @@
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
+              <a href="/daftar_akun" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
-                  Daftar Akun
-                  <i class="right fas fa-angle-left"></i>
+                  Akun User
                 </p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/akun_mahasiswa" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Mahasiswa</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="/akun_dosen" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Dosen</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="/akun_mentor" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Mentor</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="/akun_partner" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Partner</p>
-                    </a>
-                  </li>
-              </ul>
             </li>
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
@@ -208,12 +176,6 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="pages/tables/data.html" class="nav-link">
-                    <i class="fas fa-times nav-icon"></i>
-                    <p>Ditolak</p>
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a href="/presentasi_kelompok" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Presentasi</p>
@@ -222,7 +184,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="/periode" class="nav-link">
+              <a href="/periodeListing" class="nav-link">
                 <i class="nav-icon far fa-clock"></i>
                 <p>
                   Setting Periode PKL
@@ -233,8 +195,7 @@
               <a href="/lowongan" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
                 <p>
-                  Kerjasama
-                  <i class="fas fa-angle-left right"></i>
+                  Lowongan
                 </p>
               </a>
             </li>

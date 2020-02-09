@@ -3,9 +3,19 @@
 <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>
-            <i class="fas fa-tachometer" aria-hidden="true"></i> Dashboard
-        </h1>
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h4 class="m-0 text-dark">Dashboard</h4>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
     </section>
     <section class="content">
 		<div class="row">
@@ -21,7 +31,7 @@
                     </div>
 					<div class="row">
                         <div class="col-md-12">
-                            <center><a href="/periode" class="btn bg-blue"><i class="fa fa-edit"></i> Setting Periode PKL</a></center>
+                            <center><a href="/periodeListing" class="btn bg-blue"><i class="fa fa-edit"></i> Setting Periode PKL</a></center>
                         </div>
                     </div>
                     <br>
@@ -43,7 +53,7 @@
             </div><!-- ./col -->
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-green">
+              <div class="small-box bg-info">
                 <div class="inner">
                   <h3>5<sup style="font-size: 20px"> Kelompok</sup></h3>
                   <p>Status sedang <b>Magang</b></p>
@@ -51,15 +61,15 @@
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="https://pklkomsi.000webhostapp.com/admin/pendaftaran/pendaftaranMagangListing" class="small-box-footer">Cek List Pendaftaran (Magang) <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="https://pklkomsi.000webhostapp.com/admin/pendaftaran/pendaftaranMagangListing" class="small-box-footer">Cek List Kelompok (Magang) <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
 			            <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-yellow">
+              <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>32</h3>
-                  <p>Total User saat ini</p>
+                  <h3>32<sup style="font-size: 20px">active</sup></h3>
+                  <p><b>123</b> Total User saat ini</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-person-add"></i>
@@ -69,7 +79,7 @@
             </div><!-- ./col -->
 			            <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-red">
+              <div class="small-box bg-info">
                 <div class="inner">
                   <h3>1</h3>
                   <p>Usulan yang masuk</p>
