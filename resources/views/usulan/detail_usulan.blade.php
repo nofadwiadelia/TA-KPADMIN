@@ -86,16 +86,16 @@
                                 <th>No</th>
                                 <th>Tempat Magang</th>
                                 <th>Alamat</th>
-                                <th>Tempat Magang</th>
+                                <th>Website</th>
                                 <th>Surat Keterangan</th>
                                 <th>Keterangan Jobdesk</th>
                                 <th>Terima</th>
                             </tr>
                             <tr>
                               <td>1</td>
-                              <td>Trident</td>
-                              <td>2018</td>
                               <td>ICON+</td>
+                              <td>2018</td>
+                              <td>wwww.com</td>
                               <td>SR.pdf</td>
                               <td>ygyvfwycyvfh8mwcgfgcwey</td>
                               <td class="text-center py-0 align-middle">

@@ -58,7 +58,7 @@
                                 <li class="nav-item"><a class="nav-link" href="#kelompok" data-toggle="tab">Kelompok</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#magang" data-toggle="tab">Magang</a></li>
                                 <li class="nav-item"><a class="nav-link" href="#logbook" data-toggle="tab">Logbook</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#nilai" data-toggle="tab">Penilaian</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#nilai" data-toggle="tab">Nilai</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
@@ -67,7 +67,6 @@
                                     <div class="row">
                                         <div class="col-md-12 text-center">
                                             <h2 style="font-weight: 600;">Nofa Dwi Adelia</h2>
-                                            <p class="text-muted">Saya adalah seorang mahasiswa yang rajin :D</p>
                                         </div>
                                     </div></br>
                                     <div class="card-body card-primary card-outline table-responsive p-0">
@@ -235,12 +234,6 @@
                                                     Kawasan PLN Cawang,
                                                     Jl. Mayjend Sutoyo No. 1, Cililitan
                                                     Jakarta Timur, 13640.</p>
-                                                    </li>
-                                                    <li class="list-group-item">
-                                                    <b>Status Sekarang</b> 
-                                                    <a class="float-right" >
-                                                        <span class='badge bg-success'>Selesai</span>
-                                                    </a>
                                                     </li>
                                                 </ul>
                                             </div>

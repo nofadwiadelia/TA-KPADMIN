@@ -137,14 +137,16 @@
                                                     <th>No</th>
                                                     <th>Nama Lowongan</th>
                                                     <th>Detail Info</th>
-                                                    <th>Batas Maksimal</th>
-                                                    <th>Aksi</th>
+                                                    <th class="text-center py-0 align-middle">Detail</th>
+                                                    <th class="text-center py-0 align-middle">Aksi</th>
                                                 </tr>
                                                 <tr>
                                                 <td>1</td>
                                                 <td>Trident</td>
                                                 <td>gerh</td>
-                                                <td>25 Maret</td>
+                                                <td class="text-center py-0 align-middle">
+                                                    <a href="detail_lowongan" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
+                                                </td>
                                                 <td class="text-center py-0 align-middle">
                                                     <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
                                                     <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>

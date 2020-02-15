@@ -3,15 +3,23 @@
 <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-12">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Kelompok</li>
+                <li class="breadcrumb-item active">Presentasi</li>
+                <li class="breadcrumb-item active">Add</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
     </section>
     <section class="content">
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">Enter Jadwal Presentasi</h3>
-            </div>
-            <!-- /.card-header -->
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-8">
@@ -21,7 +29,7 @@
                                     <div class="row">
                                         <div class="col-md-12">                                
                                             <div class="form-group">
-                                                <label>Kelompok</label>
+                                                <label>Kelompok *</label>
                                                 <select class="form-control select2" style="width: 100%;">
                                                     <option selected="selected">Alabama</option>
                                                     <option>Alaska</option>
@@ -38,7 +46,7 @@
                                     <div class="row">
                                         <div class="col-md-12">                                
                                             <div class="form-group">
-                                                <label>Dosen Penguji</label>
+                                                <label>Dosen Penguji *</label>
                                                 <select class="form-control select2" style="width: 100%;">
                                                     <option selected="selected">Alabama</option>
                                                     <option>Irkham Huda</option>
@@ -56,7 +64,7 @@
                                         <div class="col-md-6">                                
                                             <!-- Date -->
                                             <div class="form-group">
-                                                <label>Waktu</label>
+                                                <label>Waktu *</label>
                                                 <div class="input-group date">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
@@ -67,10 +75,9 @@
                                             </div>
                                             <!-- /.form group -->
                                         </div>
-                                        <div class="col-md-6">                                
-                                            <!-- Date -->
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Ruang</label>
+                                                <label>Ruang *</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>

@@ -29,8 +29,6 @@
                   <th>Nama Instansi</th>
                   <th>Website</th>
                   <th>Alamat</th>
-                  <th>Slot</th>
-                  <th>Status</th>
                   <th>Aksi</th>
                 </tr>
                 </thead>
@@ -41,12 +39,9 @@
                     Explorer 4.0
                   </td>
                   <td>Win 95+</td>
-                  <td> 4</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-success">Tersedia</span></td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
                         <a href="/detail_partner" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="btn btn-danger"><i class="fas fa-pencil-alt"></i></a>
                       </div>
                     </td>
                 </tr>

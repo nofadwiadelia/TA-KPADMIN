@@ -19,35 +19,31 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">User</h3>
-            </div>
-            <!-- /.card-header -->
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <form role="form">
                                 <div class="card-body">
                                     <div class="form-group row">
-                                        <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap</label>
+                                        <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control" id="nama" placeholder="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="teusernamext" class="col-sm-3 col-form-label">Username</label>
+                                        <label for="teusernamext" class="col-sm-3 col-form-label">Username *</label>
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control" id="username" placeholder="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="password" class="col-sm-3 col-form-label">Password</label>
+                                        <label for="password" class="col-sm-3 col-form-label">Password *</label>
                                         <div class="col-sm-9">
                                         <input type="password" class="form-control" id="password" placeholder="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="password" class="col-sm-3 col-form-label">Confirm Password</label>
+                                        <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                         <div class="col-sm-9">
                                         <input type="password" class="form-control" id="password" placeholder="">
                                         </div>

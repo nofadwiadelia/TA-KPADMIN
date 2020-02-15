@@ -30,7 +30,6 @@
                 <thead>
                 <tr>
                   <th>Nama Kelompok</th>
-                  <th>Tempat</th>
                   <th>Dosen Pembimbing</th>
                   <th>Status</th>
                   <th>Detail</th>
@@ -39,8 +38,6 @@
                 <tbody>
                 <tr>
                   <td>Trident</td>
-                  <td>1
-                  </td>
                   <td>Win 95+</td>
                   <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
                   <td class="text-center py-0 align-middle">
@@ -49,8 +46,6 @@
                 </tr>
                 <tr>
                   <td>Trident</td>
-                  <td>2
-                  </td>
                   <td>Win 95+</td>
                   <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
                   <td class="text-center py-0 align-middle">

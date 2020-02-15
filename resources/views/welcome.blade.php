@@ -40,7 +40,7 @@
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i><img src="dist/img/user1-128x128.jpg" alt="User Avatar" style="width:25px" class="mr-3 img-circle"></i>
+          <i><img src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User Avatar" style="width:25px" class="mr-3 img-circle"></i>
           <span>Admin</span>
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
@@ -56,7 +56,6 @@
         </div>
       </li>
     </ul>
-      
   </nav>
   <!-- /.navbar -->
 
@@ -93,7 +92,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('pengumuman.index')}}" class="nav-link">
+              <a href="{{route('admin.pengumuman.index')}}" class="nav-link">
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
                   Pengumuman
@@ -124,13 +123,13 @@
                 <li class="nav-item">
                   <a href="/daftar_partner" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Partner</p>
+                    <p>Perusahaan</p>
                   </a>
                 </li>
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="/daftar_akun" class="nav-link">
+              <a href="{{route('admin.users.index')}}" class="nav-link">
                 <i class="nav-icon fas fa-users"></i>
                 <p>
                   Akun User
@@ -212,6 +211,14 @@
   </div>
   <!-- /.content-wrapper -->
 
+  <footer class="main-footer">
+    <strong >Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Komsi</b> PKL
+    </div>
+  </footer>
+
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -229,6 +236,8 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->

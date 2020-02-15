@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Pengumuman;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use File;
 use Image;
 
@@ -17,7 +18,7 @@ class PengumumanController extends Controller
     public function index()
     {
         $data = Pengumuman::get();
-        return view('pengumuman.index',compact('data'));
+        return view('pengumuman.indexpengumuman',compact('data'));
     }
 
     /**
@@ -28,7 +29,7 @@ class PengumumanController extends Controller
     public function create()
     {
         $data = Pengumuman::all();
-        return view('pengumuman.create',compact('data'));
+        return view('pengumuman.add_pengumuman',compact('data'));
     }
 
     /**
@@ -79,10 +80,10 @@ class PengumumanController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Pengumuman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Pengumuman $pengumuman)
     {
         //
     }
@@ -90,20 +91,20 @@ class PengumumanController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Pengumuman  $pengumuman
      * @return \Illuminate\Http\Response
      */
     public function edit()
     {
         // $data = Pengumuman::findOrFail($id);
-        return view('pengumuman.edit');
+        return view('pengumuman.edit_pengumuman');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Pengumuman  $pengumuman
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -140,7 +141,7 @@ class PengumumanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Pengumuman  $pengumuman
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

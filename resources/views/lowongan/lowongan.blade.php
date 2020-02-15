@@ -11,7 +11,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Mahasiswa</li>
+              <li class="breadcrumb-item active">Lowongan</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -30,194 +30,21 @@
                 <tr>
                   <th>Nama Lowongan</th>
                   <th>Detail Info</th>
-                  <th>Batas Maksimal</th>
                   <th>Instansi</th>
-                  <th>Status</th>
-                  <th>Pesetujuan</th>
                   <th>Detail</th>
+                  <th>Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                   <td>Trident</td>
-                  <td>1</td>
                   <td>Trident</td>
                   <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
                   <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                      <a href="detail_lowongan" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
                   </td>
                   <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>2
-                  </td>
-                  <td>Trident</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>2
-                  </td>
-                  <td>Trident</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>3
-                  </td>
-                  <td>Trident</td>
-                  <td>Win 98+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>3</td>
-                  <td>Trident</td>
-                  <td>Win XP SP2+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>2</td>
-                  <td>Trident</td>
-                  <td>Win XP</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>3</td>
-                  <td>Trident</td>
-                  <td>Win 98+ / OSX.2+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>                  
-                    </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>2</td>
-                  <td>Trident</td>
-                  <td>Win 98+ / OSX.2+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>3</td>
-                  <td>Trident</td>
-                  <td>Win 98+ / OSX.2+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>3</td>
-                  <td>Trident</td>
-                  <td>Win 2k+ / OSX.3+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>3</td>
-                  <td>Trident</td>
-                  <td>OSX.2+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>2</td>
-                  <td>Trident</td>
-                  <td>OSX.2+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn-sm btn-info"><i class="fas fa-check"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-times"></i></a>
-                    </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
+                    <a href="edit_lowongan" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
                     <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                   </td>
                 </tr>

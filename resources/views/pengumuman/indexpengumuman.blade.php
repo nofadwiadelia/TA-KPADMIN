@@ -33,7 +33,7 @@
             <div class="card-body ">
                 <form role="form">
                   <div class="col-sm-12">
-                  <a href="{{route('pengumuman.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Pengumuman</a> <br><br>
+                  <a href="{{route('admin.pengumuman.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Pengumuman</a> <br><br>
                   </div>
                 </form>
               <table id="example1" class="table table-bordered table-striped">

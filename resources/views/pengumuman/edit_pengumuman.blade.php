@@ -3,29 +3,12 @@
 <!-- Content Wrapper. Contains page content -->
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-12">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Pengumuman</li>
-                <li class="breadcrumb-item active">Add</li>
-              </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
     </section>
     <section class="content">
       <div class="row">
         <div class="col-12">
           <div class="card">
-            @if (session('error'))
-                @alert(['type' => 'danger'])
-                    {!! session('error') !!}
-                @endalert
-            @endif
-                <form action="{{ route('pengumuman.store') }}" method="post" enctype="multipart/form-data">
-                {{ csrf_field() }}
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Judul *</label>
@@ -51,9 +34,14 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
+                      <div class="d-flex flex-row justify-content-end">
+                          <span class="mr-2">
+                          <button type="submit" class="btn btn-danger">Cancel</button>
+                          </span>
+                          <span>
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                          </span>
+                      </div>
                     </div>
                 </form>
           </div>

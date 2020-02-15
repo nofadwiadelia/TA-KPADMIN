@@ -101,9 +101,17 @@ class Mah extends Controller
     {
         return view('lowongan.lowongan');
     }
+    public function detaillowonganPKL()
+    {
+        return view('lowongan.detail_lowongan');
+    }
     public function addlowonganPKL()
     {
         return view('lowongan.add_lowongan');
+    }
+    public function editlowonganPKL()
+    {
+        return view('lowongan.edit_lowongan');
     }
     public function login()
     {

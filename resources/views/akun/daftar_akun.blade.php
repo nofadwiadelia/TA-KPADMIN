@@ -28,7 +28,7 @@
                       <!-- select -->
                       <div class="form-group">
                           <select class="form-control form-control-sm">
-                            <option>Semua Akun</option>
+                            <option>Semua User</option>
                             <option>Mahasiswa</option>
                             <option>Dosen</option>
                             <option>Perusahaan</option>
@@ -39,7 +39,7 @@
                 </form>
                 <form role="form">
                   <div class="col-sm-12">
-                  <a href="/add_akun" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Baru</a> <br><br>
+                  <a href="{{route('admin.users.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Baru</a> <br><br>
                   </div>
                 </form>
               <table id="example1" class="table table-bordered table-striped">
