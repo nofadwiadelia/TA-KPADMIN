@@ -23,7 +23,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function(){
 
 Route::get('/admin', 'Mah@admin')->name('/admin');
 
-Route::get('/edit', 'PengumumanController@edit')->name('/edit');
+// Route::get('/edit', 'PengumumanController@edit')->name('/edit');
 Route::get('/daftar_mahasiswa', 'Mah@index')->name('/daftar_mahasiswa');
 Route::get('/detail_mahasiswa', 'Mah@index1')->name('/detail_mahasiswa');
 Route::get('/daftar_dosen', 'Mah@index2')->name('/daftar_dosen');
