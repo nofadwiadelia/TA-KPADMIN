@@ -23,40 +23,40 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                           <div class="card-body">
-                              <form role="form">
+                              <form action="{{ route('users.store') }}" method="post">
+                              {{ csrf_field() }}
                                     <div class="form-group row">
                                         <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required id="nama" placeholder="">
+                                        <input type="text" class="form-control" required name="nama_lengkap" placeholder="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="teusernamext" class="col-sm-3 col-form-label">Username*</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required id="username" placeholder="">
+                                        <input type="text" class="form-control" required name="username" placeholder="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="password" class="col-sm-3 col-form-label">Password *</label>
                                         <div class="col-sm-9">
-                                        <input type="password" class="form-control" id="password" placeholder="">
+                                        <input type="password" class="form-control" name="password" placeholder="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                         <div class="col-sm-9">
-                                        <input type="password" class="form-control" required id="password" placeholder="">
+                                        <input type="password" class="form-control" required name="password" placeholder="">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="role" class="col-sm-3 col-form-label">Role *</label>
+                                        <label for="roles_id" class="col-sm-3 col-form-label">Role *</label>
                                         <div class="col-sm-9">
-                                          <select class="form-control select2" style="width: 100%;">
-                                              <option selected="selected">Pilih Role</option>
-                                              <option>Admin</option>
-                                              <option>Dosen</option>
-                                              <option>Mahasiswa</option>
-                                              <option>Perusahaan</option>
+                                          <select name="roles_id" class="form-control select2" style="width: 100%;">
+                                              <option selected disabled>Pilih Role</option>
+                                              @foreach($roles as $role)
+                                              <option value="{{ $role->id_roles }}">{{ $role->nama }}</option>
+                                              @endforeach
                                           </select >
                                         </div>
                                     </div>

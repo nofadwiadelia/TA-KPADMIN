@@ -21,6 +21,14 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
+          @if (Session::has('alert-success'))
+              <div class="alert alert-success">
+                  <strong>{{ \Illuminate\Support\Facades\Session::get('alert-success') }}</strong>
+              </div>
+                <!-- @alert(['type' => 'success'])
+                    {!! session('success') !!}
+                @endalert -->
+            @endif
             <div class="card-body">
               <form role="form">
                   <div class="col-sm-4">
@@ -28,10 +36,10 @@
                       <!-- select -->
                       <div class="form-group">
                           <select class="form-control form-control-sm">
-                            <option>Semua User</option>
-                            <option>Mahasiswa</option>
-                            <option>Dosen</option>
-                            <option>Perusahaan</option>
+                            <option selected>Semua User</option>
+                            @foreach($roles as $role)
+                            <option value="{{ $role->id_roles }}">{{ $role->nama }}</option>
+                            @endforeach
                           </select>
                       </div>
                       <button type="submit" class="btn btn-default">Filter</button> <br><br>
@@ -39,7 +47,7 @@
                 </form>
                 <form role="form">
                   <div class="col-sm-12">
-                  <a href="{{route('admin.users.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Baru</a> <br><br>
+                  <a href="{{route('users.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Baru</a> <br><br>
                   </div>
                 </form>
               <table id="example1" class="table table-bordered table-striped">
@@ -51,16 +59,20 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($user as $users)
                 <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
+                  <td>{{ $users->nama_lengkap }}</td>
+                  <td>{{ $users->username }}</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="/edit_akun" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                      <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                    <form action="{{ route('users.destroy', $users->id_users) }}" method="post">
+                      {{ csrf_field() }}
+                      {{ method_field('DELETE') }}
+                      <a href="/edit_akun" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                      <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></a>
+                    </form>
                   </td>
                 </tr>
+                @endforeach
                 </tbody>
               </table>
             </div>

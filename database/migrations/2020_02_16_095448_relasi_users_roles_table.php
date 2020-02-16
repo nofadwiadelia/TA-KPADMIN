@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRolesTable extends Migration
+class RelasiUsersRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->increments('id_roles');
-            $table->string('nama');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('roles_id')->references('id_roles')->on('roles')
+                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -27,6 +26,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('roles');
+        
     }
 }
