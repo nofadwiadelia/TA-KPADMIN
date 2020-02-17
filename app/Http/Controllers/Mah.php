@@ -113,9 +113,6 @@ class Mah extends Controller
     {
         return view('lowongan.edit_lowongan');
     }
-    public function login()
-    {
-        return view('login');
-    }
+
 }
 

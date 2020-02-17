@@ -28,9 +28,15 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form z>
+      <form class="form" method="POST" action="">
+      @csrf
         <div class="input-group mb-3">
-          <input type="etext" class="form-control" placeholder="Username">
+          <input type="text" id="username" class="form-control" placeholder="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username">
+          @if ($errors->has('username'))
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first('username') }}</strong>
+              </span>
+          @endif
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -38,7 +44,12 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password">
+          <input id="password" type="password" placeholder="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+          @if ($errors->has('password'))
+              <span class="invalid-feedback" role="alert">
+                  <strong>{{ $errors->first('password') }}</strong>
+              </span>
+          @endif
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -50,7 +61,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <a href="/admin" class="btn btn-primary btn-block btn-flat">Sign In</a>
+            <button href="/admin" class="btn btn-primary btn-block btn-flat">{{ __('LOGIN') }}</button>
           </div>
           <!-- /.col -->
         </div>

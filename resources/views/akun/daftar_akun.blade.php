@@ -68,7 +68,7 @@
                       {{ csrf_field() }}
                       {{ method_field('DELETE') }}
                       <a href="/edit_akun" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                      <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></a>
+                      <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
                     </form>
                   </td>
                 </tr>

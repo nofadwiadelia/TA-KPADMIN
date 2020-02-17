@@ -40,9 +40,9 @@
                             <label for="exampleInputFile">Lampiran</label>
                             <div class="input-group">
                             <div class="custom-file">
-                            <input type="file" name="photo" id="gambar" class="form-control" >
+                            <input type="file" name="photo" id="photo" class="form-control" >
                             <!-- <input type="file" class="custom-file-input" id="exampleInputFile"> -->
-                            <label class="custom-file-label" for="gambar">Choose file</label>
+                            <label class="custom-file-label" for="photo">Choose file</label>
                             <p class="text-danger">{{ $errors->first('photo') }}</p>
                             </div>
                             </div>

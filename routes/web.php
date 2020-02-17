@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
     Route::resource('/users', 'UsersController');
+    Route::get('/login', 'UsersController@indexlogin')->name('login');;
+    Route::post('/login', 'UsersController@login')->name('login');;
     Route::resource('/pengumuman', 'PengumumanController');
     
 });
@@ -47,7 +49,7 @@ Route::get('/lowongan', 'Mah@lowonganPKL')->name('/lowongan');
 Route::get('/detail_lowongan', 'Mah@detaillowonganPKL')->name('/detail_lowongan');
 Route::get('/add_lowongan', 'Mah@addlowonganPKL')->name('/add_lowongan');
 Route::get('/edit_lowongan', 'Mah@editlowonganPKL')->name('/edit_lowongan');
-Route::get('/login', 'Mah@login')->name('/login');
+
 
 
 

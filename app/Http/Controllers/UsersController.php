@@ -10,6 +10,26 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
+    public function indexlogin(){
+        return view('login');
+    }
+
+    public function login(Request $request){
+        $username = $request->username;
+        $password = $request->password;
+        if (auth()->attempt(['username' => $username, 'password' => $password])) {
+            return redirect(route('/admin'));
+        }else{
+            return "Maaf username atau password yang anda masukan tidak sesuai.";
+        }
+        // return redirect(route('welcome'));
+    }
+
     /**
      * Display a listing of the resource.
      *

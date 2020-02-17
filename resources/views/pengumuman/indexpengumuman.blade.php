@@ -59,8 +59,12 @@
                     @endif
                 </td>
                 <td class="text-center py-0 align-middle">
-                    <a href="/edit" class="btn-sm btn-info"><i class="fas fa-edit"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                  <form action="{{ route('pengumuman.destroy', $datas->id_pengumuman) }}" method="post">
+                    {{ csrf_field() }}
+                    {{ method_field('DELETE') }}
+                    <a href="{{ route('pengumuman.edit', $datas->id_pengumuman) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
+                </form>
                 </td>
                 </tr>
                 @empty

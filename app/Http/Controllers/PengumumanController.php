@@ -94,10 +94,10 @@ class PengumumanController extends Controller
      * @param  \App\Pengumuman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id_pengumuman)
     {
-        // $data = Pengumuman::findOrFail($id);
-        return view('pengumuman.edit_pengumuman');
+        $data = Pengumuman::findOrFail($id_pengumuman);
+        return view('pengumuman.edit_pengumuman', compact('data'));
     }
 
     /**
@@ -107,7 +107,7 @@ class PengumumanController extends Controller
      * @param  \App\Pengumuman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_pengumuman)
     {
         $this->validate($request, [
             'judul' => 'required|string|max:100',
@@ -116,7 +116,7 @@ class PengumumanController extends Controller
         ]);
 
         try {
-            $data = Pengumuman::findOrFail($id);
+            $data = Pengumuman::findOrFail($id_pengumuman);
             $photo = $data->photo;
 
             if ($request->hasFile('photo')) {
@@ -125,13 +125,13 @@ class PengumumanController extends Controller
             }
 
             $data->update([
-                'judul' => $request->name,
+                'judul' => $request->judul,
                 'detail' => $request->detail,
                 'photo' => $photo
             ]);
 
             return redirect(route('pengumuman.index'))
-                ->with(['success' => '<strong>' . $data->judul . '</strong> Diperbaharui']);
+            ->with('alert-success','Data berhasil diubah!');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with(['error' => $e->getMessage()]);
@@ -144,9 +144,9 @@ class PengumumanController extends Controller
      * @param  \App\Pengumuman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_pengumuman)
     {
-        $data = Pengumuman::findOrFail($id);
+        $data = Pengumuman::findOrFail($id_pengumuman);
         if (!empty($data->photo)) {
             File::delete(public_path('uploads/file/' . $data->photo));
         }

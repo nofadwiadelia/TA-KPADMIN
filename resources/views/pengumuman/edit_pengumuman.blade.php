@@ -8,7 +8,9 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="{{ route('pengumuman.update', $data->id_pengumuman) }}" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Judul *</label>
@@ -23,7 +25,7 @@
                             <label for="exampleInputFile">Lampiran</label>
                             <div class="input-group">
                             <div class="custom-file">
-                            <input type="file" name="photo" id="gambar" class="form-control" >
+                            <input type="file" name="photo" id="photo" class="form-control" >
                             <!-- <input type="file" class="custom-file-input" id="exampleInputFile"> -->
                             <label class="custom-file-label" for="gambar">Choose file</label>
                             <p class="text-danger">{{ $errors->first('photo') }}</p>
@@ -36,7 +38,7 @@
                     <div class="card-footer">
                       <div class="d-flex flex-row justify-content-end">
                           <span class="mr-2">
-                          <button type="submit" class="btn btn-danger">Cancel</button>
+                          <button type="reset" class="btn btn-danger">Cancel</button>
                           </span>
                           <span>
                           <button type="submit" class="btn btn-primary">Submit</button>
