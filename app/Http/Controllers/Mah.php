@@ -8,110 +8,110 @@ class Mah extends Controller
 {
     public function admin()
     {
-        return view('admin');
+        return view('admin.admin');
     }
     public function index()
     {
-        return view('mahasiswa.daftar_mahasiswa');
+        return view('admin.mahasiswa.daftar_mahasiswa');
     }
     public function index1()
     {
-        return view('mahasiswa.detail_mahasiswa');
+        return view('admin.mahasiswa.detail_mahasiswa');
     }
     public function index2()
     {
-        return view('dosen.daftar_dosen');
+        return view('admin.dosen.daftar_dosen');
     }
     public function showdosen()
     {
-        return view('dosen.detail_dosen');
+        return view('admin.dosen.detail_dosen');
     }
     
     public function indexpartner()
     {
-        return view('perusahaan.daftar_partner');
+        return view('admin.perusahaan.daftar_partner');
     }
     public function showpartner()
     {
-        return view('perusahaan.detail_partner');
+        return view('admin.perusahaan.detail_partner');
     }
     public function indexpkelompok()
     {
-        return view('kelompok.persetujuan_kelompok');
+        return view('admin.kelompok.persetujuan_kelompok');
     }
     public function UsulanPKL()
     {
-        return view('usulan.usulan_pkl');
+        return view('admin.usulan.usulan_pkl');
     }
     public function detailUsulan()
     {
-        return view('usulan.detail_usulan');
+        return view('admin.usulan.detail_usulan');
     }
     public function detailKelompok()
     {
-        return view('kelompok.detailKelompok');
+        return view('admin.kelompok.detailKelompok');
     }
 
     public function indexakun()
     {
-        return view('akun.daftar_akun');
+        return view('admin.akun.daftar_akun');
     }
 
     public function addakun()
     {
-        return view('akun.add_akun');
+        return view('admin.akun.add_akun');
     }
     public function editakun()
     {
-        return view('akun.edit_akun');
+        return view('admin.akun.edit_akun');
     }
     public function periodeListing()
     {
-        return view('periode.periodeListing');
+        return view('admin.periode.periodeListing');
     }
     public function AddNewPeriode()
     {
-        return view('periode.add_new_periode');
+        return view('admin.periode.add_new_periode');
     }
     public function EditPeriode()
     {
-        return view('periode.edit_periode');
+        return view('admin.periode.edit_periode');
     }
     public function magangListing()
     {
-        return view('magang.magangListing');
+        return view('admin.magang.magangListing');
     }
     public function detailMagang()
     {
-        return view('magang.detailMagang');
+        return view('admin.magang.detailMagang');
     }
     public function presentasiKelompok()
     {
-        return view('presentasi.presentasi_kelompok');
+        return view('admin.presentasi.presentasi_kelompok');
     }
     public function addpresentasiKelompok()
     {
-        return view('presentasi.add_presentasi');
+        return view('admin.presentasi.add_presentasi');
     }
     public function editpresentasiKelompok()
     {
-        return view('presentasi.edit_presentasi');
+        return view('admin.presentasi.edit_presentasi');
     }
     public function lowonganPKL()
     {
-        return view('lowongan.lowongan');
+        return view('admin.lowongan.lowongan');
     }
     public function detaillowonganPKL()
     {
-        return view('lowongan.detail_lowongan');
+        return view('admin.lowongan.detail_lowongan');
     }
     public function addlowonganPKL()
     {
-        return view('lowongan.add_lowongan');
+        return view('admin.lowongan.add_lowongan');
     }
     public function editlowonganPKL()
     {
-        return view('lowongan.edit_lowongan');
+        return view('admin.lowongan.edit_lowongan');
     }
 
 }

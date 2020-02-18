@@ -19,7 +19,7 @@ class UsersController extends Controller
     // }
 
     public function indexlogin(){
-        return view('login');
+        return view('admin.login');
     }
 
     public function login(Request $request){
@@ -34,7 +34,7 @@ class UsersController extends Controller
                 return redirect('admin/pengumuman')->with('sukses','Anda Berhasil Login');
             }elseif ($akun->roles_id == 3) {
               Auth::guard('mahasiswa')->LoginUsingId($akun->id_users);
-              return redirect('/admin')->with('sukses','Anda Berhasil Login');
+              return redirect('/index')->with('sukses','Anda Berhasil Login');
             }elseif ($akun->roles_id == 4) {
               Auth::guard('instansi')->LoginUsingId($akun->id_users);
               return redirect('/admin')->with('sukses','Anda Berhasil Login');
@@ -53,7 +53,7 @@ class UsersController extends Controller
         } else if(Auth::guard('instansi')->check()){
             Auth::guard('instansi')->logout();
         }
-    	return redirect('login')->with('sukses','Anda Telah Logout');
+    	return redirect('admin/login')->with('sukses','Anda Telah Logout');
     }
 
     /**
@@ -65,7 +65,7 @@ class UsersController extends Controller
     {
         $roles = Role::select('id_roles', 'nama')->get();
         $user = User::get();
-        return view('akun.daftar_akun',compact('user','roles'));
+        return view('admin.akun.daftar_akun',compact('user','roles'));
     }
 
     /**
@@ -76,7 +76,7 @@ class UsersController extends Controller
     public function create()
     {
         $roles = Role::select('id_roles', 'nama')->get();
-        return view('akun.add_akun', compact('roles'));
+        return view('admin.akun.add_akun', compact('roles'));
     }
 
     /**
@@ -132,7 +132,7 @@ class UsersController extends Controller
     {
         $roles = Role::select('id_roles', 'nama')->get();
         $data = User::findOrFail($id_users);
-        return view('akun.edit_akun', compact('data','roles'));
+        return view('admin.akun.edit_akun', compact('data','roles'));
     }
 
     /**

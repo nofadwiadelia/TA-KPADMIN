@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('admin.admin');
 });
 
 Route::prefix('admin')->group(function () {
@@ -32,8 +32,6 @@ Route::get('/daftar_dosen', 'Mah@index2')->name('/daftar_dosen');
 Route::get('/detail_dosen', 'Mah@showdosen')->name('/detail_dosen');
 Route::get('/daftar_partner', 'Mah@indexpartner')->name('/daftar_partner');
 Route::get('/detail_partner', 'Mah@showpartner')->name('/detail_partner');
-Route::get('/add_akun', 'Mah@addakun')->name('/add_akun');
-Route::get('/edit_akun', 'Mah@editakun')->name('/edit_akun');
 Route::get('/persetujuan_kelompok', 'Mah@indexpkelompok')->name('/persetujuan_kelompok');
 Route::get('/usulan_pkl', 'Mah@UsulanPKL')->name('/usulan_pkl');
 Route::get('/detail_usulan', 'Mah@detailUsulan')->name('/detail_usulan');
@@ -50,6 +48,93 @@ Route::get('/lowongan', 'Mah@lowonganPKL')->name('/lowongan');
 Route::get('/detail_lowongan', 'Mah@detaillowonganPKL')->name('/detail_lowongan');
 Route::get('/add_lowongan', 'Mah@addlowonganPKL')->name('/add_lowongan');
 Route::get('/edit_lowongan', 'Mah@editlowonganPKL')->name('/edit_lowongan');
+
+
+//MAHASISWA
+
+Route::get('/index', function () {
+    return view('mahasiswa.index');
+});
+
+
+Route::get('/profile', function () {
+    return view('mahasiswa.profile');
+});
+
+Route::get('/editprofil', function () {
+    return view('mahasiswa.editprofil');
+});
+
+Route::get('/buatkelompok', function () {
+    return view('mahasiswa.buatkelompok');
+});
+
+Route::get('/tambahanggota', function () {
+    return view('mahasiswa.tambahanggota');
+});
+
+Route::get('/dataperusahaan', function () {
+    return view('mahasiswa.dataperusahaan');
+});
+
+Route::get('/editdataperusahaan', function () {
+    return view('mahasiswa.editdataperusahaan');
+});
+Route::get('/tambahperusahaan', function () {
+    return view('mahasiswa.tambahperusahaan');
+});
+Route::get('/lowongan', function () {
+    return view('mahasiswa.lowongan');
+});
+Route::get('/applylowongan', function () {
+    return view('mahasiswa.applylowongan');
+});
+Route::get('/editanggota', function () {
+    return view('mahasiswa.editanggota');
+});
+Route::get('/penilaiananggota', function () {
+    return view('mahasiswa.penilaiananggota');
+});
+Route::get('/formnilai', function () {
+    return view('mahasiswa.formnilai');
+});
+Route::get('/editnilai', function () {
+    return view('mahasiswa.editnilai');
+});
+Route::get('/editlaporanharian', function () {
+    return view('mahasiswa.editlaporanharian');
+});
+Route::get('/editlaporanpkl', function () {
+    return view('mahasiswa.editlaporanpkl');
+});
+Route::get('/tambahlaporanharian', function () {
+    return view('mahasiswa.tambahlaporanharian');
+});
+Route::get('/tambahlaporanpkl', function () {
+    return view('mahasiswa.tambahlaporanpkl');
+});
+Route::get('/lihatlaporanpkl', function () {
+    return view('mahasiswa.lihatlaporanpkl');
+});
+Route::get('/calendar', function () {
+    return view('mahasiswa.calendar');
+});
+Route::get('/laporanharian', function () {
+    return view('mahasiswa.laporanharian');
+});
+Route::get('/laporanpkl', function () {
+    return view('mahasiswa.laporanpkl');
+});
+Route::get('/pengumuman', function () {
+    return view('mahasiswa.pengumuman');
+});
+Route::get('/login', function () {
+    return view('mahasiswa.login');
+});
+Route::get('/tambahanggotakelompok', function () {
+    return view('mahasiswa.tambahanggotakelompok');
+});
+
 
 
 

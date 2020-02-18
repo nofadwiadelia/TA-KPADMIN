@@ -19,7 +19,7 @@ class PengumumanController extends Controller
     public function index()
     {
         $data = Pengumuman::get();
-        return view('pengumuman.indexpengumuman',compact('data'));
+        return view('admin.pengumuman.indexpengumuman',compact('data'));
     }
 
     /**
@@ -30,7 +30,7 @@ class PengumumanController extends Controller
     public function create()
     {
         $data = Pengumuman::all();
-        return view('pengumuman.add_pengumuman',compact('data'));
+        return view('admin.pengumuman.add_pengumuman',compact('data'));
     }
 
     /**
@@ -98,7 +98,7 @@ class PengumumanController extends Controller
     public function edit($id_pengumuman)
     {
         $data = Pengumuman::findOrFail($id_pengumuman);
-        return view('pengumuman.edit_pengumuman', compact('data'));
+        return view('admin.pengumuman.edit_pengumuman', compact('data'));
     }
 
     /**
