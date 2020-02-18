@@ -4,30 +4,56 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Role;
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input; //untuk input::get
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware('auth');
-    }
+    // public function __construct(){
+    //     $this->middleware('auth');
+    // }
 
     public function indexlogin(){
         return view('login');
     }
 
     public function login(Request $request){
-        $username = $request->username;
-        $password = $request->password;
-        if (auth()->attempt(['username' => $username, 'password' => $password])) {
-            return redirect(route('/admin'));
-        }else{
-            return "Maaf username atau password yang anda masukan tidak sesuai.";
+        if(Auth::attempt($request->only('username','password'))){
+            $akun = DB::table('users')->where('username', $request->username)->first();
+            //dd($akun);
+            if($akun->roles_id == 1){
+                Auth::guard('administrator')->LoginUsingId($akun->id_users);
+                return redirect('/admin')->with('sukses','Anda Berhasil Login');
+            } else if($akun->roles_id == 2){
+                Auth::guard('dosen')->LoginUsingId($akun->id_users);
+                return redirect('admin/pengumuman')->with('sukses','Anda Berhasil Login');
+            }elseif ($akun->roles_id == 3) {
+              Auth::guard('mahasiswa')->LoginUsingId($akun->id_users);
+              return redirect('/admin')->with('sukses','Anda Berhasil Login');
+            }elseif ($akun->roles_id == 4) {
+              Auth::guard('instansi')->LoginUsingId($akun->id_users);
+              return redirect('/admin')->with('sukses','Anda Berhasil Login');
+            }
+    	}
+    	return redirect('admin/login')->with('error','Akun Belum Terdaftar');
+    }
+
+    public function logout(Request $request){
+        if(Auth::guard('administrator')->check()){
+            Auth::guard('administrator')->logout();
+        } else if(Auth::guard('dosen')->check()){
+            Auth::guard('dosen')->logout();
+        } else if(Auth::guard('mahasiswa')->check()){
+            Auth::guard('mahasiswa')->logout();
+        } else if(Auth::guard('instansi')->check()){
+            Auth::guard('instansi')->logout();
         }
-        // return redirect(route('welcome'));
+    	return redirect('login')->with('sukses','Anda Telah Logout');
     }
 
     /**
@@ -71,8 +97,7 @@ class UsersController extends Controller
             'username.required' => 'can not be empty !',
             'username.unique' => 'username has already been taken !',
             'password.max' => 'password is to long !',
-        ]
-    );
+        ]);
       
         // $data = User::create($request->except(['_token']));
         $data = User::create([
@@ -105,7 +130,9 @@ class UsersController extends Controller
      */
     public function edit($id_users)
     {
-        //
+        $roles = Role::select('id_roles', 'nama')->get();
+        $data = User::findOrFail($id_users);
+        return view('akun.edit_akun', compact('data','roles'));
     }
 
     /**
@@ -117,7 +144,25 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id_users)
     {
-        //
+        $this->validate($request, [
+            'nama_lengkap' => 'required|string|max:191',
+            'username' => 'required|string|max:191',
+            'password' => 'required|min:6|max:191'
+        ],
+        [
+            'nama_lengkap.required' => 'can not be empty !',
+            'username.required' => 'can not be empty !',
+            'username.unique' => 'username has already been taken !',
+            'password.max' => 'password is to long !',
+        ]);
+        $data = User::where ('id_users',$id_users)->first();
+        $data->nama_lengkap = $request->nama_lengkap;
+        $data->username = $request->username;
+        $data->password = Hash::make($request->password);
+
+        $data->save();
+        return redirect()->route('users.index')->with(
+            'alert-success','Data berhasil diubah!');
     }
 
     /**

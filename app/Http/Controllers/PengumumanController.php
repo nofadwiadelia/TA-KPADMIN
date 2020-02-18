@@ -10,6 +10,7 @@ use Image;
 
 class PengumumanController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *

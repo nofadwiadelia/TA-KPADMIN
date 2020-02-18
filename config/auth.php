@@ -46,6 +46,46 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'administrator' => [
+            'driver' => 'session',
+            'provider' => 'administrator',
+        ],
+
+        'apiadmininistrator' => [
+            'driver' => 'token',
+            'provider' => 'admin',
+        ],
+
+        'dosen' => [
+            'driver' => 'session',
+            'provider' => 'dosen',
+        ],
+
+        'apidosen' => [
+          'driver' => 'token',
+          'provider' => 'dosen',
+        ],
+
+        'mahasiswa' => [
+            'driver' => 'session',
+            'provider' => 'mahasiswa',
+        ],
+
+        'apimahasiswa' => [
+          'driver' => 'token',
+          'provider' => 'mahasiswa',
+        ],
+
+        'instansi' => [
+            'driver' => 'session',
+            'provider' => 'instansi',
+        ],
+
+        'apiinstansi' => [
+          'driver' => 'token',
+          'provider' => 'instansi',
+        ],
     ],
 
     /*
@@ -75,6 +115,22 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        'administrator' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+        'dosen' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+        'mahasiswa' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+        'instansi' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
     ],
 
     /*

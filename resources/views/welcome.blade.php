@@ -43,15 +43,18 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i><img src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User Avatar" style="width:25px" class="mr-3 img-circle"></i>
-          <span>{{ auth()->user()->nama_lengkap }}</span>
+          <span>{{ Auth::user()->nama_lengkap }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-          <a href="#" class="dropdown-item">
+          <a onclick="if(confirm('Are you sure to logout?')) location.href='{{ URL::to('admin/login') }}';" class="dropdown-item">
             <div class="media">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   LOGOUT
                 </h3>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+                </form>
               </div>
             </div>
           </a>
@@ -76,7 +79,7 @@
           <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ auth()->user()->nama_lengkap }}</a>
+          <a href="#" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
         </div>
       </div>
 

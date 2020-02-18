@@ -18,7 +18,8 @@ Route::get('/', function () {
 Route::prefix('admin')->group(function () {
     Route::resource('/users', 'UsersController');
     Route::get('/login', 'UsersController@indexlogin')->name('login');;
-    Route::post('/login', 'UsersController@login')->name('login');;
+    Route::post('/login', 'UsersController@login')->name('login');
+    Route::get('/logout', 'UsersController@logout')->name('logout');
     Route::resource('/pengumuman', 'PengumumanController');
     
 });
