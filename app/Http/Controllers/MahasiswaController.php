@@ -18,7 +18,11 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        //
+        $data = Mahasiswa::leftJoin('users', 'mahasiswa.users_id', 'users.id_users')
+                        ->select('mahasiswa.id', 'mahasiswa.users_id', 'users.nama_lengkap')
+                        ->orderBy('nama_lengkap')
+                        ->get();
+        return view('admin.mahasiswa.daftar_mahasiswa',compact('data'));
     }
 
     /**

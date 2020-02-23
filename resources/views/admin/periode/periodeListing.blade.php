@@ -32,7 +32,7 @@
             <div class="card-body ">
                 <form role="form">
                   <div class="col-sm-12">
-                  <a href="/add_new_periode" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Periode</a> <br><br>
+                  <a href="{{route('periode.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Periode</a> <br><br>
                   </div>
                 </form>
               <table id="example1" class="table table-bordered table-striped">
@@ -47,23 +47,24 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($data as $periode)
                 <tr>
                   <td>1</td>
-                  <td>2019</td>
-                  <td>8 February 2018
-                  </td>
-                  <td>8 February 2018</td>
+                  <td>{{ $periode->tahun }}</td>
+                  <td>{{ $periode->tgl_mulai }}</td>
+                  <td>{{ $periode->tgl_selesai }}</td>
                   <td class="text-center py-0 align-middle">
                   <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
                     <!-- <input id="toggle" type="checkbox" checked data-toggle="toggle" data-size="sm"> -->
                   </td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="/edit_periode" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        <a href="{{ route('periode.edit', $periode->id) }}" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                         <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                       </div>
                     </td>
                 </tr>
+                @endforeach
                 </tbody>
               </table>
             </div>

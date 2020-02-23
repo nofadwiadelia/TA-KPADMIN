@@ -36,4 +36,14 @@ class User extends Authenticatable
      * @var array
      */
 
+    public function mahasiswa(){
+        return $this->hasOne('App\Mahasiswa', 'users_id');
+    }
+    public function dosen(){
+        return $this->hasMany('App\Dosen', 'users_id');
+    }
+    public function instansi(){
+        return $this->hasMany('App\Instansi', 'users_id');
+    }
+
 }

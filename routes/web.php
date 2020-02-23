@@ -20,7 +20,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', 'UsersController@indexlogin')->name('login');;
     Route::post('/login', 'UsersController@login')->name('login');
     Route::get('/logout', 'UsersController@logout')->name('logout');
+    Route::resource('/mahasiswa', 'MahasiswaController');
     Route::resource('/pengumuman', 'PengumumanController');
+    Route::resource('/periode', 'PeriodeController');
     
 });
 

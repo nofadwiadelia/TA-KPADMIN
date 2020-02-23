@@ -54,22 +54,10 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($data as $mahasiswa)
                 <tr>
                   <td>17/415526/SV/13391</td>
-                  <td>Nofa Dwi Adelia</td>
-                  <td>089622372883</td>
-                  <td> 2019</td>
-                  <td>Cyber</td>
-                  <td>Ketua</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">magang</span></td>
-                  <td>4</td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detail_mahasiswa" class="btn-sm btn-info"><i class="fas fa-eye"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>17/415526/SV/13391</td>
-                  <td>Dear Nasyita</td>
+                  <td>{{ $mahasiswa->nama_lengkap }}</td>
                   <td>08123456789</td>
                   <td>2019</td>
                   <td>Cyber</td>
@@ -80,6 +68,7 @@
                     <a href="/detail_mahasiswa" class="btn-sm btn-info"><i class="fas fa-eye"></i></a>
                   </td>
                 </tr>
+                @endforeach
                 </tbody>
               </table>
             </div>

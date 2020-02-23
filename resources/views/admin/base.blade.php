@@ -114,7 +114,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="/daftar_mahasiswa" class="nav-link">
+                  <a href="{{route('mahasiswa.index')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Mahasiswa</p>
                   </a>
@@ -188,7 +188,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="/periodeListing" class="nav-link">
+              <a href="{{route('periode.index')}}" class="nav-link">
                 <i class="nav-icon far fa-clock"></i>
                 <p>
                   Setting Periode PKL

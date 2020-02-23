@@ -23,7 +23,8 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <!-- form start -->
-                            <form role="form" id="addPeriode" action="https://pklkomsi.000webhostapp.com/admin/periode/addNewPeriode" method="post" >
+                            <form action="{{ route('periode.store') }}"  method="post" >
+                            {{ csrf_field() }}
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
@@ -34,7 +35,7 @@
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label for="fname">Tahun Periode *</label>
-                                                <input type="number" class="form-control required" id="tahun_periode" name="tahun_periode" >
+                                                <input type="number" class="form-control" id="tahun" name="tahun" >
                                             </div>
                                             
                                         </div>
@@ -70,10 +71,12 @@
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row justify-content-end">
-                                        <span class="mr-2">
-                                        <input type="submit" class="btn btn-danger" value="Cancel" />
-                                        <span class="mr-2">
-                                        <input type="submit" class="btn btn-primary" value="Submit" />
+                                    <span class="mr-2">
+                                        <button type="submit" class="btn btn-danger">Cancel</button>
+                                    </span>
+                                    <span>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </span>
                                    </div>
                                 </div><!-- /.box-body -->
                             </form>

@@ -23,7 +23,9 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <!-- form start -->
-                            <form role="form" id="addPeriode" action="https://pklkomsi.000webhostapp.com/admin/periode/addNewPeriode" method="post" >
+                            <form action="{{ route('periode.update', $data->id) }}" method="post" >
+                            {{ csrf_field() }}
+                            {{ method_field('PUT') }}
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
@@ -34,7 +36,7 @@
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label for="fname">Tahun Periode *</label>
-                                                <input type="number" class="form-control required" id="tahun_periode" name="tahun_periode" placeholder="2019">
+                                                <input type="number" class="form-control" required name="tahun" value="{{ $data->tahun }}">
                                             </div>
                                             
                                         </div>
@@ -48,7 +50,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                    <input type="text" name="tgl_mulai" class="form-control pull-right required" id="reservation">
+                                                    <input type="date" name="tgl_mulai" class="form-control pull-right required" required value="{{ $data->tgl_mulai }}">
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -62,7 +64,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                    <input type="text" name="tgl_selesai" class="form-control pull-right required" id="reservation1">
+                                                    <input type="date" name="tgl_selesai" class="form-control pull-right" required value="{{ $data->tgl_selesai }}">
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>

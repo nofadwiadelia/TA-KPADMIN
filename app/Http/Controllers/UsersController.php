@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Mahasiswa;
 use App\Role;
 use DB;
 use Illuminate\Http\Request;
@@ -105,7 +106,12 @@ class UsersController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'roles_id' => $request->roles_id
+        ])->mahasiswa()->create([
+            'id' => $request->id,
+            'nama' => $request->nama_lengkap
+        
         ]);
+        $data->save();
 
         return redirect(route('users.index'))
                 ->with('alert-success','Berhasil Menambahkan Data!');

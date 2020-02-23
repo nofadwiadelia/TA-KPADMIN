@@ -44,7 +44,7 @@ class PengumumanController extends Controller
         $this->validate($request, [
             'judul' => 'required|string|max:100',
             'detail' => 'nullable|string|max:100',
-            'photo' => 'nullable|image|mimes:jpg,png,jpeg'
+            'photo' => 'nullable|image|mimes:jpg,png,jpeg',
         ]);
         try {
             $photo = null;
