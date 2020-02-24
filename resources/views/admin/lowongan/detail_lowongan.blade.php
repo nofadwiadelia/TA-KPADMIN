@@ -31,16 +31,16 @@
                     <div class="card-body box-profile">
                         <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                        <p class="badge badge-info">Nama Lowongan</p>
-                        <p>Fullstack Web</p>
+                        <p class="badge badge-info">Posisi</p>
+                        <p>{{ $data->posisi }}</p>
                         </li>
                         <li class="list-group-item">
-                        <p class="badge badge-info">Detail Info</p>
-                        <p>Membuat Website menggunakan framework Laravel</p>
+                        <p class="badge badge-info">Persyaratan</p>
+                        <p>{{ $data->persyaratan }}</p>
                         </li>
                         <li class="list-group-item">
                         <p class="badge badge-info">Instansi</p>
-                        <p>PT. KAI</p>
+                        <p>{{ $data->instansi_id }}</p>
                         </li>
                     </div>
                     <!-- /.card-body -->

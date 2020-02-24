@@ -40,10 +40,10 @@ class User extends Authenticatable
         return $this->hasOne('App\Mahasiswa', 'users_id');
     }
     public function dosen(){
-        return $this->hasMany('App\Dosen', 'users_id');
+        return $this->hasOne('App\Dosen', 'users_id');
     }
     public function instansi(){
-        return $this->hasMany('App\Instansi', 'users_id');
+        return $this->hasOne('App\Instansi', 'users_id');
     }
 
 }

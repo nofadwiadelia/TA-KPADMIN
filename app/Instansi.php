@@ -14,4 +14,8 @@ class Instansi extends Model
     public function users(){
         return $this->belongsTo('App\User', 'id_users');
     }
+
+    public function instansi(){
+        return $this->hasMany('App\Instansi', 'instansi_id');
+    }
 }

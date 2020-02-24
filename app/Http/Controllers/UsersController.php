@@ -99,19 +99,27 @@ class UsersController extends Controller
             'username.unique' => 'username has already been taken !',
             'password.max' => 'password is to long !',
         ]);
-      
+            
+        // return $request;
         // $data = User::create($request->except(['_token']));
+        
         $data = User::create([
             'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'roles_id' => $request->roles_id
-        ])->mahasiswa()->create([
-            'id' => $request->id,
-            'nama' => $request->nama_lengkap
-        
         ]);
         $data->save();
+
+        if($request->roles_id == 2){
+            $data->dosen()->create();
+        }
+        else if($request->roles_id == 3){
+            $data->mahasiswa()->create();
+        }
+        else if($request->roles_id == 4){
+            $data->instansi()->create();
+        }
 
         return redirect(route('users.index'))
                 ->with('alert-success','Berhasil Menambahkan Data!');

@@ -22,6 +22,13 @@ class PengumumanController extends Controller
         return view('admin.pengumuman.indexpengumuman',compact('data'));
     }
 
+    public function indexmahasiswa()
+    {
+        $data = Pengumuman::get();
+        return view('mahasiswa.pengumuman',compact('data'));
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

@@ -19,6 +19,26 @@ class PeriodeController extends Controller
         return view('admin.periode.periodeListing',compact('data'));
     }
 
+    public function change(Request $request){
+        $periode = Periode::findOrFail($request->id);
+        // return $periode;
+        
+        if($periode->status == 'active'){
+            $periode->status = 'inactive';
+        } else {
+            $periode->status = 'active';
+        }
+
+        $periode->save();
+    
+        return response()->json([
+          'data' => [
+            'success' => 'lur',
+          ]
+        ]);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

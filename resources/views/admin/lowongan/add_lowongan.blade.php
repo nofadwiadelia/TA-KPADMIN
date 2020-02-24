@@ -19,23 +19,37 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-                <form role="form">
+                <form action="{{ route('lowongan.store') }}" method="post">
+                {{ csrf_field() }}
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Lowongan *</label>
-                            <input type="text" class="form-control" id="judul" placeholder="">
+                            <label for="exampleInputEmail1">Posisi *</label>
+                            <input type="text" class="form-control" name="posisi" id="posisi" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Detail Info *</label>
-                            <textarea name="detail" id="detail" class="form-control {{ $errors->has('detail') ? 'is-invalid':'' }}"></textarea>
+                            <label for="exampleInputPassword1">Persyaratan *</label>
+                            <textarea name="persyaratan" id="persyaratan" class="form-control {{ $errors->has('detail') ? 'is-invalid':'' }}"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Slot *</label>
+                            <input type="number" class="form-control" name="slot" id="slot" placeholder="">
                         </div>
                         <div class="form-group">
                           <label>Instansi *</label>
-                          <select class="form-control select2" style="width: 100%;">
-                              <option selected="selected">Alabama</option>
-                              <option>ICON+</option>
-                              <option>PT. KAI</option>
-                              <option>PT. GMF AeroAsia</option>
+                          <select name="instansi_id" class="form-control select2" style="width: 100%;">
+                              <option selected disabled>Pilih Instansi</option>
+                              @foreach($data as $instansi)
+                              <option value="{{ $instansi->id }}">{{ $instansi->nama_lengkap }}</option>
+                              @endforeach
+                          </select >
+                        </div>
+                        <div class="form-group">
+                          <label>Periode *</label>
+                          <select name="periode_id" class="form-control select2" style="width: 100%;">
+                              <option selected disabled>Pilih Periode</option>
+                              @foreach($datas as $periode)
+                              <option value="{{ $periode->id }}">{{ $periode->tahun }}</option>
+                              @endforeach
                           </select >
                         </div>
                     </div>

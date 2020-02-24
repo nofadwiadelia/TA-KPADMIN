@@ -48,10 +48,39 @@
                             </li>
                             <li class="list-group-item">
                                 <b>CV  </b> 
-                                <a href="https://sutaryofe.staff.uns.ac.id/files/2011/09/SISTEMATIKA-PENULISAN-PAPER.pdf"class="btn btn-primary view-pdf float-right text-center py-0 align-middle" >lihat</a>
+                                <a data-toggle="modal" data-target="#modal-default" class="btn btn-primary view-pdf float-right text-center py-0 align-middle" ><i class="nav-icon fas fa-eye"></i></a>
                             </li>
                         </div>
                         <!-- /.card-body -->
+
+
+                        <div class="modal fade" id="modal-default">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h4 class="modal-title">CV</h4>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <div class="form-group row">
+                                            
+                                          </div>
+                                          <div class="form-group row">
+                                             
+                                          </div>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                          
+                                        </div>
+                                      </div>
+                                      <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                  </div>
+                                  <!-- /.modal -->
                         </div>
                         <!-- /.card -->
                     </div>
@@ -103,6 +132,17 @@
                                 
                                 <div class="tab-pane" id="kelompok">
                                     <div class="col-12">
+
+                                    <div class="col-md-12 text-center">
+                                            <div class="card-body box-profile">
+                                                <ul class="list-group list-group">
+                                                    <li class="list-group-item list-group-unbordered">
+                                                        <h5><i class="fas fa-users" ></i> <strong>Anggota Kelompok</strong></h5>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="text-center">
@@ -171,9 +211,44 @@
                                                 </ul>
                                             </div>
                                         </div>
+                                    </div>
+                                    </br>
+                                        <div class="col-md-12 text-center">
+                                            <div class="card-body box-profile">
+                                                <ul class="list-group list-group">
+                                                    <li class="list-group-item list-group-unbordered">
+                                                        <h5><i class="fas fa-clock" ></i> <strong>Jadwal Presentasi</strong></h5>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
 
                                         
+                                        <div class="row  justify-content-center">
+                                            
+                                            <div class="col-md-9">
+                                        
+                                                <div class="card-body box-profile ">
+                                            
+                                                    <ul class="list-group list-group">
+                                                    <li class="list-group-item">
+                                                        <i class="nav-icon fas fa-calendar-alt"> Hari,Tanggal</i> <a class="float-right">Jumat, 19 April 2020</a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <i class="nav-icon fas fa-clock"> Waktu</i> <a class="float-right">14.00 WIB</a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <i class="nav-icon fas fa-building"> Ruang</i> <a class="float-right">Lab Techno</a>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <i class="nav-icon fas fa-user"> Penguji</i> <a class="float-right">Yusron Fuadi</a>
+                                                    </li>
+                                                </div>
+                                            </div>
+                                       
+                                  
+                                       
+                                       </div>
                                    </div>
                                </div>
                                
@@ -183,7 +258,7 @@
                                     <div class="row">
                                         <div class="col-md-12 text-center">
                                             <div class="card-body box-profile">
-                                                <ul class="list-group list-group-unbordered">
+                                                <ul class="list-group list-group">
                                                     <li class="list-group-item list-group-unbordered">
                                                         <h5><i class="fa fa-user" ></i> Dibimbing Dosen <strong>IMAM FAHRURROZI M.Cs</strong></h5>
                                                     </li>
@@ -214,11 +289,11 @@
                                         </div>
 
 
-                                        </hr>
+                                        </br>
 
                                         <div class="col-md-12 text-center">
                                             <div class="card-body box-profile">
-                                                <ul class="list-group list-group-unbordered">
+                                                <ul class="list-group list-group">
                                                     <li class="list-group-item list-group-unbordered">
                                                         <h5><i class="fas fa-building" ></i> Magang di <strong>PT KAI</strong></h5>
                                                     </li>

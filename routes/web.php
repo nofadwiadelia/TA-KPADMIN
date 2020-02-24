@@ -17,13 +17,23 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
     Route::resource('/users', 'UsersController');
-    Route::get('/login', 'UsersController@indexlogin')->name('login');;
+    Route::get('/login', 'UsersController@indexlogin')->name('login');
     Route::post('/login', 'UsersController@login')->name('login');
     Route::get('/logout', 'UsersController@logout')->name('logout');
     Route::resource('/mahasiswa', 'MahasiswaController');
     Route::resource('/pengumuman', 'PengumumanController');
     Route::resource('/periode', 'PeriodeController');
+    Route::post('/periode/change', 'PeriodeController@change');
+    Route::resource('/lowongan', 'LowonganController');
     
+});
+
+Route::prefix('mahasiswa')->group(function () {
+    // Route::get('/pengumuman', 'PengumumanController@indexmahasiswa')->name('pengumuman');
+    Route::get('/profile', 'MahasiswaController@indexmahasiswa');
+    // Route::get('/profile', 'MahasiswaController@edit');
+    Route::put('/editprofil', 'MahasiswaController@update');
+    Route::get('/pengumuman', 'PengumumanController@indexmahasiswa');
 });
 
 Route::get('/admin', 'Mah@admin')->name('/admin');
@@ -127,9 +137,7 @@ Route::get('/laporanharian', function () {
 Route::get('/laporanpkl', function () {
     return view('mahasiswa.laporanpkl');
 });
-Route::get('/pengumuman', function () {
-    return view('mahasiswa.pengumuman');
-});
+Route::get('/pengumuman', 'PengumumanController@indexmahasiswa');
 Route::get('/login', function () {
     return view('mahasiswa.login');
 });

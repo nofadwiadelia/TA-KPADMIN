@@ -54,8 +54,7 @@
                   <td>{{ $periode->tgl_mulai }}</td>
                   <td>{{ $periode->tgl_selesai }}</td>
                   <td class="text-center py-0 align-middle">
-                  <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
-                    <!-- <input id="toggle" type="checkbox" checked data-toggle="toggle" data-size="sm"> -->
+                  <input type="checkbox" class="anu" data-id="{{$periode->id}}" @if($periode->status == 'active') checked @endif data-bootstrap-switch data-off-color="danger" data-on-color="success">
                   </td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
@@ -88,12 +87,45 @@
 <!-- Bootstrap Switch -->
 <script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 <!-- page script -->
-<script>
+<script type="text/javascript">
   $(function () {
     $("#example1").DataTable();
   });
   $("input[data-bootstrap-switch]").each(function(){
-      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+      // $(this).bootstrapSwitch('state', $(this).prop('checked'));
   });
+  $(document).ready(function() {
+    $(".anu").change(function(){
+      console.log($(this).data("id"));
+      $.ajax({
+            type:'POST',
+            url:'/admin/periode/change',
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            data: { "id" : $(this).data("id") },
+            success: function(data){
+              console.log(data);
+            }
+        });
+      });
+    });
+</script>
+<script type="text/javascript">
+  // $(document).ready(function(){
+  //   $("input:checkbox").change(function() {
+  //   var id = $(this).closest('tr').attr('id');
+
+  //   $.ajax({
+  //           type:'POST',
+  //           url:'/status',
+  //           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+  //           data: { "id" : id },
+  //           success: function(data){
+  //             if(data.data.success){
+  //               //do something
+  //             }
+  //           }
+  //       });
+  //   });
+  // });
 </script>
 @endsection

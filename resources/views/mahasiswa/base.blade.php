@@ -99,7 +99,7 @@
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="profile" class="nav-link">
+            <a href="mahasiswa/profile" class="nav-link">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
                 Profil
@@ -186,7 +186,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="/pengumuman" class="nav-link">
+            <a href="pengumuman" class="nav-link">
               <i class="nav-icon fas fa-bell"></i>
               <p>
                 Pengumuman

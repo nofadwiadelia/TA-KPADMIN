@@ -9,7 +9,12 @@
           <div class="col-sm-6">
             <h1>Pengumuman</h1>
           </div>
-            
+          <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a>Mahasiswa</a></li>
+                <li class="breadcrumb-item active">Pengumuman</li>
+              </ol>
+          </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -22,74 +27,62 @@
         <div class="row">
           <div class="col-md-12">
             <!-- The time line -->
+            @foreach ($data as $datas)
             <div class="timeline">
+              
               <!-- timeline time label -->
               <div class="time-label">
-                <span class="bg-red">10 Februari 2020</span>
+                <span class="bg-red">{{ $datas->created_at->format('d F Y') }}</span>
               </div>
               <!-- /.timeline-label -->
               <!-- timeline item -->
               <div>
                 <i class="fas fa-angle-right bg-blue"></i>
                 <div class="timeline-item">
-                  
-                  <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
+                  <h3 class="timeline-header"><a>{{ $datas->judul }}</a></h3>
                   <div class="timeline-body">
-                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                    quora plaxo ideeli hulu weebly balihoo...
-                  </div>
+                  {{ $datas->detail }}
+                    <div class="row justify-content-center">
+                      <button type="button" class="btn">
+                        <b><a  data-toggle="modal" data-target="#modal-lg">tampilkan lampiran</a></b>
+                      </button>
+                    </div>
+                   
+                  </div> 
                   
                 </div>
-              </div>
-              <!-- END timeline item -->
-              <!-- timeline item -->
-              <div>
-                <i class="fas fa-angle-right bg-blue"></i>
-                <div class="timeline-item">
-                  
-                  <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
-                </div>
-              </div>
-              <!-- END timeline item -->
-              <!-- timeline item -->
-              <div>
-                <i class="fas fa-angle-right bg-blue"></i>
-                <div class="timeline-item">
-                  
-                  <h3 class="timeline-header"><a href="#">NOTIFIKASI</a> </h3>
-                  <div class="timeline-body">
-                    Take me to your leader!
-                    Switzerland is small and neutral!
-                    We are more like Germany, ambitious and misunderstood!
-                  </div>
-                 
-                </div>
-              </div>
-              <!-- END timeline item -->
-              <!-- timeline time label -->
-              <div class="time-label">
-                <span class="bg-red">8 Februari 2020</span>
-              </div>
-              <!-- /.timeline-label -->
-              <!-- timeline item -->
-              <div>
-                <i class="fas fa-angle-right bg-blue"></i>
-                <div class="timeline-item">
-                  
-                  <h3 class="timeline-header"><a href="#">Mina Lee</a> menambahkan anda ke kelompok</h3>
-                </div>
+                </br>
+                @endforeach 
               </div>
               <!-- END timeline item -->
               <!-- timeline item -->
               
-              <!-- END timeline item -->
-             
-            </div>
+            </div>                     
           </div>
+        </div>
           <!-- /.col -->
+          <div class="modal fade show" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Lampiran</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+              <div class="modal-body">
+                <div class="form-group row">
+                  <div class="modal-footer justify-content-between">
+                  <img src="{{ URL::to('uploads/file/'.$datas->photo)}}" style="width: 600px; height: 500px;">
+                  
+                  
+                  </div>
+                  
+                </div>
+             </div>
+                                    <!-- /.modal-dialog -->
+          </div>
+                                  <!-- /.modal -->
         </div>
       </div>
       <!-- /.timeline -->

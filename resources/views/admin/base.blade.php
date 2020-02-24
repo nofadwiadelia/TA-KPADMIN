@@ -196,7 +196,7 @@
               </a>
             </li>
             <li class="nav-item has-treeview">
-              <a href="/adlowongan" class="nav-link">
+              <a href="{{route('lowongan.index')}}" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
                 <p>
                   Lowongan

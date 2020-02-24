@@ -20,13 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Route::prefix('admin')->group(function () {
+//     Route::get('/mahasiswa', 'MahasiswaController@index');
+// });
 
-Route::get('/test',function(){
-    return response()->json([
-        'error' =>'test bung',
-        'code' => 200,
-    ], 200);
-});
 
 Route::post('login', function(Request $request){
     if(auth()->attempt(['username' => $request->input('username'), 'password' => $request->input('password')]))
