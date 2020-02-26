@@ -120,15 +120,15 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/daftar_dosen" class="nav-link">
+                  <a href="{{route('dosen.index')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Dosen</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/daftar_partner" class="nav-link">
+                  <a href="{{route('instansi.index')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Perusahaan</p>
+                    <p>Instansi</p>
                   </a>
                 </li>
               </ul>

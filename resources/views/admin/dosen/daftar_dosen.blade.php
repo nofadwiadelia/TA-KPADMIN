@@ -33,9 +33,10 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($dosen as $dosens)
                 <tr>
                   <td>Gecko</td>
-                  <td>Camino 1.0</td>
+                  <td>{{ $dosens->nama_lengkap }}</td>
                   <td>1.8</td>
                   <td class="text-center py-0 align-middle"> 
                   <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
@@ -43,11 +44,12 @@
                   </td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="/detail_dosen" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('dosen.show', $dosens->id) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                         <!-- <a href="#" class="btn btn-danger"><i class="fas fa-pencil-alt"></i></a> -->
                       </div>
                     </td>
                 </tr>
+                @endforeach
                 </tbody>
               </table>
             </div>

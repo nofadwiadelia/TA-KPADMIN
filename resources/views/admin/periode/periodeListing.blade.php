@@ -110,22 +110,6 @@
     });
 </script>
 <script type="text/javascript">
-  // $(document).ready(function(){
-  //   $("input:checkbox").change(function() {
-  //   var id = $(this).closest('tr').attr('id');
 
-  //   $.ajax({
-  //           type:'POST',
-  //           url:'/status',
-  //           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-  //           data: { "id" : id },
-  //           success: function(data){
-  //             if(data.data.success){
-  //               //do something
-  //             }
-  //           }
-  //       });
-  //   });
-  // });
 </script>
 @endsection

@@ -57,9 +57,15 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        $data = Mahasiswa::leftJoin('users', 'mahasiswa.users_id', 'users.id_users')
+                        ->leftJoin('roles', 'users.roles_id', 'roles.id_roles')
+                        ->select('mahasiswa.id', 'mahasiswa.users_id', 'users.id_users', 'users.nama_lengkap', 'roles.id_roles', 'roles.nama')
+                        ->where('mahasiswa.id', '=', $id)
+                        ->first();
+        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'data'));
     }
 
     /**

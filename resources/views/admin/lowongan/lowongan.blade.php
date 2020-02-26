@@ -51,14 +51,18 @@
                   <td>{{ $lowongan->posisi }}</td>
                   <td>{{ $lowongan->persyaratan }}</td>
                   <td>{{ $lowongan->slot }}</td>
-                  <td>{{ $lowongan->instansi_id }}</td>
-                  <td>{{ $lowongan->instansi_id }}</td>
+                  <td>{{ $lowongan->nama_lengkap }}</td>
+                  <td>{{ $lowongan->tahun }}</td>
                   <td class="text-center py-0 align-middle">
                       <a href="{{ route('lowongan.show', $lowongan->id) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
                   </td>
                   <td class="text-center py-0 align-middle">
-                    <a href="edit_lowongan" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                    <form action="{{ route('lowongan.destroy', $lowongan->id) }}" method="post">
+                      {{ csrf_field() }}
+                      {{ method_field('DELETE') }}
+                      <a href="{{ route('lowongan.edit', $lowongan->id) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                      <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
+                    </form>
                   </td>
                 </tr>
                 @endforeach

@@ -34,10 +34,10 @@
                                 alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center">ICON+</h3>
+                            <h3 class="profile-username text-center">{{ $data->nama_lengkap }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <i class="nav-icon fas fa-users"></i> <a class="float-right">Perusahaan</a>
+                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $data->nama }}</a>
                             </li>
                         </div>
                         <!-- /.card-body -->
@@ -59,7 +59,7 @@
                                 <div class="active tab-pane" id="info">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <h2 style="font-weight: 600;">ICON+</h2>
+                                            <h2 style="font-weight: 600;">{{ $data->nama_lengkap }}</h2>
                                         </div>
                                     </div></br>
                                     <div class="card-body card-primary card-outline table-responsive p-0">
@@ -70,7 +70,7 @@
                                                 <th>No.Telp</th>
                                                 </tr>
                                                 <tr>
-                                                <td>ICON+</td>
+                                                <td>{{ $data->nama_lengkap }}</td>
                                                 <td>Imam Fakhrurrozi</td>
                                                 <td>0899622372883</td>
                                                 </tr>
@@ -84,8 +84,9 @@
                                             <!-- select -->
                                             <div class="form-group">
                                                 <select class="form-control form-control-sm">
-                                                    <option>Periode 2019</option>
-                                                    <option>Periode 2018</option>
+                                                    @foreach($periode as $periodes)
+                                                        <option value="{{ $periodes->id }}">{{ $periodes->tahun }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <button type="submit" class="btn btn-default">Filter</button> <br><br>
@@ -123,8 +124,9 @@
                                             <!-- select -->
                                             <div class="form-group">
                                                 <select class="form-control form-control-sm">
-                                                    <option>Periode 2019</option>
-                                                    <option>Periode 2018</option>
+                                                    @foreach($periode as $periodes)
+                                                        <option value="{{ $periodes->id }}">{{ $periodes->tahun }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                             <button type="submit" class="btn btn-default">Filter</button> <br><br>
@@ -135,21 +137,29 @@
                                         <table class="table no-border">
                                                 <tr>
                                                     <th>No</th>
-                                                    <th>Nama Lowongan</th>
-                                                    <th>Detail Info</th>
+                                                    <th>Posisi</th>
+                                                    <th>Persyaratan</th>
+                                                    <th>Slot</th>
+                                                    <th>Periode</th>
                                                     <th class="text-center py-0 align-middle">Detail</th>
                                                     <th class="text-center py-0 align-middle">Aksi</th>
                                                 </tr>
                                                 <tr>
                                                 <td>1</td>
-                                                <td>Trident</td>
-                                                <td>gerh</td>
+                                                <td>{{ $lowongan->posisi }}</td>
+                                                <td>{{ $lowongan->persyaratan }}</td>
+                                                <td>{{ $lowongan->slot }}</td>
+                                                <td>{{ $lowongan->tahun }}</td>   
                                                 <td class="text-center py-0 align-middle">
-                                                    <a href="detail_lowongan" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
+                                                    <a href="{{ route('lowongan.show', $lowongan->id) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
                                                 </td>
                                                 <td class="text-center py-0 align-middle">
-                                                    <a href="#" class="btn-sm btn-info"><i class="fas fa-pencil-alt"></i></a>
-                                                    <a href="#" class="btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                                    <form action="{{ route('lowongan.destroy', $lowongan->id) }}" method="post">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('DELETE') }}
+                                                        <a href="{{ route('lowongan.edit', $lowongan->id) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                                                        <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
+                                                    </form>
                                                 </td>
                                                 </tr>
                                         </table><br/>

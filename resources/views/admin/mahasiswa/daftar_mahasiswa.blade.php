@@ -37,7 +37,7 @@
                   </div>
                 </form>
                 <div class="col-sm-12">
-                  <a href="/add_form_pengumuman" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
+                  <a href="" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
                 </div>
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
@@ -65,7 +65,7 @@
                   <td class="text-center py-0 align-middle"><span class="badge bg-warning">magang</span></td>
                   <td> 4</td>
                   <td class="text-center py-0 align-middle">
-                    <a href="/detail_mahasiswa" class="btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('mahasiswa.show', $mahasiswa->id) }}" class="btn-sm btn-info"><i class="fas fa-eye"></i></a>
                   </td>
                 </tr>
                 @endforeach

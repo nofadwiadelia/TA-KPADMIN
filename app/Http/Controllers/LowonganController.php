@@ -17,9 +17,11 @@ class LowonganController extends Controller
     public function index()
     {
         $data = Lowongan::leftJoin('instansi', 'lowongan.instansi_id', 'instansi.id')
-        ->select('lowongan.id', 'lowongan.posisi', 'lowongan.persyaratan', 'lowongan.slot', 'lowongan.instansi_id', 'instansi.id')
-        ->orderBy('lowongan.id')
-        ->get();
+                        ->leftJoin('users', 'instansi.users_id', 'users.id_users')
+                        ->leftJoin('periode', 'lowongan.periode_id', 'periode.id')
+                        ->select('lowongan.id', 'lowongan.posisi', 'lowongan.persyaratan', 'lowongan.slot', 'users.nama_lengkap', 'periode.tahun')
+                        ->orderBy('lowongan.created_at')
+                        ->get();
         return view('admin.lowongan.lowongan',compact('data'));
     }
 
@@ -72,7 +74,12 @@ class LowonganController extends Controller
     public function show($id)
     {
         $data = Lowongan::findOrFail($id);
-        return view('admin.lowongan.detail_lowongan',compact('data'));
+        $lowongan = Lowongan::leftJoin('instansi', 'lowongan.instansi_id', 'instansi.id')
+                        ->leftJoin('users', 'instansi.users_id', 'users.id_users')
+                        ->select('lowongan.id', 'lowongan.posisi', 'lowongan.persyaratan', 'lowongan.slot', 'lowongan.instansi_id', 'instansi.id', 'users.id_users', 'users.nama_lengkap')
+                        ->where('lowongan.id', '=', $id)
+                        ->first();
+        return view('admin.lowongan.detail_lowongan',compact('lowongan', 'data'));
     }
 
     /**
@@ -106,6 +113,8 @@ class LowonganController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $lowongan = Lowongan::find($id);
+        $lowongan->delete();
+        return redirect()->back()->with(['success' => '<strong>' . $lowongan->posisi . '</strong> Telah Dihapus!']);
     }
 }

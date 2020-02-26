@@ -38,18 +38,6 @@
                                         <input type="text" class="form-control" required name="username" value="{{ $data->username }}">
                                         </div>
                                     </div>
-                                    <!-- <div class="form-group row">
-                                        <label for="password" class="col-sm-3 col-form-label">Password *</label>
-                                        <div class="col-sm-9">
-                                        <input type="password" class="form-control" name="password" value="{{ $data->password }}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
-                                        <div class="col-sm-9">
-                                        <input type="password" class="form-control" name="password" value="{{ $data->password }}">
-                                        </div>
-                                    </div> -->
                                     <div class="form-group row">
                                         <label for="roles_id" class="col-sm-3 col-form-label">Role *</label>
                                         <div class="col-sm-9">
@@ -87,13 +75,13 @@
                                           <div class="form-group row">
                                             <label for="password" class="col-sm-3 col-form-label">Password *</label>
                                             <div class="col-sm-9">
-                                            <input type="password" class="form-control" name="password" value="{{ $data->password }}">
+                                            <input type="password" class="form-control" name="password" value="">
                                             </div>
                                           </div>
                                           <div class="form-group row">
                                               <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                               <div class="col-sm-9">
-                                              <input type="password" class="form-control" name="password" value="{{ $data->password }}">
+                                              <input type="password" class="form-control" name="password" value="">
                                               </div>
                                           </div>
                                         </div>

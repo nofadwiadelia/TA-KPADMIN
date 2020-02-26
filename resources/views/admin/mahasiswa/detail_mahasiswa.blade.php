@@ -33,13 +33,13 @@
                                 alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center">Nofa Dwi Adelia</h3>
+                            <h3 class="profile-username text-center">{{ $data->nama_lengkap }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
                                 <b>NIM  </b> <a class="float-right">17/415526/SV/13391</a>
                             </li>
                             <li class="list-group-item">
-                                <i class="nav-icon fas fa-users"></i> <a class="float-right">Mahasiswa</a>
+                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $data->nama }}</a>
                             </li>
                             <li class="list-group-item">
                                 <b>CV  </b> <a class="float-right">CV.pdf</a>
@@ -66,7 +66,7 @@
                                 <div class="active tab-pane" id="info">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <h2 style="font-weight: 600;">Nofa Dwi Adelia</h2>
+                                            <h2 style="font-weight: 600;">{{ $data->nama_lengkap }}</h2>
                                         </div>
                                     </div></br>
                                     <div class="card-body card-primary card-outline table-responsive p-0">

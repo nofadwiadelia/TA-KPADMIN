@@ -21,6 +21,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', 'UsersController@login')->name('login');
     Route::get('/logout', 'UsersController@logout')->name('logout');
     Route::resource('/mahasiswa', 'MahasiswaController');
+    Route::resource('/dosen', 'DosenController');
+    Route::resource('/instansi', 'InstansiController');
     Route::resource('/pengumuman', 'PengumumanController');
     Route::resource('/periode', 'PeriodeController');
     Route::post('/periode/change', 'PeriodeController@change');

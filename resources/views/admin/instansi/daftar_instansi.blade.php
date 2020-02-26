@@ -33,18 +33,18 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($instansi as $instansis)
                 <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
+                  <td>{{ $instansis->nama_lengkap }}</td>
+                  <td>{{ $instansis->website }}</td>
                   <td>Win 95+</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="/detail_partner" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('instansi.show', $instansis->id) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                       </div>
                     </td>
                 </tr>
+                @endforeach
                 </tbody>
               </table>
             </div>

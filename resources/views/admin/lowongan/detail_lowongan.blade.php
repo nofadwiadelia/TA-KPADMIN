@@ -32,15 +32,15 @@
                         <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
                         <p class="badge badge-info">Posisi</p>
-                        <p>{{ $data->posisi }}</p>
+                        <p>{{ $lowongan->posisi }}</p>
                         </li>
                         <li class="list-group-item">
                         <p class="badge badge-info">Persyaratan</p>
-                        <p>{{ $data->persyaratan }}</p>
+                        <p>{{ $lowongan->persyaratan }}</p>
                         </li>
                         <li class="list-group-item">
                         <p class="badge badge-info">Instansi</p>
-                        <p>{{ $data->instansi_id }}</p>
+                        <p>{{ $lowongan->nama_lengkap }}</p>
                         </li>
                     </div>
                     <!-- /.card-body -->
