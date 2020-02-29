@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 
 use App\Mahasiswa;
 use App\User;
+use App\Role;
 
 class MahasiswaController extends Controller
 {
@@ -28,6 +29,15 @@ class MahasiswaController extends Controller
         //     'data' => $data
         // ]);
         return view('admin.mahasiswa.daftar_mahasiswa',compact('data'));
+    }
+
+    public function indexmahasiswa()
+    {
+        $mahasiswa = Mahasiswa::leftJoin('users', 'mahasiswa.users_id', 'users.id_users')
+                            ->leftJoin('roles', 'users.roles_id', 'roles.id_roles')
+                            ->select('mahasiswa.id', 'mahasiswa.users_id', 'users.id_users', 'users.nama_lengkap', 'roles.id_roles', 'roles.nama', 'mahasiswa.no_hp', 'mahasiswa.email', 'mahasiswa.pengalaman', 'mahasiswa.keahlian', 'mahasiswa.nim')
+                            ->first();
+        return view('mahasiswa.profile', compact('mahasiswa'));
     }
 
     /**
@@ -74,17 +84,13 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function indexmahasiswa()
-    {
-        $data = Mahasiswa::all();
-        // $data = User::where('id_users', $mahasiswa->users_id)->first;
-        return view('mahasiswa.profile', compact('data'));
-    }
-
+   
     public function edit($id)
     {
-        $data = Mahasiswa::find($id);
-        return view('mahasiswa.editprofil', compact('data'));
+        $mahasiswa = Mahasiswa::leftJoin('users', 'mahasiswa.users_id', 'users.id_users')
+                                ->select('mahasiswa.id', 'mahasiswa.users_id', 'users.id_users', 'users.nama_lengkap', 'mahasiswa.nim', 'mahasiswa.no_hp', 'mahasiswa.pengalaman', 'mahasiswa.keahlian')
+                                ->where('id',$id)->first();
+        return view('mahasiswa.editprofil', compact('mahasiswa'));
     }
 
     /**
@@ -97,17 +103,19 @@ class MahasiswaController extends Controller
     public function update(Request $request, $id)
     {
         $mahasiswa = Mahasiswa::find($id);
-        $user = User::where('id_users', $mahasiswa->users_id)->first;
         $mahasiswa->nim = $request->nim;
         $mahasiswa->email = $request->email;
         $mahasiswa->no_hp = $request->no_hp;
         $mahasiswa->keahlian = $request->keahlian;
         $mahasiswa->pengalaman = $request->pengalaman;
-        $user->nama_lengkap = $request->nama_lengkap;
-
         $mahasiswa->save();
-        $user->save();
-        return redirect('mahasiswa/profile/');
+
+        $users = User::where('id_users', $mahasiswa->users_id)->first();
+        $users->nama_lengkap = $request->nama_lengkap;
+
+        
+        $users->save();
+        return redirect('mahasiswa/profile');
     }
 
     /**

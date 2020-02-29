@@ -3,36 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\Http\Controllers\Controller;
+use App\Kelompok;
+use App\Periode;
 
-class dashboardController extends Controller
+class KelompokController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        
-        $user= User::where(['api_token'=>$request->api_token])->first();
-
-        return response()->json([
-            'user' =>$user,
-            'code' => 200,
-        ], 200);
+        //
     }
 
-    public function indexadmin(){
-        return view('admin.admin');
-    }
-
-    public function indexdosen(){
-        return view('dosen.layout.dashboard');
-    }
-
-    public function indexmahasiswa(){
-        return view('mahasiswa.index');
+    public function indexdosen()
+    {
+        $kelompok = Kelompok::get();
+        return view('dosen.kelompok.kelompok',compact('kelompok'));
     }
 
     /**
@@ -65,6 +55,12 @@ class dashboardController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function showdosen($id)
+    {
+        $kelompok = Kelompok::findOrFail($id);
+        return view('dosen.kelompok.detail_kelompok', compact('kelompok'));
     }
 
     /**

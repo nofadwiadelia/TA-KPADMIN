@@ -57,11 +57,13 @@
                   <input type="checkbox" class="anu" data-id="{{$periode->id}}" @if($periode->status == 'active') checked @endif data-bootstrap-switch data-off-color="danger" data-on-color="success">
                   </td>
                   <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="{{ route('periode.edit', $periode->id) }}" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
-                      </div>
-                    </td>
+                    <form action="{{ route('periode.destroy', $periode->id) }}" method="post">
+                      {{ csrf_field() }}
+                      {{ method_field('DELETE') }}
+                      <a href="{{ route('periode.edit', $periode->id) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                      <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
+                    </form>
+                  </td>
                 </tr>
                 @endforeach
                 </tbody>

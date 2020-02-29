@@ -12,15 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('admin.admin');
+    return view('admin.login');
 });
 
 Route::prefix('admin')->group(function () {
+    Route::get('/dasboard', 'dashboardController@indexadmin');
     Route::resource('/users', 'UsersController');
     Route::get('/login', 'UsersController@indexlogin')->name('login');
     Route::post('/login', 'UsersController@login')->name('login');
     Route::get('/logout', 'UsersController@logout')->name('logout');
-    Route::resource('/mahasiswa', 'MahasiswaController');
+    Route::get('/mahasiswa', ['as' => 'mahasiswa.index', 'uses' => 'MahasiswaController@index']);
+    Route::get('/mahasiswa/{id}', ['as' => 'mahasiswa.show', 'uses' => 'MahasiswaController@show']);
     Route::resource('/dosen', 'DosenController');
     Route::resource('/instansi', 'InstansiController');
     Route::resource('/pengumuman', 'PengumumanController');
@@ -31,53 +33,33 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::prefix('mahasiswa')->group(function () {
-    // Route::get('/pengumuman', 'PengumumanController@indexmahasiswa')->name('pengumuman');
+    Route::get('/index', 'dashboardController@indexmahasiswa');
     Route::get('/profile', 'MahasiswaController@indexmahasiswa');
-    // Route::get('/profile', 'MahasiswaController@edit');
-    Route::put('/editprofil', 'MahasiswaController@update');
+    Route::get('/editprofil/{id}', 'MahasiswaController@edit');
+    Route::put('/editprofil/{id}', 'MahasiswaController@update');
     Route::get('/pengumuman', 'PengumumanController@indexmahasiswa');
 });
 
-Route::get('/admin', 'Mah@admin')->name('/admin');
+Route::prefix('dosen')->group(function () {
+    Route::get('/dashboard', 'dashboardController@indexdosen');
+    Route::get('/kelompok', 'KelompokController@indexdosen');
+    Route::get('/kelompok/{id}', 'KelompokController@showdosen');
+});
 
-Route::get('/daftar_mahasiswa', 'Mah@index')->name('/daftar_mahasiswa');
-Route::get('/detail_mahasiswa', 'Mah@index1')->name('/detail_mahasiswa');
-Route::get('/daftar_dosen', 'Mah@index2')->name('/daftar_dosen');
-Route::get('/detail_dosen', 'Mah@showdosen')->name('/detail_dosen');
-Route::get('/daftar_partner', 'Mah@indexpartner')->name('/daftar_partner');
-Route::get('/detail_partner', 'Mah@showpartner')->name('/detail_partner');
+
+Route::get('/admin', 'Mah@admin')->name('/admin');
 Route::get('/persetujuan_kelompok', 'Mah@indexpkelompok')->name('/persetujuan_kelompok');
 Route::get('/usulan_pkl', 'Mah@UsulanPKL')->name('/usulan_pkl');
 Route::get('/detail_usulan', 'Mah@detailUsulan')->name('/detail_usulan');
 Route::get('/detailKelompok', 'Mah@detailKelompok')->name('/detailKelompok');
-Route::get('/periodeListing', 'Mah@periodeListing')->name('/periodeListing');
-Route::get('/add_new_periode', 'Mah@AddNewPeriode')->name('/add_new_periode');
-Route::get('/edit_periode', 'Mah@EditPeriode')->name('/edit_periode');
 Route::get('/magangListing', 'Mah@magangListing')->name('/magangListing');
 Route::get('/detailMagang', 'Mah@detailMagang')->name('/detailMagang');
 Route::get('/presentasi_kelompok', 'Mah@presentasiKelompok')->name('/presentasi_kelompok');
 Route::get('/add_presentasi', 'Mah@addpresentasiKelompok')->name('/add_presentasi');
 Route::get('/edit_presentasi', 'Mah@editpresentasiKelompok')->name('/edit_presentasi');
-Route::get('/adlowongan', 'Mah@lowonganPKL')->name('/adlowongan');
-Route::get('/detail_lowongan', 'Mah@detaillowonganPKL')->name('/detail_lowongan');
-Route::get('/add_lowongan', 'Mah@addlowonganPKL')->name('/add_lowongan');
-Route::get('/edit_lowongan', 'Mah@editlowonganPKL')->name('/edit_lowongan');
 
 
 //MAHASISWA
-
-Route::get('/index', function () {
-    return view('mahasiswa.index');
-});
-
-
-Route::get('/profile', function () {
-    return view('mahasiswa.profile');
-});
-
-Route::get('/editprofil', function () {
-    return view('mahasiswa.editprofil');
-});
 
 Route::get('/buatkelompok', function () {
     return view('mahasiswa.buatkelompok');
@@ -139,13 +121,31 @@ Route::get('/laporanharian', function () {
 Route::get('/laporanpkl', function () {
     return view('mahasiswa.laporanpkl');
 });
-Route::get('/pengumuman', 'PengumumanController@indexmahasiswa');
+
 Route::get('/login', function () {
     return view('mahasiswa.login');
 });
 Route::get('/tambahanggotakelompok', function () {
     return view('mahasiswa.tambahanggotakelompok');
 });
+
+
+Route::get('/profile', 'Mah@indexprofile')->name('/profile');
+Route::get('/detail_nilai', 'Mah@detailnilai')->name('/detail_nilai');
+Route::get('/detail_nilai_penguji', 'Mah@nilaipenguji')->name('/detail_nilai_penguji');
+Route::get('/input_nilai', 'Mah@inputnilai_dosen')->name('/input_nilai');
+Route::get('/inputNilai_penguji', 'Mah@inputNilai_penguji')->name('/inputNilai_penguji');
+Route::get('/dashboard', 'Mah@dashboard')->name('/dashboard');
+Route::get('/laporan', 'Mah@laporan')->name('/laporan');
+Route::get('/nilai_akhir', 'Mah@nilai_akhir')->name('/nilai_akhir');
+Route::get('/login', 'Mah@login')->name('/login');
+Route::get('/detail_inputNilai', 'Mah@detail_inputNilai')->name('/detail_inputNilai');
+Route::get('/edit_profil', 'Mah@edit_profil')->name('/edit_profil');
+Route::get('/daftar_nilaiAkhir', 'Mah@daftar_nilaiAkhir')->name('/daftar_nilaiAkhir');
+Route::get('/list_kegiatanHarian', 'Mah@list_kegiatanHarian')->name('/list_kegiatanHarian');
+
+// Route::resource('company','CompanyController');
+// Route::resource('group','GroupController');
 
 
 

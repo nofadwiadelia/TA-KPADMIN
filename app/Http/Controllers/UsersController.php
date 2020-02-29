@@ -29,13 +29,13 @@ class UsersController extends Controller
             //dd($akun);
             if($akun->roles_id == 1){
                 Auth::guard('administrator')->LoginUsingId($akun->id_users);
-                return redirect('/admin')->with('sukses','Anda Berhasil Login');
+                return redirect('/admin/dasboard')->with('sukses','Anda Berhasil Login');
             } else if($akun->roles_id == 2){
                 Auth::guard('dosen')->LoginUsingId($akun->id_users);
-                return redirect('admin/pengumuman')->with('sukses','Anda Berhasil Login');
+                return redirect('/dosen/dashboard')->with('sukses','Anda Berhasil Login');
             }elseif ($akun->roles_id == 3) {
               Auth::guard('mahasiswa')->LoginUsingId($akun->id_users);
-              return redirect('/index')->with('sukses','Anda Berhasil Login');
+              return redirect('/mahasiswa/index')->with('sukses','Anda Berhasil Login');
             }elseif ($akun->roles_id == 4) {
               Auth::guard('instansi')->LoginUsingId($akun->id_users);
               return redirect('/admin')->with('sukses','Anda Berhasil Login');
@@ -99,9 +99,6 @@ class UsersController extends Controller
             'username.unique' => 'username has already been taken !',
             'password.max' => 'password is to long !',
         ]);
-            
-        // return $request;
-        // $data = User::create($request->except(['_token']));
         
         $data = User::create([
             'nama_lengkap' => $request->nama_lengkap,

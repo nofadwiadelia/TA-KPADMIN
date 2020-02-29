@@ -128,6 +128,8 @@ class PeriodeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $periode = Periode::find($id);
+        $periode->delete();
+        return redirect()->back()->with(['success' => '<strong>' . $periode->tahun . '</strong> Telah Dihapus!']);
     }
 }

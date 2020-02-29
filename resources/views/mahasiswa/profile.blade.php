@@ -38,13 +38,13 @@
                                 alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center">Dear Nasyita</h3>
+                            <h3 class="profile-username text-center">{{ $mahasiswa->nama_lengkap }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
                                 <b>NIM  </b> <a class="float-right">17/415526/SV/12757</a>
                             </li>
                             <li class="list-group-item">
-                                <i class="nav-icon fas fa-users"></i> <a class="float-right">Mahasiswa</a>
+                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $mahasiswa->nama }}</a>
                             </li>
                             <li class="list-group-item">
                                 <b>CV  </b> 
@@ -99,7 +99,7 @@
                                 <div class="active tab-pane" id="info">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <h2 style="font-weight: 600;">Dear Nasyita</h2>
+                                            <h2 style="font-weight: 600;">{{ $mahasiswa->nama_lengkap }}</h2>
                                             
                                         </div>
                                     </div></br>
@@ -112,19 +112,19 @@
                                                 <th>Email</th>
                                                 </tr>
                                                 <tr>
-                                                <td>17/425526/SV/13391</td>
-                                                <td>Dear Nasyita</td>
-                                                <td>0896552993</td>
-                                                <td>dearnasyita@mail.ugm.ac.id</td>
+                                                <td>{{ $mahasiswa->nim }}</td>
+                                                <td>{{ $mahasiswa->nama_lengkap }}</td>
+                                                <td>{{ $mahasiswa->no_hp }}</td>
+                                                <td>{{ $mahasiswa->email }}</td>
                                                 </tr>
                                         </table><br/>
                                         <strong><i class="fas fa-pencil-alt mr-1"></i> Keahlian</strong>
-                                        <p class="text-muted">Laravel, Frontend Android, API</p><br/>
+                                        <p class="text-muted">{{ $mahasiswa->keahlian }}</p><br/>
                                         <strong><i class="far fa-file-alt mr-1"></i> Pengalaman</strong>
-                                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                                        <p class="text-muted">{{ $mahasiswa->pengalaman }}</p>
                                     </div>
                                     <div class="box-footer float-right">
-								        <a href="/editprofil" class="btn btn-default">Edit</a>
+								        <a href="/mahasiswa/editprofil/{{$mahasiswa->id}}" class="btn btn-default">Edit</a>
 							          	
                                      </div>
                                 </div>

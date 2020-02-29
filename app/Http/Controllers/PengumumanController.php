@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Pengumuman;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Pengumuman;
 use File;
 use Image;
 
