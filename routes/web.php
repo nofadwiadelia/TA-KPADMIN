@@ -11,6 +11,8 @@
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return view('admin.login');
 });
@@ -20,12 +22,15 @@ Route::prefix('admin')->group(function () {
     Route::resource('/users', 'UsersController');
     Route::get('/login', 'UsersController@indexlogin')->name('login');
     Route::post('/login', 'UsersController@login')->name('login');
-    Route::get('/logout', 'UsersController@logout')->name('logout');
+    Route::post('/logout', 'UsersController@logout')->name('logout');
     Route::get('/mahasiswa', ['as' => 'mahasiswa.index', 'uses' => 'MahasiswaController@index']);
     Route::get('/mahasiswa/{id}', ['as' => 'mahasiswa.show', 'uses' => 'MahasiswaController@show']);
     Route::resource('/dosen', 'DosenController');
     Route::resource('/instansi', 'InstansiController');
     Route::resource('/pengumuman', 'PengumumanController');
+    Route::get('/persetujuan_kelompok', 'KelompokController@acckelompok');
+    Route::put('/persetujuan_kelompoks/{id}', 'KelompokController@postacckelompok');
+    Route::put('/tolak_kelompok/{id}', 'KelompokController@declinekelompok');
     Route::resource('/periode', 'PeriodeController');
     Route::post('/periode/change', 'PeriodeController@change');
     Route::resource('/lowongan', 'LowonganController');
@@ -42,13 +47,46 @@ Route::prefix('mahasiswa')->group(function () {
 
 Route::prefix('dosen')->group(function () {
     Route::get('/dashboard', 'dashboardController@indexdosen');
+    Route::get('/profile', function () {
+        return view('dosen.profile.profile');
+    });
+    Route::get('/edit_profil', function () {
+        return view('dosen.profile.edit_profil');
+    });
     Route::get('/kelompok', 'KelompokController@indexdosen');
     Route::get('/kelompok/{id}', 'KelompokController@showdosen');
+    Route::get('/input_nilai', function () {
+        return view('dosen.nilai.input_nilai');
+    });
+    Route::get('/inputNilai_penguji', function () {
+        return view('dosen.nilai.inputNilai_penguji');
+    });
+    Route::get('/detail_inputNilai', function () {
+        return view('dosen.nilai.detail_inputNilai');
+    });
+    Route::get('/detail_nilai', function () {
+        return view('dosen.nilai.detail_nilai');
+    });
+    Route::get('/detail_nilai_penguji', function () {
+        return view('dosen.nilai.detail_nilai_penguji');
+    });
+    Route::get('/daftar_nilaiAkhir', function () {
+        return view('dosen.nilai.daftar_nilaiAkhir');
+    });
+    Route::get('/nilai_akhir', function () {
+        return view('dosen.nilai.nilai_akhir');
+    });
+    Route::get('/laporan', function () {
+        return view('dosen.laporan.laporan');
+    });
+    Route::get('/list_kegiatanHarian', function () {
+        return view('dosen.logbook.list_kegiatanHarian');
+    });
+    
 });
 
 
 Route::get('/admin', 'Mah@admin')->name('/admin');
-Route::get('/persetujuan_kelompok', 'Mah@indexpkelompok')->name('/persetujuan_kelompok');
 Route::get('/usulan_pkl', 'Mah@UsulanPKL')->name('/usulan_pkl');
 Route::get('/detail_usulan', 'Mah@detailUsulan')->name('/detail_usulan');
 Route::get('/detailKelompok', 'Mah@detailKelompok')->name('/detailKelompok');
@@ -130,22 +168,12 @@ Route::get('/tambahanggotakelompok', function () {
 });
 
 
-Route::get('/profile', 'Mah@indexprofile')->name('/profile');
-Route::get('/detail_nilai', 'Mah@detailnilai')->name('/detail_nilai');
-Route::get('/detail_nilai_penguji', 'Mah@nilaipenguji')->name('/detail_nilai_penguji');
-Route::get('/input_nilai', 'Mah@inputnilai_dosen')->name('/input_nilai');
-Route::get('/inputNilai_penguji', 'Mah@inputNilai_penguji')->name('/inputNilai_penguji');
-Route::get('/dashboard', 'Mah@dashboard')->name('/dashboard');
-Route::get('/laporan', 'Mah@laporan')->name('/laporan');
-Route::get('/nilai_akhir', 'Mah@nilai_akhir')->name('/nilai_akhir');
-Route::get('/login', 'Mah@login')->name('/login');
-Route::get('/detail_inputNilai', 'Mah@detail_inputNilai')->name('/detail_inputNilai');
-Route::get('/edit_profil', 'Mah@edit_profil')->name('/edit_profil');
-Route::get('/daftar_nilaiAkhir', 'Mah@daftar_nilaiAkhir')->name('/daftar_nilaiAkhir');
-Route::get('/list_kegiatanHarian', 'Mah@list_kegiatanHarian')->name('/list_kegiatanHarian');
 
-// Route::resource('company','CompanyController');
-// Route::resource('group','GroupController');
+Route::get('/detail_nilai_penguji', 'Mah@nilaipenguji')->name('/detail_nilai_penguji');
+Route::get('/login', 'Mah@login')->name('/login');
+
+
+
 
 
 

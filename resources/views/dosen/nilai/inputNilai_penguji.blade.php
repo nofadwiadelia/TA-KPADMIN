@@ -45,7 +45,7 @@
                   <td>2017</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="/nilai_penguji" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        <a href="/dosen/detail_nilai_penguji" class="btn btn-info"><i class="fas fa-eye"></i></a>
                       </div>
                     </td>
                 </tr>
@@ -53,96 +53,6 @@
                   <td>2</td>
                   <td>Kelompok 2 </td>
                   <td>2016</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Kelompok 3 </td>
-                  <td>2017</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Kelompok 5</td>
-                  <td>2017</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>Kelompok 8</td>
-                  <td>2016</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>7</td>
-                  <td>Kelompok 7</td>
-                  <td>2017</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>8</td>
-                  <td>Kelompok 6</td>
-                  <td>2017</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>9</td>
-                  <td>Kelompok 9</td>
-                  <td>2017</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>10</td>
-                  <td>Kelompok 10</td>
-                  <td>2017</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>11</td>
-                  <td>Kelompok 11</td>
-                  <td>2017</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>12</td>
-                  <td>Kelompok 12</td>
-                  <td>2017</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
                         <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>

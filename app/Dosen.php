@@ -14,4 +14,8 @@ class Dosen extends Model
     public function users(){
         return $this->belongsTo('App\User', 'id_users');
     }
+
+    public function kelompok(){
+        return $this->belongsTo('App\Kelompok', 'dosen_id');
+    }
 }

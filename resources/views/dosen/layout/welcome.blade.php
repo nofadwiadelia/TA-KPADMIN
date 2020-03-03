@@ -46,15 +46,18 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i><img src="dist/img/user1-128x128.jpg" alt="User Avatar" style="width:25px" class="mr-3 img-circle"></i>
-          <span class="namaProfile">Admin</span>
+          <span class="namaProfile">{{ Auth::user()->nama_lengkap }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-          <a href="#" class="dropdown-item">
+          <a onclick="if(confirm('Are you sure to logout?')) location.href='{{ URL::to('admin/login') }}';" class="dropdown-item">
             <div class="media">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   LOGOUT
                 </h3>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+                </form>
               </div>
             </div>
           </a>
@@ -81,7 +84,7 @@
           <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block namaProfile">Nama Dosen </a>
+          <a href="#" class="d-block namaProfile">{{ Auth::user()->nama_lengkap }} </a>
         </div>
       </div>
 
@@ -91,7 +94,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
-            <a href="/dashboard" class="nav-link">
+            <a href="/dosen/dashboard" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -99,7 +102,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/profile" class="nav-link">
+            <a href="/dosen/profile" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>Profile</p>
             </a>
@@ -111,7 +114,7 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
-            <a href="/" class="nav-link">
+            <a href="/dosen/list_kegiatanHarian" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>Buku Harian </p>
             </a>
@@ -126,20 +129,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/input_nilai" class="nav-link">
+                <a href="/dosen/input_nilai" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dosen Pembimbing</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/input_nilai" class="nav-link">
+                <a href="/dosen/inputNilai_penguji" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dosen Penguji</p>
                 </a>
               </li>
-
             </ul>
-</li>
+          </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon far fa-envelope"></i>
@@ -150,13 +152,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/daftar_nilaiAkhir" class="nav-link">
+                <a href="/dosen/daftar_nilaiAkhir" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Nilai Akhir</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/laporan" class="nav-link">
+                <a href="/dosen/laporan" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laporan PKL</p>
                 </a>

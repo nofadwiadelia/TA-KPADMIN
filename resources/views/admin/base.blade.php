@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="{{ asset('/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- toogle onoff-->
   <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -46,18 +47,15 @@
           <span>{{ Auth::user()->nama_lengkap }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-          <a onclick="if(confirm('Are you sure to logout?')) location.href='{{ URL::to('admin/login') }}';" class="dropdown-item">
-            <div class="media">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  LOGOUT
-                </h3>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                  @csrf
-                </form>
-              </div>
-            </div>
-          </a>
+        <a class="dropdown-item" href="{{ route('logout') }}"
+                      onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                      {{ __('Logout') }}
+                  </a>
+
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                  </form>
         </div>
       </li>
     </ul>
@@ -151,7 +149,7 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="/persetujuan_kelompok" class="nav-link">
+                  <a href="/admin/persetujuan_kelompok" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Pendaftaran Kelompok</p>
                   </a>

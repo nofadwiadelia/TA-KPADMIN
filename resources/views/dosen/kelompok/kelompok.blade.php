@@ -44,7 +44,7 @@
                 <td>{{$key+1}}</td>
                 <td>{{ $data->nama_kelompok }}</td>
                 <td>2019</td>
-                <td class="t  ` `1 edfvext-center py-0 align-middle">
+                <td class="text-center py-0 align-middle">
                     <div class="btn-group btn-group-sm">
                       <a href="kelompok/1" class="btn btn-info"><i class="fas fa-list"></i></a>
                     </div>

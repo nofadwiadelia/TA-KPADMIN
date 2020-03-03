@@ -75,7 +75,7 @@
 			   <br>
                 <div class="row justify-content-center">
                 <td class="project-actions text-right">
-                  <a class="btn btn-primary btn-sm float-right" href="edit_profil">
+                  <a class="btn btn-primary btn-sm float-right" href="/dosen/edit_profil">
                     <i class="fas fa-pencil-alt"></i>
                       Edit
                   </a>

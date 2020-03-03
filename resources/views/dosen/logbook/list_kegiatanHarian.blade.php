@@ -2,7 +2,6 @@
 @section('content')
   
   <!-- Content Wrapper. Contains page content -->
-<html>
  
 <section class="content">
       <div class="container-fluid">
@@ -78,24 +77,9 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+@endsection
 
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.0.2
-    </div>
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-    reserved.
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
+@section('scripts')
 
 <!-- jQuery -->
 <script src="../plugins/jquery/jquery.min.js"></script>
@@ -108,12 +92,12 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 <!-- fullCalendar 2.2.5 -->
-<script src="../plugins/moment/moment.min.js"></script>
-<script src="../plugins/fullcalendar/main.min.js"></script>
-<script src="../plugins/fullcalendar-daygrid/main.min.js"></script>
-<script src="../plugins/fullcalendar-timegrid/main.min.js"></script>
-<script src="../plugins/fullcalendar-interaction/main.min.js"></script>
-<script src="../plugins/fullcalendar-bootstrap/main.min.js"></script>
+<script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/fullcalendar/main.min.js"></script>
+<script src="../../plugins/fullcalendar-daygrid/main.min.js"></script>
+<script src="../../plugins/fullcalendar-timegrid/main.min.js"></script>
+<script src="../../plugins/fullcalendar-interaction/main.min.js"></script>
+<script src="../../plugins/fullcalendar-bootstrap/main.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
@@ -284,7 +268,7 @@
     })
   })
   </script>
-  </html?
+@endsection
 
 
 

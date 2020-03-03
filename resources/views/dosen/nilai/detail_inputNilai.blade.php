@@ -21,7 +21,7 @@
                     <b>Waktu Magang &emsp;&emsp;&emsp;    : </b> &emsp; 24 Juni 2019 - 10 Agustus 2019<br/>
                     <b>Lokasi Magang &emsp;&emsp;&emsp;   : </b> &emsp;<br>
                     <b>Jobdesk &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;  : </b> &emsp;<br>
-                    <a href="/detail_nilai" class="btn btn-success float-right btn-sm"><i class="fas fa-plus">&emsp; Input Nilai</i></a> <br><br>
+                    <a href="/dosen/detail_nilai" class="btn btn-success float-right btn-sm"><i class="fas fa-plus">&emsp; Input Nilai</i></a> <br><br>
                 </br>
               
                 
