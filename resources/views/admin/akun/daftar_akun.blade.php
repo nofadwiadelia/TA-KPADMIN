@@ -53,7 +53,6 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Nama</th>
                   <th>Username</th>
                   <th>Aksi</th>
                 </tr>
@@ -61,15 +60,10 @@
                 <tbody>
                 @foreach($user as $users)
                 <tr>
-                  <td>{{ $users->nama_lengkap }}</td>
                   <td>{{ $users->username }}</td>
                   <td class="text-center py-0 align-middle">
-                    <form action="{{ route('users.destroy', $users->id_users) }}" method="post">
-                      {{ csrf_field() }}
-                      {{ method_field('DELETE') }}
                       <a href="{{ route('users.edit', $users->id_users) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                      <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
-                    </form>
+                      <button class="btn btn-sm btn-danger deleteUser" data-id="{{ $users->id_users }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
                   </td>
                 </tr>
                 @endforeach
@@ -96,5 +90,25 @@
   $(function () {
     $("#example1").DataTable();
   });
+
+  $(document).ready(function(){
+        $('.deleteUser').click(function(){
+            var id = $(this).data('id');
+            $.ajax({
+                type: "DELETE",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                dataType: "json",
+                url: '/api/admin/users/'+id,
+                data: {'id_pengumuman': id,},
+                success: function (data) {
+                    toastr.options.closeButton = true;
+                    toastr.options.closeMethod = 'fadeOut';
+                    toastr.options.closeDuration = 100;
+                    toastr.success(data.message);
+                    window.location.reload();
+                }
+            });
+        });
+    });
 </script>
 @endsection

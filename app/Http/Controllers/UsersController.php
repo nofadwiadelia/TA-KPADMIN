@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Mahasiswa;
 use App\Role;
+use App\Periode;
 use DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,18 +28,18 @@ class UsersController extends Controller
         if(Auth::attempt($request->only('username','password'))){
             $akun = DB::table('users')->where('username', $request->username)->first();
             //dd($akun);
-            if($akun->roles_id == 1){
+            if($akun->id_roles == 1){
                 Auth::guard('administrator')->LoginUsingId($akun->id_users);
                 return redirect('/admin/dasboard')->with('sukses','Anda Berhasil Login');
-            } else if($akun->roles_id == 2){
+            } else if($akun->id_roles == 2){
                 Auth::guard('dosen')->LoginUsingId($akun->id_users);
                 return redirect('/dosen/dashboard')->with('sukses','Anda Berhasil Login');
-            }elseif ($akun->roles_id == 3) {
-              Auth::guard('mahasiswa')->LoginUsingId($akun->id_users);
-              return redirect('/mahasiswa/index')->with('sukses','Anda Berhasil Login');
-            }elseif ($akun->roles_id == 4) {
+            }elseif ($akun->id_roles == 3) {
               Auth::guard('instansi')->LoginUsingId($akun->id_users);
               return redirect('/admin')->with('sukses','Anda Berhasil Login');
+            }elseif ($akun->id_roles == 4) {
+              Auth::guard('mahasiswa')->LoginUsingId($akun->id_users);
+              return redirect('/mahasiswa/index')->with('sukses','Anda Berhasil Login');
             }
     	}
     	return redirect('admin/login')->with('error','Akun Belum Terdaftar');
@@ -64,7 +65,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $roles = Role::select('id_roles', 'nama')->get();
+        $roles = Role::select('id_roles', 'roles')->get();
         $user = User::get();
         return view('admin.akun.daftar_akun',compact('user','roles'));
     }
@@ -76,7 +77,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $roles = Role::select('id_roles', 'nama')->get();
+        $roles = Role::select('id_roles', 'roles')->get();
         return view('admin.akun.add_akun', compact('roles'));
     }
 
@@ -89,33 +90,39 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama_lengkap' => 'required|string|max:191',
+            'nama' => 'required|string|max:191',
             'username' => 'required|string|max:191',
             'password' => 'required|min:6|max:191'
         ],
         [
-            'nama_lengkap.required' => 'can not be empty !',
+            'nama' => 'can not be empty !',
             'username.required' => 'can not be empty !',
             'username.unique' => 'username has already been taken !',
             'password.max' => 'password is to long !',
         ]);
         
         $data = User::create([
-            'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
             'password' => Hash::make($request->password),
-            'roles_id' => $request->roles_id
+            'id_roles' => $request->id_roles
         ]);
         $data->save();
 
-        if($request->roles_id == 2){
-            $data->dosen()->create();
+        if($request->id_roles == 2){
+            $data->dosen()->create([
+                'nama' => $request->nama,
+            ]);
         }
-        else if($request->roles_id == 3){
-            $data->mahasiswa()->create();
+        else if($request->id_roles == 3){
+            $data->instansi()->create([
+                'nama' => $request->nama,
+            ]);
         }
-        else if($request->roles_id == 4){
-            $data->instansi()->create();
+        else if($request->id_roles == 4){
+            $data->mahasiswa()->create([
+                'nama' => $request->nama,
+                'id_periode' => 1,
+            ]);
         }
 
         return redirect(route('users.index'))
@@ -141,7 +148,7 @@ class UsersController extends Controller
      */
     public function edit($id_users)
     {
-        $roles = Role::select('id_roles', 'nama')->get();
+        $roles = Role::select('id_roles', 'roles')->get();
         $data = User::findOrFail($id_users);
         return view('admin.akun.edit_akun', compact('data','roles'));
     }
@@ -156,20 +163,35 @@ class UsersController extends Controller
     public function update(Request $request, $id_users)
     {
         $this->validate($request, [
-            'nama_lengkap' => 'required|string|max:191',
+            'nama' => 'required|string|max:191',
             'username' => 'required|string|max:191',
             'password' => 'required|min:6|max:191'
         ],
         [
-            'nama_lengkap.required' => 'can not be empty !',
+            'nama.required' => 'can not be empty !',
             'username.required' => 'can not be empty !',
             'username.unique' => 'username has already been taken !',
             'password.max' => 'password is to long !',
         ]);
         $data = User::where ('id_users',$id_users)->first();
-        $data->nama_lengkap = $request->nama_lengkap;
         $data->username = $request->username;
         $data->password = Hash::make($request->password);
+
+        if($request->id_roles == 2){
+            $data->dosen()->update([
+                'nama' => $request->nama,
+            ]);
+        }
+        else if($request->id_roles == 3){
+            $data->instansi()->update([
+                'nama' => $request->nama,
+            ]);
+        }
+        else if($request->id_roles == 4){
+            $data->mahasiswa()->update([
+                'nama' => $request->nama,
+            ]);
+        }
 
         $data->save();
         return redirect()->route('users.index')->with(
@@ -186,6 +208,6 @@ class UsersController extends Controller
     {
         $data = User::find($id_users);
         $data->delete();
-        return redirect()->back()->with(['success' => '<strong>' . $data->username . '</strong> Telah Dihapus!']);
+        return response()->json(['message' => 'Pengumuman deleted successfully.']);
     }
 }

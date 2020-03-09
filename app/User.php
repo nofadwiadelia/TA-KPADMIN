@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nama_lengkap', 'username', 'password', 'roles_id',
+        'nama_lengkap', 'username', 'password', 'id_roles',
     ];
 
     /**
@@ -37,13 +37,13 @@ class User extends Authenticatable
      */
 
     public function mahasiswa(){
-        return $this->hasOne('App\Mahasiswa', 'users_id');
+        return $this->hasOne('App\Mahasiswa', 'id_users');
     }
     public function dosen(){
-        return $this->hasOne('App\Dosen', 'users_id');
+        return $this->hasOne('App\Dosen', 'id_users');
     }
     public function instansi(){
-        return $this->hasOne('App\Instansi', 'users_id');
+        return $this->hasOne('App\Instansi', 'id_users');
     }
 
 }

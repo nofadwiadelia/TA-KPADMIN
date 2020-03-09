@@ -47,15 +47,15 @@
           <span>{{ Auth::user()->nama_lengkap }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-          <a href="#" class="dropdown-item">
-            <div class="media">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  LOGOUT
-                </h3>
-              </div>
-            </div>
-          </a>
+        <a class="dropdown-item" href="{{ route('logout') }}"
+                      onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+                      {{ __('Logout') }}
+                  </a>
+
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                  </form>
         </div>
       </li>
       </li>
@@ -99,7 +99,7 @@
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="mahasiswa/profile" class="nav-link">
+            <a href="/mahasiswa/profile" class="nav-link">
               <i class="nav-icon fas fa-user-alt"></i>
               <p>
                 Profil
@@ -128,6 +128,12 @@
                   <p>Penilaian Anggota</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="detailkelompok" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Detail Kelompok</p>
+                </a>
+              </li>
             </ul>
           </li>
 
@@ -150,7 +156,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/laporanharian" class="nav-link">
+                <a href="/mahasiswa/laporanharian" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laporan Harian</p>
                 </a>
@@ -163,9 +169,6 @@
               </li>
             </ul>
           </li>
-
-        
-            
 
           <li class="nav-item has-treeview" >
             <a href="/calendar" class="nav-link">
@@ -186,7 +189,7 @@
           </li>
 
           <li class="nav-item">
-            <a href="pengumuman" class="nav-link">
+            <a href="/pengumuman" class="nav-link">
               <i class="nav-icon fas fa-bell"></i>
               <p>
                 Pengumuman

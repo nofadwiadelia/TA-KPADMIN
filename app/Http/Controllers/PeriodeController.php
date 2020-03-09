@@ -15,27 +15,16 @@ class PeriodeController extends Controller
      */
     public function index()
     {
-        $data = Periode::get();
-        return view('admin.periode.periodeListing',compact('data'));
+        $periodes = Periode::get();
+        return view('admin.periode.periodeListing',compact('periodes'));
     }
 
-    public function change(Request $request){
-        $periode = Periode::findOrFail($request->id);
-        // return $periode;
-        
-        if($periode->status == 'active'){
-            $periode->status = 'inactive';
-        } else {
-            $periode->status = 'active';
-        }
-
+    public function changeStatus(Request $request){
+        $periode = Periode::findOrFail($request->periode_id);
+        $periode->status = $request->status;
         $periode->save();
-    
-        return response()->json([
-          'data' => [
-            'success' => 'lur',
-          ]
-        ]);
+
+        return response()->json(['message' => 'Periode status updated successfully.']);
 
     }
 
@@ -46,8 +35,7 @@ class PeriodeController extends Controller
      */
     public function create()
     {
-        $data = Periode::all();
-        return view('admin.periode.add_new_periode',compact('data'));
+        return view('admin.periode.add_new_periode');
     }
 
     /**
@@ -59,18 +47,17 @@ class PeriodeController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'tahun' => 'required|max:4',
+            'tahun_periode' => 'required|max:4',
             'tgl_mulai' => 'required',
             'tgl_selesai' => 'required',
         ]);
         $data = Periode::create([
-            'tahun' => $request->tahun,
+            'tahun_periode' => $request->tahun_periode,
             'tgl_mulai' => $request->tgl_mulai,
             'tgl_selesai' => $request->tgl_selesai
         ]);
         $data->save();
-        return redirect(route('periode.index'))
-        ->with('alert-success','Berhasil Menambahkan Data!');
+        return response()->json(['message' => 'Periode status added successfully.']);
     }
 
     /**
@@ -90,9 +77,9 @@ class PeriodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_periode)
     {
-        $data = Periode::findOrFail($id);
+        $data = Periode::findOrFail($id_periode);
         return view('admin.periode.edit_periode', compact('data'));
     }
 
@@ -103,21 +90,22 @@ class PeriodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_periode)
     {
         $this->validate($request, [
-            'tahun' => 'required|max:4',
+            'tahun_periode' => 'required|max:4',
             'tgl_mulai' => 'required',
             'tgl_selesai' => 'required',
         ]);
-        $data = Periode::where ('id',$id)->first();
-        $data->tahun = $request->tahun;
-        $data->tgl_mulai = $request->tgl_mulai;
-        $data->tgl_selesai = $request->tgl_selesai;
+        $data = Periode::findOrFail($id_periode);
+        $data->update([
+            'tahun_periode' => $request->tahun_periode,
+            'tgl_mulai' => $request->tgl_mulai,
+            'tgl_selesai' => $request->tgl_selesai
+        ]);
 
         $data->save();
-        return redirect()->route('periode.index')->with(
-            'alert-success','Data berhasil diubah!');
+        return response()->json(['message' => 'Periode update successfully.']);
     }
 
     /**
@@ -126,10 +114,10 @@ class PeriodeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_periode)
     {
-        $periode = Periode::find($id);
+        $periode = Periode::find($id_periode);
         $periode->delete();
-        return redirect()->back()->with(['success' => '<strong>' . $periode->tahun . '</strong> Telah Dihapus!']);
+        return response()->json(['message' => 'Periode deleted successfully.']);    
     }
 }

@@ -19,36 +19,35 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-                <form action="{{ route('lowongan.store') }}" method="post">
-                {{ csrf_field() }}
+                <form id="lowonganForm">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Posisi *</label>
-                            <input type="text" class="form-control" name="posisi" id="posisi" placeholder="">
+                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" placeholder="">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Persyaratan *</label>
-                            <textarea name="persyaratan" id="persyaratan" class="form-control {{ $errors->has('detail') ? 'is-invalid':'' }}"></textarea>
+                            <textarea name="persyaratan" id="persyaratan" class="form-control {{ $errors->has('persyaratan') ? 'is-invalid':'' }}"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Slot *</label>
-                            <input type="number" class="form-control" name="slot" id="slot" placeholder="">
+                            <label for="exampleInputEmail1">Kapasitas *</label>
+                            <input type="number" class="form-control" name="kapasitas" id="kapasitas" placeholder="">
                         </div>
                         <div class="form-group">
                           <label>Instansi *</label>
-                          <select name="instansi_id" class="form-control select2" style="width: 100%;">
+                          <select name="id_instansi" class="form-control select2" style="width: 100%;">
                               <option selected disabled>Pilih Instansi</option>
                               @foreach($data as $instansi)
-                              <option value="{{ $instansi->id }}">{{ $instansi->nama_lengkap }}</option>
+                              <option value="{{ $instansi->id_instansi }}">{{ $instansi->nama }}</option>
                               @endforeach
                           </select >
                         </div>
                         <div class="form-group">
                           <label>Periode *</label>
-                          <select name="periode_id" class="form-control select2" style="width: 100%;">
+                          <select name="id_periode" class="form-control select2" style="width: 100%;">
                               <option selected disabled>Pilih Periode</option>
                               @foreach($datas as $periode)
-                              <option value="{{ $periode->id }}">{{ $periode->tahun }}</option>
+                              <option value="{{ $periode->id_periode }}">{{ $periode->tahun_periode }}</option>
                               @endforeach
                           </select >
                         </div>
@@ -86,13 +85,35 @@
   $(function () {
     $("#example1").DataTable();
   });
-</script>
-<!-- Summernote -->
+  $(document).ready(function(){   
+    $('#lowonganForm').on('submit', function(e){
+        e.preventDefault();
 
-<script>
-  $(function () {
-    // Summernote
-    $('.textarea').summernote()
-  })
+        var pekerjaan = $('#pekerjaan').val();
+        var persyaratan = $('#persyaratan').val();
+        var kapasitas = $('#kapasitas').val();
+        var id_instansi = $('#id_instansi').val();
+        var id_periode = $('#id_periode').val();
+
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/lowongan/add",
+            cache:false,
+            dataType: "json",
+            data: $('#lowonganForm').serialize(),
+            success: function(data){
+                window.location = "/admin/lowongan";
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.success(data.message);
+            },
+            error: function(error){
+            console.log(error);
+            }
+        });
+    });
+});
 </script>
 @endsection

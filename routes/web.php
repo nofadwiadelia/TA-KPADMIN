@@ -26,14 +26,23 @@ Route::prefix('admin')->group(function () {
     Route::get('/mahasiswa', ['as' => 'mahasiswa.index', 'uses' => 'MahasiswaController@index']);
     Route::get('/mahasiswa/{id}', ['as' => 'mahasiswa.show', 'uses' => 'MahasiswaController@show']);
     Route::resource('/dosen', 'DosenController');
+    
     Route::resource('/instansi', 'InstansiController');
     Route::resource('/pengumuman', 'PengumumanController');
+    Route::get('/pengumuman', 'PengumumanController@index');
+    Route::get('/pengumuman/{id}', ['as' => 'pengumuman.show', 'uses' => 'PengumumanController@show']);
+    Route::get('/pengumuman/create', ['as' => 'pengumuman.create', 'uses' => 'PengumumanController@create']);
+    Route::get('/pengumuman/{id}/edit', ['as' => 'pengumuman.edit', 'uses' => 'PengumumanController@edit']);
     Route::get('/persetujuan_kelompok', 'KelompokController@acckelompok');
-    Route::put('/persetujuan_kelompoks/{id}', 'KelompokController@postacckelompok');
-    Route::put('/tolak_kelompok/{id}', 'KelompokController@declinekelompok');
-    Route::resource('/periode', 'PeriodeController');
-    Route::post('/periode/change', 'PeriodeController@change');
-    Route::resource('/lowongan', 'LowonganController');
+    Route::get('/periode/create', ['as' => 'periode.create', 'uses' => 'PeriodeController@create']);
+    Route::get('/periode', ['as' => 'periode.index', 'uses' => 'PeriodeController@index']);
+    Route::get('/periode/{id}/edit', ['as' => 'periode.edit', 'uses' => 'PeriodeController@edit']);
+    Route::delete('/periode/{id}', ['as' => 'periode.destroy', 'uses' => 'PeriodeController@destroy']);
+    // Route::resource('/lowongan', 'LowonganController');
+    Route::get('/lowongan', ['as' => 'lowongan.index', 'uses' => 'LowonganController@index']);
+    Route::get('/lowongan/{id}', ['as' => 'lowongan.show', 'uses' => 'LowonganController@show']);
+    Route::get('/lowongan/create', ['as' => 'lowongan.create', 'uses' => 'LowonganController@create']);
+    Route::get('/lowongan/{id}/edit', ['as' => 'lowongan.edit', 'uses' => 'LowonganController@edit']);
     
 });
 
@@ -42,7 +51,10 @@ Route::prefix('mahasiswa')->group(function () {
     Route::get('/profile', 'MahasiswaController@indexmahasiswa');
     Route::get('/editprofil/{id}', 'MahasiswaController@edit');
     Route::put('/editprofil/{id}', 'MahasiswaController@update');
+    Route::put('/editavatar/{id}', 'MahasiswaController@updateAvatar');
     Route::get('/pengumuman', 'PengumumanController@indexmahasiswa');
+    Route::get('/laporanharian', 'LaporanHarianController@index');
+    Route::post('/laporanharian', 'LaporanHarianController@store');
 });
 
 Route::prefix('dosen')->group(function () {
@@ -153,9 +165,7 @@ Route::get('/lihatlaporanpkl', function () {
 Route::get('/calendar', function () {
     return view('mahasiswa.calendar');
 });
-Route::get('/laporanharian', function () {
-    return view('mahasiswa.laporanharian');
-});
+
 Route::get('/laporanpkl', function () {
     return view('mahasiswa.laporanpkl');
 });

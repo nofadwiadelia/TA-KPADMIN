@@ -33,13 +33,13 @@
                                 alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center">{{ $data->nama_lengkap }}</h3>
+                            <h3 class="profile-username text-center">{{ $dosen->nama }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
                                 <b>NIP  </b> <a class="float-right">17/415526/SV/13391</a>
                             </li>
                             <li class="list-group-item">
-                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $data->nama }}</a>
+                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $role->roles }}</a>
                             </li>
                         </div>
                         <!-- /.card-body -->
@@ -60,7 +60,7 @@
                                 <div class="active tab-pane" id="info">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <h2 style="font-weight: 600;">{{ $data->nama_lengkap }}</h2>
+                                            <h2 style="font-weight: 600;">{{ $dosen->nama }}</h2>
                                         </div>
                                     </div></br>
                                     <div class="card-body card-primary card-outline table-responsive p-0">
@@ -72,10 +72,10 @@
                                                 <th>Email</th>
                                                 </tr>
                                                 <tr>
-                                                <td>17/425526/SV/13391</td>
-                                                <td>Imam Fakhrurrozi</td>
-                                                <td>089622372993</td>
-                                                <td>nofa.dwi.adelia@mail.ugm.ac.id</td>
+                                                <td>{{$dosen->nip}}</td>
+                                                <td>{{$dosen->nama}}</td>
+                                                <td>{{$dosen->no_hp}}</td>
+                                                <td>{{$dosen->email}}</td>
                                                 </tr>
                                         </table><br/>
                                         </div>

@@ -50,38 +50,36 @@ class PengumumanController extends Controller
     {
         $this->validate($request, [
             'judul' => 'required|string|max:100',
-            'detail' => 'nullable|string|max:100',
-            'photo' => 'nullable|image|mimes:jpg,png,jpeg',
+            'deskripsi' => 'nullable|string|max:500',
+            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg',
         ]);
         try {
-            $photo = null;
-            if ($request->hasFile('photo')) {
-                $photo = $this->saveFile($request->name, $request->file('photo'));
+            $lampiran = null;
+            if ($request->hasFile('lampiran')) {
+                $lampiran = $this->saveFile($request->name, $request->file('lampiran'));
             }
 
             $data = Pengumuman::create([
                 'judul' => $request->judul,
-                'detail' => $request->detail,
-                'photo' => $photo
+                'deskripsi' => $request->deskripsi,
+                'lampiran' => $lampiran
             ]);
-            return redirect(route('pengumuman.index'))
-                ->with('alert-success','Berhasil Menambahkan Data!');
-                // with(['success' => '<strong>' . $data->judul . '</strong> Ditambahkan']);
+            return response()->json(['message' => 'Pengumuman added successfully.']);
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with(['error' => $e->getMessage()]);
         }
     }
 
-    private function saveFile($judul, $photo)
+    private function saveFile($judul, $lampiran)
     {
-        $images = str_slug($judul) . time() . '.' . $photo->getClientOriginalExtension();
+        $images = str_slug($judul) . time() . '.' . $lampiran->getClientOriginalExtension();
         $path = public_path('uploads/file');
 
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, 0777, true, true);
         } 
-        Image::make($photo)->save($path . '/' . $images);
+        Image::make($lampiran)->save($path . '/' . $images);
         return $images;
     }
 
@@ -119,27 +117,26 @@ class PengumumanController extends Controller
     {
         $this->validate($request, [
             'judul' => 'required|string|max:100',
-            'detail' => 'nullable|string|max:100',
-            'photo' => 'nullable|image|mimes:jpg,png,jpeg'
+            'deskripsi' => 'nullable|string|max:500',
+            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg'
         ]);
 
         try {
             $data = Pengumuman::findOrFail($id_pengumuman);
-            $photo = $data->photo;
+            $lampiran = $data->lampiran;
 
-            if ($request->hasFile('photo')) {
-                !empty($photo) ? File::delete(public_path('uploads/file/' . $photo)):null;
-                $photo = $this->saveFile($request->judul, $request->file('photo'));
+            if ($request->hasFile('lampiran')) {
+                !empty($lampiran) ? File::delete(public_path('uploads/file/' . $lampiran)):null;
+                $lampiran = $this->saveFile($request->judul, $request->file('lampiran'));
             }
 
             $data->update([
                 'judul' => $request->judul,
-                'detail' => $request->detail,
-                'photo' => $photo
+                'deskripsi' => $request->deskripsi,
+                'lampiran' => $lampiran
             ]);
 
-            return redirect(route('pengumuman.index'))
-            ->with('alert-success','Data berhasil diubah!');
+            return response()->json(['message' => 'Pengumuman updated successfully.']);
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with(['error' => $e->getMessage()]);
@@ -155,10 +152,10 @@ class PengumumanController extends Controller
     public function destroy($id_pengumuman)
     {
         $data = Pengumuman::findOrFail($id_pengumuman);
-        if (!empty($data->photo)) {
-            File::delete(public_path('uploads/file/' . $data->photo));
+        if (!empty($data->lampiran)) {
+            File::delete(public_path('uploads/file/' . $data->lampiran));
         }
         $data->delete();
-        return redirect()->back()->with(['success' => '<strong>' . $data->judul . '</strong> Telah Dihapus!']);
+        return response()->json(['message' => 'Pengumuman deleted successfully.']);
     }
 }

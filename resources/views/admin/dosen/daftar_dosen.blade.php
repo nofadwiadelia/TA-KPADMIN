@@ -35,16 +35,15 @@
                 <tbody>
                 @foreach($dosen as $dosens)
                 <tr>
-                  <td>Gecko</td>
-                  <td>{{ $dosens->nama_lengkap }}</td>
-                  <td>1.8</td>
+                  <td>{{$dosens->nip}}</td>
+                  <td>{{ $dosens->nama}}</td>
+                  <td>{{$dosens->no_hp}}</td>
                   <td class="text-center py-0 align-middle"> 
-                  <input type="checkbox" name="my-checkbox" checked data-bootstrap-switch data-off-color="danger" data-on-color="success">
-                    <!-- <input id="toggle" type="checkbox" checked data-toggle="toggle" data-size="sm"> -->
+                  <input type="checkbox" data-id="{{ $dosens->id_dosen }}" name="status" class="js-switch" {{ $dosens->status == 'open' ? 'checked' : '' }}>
                   </td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="{{ route('dosen.show', $dosens->id) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('dosen.show', $dosens->id_dosen) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                         <!-- <a href="#" class="btn btn-danger"><i class="fas fa-pencil-alt"></i></a> -->
                       </div>
                     </td>
@@ -68,16 +67,39 @@
 <!-- DataTables -->
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<!-- Bootstrap Switch -->
-<script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+
 <!-- page script -->
 <script>
   $(function () {
     $("#example1").DataTable();
   });
-  $("input[data-bootstrap-switch]").each(function(){
-      $(this).bootstrapSwitch('state', $(this).prop('checked'));
-  });
+</script>
+<script>
+    let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+    elems.forEach(function(html) {
+        let switchery = new Switchery(html,  { size: 'small' });
+    });
+    $(document).ready(function(){
+        $('.js-switch').change(function () {
+          let status = $(this).prop('checked') === true ? 'open' : 'close';
+          let dosenId = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                dataType: "json",
+                url: '/api/admin/dosen/change',
+                data: {'status': status, 'dosen_id': dosenId},
+                success: function (data) {
+                    toastr.options.closeButton = true;
+                    toastr.options.closeMethod = 'fadeOut';
+                    toastr.options.closeDuration = 100;
+                    toastr.success(data.message);
+                }
+            });
+        });
+    });
 </script>
 
 @endsection

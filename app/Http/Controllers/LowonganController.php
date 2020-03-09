@@ -16,13 +16,8 @@ class LowonganController extends Controller
      */
     public function index()
     {
-        $data = Lowongan::leftJoin('instansi', 'lowongan.instansi_id', 'instansi.id')
-                        ->leftJoin('users', 'instansi.users_id', 'users.id_users')
-                        ->leftJoin('periode', 'lowongan.periode_id', 'periode.id')
-                        ->select('lowongan.id', 'lowongan.posisi', 'lowongan.persyaratan', 'lowongan.slot', 'users.nama_lengkap', 'periode.tahun')
-                        ->orderBy('lowongan.created_at')
-                        ->get();
-        return view('admin.lowongan.lowongan',compact('data'));
+        $lowongan = Lowongan::get();
+        return view('admin.lowongan.lowongan',compact('lowongan'));
     }
 
     /**
@@ -32,10 +27,7 @@ class LowonganController extends Controller
      */
     public function create()
     {
-        $data = Instansi::leftJoin('users', 'instansi.users_id', 'users.id_users')
-                        ->select('instansi.id', 'instansi.users_id', 'users.nama_lengkap')
-                        ->orderBy('nama_lengkap')
-                        ->get();
+        $data = Instansi::get();
         $datas = Periode::get();
         return view('admin.lowongan.add_lowongan',compact('data', 'datas'));
     }
@@ -49,20 +41,19 @@ class LowonganController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'posisi' => 'required|string|max:100',
+            'pekerjaan' => 'required|string|max:100',
             'persyaratan' => 'required',
-            'slot' => 'required',
+            'kapasitas' => 'required',
         ]);
         $data = Lowongan::create([
-            'posisi' => $request->posisi,
+            'pekerjaan' => $request->pekerjaan,
             'persyaratan' => $request->persyaratan,
-            'slot' => $request->slot,
-            'instansi_id' => $request->instansi_id,
-            'periode_id' => $request->periode_id
+            'kapasitas' => $request->kapasitas,
+            'id_instansi' => $request->id_instansi,
+            'id_periode' => $request->id_periode
         ]);
         $data->save();
-        return redirect(route('lowongan.index'))
-        ->with('alert-success','Berhasil Menambahkan Data!');
+        return response()->json(['message' => 'Lowongan status added successfully.']);
     }
 
     /**
@@ -71,15 +62,10 @@ class LowonganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_lowongan)
     {
-        $data = Lowongan::findOrFail($id);
-        $lowongan = Lowongan::leftJoin('instansi', 'lowongan.instansi_id', 'instansi.id')
-                        ->leftJoin('users', 'instansi.users_id', 'users.id_users')
-                        ->select('lowongan.id', 'lowongan.posisi', 'lowongan.persyaratan', 'lowongan.slot', 'lowongan.instansi_id', 'instansi.id', 'users.id_users', 'users.nama_lengkap')
-                        ->where('lowongan.id', '=', $id)
-                        ->first();
-        return view('admin.lowongan.detail_lowongan',compact('lowongan', 'data'));
+        $data = Lowongan::findOrFail($id_lowongan);
+        return view('admin.lowongan.detail_lowongan',compact('data'));
     }
 
     /**
@@ -88,9 +74,12 @@ class LowonganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_lowongan)
     {
-        //
+        $lowongan = Lowongan::findOrFail($id_lowongan);
+        $instansi = Instansi::get();
+        $periode = Periode::get();
+        return view('admin.lowongan.edit_lowongan',compact('instansi', 'periode', 'lowongan'));
     }
 
     /**
@@ -100,9 +89,23 @@ class LowonganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_lowongan)
     {
-        //
+        $this->validate($request, [
+            'pekerjaan' => 'required|string|max:100',
+            'persyaratan' => 'required',
+            'kapasitas' => 'required',
+        ]);
+        $data = Lowongan::findOrFail($id_lowongan);
+        $data->update([
+            'pekerjaan' => $request->pekerjaan,
+            'persyaratan' => $request->persyaratan,
+            'kapasitas' => $request->kapasitas,
+            'id_instansi' => $request->id_instansi,
+            'id_periode' => $request->id_periode
+        ]);
+        $data->save();
+        return response()->json(['message' => 'Periode update successfully.']);
     }
 
     /**
@@ -111,10 +114,10 @@ class LowonganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_lowongan)
     {
-        $lowongan = Lowongan::find($id);
+        $lowongan = Lowongan::find($id_lowongan);
         $lowongan->delete();
-        return redirect()->back()->with(['success' => '<strong>' . $lowongan->posisi . '</strong> Telah Dihapus!']);
+        return response()->json(['message' => 'Lowongan deleted successfully.']);
     }
 }

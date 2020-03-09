@@ -19,25 +19,39 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-                <form role="form">
+                <form id="editLowonganForm">
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Lowongan *</label>
-                            <input type="text" class="form-control" id="judul" placeholder="">
+                            <label for="exampleInputEmail1">Posisi *</label>
+                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" value="{{$lowongan->pekerjaan}}">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Detail Info *</label>
-                            <textarea name="detail" id="detail" class="form-control {{ $errors->has('detail') ? 'is-invalid':'' }}"></textarea>
+                        <label for="exampleInputPassword1">Persyaratan *</label>
+                            <textarea name="persyaratan" id="persyaratan" class="form-control {{ $errors->has('persyaratan') ? 'is-invalid':'' }}" value="{{$lowongan->persyaratan}}"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Kapasitas *</label>
+                            <input type="number" class="form-control" name="kapasitas" id="kapasitas" value="{{$lowongan->kapasitas}}">
                         </div>
                         <div class="form-group">
                           <label>Instansi *</label>
-                          <select class="form-control select2" style="width: 100%;">
-                              <option selected="selected">Alabama</option>
-                              <option>ICON+</option>
-                              <option>PT. KAI</option>
-                              <option>PT. GMF AeroAsia</option>
+                          <select name="id_instansi" id="id_instansi" class="form-control select2" style="width: 100%;">
+                              <option selected="selected">{{$lowongan->instansi->nama}}</option>
+                              @foreach($instansi as $instansis)
+                              <option value="{{ $instansis->id_instansi }}">{{ $instansis->nama }}</option>
+                              @endforeach
                           </select >
                         </div>
+                        <div class="form-group">
+                          <label>Periode *</label>
+                          <select name="id_periode" class="form-control select2" style="width: 100%;">
+                              <option selected="selected">{{$lowongan->periode->tahun_periode}}</option>
+                              @foreach($periode as $periodes)
+                              <option value="{{ $periodes->id_periode }}">{{ $periodes->tahun_periode }}</option>
+                              @endforeach
+                          </select >
+                        </div>
+                        <input type="hidden" name="id_lowongan" id="id_lowongan" value="{{ $lowongan->id_lowongan }}">
                     </div>
                     <!-- /.card-body -->
 
@@ -63,22 +77,41 @@
 @endsection
 
 @section('scripts')
-<!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
-  });
-</script>
-<!-- Summernote -->
+$(document).ready(function(){   
+    $('#editLowonganForm').on('submit', function(e){
+        e.preventDefault();
 
-<script>
-  $(function () {
-    // Summernote
-    $('.textarea').summernote()
-  })
+        var id = $('#id_lowongan').val();
+        var pekerjaan = $('#pekerjaan').val();
+        var persyaratan = $('#persyaratan').val();
+        var kapasitas = $('#kapasitas').val();
+        var id_instansi = $('#id_instansi').val();
+        var id_periode = $('#id_periode').val();
+
+        $.ajax({
+            type: "PUT",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/lowongan/"+id+"/edit",
+            cache:false,
+            dataType: "json",
+            data: $('#editLowonganForm').serialize(),
+            success: function(data){
+                window.location = "/admin/lowongan";
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.success(data.message);
+            },
+            error: function(error){
+            console.log(error);
+            }
+        });
+    });
+});
 </script>
+
+
+
 @endsection

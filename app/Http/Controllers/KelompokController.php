@@ -29,35 +29,32 @@ class KelompokController extends Controller
     
     public function acckelompok()
     {
-        $dosen = Dosen::leftJoin('users', 'dosen.users_id', 'users.id_users')
-                        ->select('dosen.id', 'users.nama_lengkap')
-                        ->get();
-        $kelompok = Kelompok::leftJoin('mahasiswa', 'kelompok.mahasiswa_id', 'mahasiswa.id')
-                            ->leftJoin('dosen', 'kelompok.dosen_id', 'dosen.id')
-                            ->leftJoin('users', 'mahasiswa.users_id', 'users.id_users')
-                            ->select('kelompok.id','kelompok.nama_kelompok','kelompok.status', 'users.nama_lengkap')
+        $dosen = Dosen::get();
+        $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok_detail')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                            ->select('kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.persetujuan', 'mahasiswa.nama', 'dosen.id_dosen')
                             ->get();
         return view('admin.kelompok.persetujuan_kelompok',compact('kelompok', 'dosen'));
     }
 
-    public function postacckelompok(Request $request, $id)
+    public function postacckelompok(Request $request)
     {
-        $kelompok = Kelompok::find($id);
-        $kelompok->dosen_id = $request->input('dosen_id');
-        $kelompok->status = $request->input('status');
+        $kelompok = Kelompok::findOrFail($request->id_kelompok);
+        $kelompok->id_dosen = $request->id_dosen;
+        $kelompok->persetujuan = $request->persetujuan;
 
         $kelompok->save();
-        return $kelompok;
+        return response()->json(['message' => 'Acc Kelompok updated successfully.']);
     }
 
-    public function declinekelompok(Request $request, $id)
+    public function declinekelompok(Request $request)
     {
-        $kelompok = Kelompok::find($id);
-        $kelompok->status = $request->input('status');
+        $kelompok = Kelompok::findOrFail($request->id_kelompok);
+        $kelompok->persetujuan = $request->persetujuan;
 
         $kelompok->save();
-        return redirect()->back();
-        return view('admin.kelompok.persetujuan_kelompok');
+        return response()->json(['message' => 'Decline Kelompok updated successfully.']);
     }
 
     /**

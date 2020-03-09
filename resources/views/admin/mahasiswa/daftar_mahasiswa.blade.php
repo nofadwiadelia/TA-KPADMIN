@@ -56,16 +56,16 @@
                 <tbody>
                 @foreach($data as $mahasiswa)
                 <tr>
-                  <td>17/415526/SV/13391</td>
-                  <td>{{ $mahasiswa->nama_lengkap }}</td>
-                  <td>08123456789</td>
-                  <td>2019</td>
+                  <td>{{$mahasiswa->nim}}</td>
+                  <td>{{ $mahasiswa->nama }}</td>
+                  <td>{{ $mahasiswa->no_hp }}</td>
+                  <td>{{ $mahasiswa->periode->tahun_periode }}</td>
                   <td>Cyber</td>
                   <td>Anggota</td>
                   <td class="text-center py-0 align-middle"><span class="badge bg-warning">magang</span></td>
                   <td> 4</td>
                   <td class="text-center py-0 align-middle">
-                    <a href="{{ route('mahasiswa.show', $mahasiswa->id) }}" class="btn-sm btn-info"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('mahasiswa.show', $mahasiswa->id_mahasiswa) }}" class="btn-sm btn-info"><i class="fas fa-eye"></i></a>
                   </td>
                 </tr>
                 @endforeach

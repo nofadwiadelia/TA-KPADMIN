@@ -23,9 +23,7 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <!-- form start -->
-                            <form action="{{ route('periode.update', $data->id) }}" method="post" >
-                            {{ csrf_field() }}
-                            {{ method_field('PUT') }}
+                            <form id="periodeForm">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
@@ -36,7 +34,8 @@
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label for="fname">Tahun Periode *</label>
-                                                <input type="number" class="form-control" required name="tahun" value="{{ $data->tahun }}">
+                                                <input type="hidden" name="id_periode" id="id_periode" value="{{ $data->id_periode }}">
+                                                <input type="number" class="form-control" required name="tahun_periode" value="{{ $data->tahun_periode }}">
                                             </div>
                                             
                                         </div>
@@ -105,17 +104,35 @@
 
 
 <script >
-		
-		$(function () {			
-            //Date range picker
-            $('#reservation').daterangepicker({
-                singleDatePicker: true,
-            })
+$(document).ready(function(){   
+    $('#periodeForm').on('submit', function(e){
+        e.preventDefault();
 
-            $('#reservation1').daterangepicker({
-                singleDatePicker: true,
-            })
-		})
+        var id = $('#id_periode').val();
+        var tahun_periode = $('#tahun_periode').val();
+        var tgl_mulai = $('#tgl_mulai').val();
+        var tgl_selesai = $('#tgl_selesai').val();
+
+        $.ajax({
+            type: "PUT",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/periode/"+id+"/edit",
+            cache:false,
+            dataType: "json",
+            data: $('#periodeForm').serialize(),
+            success: function(data){
+                window.location = "/admin/periode";
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.success(data.message);
+            },
+            error: function(error){
+            console.log(error);
+            }
+        });
+    });
+});
 </script>
 
 @endsection

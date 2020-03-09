@@ -21,10 +21,7 @@ class InstansiController extends Controller
      */
     public function index()
     {
-        $instansi = Instansi::leftJoin('users', 'instansi.users_id', 'users.id_users')
-                        ->select('instansi.id', 'instansi.users_id', 'users.nama_lengkap')
-                        ->orderBy('nama_lengkap')
-                        ->get();
+        $instansi = Instansi::get();
         return view('admin.instansi.daftar_instansi',compact('instansi'));
     }
 
@@ -55,21 +52,21 @@ class InstansiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_instansi)
     {
-        $periode =  Periode::select('id', 'tahun')->get();
-        $data = Instansi::leftJoin('users', 'instansi.users_id', 'users.id_users')
-                        ->leftJoin('roles', 'users.roles_id', '=','roles.id_roles')
-                        ->select('users.nama_lengkap', 'roles.nama')
-                        ->where('instansi.id', '=', $id)
+        $periode =  Periode::select('id_periode', 'tahun_periode')->get();
+        $instansi = Instansi::findOrFail($id_instansi);
+        $role = Instansi::leftJoin('users', 'instansi.id_users', 'users.id_users')
+                        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+                        ->select('instansi.id_instansi', 'roles.roles')
+                        ->where('instansi.id_instansi', '=', $id_instansi)
                         ->first();
-        $lowongan = Lowongan::leftJoin('instansi', 'lowongan.instansi_id', 'instansi.id')
-                            ->leftJoin('users', 'instansi.users_id', 'users.id_users')
-                            ->leftJoin('periode', 'lowongan.periode_id', 'periode.id')
-                            ->select('lowongan.id', 'lowongan.posisi', 'lowongan.persyaratan', 'lowongan.slot', 'lowongan.instansi_id', 'instansi.id', 'users.id_users', 'users.nama_lengkap')
-                            ->where('lowongan.instansi_id', '=', $id)
+        $lowongan = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
+                            ->leftJoin('periode', 'lowongan.id_periode', 'periode.id_periode')
+                            ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.slot', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama')
+                            ->where('lowongan.id_instansi', '=', $id_instansi)
                             ->first();
-        return view('admin.instansi.detail_instansi',compact('data', 'periode', 'lowongan'));
+        return view('admin.instansi.detail_instansi',compact('role', 'periode','instansi', 'lowongan'));
     }
 
     /**

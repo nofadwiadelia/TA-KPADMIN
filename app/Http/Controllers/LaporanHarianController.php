@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\LaporanHarian;
+use App\Mahasiswa;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Controller;
 
-use App\Dosen;
-use App\User;
-use App\Roles;
-
-class DosenController extends Controller
+class LaporanHarianController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,17 +16,8 @@ class DosenController extends Controller
      */
     public function index()
     {
-        $dosen = Dosen::get();
-        return view('admin.dosen.daftar_dosen',compact('dosen'));
-    }
-
-    public function changeStatus(Request $request){
-        $dosen = Dosen::findOrFail($request->dosen_id);
-        $dosen->status = $request->status;
-        $dosen->save();
-
-        return response()->json(['message' => 'Dosen status updated successfully.']);
-
+        $laporanharian = LaporanHarian::get();
+        return view('mahasiswa/laporanharian', compact('laporanharian'));
     }
 
     /**
@@ -39,7 +27,8 @@ class DosenController extends Controller
      */
     public function create()
     {
-        //
+        $data = LaporanHarian::all();
+        return view('mahasiswa.laporanharian',compact('data'));
     }
 
     /**
@@ -50,7 +39,22 @@ class DosenController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'tanggal' => 'required',
+            'datang' => 'required',
+            'pulang' => 'required',
+            'kegiatan' => 'required',
+        ]);
+        $data = LaporanHarian::create([
+            'tanggal' => $request->tanggal,
+            'datang' => $request->datang,
+            'pulang' => $request->pulang,
+            'kegiatan' => $request->kegiatan,
+            'mahasiswa_id' => $request->mahasiswa_id,
+        ]);
+        $data->save();
+        return view('mahasiswa.laporanharian')
+        ->with('alert-success','Berhasil Menambahkan Data!');
     }
 
     /**
@@ -59,15 +63,9 @@ class DosenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_dosen)
+    public function show($id)
     {
-        $dosen = Dosen::findOrFail($id_dosen);
-        $role = Dosen::leftJoin('users', 'dosen.id_users', 'users.id_users')
-                        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                        ->select('dosen.id_dosen', 'roles.roles')
-                        ->where('dosen.id_dosen', '=', $id_dosen)
-                        ->first();
-        return view('admin.dosen.detail_dosen',compact('role', 'dosen'));
+        //
     }
 
     /**

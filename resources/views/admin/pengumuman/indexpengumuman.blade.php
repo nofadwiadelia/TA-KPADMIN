@@ -21,14 +21,6 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            @if (Session::has('alert-success'))
-              <div class="alert alert-success">
-                  <strong>{{ \Illuminate\Support\Facades\Session::get('alert-success') }}</strong>
-              </div>
-                <!-- @alert(['type' => 'success'])
-                    {!! session('success') !!}
-                @endalert -->
-            @endif
             <!-- /.card-header -->
             <div class="card-body ">
                 <form role="form">
@@ -40,7 +32,7 @@
                 <thead>
                 <tr>
                   <th>Judul</th>
-                  <th>Detail</th>
+                  <th>deskripsi</th>
                   <th>Lampiran</th>
                   <th>Aksi</th>
                 </tr>
@@ -49,21 +41,18 @@
                 @forelse ($data as $datas)
                 <tr>
                   <td>{{ $datas->judul }}</td>
-                  <td>{{ $datas->detail }}</td>
+                  <td>{{ $datas->deskripsi }}</td>
                   <td>
-                    @if (!empty($datas->photo))
-                        <img src="{{ asset('uploads/file/' . $datas->photo) }}" 
+                    @if (!empty($datas->lampiran))
+                        <img src="{{ asset('uploads/file/' . $datas->lampiran) }}" 
                             alt="{{ $datas->judul }}" width="50px" height="50px">
                     @else
                         <img src="http://via.placeholder.com/50x50" alt="{{ $datas->judul }}">
                     @endif
                 </td>
                 <td class="text-center py-0 align-middle">
-                  <form action="{{ route('pengumuman.destroy', $datas->id_pengumuman) }}" method="post">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
                     <a href="{{ route('pengumuman.edit', $datas->id_pengumuman) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
+                    <button class="btn btn-sm btn-danger deletePengumuman" data-id="{{ $datas->id_pengumuman }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
                 </form>
                 </td>
                 </tr>
@@ -95,5 +84,25 @@
   $(function () {
     $("#example1").DataTable();
   });
+
+  $(document).ready(function(){
+        $('.deletePengumuman').click(function(){
+            var id = $(this).data('id');
+            $.ajax({
+                type: "DELETE",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                dataType: "json",
+                url: '/api/admin/pengumuman/'+id,
+                data: {'id_pengumuman': id,},
+                success: function (data) {
+                    toastr.options.closeButton = true;
+                    toastr.options.closeMethod = 'fadeOut';
+                    toastr.options.closeDuration = 100;
+                    toastr.success(data.message);
+                    window.location.reload();
+                }
+            });
+        });
+    });
 </script>
 @endsection

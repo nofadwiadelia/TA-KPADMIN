@@ -35,12 +35,12 @@
                 <tbody>
                 @foreach($instansi as $instansis)
                 <tr>
-                  <td>{{ $instansis->nama_lengkap }}</td>
+                  <td>{{ $instansis->nama }}</td>
                   <td>{{ $instansis->website }}</td>
-                  <td>Win 95+</td>
+                  <td>{{ $instansis->alamat }}</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="{{ route('instansi.show', $instansis->id) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('instansi.show', $instansis->id_instansi) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                       </div>
                     </td>
                 </tr>

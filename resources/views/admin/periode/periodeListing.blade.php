@@ -47,22 +47,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($data as $periode)
+                @foreach($periodes as $periode)
                 <tr>
                   <td>1</td>
-                  <td>{{ $periode->tahun }}</td>
+                  <td>{{ $periode->tahun_periode }}</td>
                   <td>{{ $periode->tgl_mulai }}</td>
                   <td>{{ $periode->tgl_selesai }}</td>
                   <td class="text-center py-0 align-middle">
-                  <input type="checkbox" class="anu" data-id="{{$periode->id}}" @if($periode->status == 'active') checked @endif data-bootstrap-switch data-off-color="danger" data-on-color="success">
+                  <input type="checkbox" data-id="{{ $periode->id_periode }}" name="status" class="js-switch" {{ $periode->status == 'open' ? 'checked' : '' }}>
                   </td>
                   <td class="text-center py-0 align-middle">
-                    <form action="{{ route('periode.destroy', $periode->id) }}" method="post">
-                      {{ csrf_field() }}
-                      {{ method_field('DELETE') }}
-                      <a href="{{ route('periode.edit', $periode->id) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                      <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
-                    </form>
+                      <a href="{{ route('periode.edit', $periode->id_periode) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                      <button class="btn btn-sm btn-danger deletePeriode" data-id="{{ $periode->id_periode }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
                   </td>
                 </tr>
                 @endforeach
@@ -84,34 +80,58 @@
 <!-- DataTables -->
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<!-- toggle on of -->
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-<!-- Bootstrap Switch -->
-<script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
 <!-- page script -->
 <script type="text/javascript">
   $(function () {
     $("#example1").DataTable();
   });
-  $("input[data-bootstrap-switch]").each(function(){
-      // $(this).bootstrapSwitch('state', $(this).prop('checked'));
-  });
-  $(document).ready(function() {
-    $(".anu").change(function(){
-      console.log($(this).data("id"));
-      $.ajax({
-            type:'POST',
-            url:'/admin/periode/change',
-            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            data: { "id" : $(this).data("id") },
-            success: function(data){
-              console.log(data);
-            }
-        });
-      });
-    });
 </script>
-<script type="text/javascript">
+<script>
+    let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+    elems.forEach(function(html) {
+        let switchery = new Switchery(html,  { size: 'small' });
+    });
+    $(document).ready(function(){
+        $('.js-switch').change(function () {
+            let status = $(this).prop('checked') === true ? 'open' : 'close';
+            let periodeId = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                dataType: "json",
+                url: '/api/admin/periode/change',
+                data: {'status': status, 'periode_id': periodeId},
+                success: function (data) {
+                    toastr.options.closeButton = true;
+                    toastr.options.closeMethod = 'fadeOut';
+                    toastr.options.closeDuration = 100;
+                    toastr.success(data.message);
+                    window.location.reload();
+                }
+            });
+        });
+    });
 
+    $(document).ready(function(){
+        $('.deletePeriode').click(function(){
+            var id = $(this).data('id');
+            $.ajax({
+                type: "DELETE",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                dataType: "json",
+                url: '/api/admin/periode/'+id,
+                data: {'id_periode': id,},
+                success: function (data) {
+                    toastr.options.closeButton = true;
+                    toastr.options.closeMethod = 'fadeOut';
+                    toastr.options.closeDuration = 100;
+                    toastr.success(data.message);
+                    window.location.reload();
+                }
+            });
+        });
+    });
 </script>
 @endsection

@@ -29,7 +29,7 @@
                                     <div class="form-group row">
                                         <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="nama_lengkap" value="{{ $data->nama_lengkap }}">
+                                        <input type="text" class="form-control" required name="nama" value="{{ $data->mahasiswa->nama }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -39,12 +39,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="roles_id" class="col-sm-3 col-form-label">Role *</label>
+                                        <label for="id_roles" class="col-sm-3 col-form-label">Role *</label>
                                         <div class="col-sm-9">
-                                          <select name="roles_id" class="form-control select2" style="width: 100%;">
+                                          <select name="id_roles" class="form-control select2" style="width: 100%;">
                                               <option selected disabled>Pilih Role</option>
                                               @foreach($roles as $role)
-                                              <option value="{{ $role->id_roles }}">{{ $role->nama }}</option>
+                                              <option value="{{ $role->id_roles }}">{{ $role->roles }}</option>
                                               @endforeach
                                           </select >
                                         </div>

@@ -23,8 +23,7 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <!-- form start -->
-                            <form action="{{ route('periode.store') }}"  method="post" >
-                            {{ csrf_field() }}
+                            <form id="periodeForm">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
@@ -35,7 +34,7 @@
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label for="fname">Tahun Periode *</label>
-                                                <input type="number" class="form-control" id="tahun" name="tahun" >
+                                                <input type="number" class="form-control" id="tahun_periode" name="tahun_periode" >
                                             </div>
                                             
                                         </div>
@@ -102,6 +101,35 @@
 <script src="../../plugins/moment/moment.min.js"></script>
 <script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 
+<script>
+$(document).ready(function(){   
+    $('#periodeForm').on('submit', function(e){
+        e.preventDefault();
 
+        var tahun_periode = $('#tahun_periode').val();
+        var tgl_mulai = $('#tgl_mulai').val();
+        var tgl_selesai = $('#tgl_selesai').val();
+
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/periode/add/",
+            cache:false,
+            dataType: "json",
+            data: $('#periodeForm').serialize(),
+            success: function(data){
+                window.location = "/admin/periode";
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.success(data.message);
+            },
+            error: function(error){
+            console.log(error);
+            }
+        });
+    });
+});
+</script>
 
 @endsection

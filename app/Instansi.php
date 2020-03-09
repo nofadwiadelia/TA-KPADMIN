@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Instansi extends Model
 {
     protected $table = 'instansi';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_instansi';
     protected $guarded = [];
     
 
@@ -15,7 +15,7 @@ class Instansi extends Model
         return $this->belongsTo('App\User', 'id_users');
     }
 
-    public function instansi(){
-        return $this->hasMany('App\Instansi', 'instansi_id');
+    public function lowongan(){
+        return $this->hasMany('App\Lowongan', 'id_instansi');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Dosen extends Model
 {
     protected $table = 'dosen';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_dosen';
     protected $guarded = [];
     
 
@@ -16,6 +16,6 @@ class Dosen extends Model
     }
 
     public function kelompok(){
-        return $this->belongsTo('App\Kelompok', 'dosen_id');
+        return $this->belongsTo('App\Kelompok', 'id_dosen');
     }
 }

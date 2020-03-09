@@ -5,10 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use File;
+use Image;
 
 use App\Mahasiswa;
 use App\User;
 use App\Role;
+use App\Periode;
+use App\LaporanHarian;
 
 class MahasiswaController extends Controller
 {
@@ -19,10 +24,7 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $data = Mahasiswa::leftJoin('users', 'mahasiswa.users_id', 'users.id_users')
-                        ->select('mahasiswa.id', 'mahasiswa.users_id', 'users.nama_lengkap')
-                        ->orderBy('nama_lengkap')
-                        ->get();
+        $data = Mahasiswa::get();
         // return response()->json([
         //     'status'=>'succes',
         //     'message'=>'Berhasil',
@@ -67,15 +69,19 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $id_mahasiswa)
     {
-        $mahasiswa = Mahasiswa::findOrFail($id);
-        $data = Mahasiswa::leftJoin('users', 'mahasiswa.users_id', 'users.id_users')
-                        ->leftJoin('roles', 'users.roles_id', 'roles.id_roles')
-                        ->select('mahasiswa.id', 'mahasiswa.users_id', 'users.id_users', 'users.nama_lengkap', 'roles.id_roles', 'roles.nama')
-                        ->where('mahasiswa.id', '=', $id)
+        $mahasiswa = Mahasiswa::findOrFail($id_mahasiswa);
+        $role = Mahasiswa::leftJoin('users', 'mahasiswa.id_users', 'users.id_users')
+                        ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+                        ->select('mahasiswa.id_mahasiswa', 'roles.roles')
+                        ->where('mahasiswa.id_mahasiswa', '=', $id_mahasiswa)
                         ->first();
-        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'data'));
+        $bukuharian =  LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                                ->select('mahasiswa.nama', 'buku_harian.id_buku_harian', 'buku_harian.tanggal', 'buku_harian.waktu_mulai', 'buku_harian.waktu_selesai', 'buku_harian.kegiatan', 'buku_harian.status')
+                                ->where('mahasiswa.id_mahasiswa', '=', $id_mahasiswa)
+                                ->get();
+        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'bukuharian'));
     }
 
     /**
@@ -110,12 +116,26 @@ class MahasiswaController extends Controller
         $mahasiswa->pengalaman = $request->pengalaman;
         $mahasiswa->save();
 
-        $users = User::where('id_users', $mahasiswa->users_id)->first();
-        $users->nama_lengkap = $request->nama_lengkap;
-
-        
-        $users->save();
         return redirect('mahasiswa/profile');
+    }
+
+    public function updateAvatar(Request $request, $id)
+    {
+        $mahasiswa = Mahasiswa::findOrFail($id);
+
+        $file = $request->file('photo');
+        $extension = strtolower($file->getClientOriginalExtension());
+        $filename = $data->nim . '.' . $extension;
+        Storage::put('images/uploads/avatar/' . $filename, File::get($file));
+        $file_server = Storage::get('images/uploads/avatar/' . $filename);
+        $img = Image::make($file_server)->resize(141, 141);
+        $img->save(base_path('public/images/uploads/avatar/' . $filename));
+
+        $mahasiswa->photo=$filename;
+        $mahasiswa->save();
+        Alert::success('Success', 'Avatar has been changed!');
+        return redirect('mahasiswa/profile');
+
     }
 
     /**

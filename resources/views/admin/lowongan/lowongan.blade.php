@@ -38,7 +38,7 @@
                 <tr>
                   <th>Posisi</th>
                   <th>Persyaratan</th>
-                  <th>Slot</th>
+                  <th>Kapasistas</th>
                   <th>Instansi</th>
                   <th>Periode</th>
                   <th>Detail</th>
@@ -46,23 +46,19 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($data as $lowongan)
+                @foreach($lowongan as $lowongans)
                 <tr>
-                  <td>{{ $lowongan->posisi }}</td>
-                  <td>{{ $lowongan->persyaratan }}</td>
-                  <td>{{ $lowongan->slot }}</td>
-                  <td>{{ $lowongan->nama_lengkap }}</td>
-                  <td>{{ $lowongan->tahun }}</td>
+                  <td>{{ $lowongans->pekerjaan }}</td>
+                  <td>{{ $lowongans->persyaratan }}</td>
+                  <td>{{ $lowongans->kapasitas }}</td>
+                  <td>{{ $lowongans->instansi->nama }}</td>
+                  <td>{{ $lowongans->periode->tahun_periode }}</td>
                   <td class="text-center py-0 align-middle">
-                      <a href="{{ route('lowongan.show', $lowongan->id) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
+                      <a href="{{ route('lowongan.show', $lowongans->id_lowongan) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
                   </td>
                   <td class="text-center py-0 align-middle">
-                    <form action="{{ route('lowongan.destroy', $lowongan->id) }}" method="post">
-                      {{ csrf_field() }}
-                      {{ method_field('DELETE') }}
-                      <a href="{{ route('lowongan.edit', $lowongan->id) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                      <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
-                    </form>
+                      <a href="{{ route('lowongan.edit', $lowongans->id_lowongan) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                      <button class="btn btn-sm btn-danger deleteLowongan" data-id="{{ $lowongans->id_lowongan }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
                   </td>
                 </tr>
                 @endforeach
@@ -89,5 +85,25 @@
   $(function () {
     $("#example1").DataTable();
   });
+
+  $(document).ready(function(){
+        $('.deleteLowongan').click(function(){
+            var id = $(this).data('id');
+            $.ajax({
+                type: "DELETE",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                dataType: "json",
+                url: '/api/admin/lowongan/'+id,
+                data: {'id_lowongan': id,},
+                success: function (data) {
+                    toastr.options.closeButton = true;
+                    toastr.options.closeMethod = 'fadeOut';
+                    toastr.options.closeDuration = 100;
+                    toastr.success(data.message);
+                    window.location.reload();
+                }
+            });
+        });
+    });
 </script>
 @endsection

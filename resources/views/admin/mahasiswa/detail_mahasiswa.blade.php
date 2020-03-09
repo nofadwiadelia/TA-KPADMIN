@@ -33,13 +33,13 @@
                                 alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center">{{ $data->nama_lengkap }}</h3>
+                            <h3 class="profile-username text-center">{{ $mahasiswa->nama }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
                                 <b>NIM  </b> <a class="float-right">17/415526/SV/13391</a>
                             </li>
                             <li class="list-group-item">
-                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $data->nama }}</a>
+                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $role->roles }}</a>
                             </li>
                             <li class="list-group-item">
                                 <b>CV  </b> <a class="float-right">CV.pdf</a>
@@ -66,7 +66,7 @@
                                 <div class="active tab-pane" id="info">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <h2 style="font-weight: 600;">{{ $data->nama_lengkap }}</h2>
+                                            <h2 style="font-weight: 600;">{{ $mahasiswa->nama }}</h2>
                                         </div>
                                     </div></br>
                                     <div class="card-body card-primary card-outline table-responsive p-0">
@@ -78,16 +78,16 @@
                                                 <th>Email</th>
                                                 </tr>
                                                 <tr>
-                                                <td>17/425526/SV/13391</td>
-                                                <td>Nofa Dwi Adelia</td>
-                                                <td>089622372993</td>
-                                                <td>nofa.dwi.adelia@mail.ugm.ac.id</td>
+                                                <td>{{$mahasiswa->nim}}</td>
+                                                <td>{{$mahasiswa->nama}}</td>
+                                                <td>{{$mahasiswa->no_hp}}</td>
+                                                <td>{{$mahasiswa->email}}</td>
                                                 </tr>
                                         </table><br/>
                                         <strong><i class="fas fa-pencil-alt mr-1"></i> Keahlian</strong>
-                                        <p class="text-muted">Laravel, Frontend Android, API</p><br/>
+                                        <p class="text-muted">{{$mahasiswa->kemampuan}}</p><br/>
                                         <strong><i class="far fa-file-alt mr-1"></i> Pengalaman</strong>
-                                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                                        <p class="text-muted">{{$mahasiswa->pengalaman}}</p>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="kelompok">
@@ -253,19 +253,24 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Tanggal</th>
+                                                    <th>Mahasiswa</th>
                                                     <th>Datang</th>
                                                     <th>Pulang</th>
                                                     <th>Kegiatan</th>
-                                                    <th>Keterangan</th>
+                                                    <th>Status</th>
                                                 </tr>
+                                                @php $no = 1; @endphp
+                                                @foreach($bukuharian as $buku)
                                                 <tr>
-                                                <td>1</td>
-                                                <td>24 Juni 2019</td>
-                                                <td>07.30</td>
-                                                <td>16.30</td>
-                                                <td>Mengerjakan frontend</td>
-                                                <td>-</td>
+                                                    <td>{{$no++}}</td>
+                                                    <td>{{$buku->tanggal}}</td>
+                                                    <td>{{$buku->nama}}</td>
+                                                    <td>{{$buku->waktu_mulai}}</td>
+                                                    <td>{{$buku->waktu_selesai}}</td>
+                                                    <td>{{$buku->kegiatan}}</td>
+                                                    <td>{{$buku->status}}</td>
                                                 </tr>
+                                                @endforeach
                                         </table><br/>
                                     </div>
                                     </div>

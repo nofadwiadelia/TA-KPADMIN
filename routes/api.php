@@ -20,9 +20,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Route::prefix('admin')->group(function () {
-//     Route::get('/mahasiswa', 'MahasiswaController@index');
-// });
+Route::prefix('admin')->group(function () {
+    Route::delete('/users/{id}', 'UsersController@destroy');
+    Route::get('/mahasiswa', 'MahasiswaController@index');
+    Route::post('/dosen/change', 'DosenController@changeStatus');
+    Route::post('/persetujuan_kelompoks', 'KelompokController@postacckelompok');
+    Route::post('/tolak_kelompok', 'KelompokController@declinekelompok');
+    Route::post('/periode/add', 'PeriodeController@store');
+    Route::put('/periode/{id}/edit', 'PeriodeController@update');
+    Route::post('/periode/change', 'PeriodeController@changeStatus');
+    Route::delete('/periode/{id}', 'PeriodeController@destroy');
+    Route::post('/lowongan/add', 'LowonganController@store');
+    Route::put('/lowongan/{id}/edit', 'LowonganController@update');
+    Route::delete('/lowongan/{id}', 'LowonganController@destroy');
+    Route::post('/pengumuman/add', 'PengumumanController@store');
+    Route::put('/pengumuman/{id}/edit', 'PengumumanController@update');
+    Route::delete('/pengumuman/{id}', 'PengumumanController@destroy');
+});
 
 
 Route::post('login', function(Request $request){

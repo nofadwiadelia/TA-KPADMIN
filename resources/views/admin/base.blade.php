@@ -18,13 +18,14 @@
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ asset('/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
-  <!-- summernote -->
-  <link rel="stylesheet" href="{{ asset('/plugins/summernote/summernote-bs4.css') }}">
   <!-- daterange picker -->
   <link rel="stylesheet" href="{{ asset('/plugins/daterangepicker/daterangepicker.css') }}">
-  <!-- toogle onoff-->
-  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+
+  <!-- Switchery -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css">
+  <!-- Toast -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -44,7 +45,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i><img src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User Avatar" style="width:25px" class="mr-3 img-circle"></i>
-          <span>{{ Auth::user()->nama_lengkap }}</span>
+          <span>{{ Auth::user()->username }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
         <a class="dropdown-item" href="{{ route('logout') }}"
@@ -77,7 +78,7 @@
           <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
+          <a href="#" class="d-block">{{ Auth::user()->username }}</a>
         </div>
       </div>
 
@@ -95,7 +96,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{route('pengumuman.index')}}" class="nav-link">
+              <a href="/admin/pengumuman" class="nav-link">
                 <i class="nav-icon fas fa-edit"></i>
                 <p>
                   Pengumuman
@@ -186,7 +187,7 @@
               </ul>
             </li>
             <li class="nav-item">
-              <a href="{{route('periode.index')}}" class="nav-link">
+              <a href="/admin/periode" class="nav-link">
                 <i class="nav-icon far fa-clock"></i>
                 <p>
                   Setting Periode PKL
@@ -245,6 +246,10 @@
 <script src="{{ asset('/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('/dist/js/demo.js') }}"></script>
+
+<!-- Toast -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 @yield('scripts')
 
 </body>

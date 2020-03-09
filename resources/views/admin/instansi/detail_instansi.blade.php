@@ -17,7 +17,6 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
             <div class="card-body">
                 <!-- Main content -->
                 <section class="content">
@@ -34,10 +33,10 @@
                                 alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center">{{ $data->nama_lengkap }}</h3>
+                            <h3 class="profile-username text-center">{{ $instansi->nama }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $data->nama }}</a>
+                                <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $role->roles }}</a>
                             </li>
                         </div>
                         <!-- /.card-body -->
@@ -59,7 +58,7 @@
                                 <div class="active tab-pane" id="info">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <h2 style="font-weight: 600;">{{ $data->nama_lengkap }}</h2>
+                                            <h2 style="font-weight: 600;">{{ $instansi->nama }}</h2>
                                         </div>
                                     </div></br>
                                     <div class="card-body card-primary card-outline table-responsive p-0">
@@ -70,12 +69,15 @@
                                                 <th>No.Telp</th>
                                                 </tr>
                                                 <tr>
-                                                <td>{{ $data->nama_lengkap }}</td>
-                                                <td>Imam Fakhrurrozi</td>
-                                                <td>0899622372883</td>
+                                                <td>{{ $instansi->nama }}</td>
+                                                <td>{{ $instansi->website }}</td>
+                                                <td>{{ $instansi->no_hp }}</td>
                                                 </tr>
                                         </table><br/>
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>
+                                        <p class="text-muted">{{$instansi->alamat}}</p>
+                                        <strong><i class="far fa-file-alt mr-1"></i> Deskripsi</strong>
+                                        <p class="text-muted">{{$instansi->deskripsi}}</p>
                                         </div>
                                 </div>
                                 <div class="tab-pane" id="bimbingan">
@@ -85,7 +87,7 @@
                                             <div class="form-group">
                                                 <select class="form-control form-control-sm">
                                                     @foreach($periode as $periodes)
-                                                        <option value="{{ $periodes->id }}">{{ $periodes->tahun }}</option>
+                                                        <option value="{{ $periodes->id }}">{{ $periodes->tahun_periode }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -151,13 +153,13 @@
                                                 <td>{{ $lowongan->slot }}</td>
                                                 <td>{{ $lowongan->tahun }}</td>   
                                                 <td class="text-center py-0 align-middle">
-                                                    <a href="{{ route('lowongan.show', $lowongan->id) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
+                                                    <a href="{{ route('lowongan.show', $lowongan->id_lowongan) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
                                                 </td>
                                                 <td class="text-center py-0 align-middle">
-                                                    <form action="{{ route('lowongan.destroy', $lowongan->id) }}" method="post">
+                                                    <form action="{{ route('lowongan.destroy', $lowongan->id_lowongan) }}" method="post">
                                                         {{ csrf_field() }}
                                                         {{ method_field('DELETE') }}
-                                                        <a href="{{ route('lowongan.edit', $lowongan->id) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                                                        <a href="{{ route('lowongan.edit', $lowongan->id_lowongan) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
                                                         <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
                                                     </form>
                                                 </td>
