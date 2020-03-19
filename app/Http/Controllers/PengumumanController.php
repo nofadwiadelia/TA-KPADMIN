@@ -16,9 +16,22 @@ class PengumumanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = Pengumuman::get();
+        if(request()->ajax()){
+            return datatables()->of($data)->addIndexColumn()
+                ->addColumn('action', function($pengumuman){
+
+                    $btn = '<a href="/admin/pengumuman/'.$pengumuman->id_pengumuman.'/edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>';
+                    $btn .= '&nbsp;&nbsp;';
+                    $btn .= '<button type="button" name="delete" id="'.$pengumuman->id_pengumuman.'" class="btn btn-danger btn-sm deletePengumuman" ><i class="fas fa-trash"></i></button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+            
         return view('admin.pengumuman.indexpengumuman',compact('data'));
     }
 
@@ -64,7 +77,8 @@ class PengumumanController extends Controller
                 'deskripsi' => $request->deskripsi,
                 'lampiran' => $lampiran
             ]);
-            return response()->json(['message' => 'Pengumuman added successfully.']);
+            return redirect(route('pengumuman.index'))
+                ->with('alert-success','Berhasil Menambahkan Data!');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with(['error' => $e->getMessage()]);
@@ -89,7 +103,7 @@ class PengumumanController extends Controller
      * @param  \App\Pengumuman  $pengumuman
      * @return \Illuminate\Http\Response
      */
-    public function show(Pengumuman $pengumuman)
+    public function show(Pengumuman $id_pengumuman)
     {
         //
     }
@@ -136,7 +150,8 @@ class PengumumanController extends Controller
                 'lampiran' => $lampiran
             ]);
 
-            return response()->json(['message' => 'Pengumuman updated successfully.']);
+            return redirect(route('pengumuman.index'))
+            ->with('alert-success','Data berhasil diubah!');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with(['error' => $e->getMessage()]);

@@ -93,10 +93,10 @@
                                 <div class="tab-pane" id="kelompok">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                        <a href=""><h2 style="font-weight: 600;">Cyber</h2></a>
+                                        <a href=""><h2 style="font-weight: 600;">{{$kelompok->nama_kelompok}}</h2></a>
                                         </div>
                                         <div class="col-md-12 text-center">
-                                        <p>Status : Ketua</p>
+                                        <p>Status : {{$kelompok->status}}</p>
                                         </div>
                                     </div>
                                     <div class="card-header">
@@ -105,6 +105,18 @@
                                     <div class="card-primary card-outline">
                                     <div class="card-body"><br>
                                         <div class="row">
+                                        @php
+                                            $i=0;
+                                            $jumlahData = 3;
+                                        @endphp
+
+                                        @foreach($anggota as $anggotas)
+
+                                            @php
+                                            if ($i++ % $jumlahData == 0) {
+                                                echo "<div class='row margin-bottom-10'>";
+                                            }
+                                            @endphp
 											<div class="col-md-5">
                                                 <!-- Profile Image -->
                                                 <div class="card card-primary card-outline">
@@ -113,54 +125,32 @@
                                                     <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
                                                     </div>
 
-                                                    <h3 class="profile-username text-center">Febi Fiolanda</h3>
+                                                    <h3 class="profile-username text-center">{{$anggotas->nama}}</h3>
                                                     
                                                     <ul class="list-group list-group-unbordered mb-3">
                                                         <li class="list-group-item">
-                                                            <b>NIM</b> <a class="float-right">17/410000/SV/12908</a>
+                                                            <b>NIM</b> <a class="float-right">{{$anggotas->nim}}</a>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            <b>Nomor HP</b> <a class="float-right">083869281843</a>
+                                                            <b>Nomor HP</b> <a class="float-right">{{$anggotas->no_hp}}</a>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            <b>Status</b> <a class="float-right">anggota</a>
+                                                            <b>Status</b> <a class="float-right">{{$anggotas->status}}</a>
                                                         </li>
                                                     </ul>
-                                                    <a href="https://pklkomsi.000webhostapp.com/admin/mahasiswa/profilListing/2" class="btn btn-success btn-block"><b>Detail Mahasiswa</b></a>
+                                                    <a href="/admin/mahasiswa/{{$anggotas->id_mahasiswa}}" class="btn btn-success btn-block"><b>Detail Mahasiswa</b></a>
                                                     </div>
                                                     <!-- /.box-body -->
                                                 </div>
                                                 <!-- /.box -->
                                             </div>
                                             <!-- /.col -->
-                                            <div class="col-md-5">
-                                                <!-- Profile Image -->
-                                                <div class="card card-primary card-outline">
-                                                <div class="card-body box-profile">
-                                                    <div class="text-center">
-                                                    <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
-                                                    </div>
-
-                                                    <h3 class="profile-username text-center">Dear Nasyita</h3>
-                                                    
-                                                    <ul class="list-group list-group-unbordered mb-3">
-                                                        <li class="list-group-item">
-                                                            <b>NIM</b> <a class="float-right">17/410000/SV/12908</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <b>Nomor HP</b> <a class="float-right">083869281843</a>
-                                                        </li>
-                                                        <li class="list-group-item">
-                                                            <b>Status</b> <a class="float-right">anggota</a>
-                                                        </li>
-                                                    </ul>
-                                                    <a href="https://pklkomsi.000webhostapp.com/admin/mahasiswa/profilListing/2" class="btn btn-success btn-block"><b>Detail Mahasiswa</b></a>
-                                                    </div>
-                                                    <!-- /.box-body -->
-                                                </div>
-                                                <!-- /.box -->
-                                            </div>
-                                            <!-- /.col -->
+                                            @php
+                                            if ($i % $jumlahData == 0 || $i == $anggota->count()) {
+                                                echo "</div>";
+                                            }
+                                            @endphp
+                                        @endforeach
 										</div>   
                                         <br/>
                                     </div>
@@ -174,7 +164,7 @@
                                             <div class="card-body box-profile">
                                                 <ul class="list-group list-group-unbordered">
                                                     <li class="list-group-item list-group-unbordered">
-                                                        <h5><i class="fa fa-user" ></i> Dibimbing Dosen <strong>IMAM FAHRURROZI M.Cs</strong></h5>
+                                                        <h5><i class="fa fa-user" ></i> Dibimbing Dosen <strong>{{$magang->nama}}</strong></h5>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -186,17 +176,23 @@
                                                     src="../../dist/img/user4-128x128.jpg"
                                                     alt="User profile picture">
                                             </div>
-                                            <h3 class="profile-username text-center">IMAM FAHRURROZI M.Cs</h3>
-							                <p class="text-muted text-center">NIP <br>d001</p>
+                                            <h3 class="profile-username text-center">{{$magang->nama}}</h3>
+							                <p class="text-muted text-center">NIP <br>{{$magang->nip}}</p>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body box-profile">
                                                 <ul class="list-group list-group-unbordered">
                                                     <li class="list-group-item">
-                                                    <b>Email</b> <a class="pull-right">imam.fahrurrozi@ugm.ac.id</a>
+                                                        <div class="row">
+                                                            <div class="col-6"><b>Email</b></div>
+                                                            <div class="col-6">{{$magang->email}}</div>
+                                                        </div>
                                                     </li>
                                                     <li class="list-group-item">
-                                                    <b>Nomor Telepon</b> <a class="pull-right" >083869281843</a>
+                                                        <div class="row">
+                                                            <div class="col-6"><b>No HP</b></div>
+                                                            <div class="col-6">{{$magang->no_hp}}</div>
+                                                        </div>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -245,35 +241,46 @@
                             
                                 <div class="tab-pane" id="logbook">
                                     <div class="card-header">
-                                        <h5 class="card-title">Logbook</h5>
-                                    </div>
-                                    <div class="card-primary card-outline">
+                                        <div class="row text-right">
+                                            <div class="col-12"><b> <h5 class="float-right">Jumlah jam produktif : {{$jam_produktif}}</h5></b></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12"><b> <h5 class="float-right">Selama {{$hari_produktif}} hari</h5></b></div>
+                                        </div>
+                                        <!-- <h5 class="float-right">Jumlah jam produktif : 345jam</h5><br>
+                                        <h5 class="float-right">Selama : 35hari</h5> -->
+                                    </div><br>
+                                    <div class="card-primary">
                                     <div class="card-body table-responsive p-0">
-                                        <table class="table no-border">
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Tanggal</th>
-                                                    <th>Mahasiswa</th>
-                                                    <th>Datang</th>
-                                                    <th>Pulang</th>
-                                                    <th>Kegiatan</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                                @php $no = 1; @endphp
-                                                @foreach($bukuharian as $buku)
-                                                <tr>
-                                                    <td>{{$no++}}</td>
-                                                    <td>{{$buku->tanggal}}</td>
-                                                    <td>{{$buku->nama}}</td>
-                                                    <td>{{$buku->waktu_mulai}}</td>
-                                                    <td>{{$buku->waktu_selesai}}</td>
-                                                    <td>{{$buku->kegiatan}}</td>
-                                                    <td>{{$buku->status}}</td>
-                                                </tr>
-                                                @endforeach
-                                        </table><br/>
+                                        <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                            <th>No</th>
+                                            <th>Tanggal</th>
+                                            <th>Datang</th>
+                                            <th>Pulang</th>
+                                            <th>Kegiatan</th>
+                                            <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @php $no = 1; @endphp
+                                        @foreach($bukuharian as $buku)
+                                        <tr>
+                                            <td>{{$no++}}</td>
+                                            <td>{{$buku->tanggal}}</td>
+                                            <td>{{$buku->waktu_mulai}}</td>
+                                            <td>{{$buku->waktu_selesai}}</td>
+                                            <td>{{$buku->kegiatan}}</td>
+                                            <td class="text-center py-0 align-middle"><span class="badge bg-warning">{{$buku->status}}</td>
+                                        </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
                                     </div>
                                     </div>
+
+                                    
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="nilai">
@@ -432,4 +439,15 @@
     </section>
     <!-- /.content -->
 
+@endsection
+@section('scripts')
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable();
+  });
+</script>
 @endsection

@@ -46,6 +46,14 @@ class InstansiController extends Controller
         //
     }
 
+    public function changeStatus(Request $request){
+        $instansi = Instansi::findOrFail($request->instansi_id);
+        $instansi->status = $request->status;
+        $instansi->save();
+
+        return response()->json(['message' => 'Periode status updated successfully.']);
+
+    }
     /**
      * Display the specified resource.
      *
@@ -54,7 +62,8 @@ class InstansiController extends Controller
      */
     public function show($id_instansi)
     {
-        $periode =  Periode::select('id_periode', 'tahun_periode')->get();
+        $periode = Periode::get();
+        // $periode =  Periode::select('id_periode', 'tahun_periode')->get();
         $instansi = Instansi::findOrFail($id_instansi);
         $role = Instansi::leftJoin('users', 'instansi.id_users', 'users.id_users')
                         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')

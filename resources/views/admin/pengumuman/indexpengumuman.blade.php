@@ -28,41 +28,41 @@
                   <a href="{{route('pengumuman.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Pengumuman</a> <br><br>
                   </div>
                 </form>
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>Judul</th>
-                  <th>deskripsi</th>
-                  <th>Lampiran</th>
-                  <th>Aksi</th>
-                </tr>
-                </thead>
-                <tbody>
-                @forelse ($data as $datas)
-                <tr>
-                  <td>{{ $datas->judul }}</td>
-                  <td>{{ $datas->deskripsi }}</td>
-                  <td>
-                    @if (!empty($datas->lampiran))
-                        <img src="{{ asset('uploads/file/' . $datas->lampiran) }}" 
-                            alt="{{ $datas->judul }}" width="50px" height="50px">
-                    @else
-                        <img src="http://via.placeholder.com/50x50" alt="{{ $datas->judul }}">
-                    @endif
-                </td>
-                <td class="text-center py-0 align-middle">
-                    <a href="{{ route('pengumuman.edit', $datas->id_pengumuman) }}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                    <button class="btn btn-sm btn-danger deletePengumuman" data-id="{{ $datas->id_pengumuman }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
-                </form>
-                </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="7" class="text-center">Tidak ada data</td>
-                </tr>
-                @endforelse
-                </tbody>
-              </table>
+              <div class="card-primary">
+                <div class="card-body table-responsive p-0">
+                  <table id="pengumuman_data" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                      <th>Judul</th>
+                      <th>deskripsi</th>
+                      <th>Lampiran</th>
+                      <th>Aksi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div>
+                <div id="confirmModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Confirmation</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <h6 align="center" style="margin:0;">Anda yakin ingin menghapus data ini?</h6>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -81,28 +81,67 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
+  $(document).ready(function(){
+    fill_datatable();
+
+    function fill_datatable(){
+      var dataTable = $('#pengumuman_data').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax:{
+          url: "{{route('pengumuman.index')}}",
+        },
+        columns:[
+          {
+            data:'judul',
+            name:'judul'
+          },
+          {
+            data:'deskripsi',
+            name:'deskripsi'
+          },
+          {
+            data:'lampiran',
+            name:'lampiran',
+            render: function(data, type, full, meta){
+              if (data != null){
+                return "<img src={{ URL::to('/') }}/uploads/file/" + data + " width='50' height='50' />";
+              }else{
+                return "<img src='http://via.placeholder.com/50x50'>";
+              }
+            },
+            orderable: false
+          },
+          {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+      });
+    }
   });
 
-  $(document).ready(function(){
-        $('.deletePengumuman').click(function(){
-            var id = $(this).data('id');
-            $.ajax({
-                type: "DELETE",
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                dataType: "json",
-                url: '/api/admin/pengumuman/'+id,
-                data: {'id_pengumuman': id,},
-                success: function (data) {
-                    toastr.options.closeButton = true;
-                    toastr.options.closeMethod = 'fadeOut';
-                    toastr.options.closeDuration = 100;
-                    toastr.success(data.message);
-                    window.location.reload();
-                }
-            });
-        });
+  
+  $(document).on('click', '.deletePengumuman', function(){
+    pengumuman_id = $(this).attr('id');
+    $('#confirmModal').modal('show');
+  });
+
+  $('#ok_button').click(function(){
+    $.ajax({
+        type: "DELETE",
+        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+        dataType: "json",
+        url: '/api/admin/pengumuman/'+pengumuman_id,
+        beforeSend:function(){
+          $('#ok_button').text('Deleting...');
+        },
+        success: function (data) {
+          $('#confirmModal').modal('hide');
+            $('#pengumuman_data').DataTable().ajax.reload();
+            toastr.options.closeButton = true;
+            toastr.options.closeMethod = 'fadeOut';
+            toastr.options.closeDuration = 100;
+            toastr.success(data.message);
+        }
     });
+  });
 </script>
 @endsection

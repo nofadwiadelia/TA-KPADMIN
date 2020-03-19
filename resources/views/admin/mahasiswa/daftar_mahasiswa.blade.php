@@ -21,56 +21,45 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-body">
-                <form role="form">
+            <div class="card-body ">
+            <form role="form">
                   <div class="col-sm-4">
                     <p>Saring berdasarkan</p>
                       <!-- select -->
                       <div class="form-group">
-                          <select class="form-control form-control-sm">
-                            <option>Semua Periode</option>
-                            <option>Periode 2019</option>
-                            <option>option 2018</option>
+                          <select name="roles_filter" id="roles_filter" class="form-control form-control-sm">
+                            <option selected>Semua User</option>
+                            @foreach($periode as $row)
+                            <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                            @endforeach
                           </select>
                       </div>
-                      <button type="submit" class="btn btn-default">Filter</button> <br><br>
                   </div>
                 </form>
                 <div class="col-sm-12">
                   <a href="" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
                 </div>
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>NIM</th>
-                  <th>Nama</th>
-                  <th>No.HP</th>
-                  <th>Periode</th>
-                  <th>Kelompok</th>
-                  <th>Status</th>
-                  <th>Status Magang</th>
-                  <th>Nilai</th>
-                  <th>Aksi</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($data as $mahasiswa)
-                <tr>
-                  <td>{{$mahasiswa->nim}}</td>
-                  <td>{{ $mahasiswa->nama }}</td>
-                  <td>{{ $mahasiswa->no_hp }}</td>
-                  <td>{{ $mahasiswa->periode->tahun_periode }}</td>
-                  <td>Cyber</td>
-                  <td>Anggota</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">magang</span></td>
-                  <td> 4</td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="{{ route('mahasiswa.show', $mahasiswa->id_mahasiswa) }}" class="btn-sm btn-info"><i class="fas fa-eye"></i></a>
-                  </td>
-                </tr>
-                @endforeach
-                </tbody>
-              </table>
+              <div class="card-primary">
+                <div class="card-body table-responsive p-0">
+                <table id="mahasiswa_data" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>NIM</th>
+                    <th>Nama</th>
+                    <th>No.HP</th>
+                    <th>Periode</th>
+                    <th>Kelompok</th>
+                    <th>Status</th>
+                    <th>Nilai</th>
+                    <th>Status Magang</th>
+                    <th>Aksi</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+                <div>
+              <div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -89,8 +78,71 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
+
+  $(document).ready(function(){
+    fill_datatable();
+
+    function fill_datatable(id_periode = ''){
+      var dataTable = $('#mahasiswa_data').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax:{
+          url: "/admin/mahasiswa",
+          data:{id_periode:id_periode}
+        },
+        columns:[
+          {
+            data:'nim',
+            name:'nim'
+          },
+          {
+            data:'nama',
+            name:'nama'
+          },
+          {
+            data:'no_hp',
+            name:'no_hp'
+          },
+          {
+            data:'tahun_periode',
+            name:'tahun_periode'
+          },
+          {
+            data:'nama_kelompok',
+            name:'nama_kelompok'
+          },
+          {
+            data:'status',
+            name:'status'
+          },
+          {
+            data:'status',
+            name:'status',
+          },
+          {
+            data:'status',
+            name:'status',
+            render: function(data, type, full, meta){
+              if (data == 'Ketua'){
+                return "<span class='badge bg-warning'>"+ data + "</span>";
+              }else if(data == 'Anggota'){
+                return "<span class='badge bg-success'>"+ data + "</span>";
+              }
+            },
+            orderable: false
+          },
+          {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+      });
+    }
+    
+    $('#roles_filter').change(function(){
+      var id_roles = $('#roles_filter').val();
+    
+      $('#user_data').DataTable().destroy();
+    
+      fill_datatable(id_roles);
+    });
   });
 </script>
 @endsection

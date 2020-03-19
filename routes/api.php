@@ -24,6 +24,7 @@ Route::prefix('admin')->group(function () {
     Route::delete('/users/{id}', 'UsersController@destroy');
     Route::get('/mahasiswa', 'MahasiswaController@index');
     Route::post('/dosen/change', 'DosenController@changeStatus');
+    Route::post('/instansi/change', 'InstansiController@changeStatus');
     Route::post('/persetujuan_kelompoks', 'KelompokController@postacckelompok');
     Route::post('/tolak_kelompok', 'KelompokController@declinekelompok');
     Route::post('/periode/add', 'PeriodeController@store');
@@ -36,6 +37,9 @@ Route::prefix('admin')->group(function () {
     Route::post('/pengumuman/add', 'PengumumanController@store');
     Route::put('/pengumuman/{id}/edit', 'PengumumanController@update');
     Route::delete('/pengumuman/{id}', 'PengumumanController@destroy');
+    Route::post('/presentasi/add', 'PresentasiController@store');
+    Route::put('/presentasi/{id}/edit', 'PresentasiController@update');
+    Route::delete('/presentasi/{id}', 'PresentasiController@destroy');
 });
 
 

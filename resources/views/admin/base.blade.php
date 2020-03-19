@@ -156,7 +156,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/usulan_pkl" class="nav-link">
+                  <a href="/admin/usulan" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Usulan PKL</p>
                   </a>
@@ -173,13 +173,13 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="/magangListing" class="nav-link">
+                  <a href="/admin/kelompok" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Magang</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/presentasi_kelompok" class="nav-link">
+                  <a href="/admin/presentasi" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Presentasi</p>
                   </a>

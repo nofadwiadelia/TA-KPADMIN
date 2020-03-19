@@ -25,6 +25,8 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+              <div class="card-primary">
+              <div class="table-responsive p-0">
               <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -36,47 +38,24 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($kelompoks as $kel)
                 <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
+                  <td>{{$kel->nim}}</td>
+                  <td>{{$kel->nama}}
                   </td>
-                  <td>Win 95+</td>
-                  <td>Ketua</td>
+                  <td>{{$kel->no_hp}}</td>
+                  <td>{{$kel->status}}</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                       </div>
                     </td>
                 </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td>Anggota</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.5
-                  </td>
-                  <td>Win 95+</td>
-                  <td>Anggota</td> 
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
+                @endforeach
                 </tbody>
               </table>
+              </div>
+              </div>
             </div>
             <!-- /.card-body -->
           </div>

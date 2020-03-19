@@ -23,15 +23,17 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Posisi *</label>
-                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" value="{{$lowongan->pekerjaan}}">
+                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" value="{{$lowongan->pekerjaan}}" maxlength="100">
+                            <p class="text-muted"><small><i>*Max 100 karakter</i></small></p>
                         </div>
                         <div class="form-group">
                         <label for="exampleInputPassword1">Persyaratan *</label>
-                            <textarea name="persyaratan" id="persyaratan" class="form-control {{ $errors->has('persyaratan') ? 'is-invalid':'' }}" value="{{$lowongan->persyaratan}}"></textarea>
+                            <textarea name="persyaratan" id="persyaratan" class="form-control" maxlength="1000">{{$lowongan->persyaratan}}</textarea>
+                            <p class="text-muted"><small><i>*Max 1000 karakter</i></small></p>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Kapasitas *</label>
-                            <input type="number" class="form-control" name="kapasitas" id="kapasitas" value="{{$lowongan->kapasitas}}">
+                            <input type="number" class="form-control" name="kapasitas" id="kapasitas" value="{{$lowongan->kapasitas}}" maxlength="2">
                         </div>
                         <div class="form-group">
                           <label>Instansi *</label>
@@ -45,10 +47,7 @@
                         <div class="form-group">
                           <label>Periode *</label>
                           <select name="id_periode" class="form-control select2" style="width: 100%;">
-                              <option selected="selected">{{$lowongan->periode->tahun_periode}}</option>
-                              @foreach($periode as $periodes)
-                              <option value="{{ $periodes->id_periode }}">{{ $periodes->tahun_periode }}</option>
-                              @endforeach
+                              <option selected="selected" value="{{ $lowongan->periode->id_periode }}">{{$lowongan->periode->tahun_periode}}</option>
                           </select >
                         </div>
                         <input type="hidden" name="id_lowongan" id="id_lowongan" value="{{ $lowongan->id_lowongan }}">

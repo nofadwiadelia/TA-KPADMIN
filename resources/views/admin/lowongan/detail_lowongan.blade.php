@@ -30,18 +30,32 @@
                   <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item">
-                        <p class="badge badge-info">Posisi</p>
-                        <p>{{ $data->pekerjaan }}</p>
-                        </li>
-                        <li class="list-group-item">
-                        <p class="badge badge-info">Persyaratan</p>
-                        <p>{{ $data->persyaratan }}</p>
-                        </li>
-                        <li class="list-group-item">
-                        <p class="badge badge-info">Instansi</p>
-                        <p>{{ $data->instansi->nama }}</p>
-                        </li>
+                          <li class="list-group-item">
+                          <p class="badge badge-info">Instansi</p>
+                          <p>{{ $data->instansi->nama }}</p>
+                          </li>
+                          <li class="list-group-item">
+                          <p class="badge badge-info">Posisi</p>
+                          <p>{{ $data->pekerjaan }}</p>
+                          </li>
+                          <li class="list-group-item">
+                          <p class="badge badge-info">Persyaratan</p>
+                          <p>{{ $data->persyaratan }}</p>
+                          </li>
+                          <li class="list-group-item">
+                          <p class="badge badge-info">Persyaratan</p>
+                          <p>{{ $data->persyaratan }}</p>
+                          </li>
+                          <li class="list-group-item">
+                          <p class="badge badge-info">Kapasitas</p>
+                          <p>{{ $data->kapasitas }}</p>
+                          </li>
+                          <li class="list-group-item">
+                          <p class="badge badge-info">Slot</p>
+                          <p>{{ $data->slot }}</p>
+                          </li>
+                        
+                        </ul>
                     </div>
                     <!-- /.card-body -->
                   </div>

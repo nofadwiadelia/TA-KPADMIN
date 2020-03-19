@@ -8,30 +8,31 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-                <form id="editpengumumanForm" enctype="multipart/form-data">
+                <form action="{{ route('pengumuman.update', $data->id_pengumuman) }}" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Judul *</label>
-                            <input type="text" name="judul" id="judul" required value="{{$data->judul}}" class="form-control {{ $errors->has('judul') ? 'is-invalid':'' }}">
-                            <p class="text-danger">{{ $errors->first('judul') }}</p>
+                            <input type="text" name="judul" id="judul" required  class="form-control" value="{{ $data->judul }}" maxlength="100">
+                            <p class="text-muted"><small><i>*Max 100 karakter</i></small></p>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">deskripsi *</label>
-                            <textarea name="deskripsi" id="deskripsi" value="{{$data->deskripsi}}" required class="form-control {{ $errors->has('deskripsi') ? 'is-invalid':'' }}"></textarea>
-                            <p class="text-danger">{{ $errors->first('deskripsi') }}</p>
+                            <label for="exampleInputPassword1">Deskripsi *</label>
+                            <textarea name="deskripsi" id="deskripsi" required class="form-control" maxlength="1000">{{ $data->deskripsi }}</textarea>
+                            <p class="text-muted"><small><i>*Max 1000 karakter</i></small></p>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">Lampiran</label>
-                            <div class="input-group">
-                              <div class="custom-file">
-                              <input type="file" name="lampiran" id="lampiran" value="{{$data->lampiran}}" class="form-control" >
-                              <!-- <input type="file" class="custom-file-input" id="exampleInputFile"> -->
-                              <label class="custom-file-label" for="gambar">Choose file</label>
-                              <p class="text-danger">{{ $errors->first('lampiran') }}</p>
+                              <div class="input-group">
+                                <div class="custom-file">
+                                  <input type="file" name="lampiran" id="lampiran" class="form-control" value="{{ $data->deskripsi }}">
+                                  <!-- <input type="file" class="custom-file-input" id="exampleInputFile"> -->
+                                  <label class="custom-file-label" for="lampiran">Choose file</label>
+                                </div>
                               </div>
-                            </div>
+                              <p class="text-muted"><small><i>*jpg,png,jpeg</i></small></p>
                         </div>
-                        <input type="hidden" name="id_pengumuman" id="id_pengumuman" value="{{ $data->id_pengumuman }}">
                     </div>
                     <!-- /.card-body -->
 
@@ -58,40 +59,5 @@
 
 @section('scripts')
 
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-  });
-
-  $(document).ready(function(){   
-    $('#editpengumumanForm').on('submit', function(e){
-        e.preventDefault();
-
-        var id = $('#id_pengumuman').val();
-        var judul = $('#judul').val();
-        var deskripsi = $('#deskripsi').val();
-        var lampiran = $('#lampiran').val();
-        $.ajax({
-            type: "PUT",
-            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            url: "/api/admin/pengumuman/"+id+"/edit",
-            cache:false,
-            dataType: "json",
-            data: $('#editpengumumanForm').serialize(),
-            success: function(data){
-                window.location = "/admin/pengumuman";
-                toastr.options.closeButton = true;
-                toastr.options.closeMethod = 'fadeOut';
-                toastr.options.closeDuration = 100;
-                toastr.success(data.message);
-            },
-            error: function(error){
-            console.log(error);
-            }
-        });
-    });
-  });
-</script>
 
 @endsection

@@ -14,6 +14,8 @@ use App\User;
 use App\Role;
 use App\Periode;
 use App\LaporanHarian;
+use App\Kelompok;
+use DB;
 
 class MahasiswaController extends Controller
 {
@@ -22,15 +24,40 @@ class MahasiswaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Mahasiswa::get();
-        // return response()->json([
-        //     'status'=>'succes',
-        //     'message'=>'Berhasil',
-        //     'data' => $data
-        // ]);
-        return view('admin.mahasiswa.daftar_mahasiswa',compact('data'));
+        $mahasiswa = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                            ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+                            ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                            ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status')
+                            ->get();
+        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
+    
+        if(request()->ajax()){
+            if(!empty($request->id_periode)){
+                $data = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                                ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+                                ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                                ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status')
+                                ->where('mahasiswa.id_periode', $request->id_periode)
+                                ->get();
+            }else{
+                $data = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+                ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status')
+                ->get();
+            }
+            return datatables()->of($data)->addIndexColumn()
+            ->addColumn('action', function($mahasiswa){
+
+                   $btn = '<a href="/admin/mahasiswa/'.$mahasiswa->id_mahasiswa.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                   return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        return view('admin.mahasiswa.daftar_mahasiswa',compact('periode', 'mahasiswa'));
     }
 
     public function indexmahasiswa()
@@ -74,14 +101,36 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::findOrFail($id_mahasiswa);
         $role = Mahasiswa::leftJoin('users', 'mahasiswa.id_users', 'users.id_users')
                         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                        ->select('mahasiswa.id_mahasiswa', 'roles.roles')
-                        ->where('mahasiswa.id_mahasiswa', '=', $id_mahasiswa)
+                        ->select( 'roles.roles')
                         ->first();
+        $kelompok = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                            ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+                            ->select('kelompok.nama_kelompok', 'kelompok_detail.status')
+                            ->first();
+        $anggota = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
+                            // ->where('kelompok_detail.id_kelompok', '=', $request->id_kelompok)
+                            ->get();
+        $magang = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                            ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+                            ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                            ->select('dosen.*')
+                            ->first();
         $bukuharian =  LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->select('mahasiswa.nama', 'buku_harian.id_buku_harian', 'buku_harian.tanggal', 'buku_harian.waktu_mulai', 'buku_harian.waktu_selesai', 'buku_harian.kegiatan', 'buku_harian.status')
                                 ->where('mahasiswa.id_mahasiswa', '=', $id_mahasiswa)
                                 ->get();
-        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'bukuharian'));
+        $hari_produktif = LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')           
+                                ->select('buku_harian.tanggal')
+                                ->where('buku_harian.id_mahasiswa', '=', $id_mahasiswa)
+                                ->count();
+        
+        $jam_produktif = LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')          ->where('mahasiswa.id_mahasiswa', '=', $id_mahasiswa)
+                                ->select(DB::raw("SEC_TO_TIME(SUM(TIME_TO_SEC(buku_harian.waktu_selesai) - TIME_TO_SEC(buku_harian.waktu_mulai))) as timediff"))
+                                ->first();
+
+        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'kelompok', 'anggota', 'magang', 'bukuharian', 'hari_produktif', 'jam_produktif'));
     }
 
     /**

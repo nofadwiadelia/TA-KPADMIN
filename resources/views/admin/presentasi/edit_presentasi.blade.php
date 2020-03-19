@@ -24,20 +24,17 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <!-- form start -->
-                            <form role="form" id="addPeriode" action="" method="post" >
+                            <form id="editPresentasi">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">                                
                                             <div class="form-group">
-                                                <label>Kelompok *</label>
-                                                <select class="form-control select2" style="width: 100%;">
-                                                    <option selected="selected">Alabama</option>
-                                                    <option>Alaska</option>
-                                                    <option>California</option>
-                                                    <option>Delaware</option>
-                                                    <option>Tennessee</option>
-                                                    <option>Texas</option>
-                                                    <option>Washington</option>
+                                            <label>Kelompok *</label>
+                                                <select name="id_kelompok" id="id_kelompok" class="form-control select2" style="width: 100%;">
+                                                <option selected="selected" value="{{ $presentasi->id_kelompok }}">{{$presentasi->kelompok->nama_kelompok}}</option>
+                                                @foreach($kelompok as $kelompoks)
+                                                <option value="{{ $kelompoks->id_kelompok }}">{{ $kelompoks->nama_kelompok }}</option>
+                                                @endforeach
                                                 </select >
                                             </div>
                                             
@@ -46,15 +43,12 @@
                                     <div class="row">
                                         <div class="col-md-12">                                
                                             <div class="form-group">
-                                                <label>Dosen Penguji *</label>
-                                                <select class="form-control select2" style="width: 100%;">
-                                                    <option selected="selected">Alabama</option>
-                                                    <option>Irkham Huda</option>
-                                                    <option>Anifudin Aziz</option>
-                                                    <option>Delaware</option>
-                                                    <option>Tennessee</option>
-                                                    <option>Texas</option>
-                                                    <option>Washington</option>
+                                            <label>Dosen Penguji *</label>
+                                                <select name="id_dosen" id="id_dosen" class="form-control select2" style="width: 100%;">
+                                                <option selected="selected" value="{{ $presentasi->id_dosen }}">{{$presentasi->dosen->nama}}</option>
+                                                @foreach($dosen as $dosens)
+                                                <option value="{{ $dosens->id_dosen }}">{{ $dosens->nama }}</option>
+                                                @endforeach
                                                 </select >
                                             </div>
                                             
@@ -69,7 +63,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                    <input type="datetime-local" name="tgl_mulai" class="form-control pull-right required" >
+                                                    <input type="datetime-local" id="waktu" name="waktu" class="form-control pull-right required" value="{{$presentasi->waktu}}" >
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -83,13 +77,14 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="ruang" placeholder="">
+                                                    <input type="text" class="form-control" name="ruang" id="ruang" value="{{$presentasi->ruang}}">
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
                                             <!-- /.form group -->
                                         </div>
                                     </div>
+                                    <input type="hidden" name="id_jadwal_presentasi" id="id_jadwal_presentasi" value="{{ $presentasi->id_jadwal_presentasi }}">
                                     <div class="d-flex flex-row justify-content-end">
                                         <span class="mr-2">
                                         <input type="submit" class="btn btn-danger" value="Cancel" />
@@ -117,8 +112,41 @@
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- InputMask -->
-<script src="../../plugins/moment/moment.min.js"></script>
-<script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- <script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script> -->
 
+<script >
+$(document).ready(function(){   
+    $('#editPresentasi').on('submit', function(e){
+        e.preventDefault();
+
+        var id_kelompok = $('#id_kelompok').val();
+        var id_dosen = $('#id_dosen').val();
+        var waktu = $('#waktu').val();
+        var ruang = $('#ruang').val();
+        var id_periode = $('#id_periode').val();
+        var id = $('#id_jadwal_presentasi').val();
+
+        $.ajax({
+            type: "PUT",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/presentasi/"+id+"/edit",
+            cache:false,
+            dataType: "json",
+            data: $('#editPresentasi').serialize(),
+            success: function(data){
+                window.location = "/admin/presentasi";
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.success(data.message);
+            },
+            error: function(error){
+            console.log(error);
+            }
+        });
+    });
+});
+</script>
 
 @endsection

@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->group(function () {
+    Route::get('/', 'dashboardController@indexadmin');
     Route::get('/dasboard', 'dashboardController@indexadmin');
     Route::resource('/users', 'UsersController');
     Route::get('/login', 'UsersController@indexlogin')->name('login');
@@ -26,24 +27,26 @@ Route::prefix('admin')->group(function () {
     Route::get('/mahasiswa', ['as' => 'mahasiswa.index', 'uses' => 'MahasiswaController@index']);
     Route::get('/mahasiswa/{id}', ['as' => 'mahasiswa.show', 'uses' => 'MahasiswaController@show']);
     Route::resource('/dosen', 'DosenController');
-    
     Route::resource('/instansi', 'InstansiController');
     Route::resource('/pengumuman', 'PengumumanController');
-    Route::get('/pengumuman', 'PengumumanController@index');
-    Route::get('/pengumuman/{id}', ['as' => 'pengumuman.show', 'uses' => 'PengumumanController@show']);
-    Route::get('/pengumuman/create', ['as' => 'pengumuman.create', 'uses' => 'PengumumanController@create']);
-    Route::get('/pengumuman/{id}/edit', ['as' => 'pengumuman.edit', 'uses' => 'PengumumanController@edit']);
+    Route::get('/kelompok', 'KelompokController@index');
+    Route::get('/kelompok/magang/{id}/detail', 'KelompokController@detailmagang');
     Route::get('/persetujuan_kelompok', 'KelompokController@acckelompok');
+    Route::get('/persetujuan_kelompok/{id}', 'KelompokController@detailacckelompok');
     Route::get('/periode/create', ['as' => 'periode.create', 'uses' => 'PeriodeController@create']);
     Route::get('/periode', ['as' => 'periode.index', 'uses' => 'PeriodeController@index']);
     Route::get('/periode/{id}/edit', ['as' => 'periode.edit', 'uses' => 'PeriodeController@edit']);
     Route::delete('/periode/{id}', ['as' => 'periode.destroy', 'uses' => 'PeriodeController@destroy']);
-    // Route::resource('/lowongan', 'LowonganController');
+    Route::resource('/lowongan', 'LowonganController');
     Route::get('/lowongan', ['as' => 'lowongan.index', 'uses' => 'LowonganController@index']);
     Route::get('/lowongan/{id}', ['as' => 'lowongan.show', 'uses' => 'LowonganController@show']);
     Route::get('/lowongan/create', ['as' => 'lowongan.create', 'uses' => 'LowonganController@create']);
     Route::get('/lowongan/{id}/edit', ['as' => 'lowongan.edit', 'uses' => 'LowonganController@edit']);
-    
+    Route::get('/presentasi', 'PresentasiController@index');
+    Route::get('/presentasi/create', ['as' => 'presentasi.create', 'uses' => 'PresentasiController@create']);
+    Route::get('/presentasi/{id}/edit', ['as' => 'presentasi.edit', 'uses' => 'PresentasiController@edit']);
+    Route::get('/usulan', 'UsulanController@usulan');
+    Route::get('/usulan/kelompok/{id}/detail', 'UsulanController@detailusulan');
 });
 
 Route::prefix('mahasiswa')->group(function () {
@@ -96,17 +99,6 @@ Route::prefix('dosen')->group(function () {
     });
     
 });
-
-
-Route::get('/admin', 'Mah@admin')->name('/admin');
-Route::get('/usulan_pkl', 'Mah@UsulanPKL')->name('/usulan_pkl');
-Route::get('/detail_usulan', 'Mah@detailUsulan')->name('/detail_usulan');
-Route::get('/detailKelompok', 'Mah@detailKelompok')->name('/detailKelompok');
-Route::get('/magangListing', 'Mah@magangListing')->name('/magangListing');
-Route::get('/detailMagang', 'Mah@detailMagang')->name('/detailMagang');
-Route::get('/presentasi_kelompok', 'Mah@presentasiKelompok')->name('/presentasi_kelompok');
-Route::get('/add_presentasi', 'Mah@addpresentasiKelompok')->name('/add_presentasi');
-Route::get('/edit_presentasi', 'Mah@editpresentasiKelompok')->name('/edit_presentasi');
 
 
 //MAHASISWA

@@ -7,6 +7,7 @@ use App\Mahasiswa;
 use App\Role;
 use App\Periode;
 use DB;
+use Datatables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -63,11 +64,35 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $roles = Role::select('id_roles', 'roles')->get();
-        $user = User::get();
-        return view('admin.akun.daftar_akun',compact('user','roles'));
+
+        if(request()->ajax()){
+            if(!empty($request->id_roles)){
+                $data = DB::table('users')
+                    ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+                    ->select('users.id_users', 'users.username', 'roles.roles')
+                    ->where('users.id_roles', $request->id_roles)
+                    ->get();
+            }else{
+                $data = DB::table('users')
+                    ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+                    ->select('users.id_users', 'users.username', 'roles.roles')
+                    ->get();
+            }
+            return datatables()->of($data)->addIndexColumn()
+            ->addColumn('action', function($users){
+
+                   $btn = '<a href="/admin/users/'.$users->id_users.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                   $btn .= '&nbsp;&nbsp;';
+                   $btn .= '<button type="button" name="delete" id="'.$users->id_users.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
+                   return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        return view('admin.akun.daftar_akun',compact('roles'));
     }
 
     /**
@@ -121,7 +146,7 @@ class UsersController extends Controller
         else if($request->id_roles == 4){
             $data->mahasiswa()->create([
                 'nama' => $request->nama,
-                'id_periode' => 1,
+                'id_periode' => 3,
             ]);
         }
 
@@ -208,6 +233,6 @@ class UsersController extends Controller
     {
         $data = User::find($id_users);
         $data->delete();
-        return response()->json(['message' => 'Pengumuman deleted successfully.']);
+        return response()->json(['message' => 'User deleted successfully.']);
     }
 }

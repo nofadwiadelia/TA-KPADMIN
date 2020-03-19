@@ -24,20 +24,16 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                             <!-- form start -->
-                            <form role="form" id="addPeriode" action="" method="post" >
+                            <form id="addPresentasi">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label>Kelompok *</label>
-                                                <select class="form-control select2" style="width: 100%;">
-                                                    <option selected="selected">Alabama</option>
-                                                    <option>Alaska</option>
-                                                    <option>California</option>
-                                                    <option>Delaware</option>
-                                                    <option>Tennessee</option>
-                                                    <option>Texas</option>
-                                                    <option>Washington</option>
+                                                <select name="id_kelompok" class="form-control select2" style="width: 100%;">
+                                                @foreach($kelompok as $kelompoks)
+                                                <option value="{{ $kelompoks->id_kelompok }}">{{ $kelompoks->nama_kelompok }}</option>
+                                                @endforeach
                                                 </select >
                                             </div>
                                             
@@ -47,19 +43,20 @@
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label>Dosen Penguji *</label>
-                                                <select class="form-control select2" style="width: 100%;">
-                                                    <option selected="selected">Alabama</option>
-                                                    <option>Irkham Huda</option>
-                                                    <option>Anifudin Aziz</option>
-                                                    <option>Delaware</option>
-                                                    <option>Tennessee</option>
-                                                    <option>Texas</option>
-                                                    <option>Washington</option>
+                                                <select name="id_dosen" id="id_dosen" class="form-control select2" style="width: 100%;">
+                                                @foreach($dosen as $dosens)
+                                                <option value="{{ $dosens->id_dosen }}">{{ $dosens->nama }}</option>
+                                                @endforeach
                                                 </select >
                                             </div>
                                             
                                         </div>
                                     </div>
+                                    
+                                    
+                                    <input type="text" name="id_periode" id="id_periode" class="form-control pull-right required" value="{{$periode->id_periode}}">
+                                    
+                                    
                                     <div class="row">
                                         <div class="col-md-6">                                
                                             <!-- Date -->
@@ -69,7 +66,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                    <input type="datetime-local" name="tgl_mulai" class="form-control pull-right required" >
+                                                    <input type="datetime-local" name="waktu" id="waktu" class="form-control pull-right required" >
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -82,7 +79,9 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="ruang" placeholder="">
+                                                    <input type="text" class="form-control" id="ruang" name="ruang" placeholder="">
+                                                    
+
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -90,10 +89,12 @@
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row justify-content-end">
-                                        <span class="mr-2">
-                                        <input type="submit" class="btn btn-danger" value="Cancel" />
-                                        <span class="mr-2">
-                                        <input type="submit" class="btn btn-primary" value="Submit" />
+                                    <span class="mr-2">
+                                    <button type="submit" class="btn btn-danger">Cancel</button>
+                                    </span>
+                                    <span>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    </span>
                                    </div>
                                 </div><!-- /.box-body -->
                             </form>
@@ -116,24 +117,43 @@
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- InputMask -->
-<script src="../../plugins/moment/moment.min.js"></script>
-<script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- <script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script> -->
 <!-- date-range-picker -->
-<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- <script src="../../plugins/daterangepicker/daterangepicker.js"></script> -->
 
 
 <script >
-		
-		$(function () {			
-            //Date range picker
-            $('#reservation').daterangepicker({
-                singleDatePicker: true,
-            })
+$(document).ready(function(){   
+    $('#addPresentasi').on('submit', function(e){
+        e.preventDefault();
 
-            $('#reservation1').daterangepicker({
-                singleDatePicker: true,
-            })
-		})
+        var id_kelompok = $('#id_kelompok').val();
+        var id_dosen = $('#id_dosen').val();
+        var waktu = $('#waktu').val();
+        var ruang = $('#ruang').val();
+        var id_periode = $('#id_periode').val();
+
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/presentasi/add/",
+            cache:false,
+            dataType: "json",
+            data: $('#addPresentasi').serialize(),
+            success: function(data){
+                window.location = "/admin/presentasi";
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.success(data.message);
+            },
+            error: function(error){
+            console.log(error);
+            }
+        });
+    });
+});
 </script>
 
 @endsection

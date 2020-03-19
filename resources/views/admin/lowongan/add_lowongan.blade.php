@@ -23,11 +23,13 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Posisi *</label>
-                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" placeholder="">
+                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" placeholder="" maxlength="100">
+                            <p class="text-muted"><small><i>*Max 100 karakter</i></small></p>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Persyaratan *</label>
-                            <textarea name="persyaratan" id="persyaratan" class="form-control {{ $errors->has('persyaratan') ? 'is-invalid':'' }}"></textarea>
+                            <textarea name="persyaratan" id="persyaratan" class="form-control" maxlength="1000"></textarea>
+                            <p class="text-muted"><small><i>*Max 1000 karakter</i></small></p>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Kapasitas *</label>
@@ -45,10 +47,7 @@
                         <div class="form-group">
                           <label>Periode *</label>
                           <select name="id_periode" class="form-control select2" style="width: 100%;">
-                              <option selected disabled>Pilih Periode</option>
-                              @foreach($datas as $periode)
                               <option value="{{ $periode->id_periode }}">{{ $periode->tahun_periode }}</option>
-                              @endforeach
                           </select >
                         </div>
                     </div>

@@ -21,76 +21,62 @@
           <div class="card">
             <div class="card-body">
                 <h4>Kelompok ASIK</h4><br>
-                <div>
-                    <b>Dosen Pembimbing &emsp; : </b> &emsp; <a href="">Imam Fakhrurrozi, M.Cs</a><br/>
-                    <b>Tempat Magang &emsp; : </b> &emsp; PT. GMF AeroAsia Tbk<br/>
-                    <b>Mentor &emsp; : </b> &emsp; <a href=""> Adji Bowo</a> <br/>
-                    <b>Waktu Magang &emsp; : </b> &emsp; 24 Juni 2019 - 10 Agustus 2019<br/>
-                    <b>Lokasi Magang &emsp; : </b> &emsp; <br/>
-                    <b>Jobdesk &emsp; : </b> &emsp; 
-
-                </div>
-                <!-- <div class="row">
-                    <div class="col-sm-2"><b>Tempat Magang&emsp;: </b></div>
-                    <div class="col-sm-4"> PT. GMF AeroAsia Tbk</div>
+                <div class="row">
+                  <div class="col-2"><b>Dosen Pembimbing</b></div>
+                  <div class="col-3">: Imam Fakhrurrozi, M.Cs</div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2"><b>Mentor&emsp; &emsp; &emsp;: </b></div>
-                    <div class="col-sm-4"> PT. GMF AeroAsia Tbk</div>
-                </div> -->
+                  <div class="col-2"><b>Tempat Magang</b>
+                  </div>
+                  <div class="col-3">: PT. GMF AeroAsia Tbk
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-2"><b>Waktu Magang</b>
+                  </div>
+                  <div class="col-3">: 24 Juni 2019 - 10 Agustus 2019</div>
+                </div>
+                <div class="row">
+                  <div class="col-2"><b>Lokasi Magang</b>
+                  </div>
+                  <div class="col-3">: 24 Juni 2019 - 10 Agustus 2019</div>
+                </div>
+                <div class="row">
+                  <div class="col-2"><b>Jobdesk</b>
+                  </div>
+                  <div class="col-3">: 24 Juni 2019 - 10 Agustus 2019</div>
+                </div>
+
                 <br>
-              <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>NIM</th>
-                  <th>Nama Mahasiswa</th>
-                  <th>No.HP</th>
-                  <th>Status</th>
-                  <th>Detail</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 4.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td>Ketua</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
+              <div class="table-responsive p-0">
+                <table class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>NIM</th>
+                    <th>Nama Mahasiswa</th>
+                    <th>No.HP</th>
+                    <th>Status</th>
+                    <th>Detail</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  @foreach($kelompoks as $kel)
+                  <tr>
+                    <td>{{$kel->nim}}</td>
+                    <td>{{$kel->nama}}
                     </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.0
-                  </td>
-                  <td>Win 95+</td>
-                  <td>Anggota</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>Internet
-                    Explorer 5.5
-                  </td>
-                  <td>Win 95+</td>
-                  <td>Anggota</td> 
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                </tbody>
-              </table>
+                    <td>{{$kel->no_hp}}</td>
+                    <td>{{$kel->status}}</td>
+                    <td class="text-center py-0 align-middle">
+                        <div class="btn-group btn-group-sm">
+                          <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        </div>
+                      </td>
+                  </tr>
+                  @endforeach
+                  </tbody>
+                </table>
+              </div>
             </div>
             <!-- /.card-body -->
           </div>

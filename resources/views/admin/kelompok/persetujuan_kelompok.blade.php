@@ -26,36 +26,37 @@
               <h3 class="card-title">Data Pengajuan Kelompok</h3>
             </div>
             <div class="card-body ">
-              <table id="example1" class="table table-bordered table-striped ">
-                <thead>
-                <tr>
-                  <th scope="col">Nama Kelompok</th>
-                  <th scope="col">Ketua</th>
-                  <th scope="col">Dosen Pembimbing</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Pesetujuan</th>
-                  <th scope="col">Detail</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($kelompok as $data)
-                <tr>
-                  <td>{{ $data->nama_kelompok }}</td>
-                  <td>{{ $data->nama }}</td>
-                  <td>{{ $data->id_dosen }}</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">{{ $data->persetujuan }}</span></td>
-                  <td class="text-center py-0 align-middle">
-                      <a href="#" class="btn btn-sm btn-info editbtn"><i class="fas fa-check"></i></a>
-                      <input type="hidden"  name="persetujuan" id="persetujuan" value="ditolak">
-                      <button data-id="{{ $data->id_kelompok }}" class="btn btn-danger btn-sm declinebtn"><i class="fas fa-times"></i></button>
-                  </td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailKelompok" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                @endforeach
-                </tbody>
-              </table>
+              <form role="form">
+                <div class="col-sm-4">
+                  <p>Saring berdasarkan</p>
+                    <!-- select -->
+                    <div class="form-group">
+                        <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
+                          <option selected>Semua Periode</option>
+                          @foreach($periode as $row)
+                          <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                          @endforeach
+                        </select>
+                    </div>
+                </div>
+              </form>
+              <div class="card-primary">
+                <div class="card-body table-responsive p-0">
+                <table id="persetujuan_data" class="table table-bordered table-striped ">
+                  <thead>
+                  <tr>
+                    <th scope="col">Nama Kelompok</th>
+                    <th scope="col">Ketua</th>
+                    <th scope="col">Dosen Pembimbing</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Pesetujuan</th>
+                    <th scope="col">Detail</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                </table>
+                </div>
+              </div>
               <div class="modal fade" id="modal-default">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -79,7 +80,7 @@
                             </div>
                           </div>
                       </div>
-                      <input type="hidden" data-id="{{ $data->id_kelompok }}" name="persetujuans" id="persetujuans" value="diterima">
+                      <input type="hidden" name="persetujuans" id="persetujuans" value="diterima">
                       <div class="modal-footer justify-content-between">
                         <button type="submit" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary" id="submit">Submit</button>
@@ -120,8 +121,75 @@
     $("#example1").DataTable();
   });
 
-  $(document).ready(function(){    
-    $(".editbtn").on('click', function(){
+  $(document).ready(function(){
+    fill_datatable();
+
+    function fill_datatable(id_periode = ''){
+      var dataTable = $('#persetujuan_data').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax:{
+          url: "/admin/persetujuan_kelompok",
+          data:{id_periode:id_periode}
+        },
+        columns:[
+          {
+            data:'nama_kelompok',
+            name:'nama_kelompok'
+          },
+          {
+            data:'nama',
+            name:'nama'
+          },
+          {
+            data:'dosen_nama',
+            name:'dosen_nama'
+          },
+          {
+            data:'persetujuan',
+            name:'persetujuan',
+            render: function(data, type, full, meta){
+              if (data == 'diproses'){
+                return "<span class='badge bg-warning'>"+ data + "</span>";
+              }else if(data == 'diterima'){
+                return "<span class='badge bg-success'>"+ data + "</span>";
+              }else if(data =='ditolak'){
+                return "<span class='badge bg-danger'>"+ data + "</span>"
+              }
+            },
+            orderable: false
+          },
+          {
+            data: 'action',
+            name: 'action', 
+            orderable: false, 
+            searchable: false
+          },
+          {
+            
+            data: 'id_kelompok',
+            name: 'id_kelompok', 
+            render: function(data, type, full, meta){
+              return '<a href="/admin/persetujuan_kelompok/'+data+'" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>';
+            },
+            orderable: false
+            
+          },
+        ]
+      });
+    }
+    
+    $('#periode_filter').change(function(){
+      var id_periode = $('#periode_filter').val();
+    
+      $('#persetujuan_data').DataTable().destroy();
+    
+      fill_datatable(id_periode);
+    });
+  });
+
+    $(document).on('click','.editbtn', function(){
+        id_kelompok = $(this).attr('id');
         $('#modal-default').modal('show');
 
         $tr = $(this).closest('tr');
@@ -139,8 +207,6 @@
 
       var id_dosen = $('#id_dosen').val();
       var persetujuans = $('#persetujuans').val();
-      // var id = $(this).data('id');
-      var id = 5;
 
       $.ajax({
           type: "POST",
@@ -148,7 +214,7 @@
           url: "/api/admin/persetujuan_kelompoks/",
           cache:false,
           dataType: "json",
-          data: {'id_dosen': id_dosen,'persetujuan': persetujuans, 'id_kelompok': id},
+          data: {'id_dosen': id_dosen,'persetujuan': persetujuans, 'id_kelompok': id_kelompok},
           success: function(data){
               console.log(data);
               $("#modal-default").modal('hide');
@@ -163,14 +229,13 @@
           }
       });
     });
-  });
 
-  $(document).ready(function(){ 
-    $('.declinebtn').click(function(e){
+// DECLINE
+  $(document).on('click','.declinebtn', function(e){
         e.preventDefault();
 
         var persetujuan = $('#persetujuan').val();
-        let kelompokId = $(this).data('id');
+        id_kelompok = $(this).attr('id');
 
         $.ajax({
             type: "POST",
@@ -178,7 +243,7 @@
             url: "/api/admin/tolak_kelompok/",
             cache:false,
             dataType: "json",
-            data: {'persetujuan': persetujuan, 'id_kelompok': kelompokId},
+            data: {'persetujuan': persetujuan, 'id_kelompok': id_kelompok},
             success: function(data){
               toastr.options.closeButton = true;
               toastr.options.closeMethod = 'fadeOut';
@@ -190,7 +255,6 @@
               console.log(error);
             }
         });
-      });
     });
   
 

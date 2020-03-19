@@ -16,6 +16,9 @@ class Dosen extends Model
     }
 
     public function kelompok(){
-        return $this->belongsTo('App\Kelompok', 'id_dosen');
+        return $this->hasMany('App\Kelompok', 'id_dosen');
+    }
+    public function presentasi(){
+        return $this->hasMany('App\Presentasi', 'id_dosen');
     }
 }

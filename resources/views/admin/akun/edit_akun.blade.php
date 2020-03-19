@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="modal-footer justify-content-between">
                                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                          <button type="button" class="btn btn-primary">Save changes</button>
+                                          <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                                         </div>
                                       </div>
                                       <!-- /.modal-content -->
@@ -113,15 +113,6 @@
 @endsection
 
 @section('scripts')
-<!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable();
-  });
-</script>
-<!-- Summernote -->
+
 
 @endsection

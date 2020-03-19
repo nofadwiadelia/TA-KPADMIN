@@ -17,10 +17,25 @@ class DosenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dosen = Dosen::get();
-        return view('admin.dosen.daftar_dosen',compact('dosen'));
+        $data = Dosen::get();
+        if(request()->ajax()){
+            $data = Dosen::get();
+            return datatables()->of($data)->addIndexColumn()
+                // ->addColumn('status', function($dosen){
+                //     $input .= '<input type="checkbox" data-id="'. $dosen->id_dosen.'" name="status" class="js-switch" {{ '.$dosen->status == 'open' ? 'checked' : ''.' }}>';
+                //    return $input;
+                // })
+                ->addColumn('action', function($dosen){
+                    $btn = '<a href="/admin/dosen/'.$dosen->id_dosen.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                   return $btn;
+                })
+                // ->rawColumns(['status'])
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('admin.dosen.daftar_dosen',compact('data'));
     }
 
     public function changeStatus(Request $request){

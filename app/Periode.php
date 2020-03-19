@@ -16,4 +16,7 @@ class Periode extends Model
     public function mahasiswa(){
         return $this->hasMany('App\Mahasiswa', 'id_periode');
     }
+    public function presentasi(){
+        return $this->hasMany('App\Presentasi', 'id_periode');
+    }
 }

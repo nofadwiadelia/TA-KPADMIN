@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon;
+use App\Periode;
+use App\Kelompok;
+use App\Usulan;
 
 class dashboardController extends Controller
 {
@@ -24,7 +28,14 @@ class dashboardController extends Controller
     }
 
     public function indexadmin(){
-        return view('admin.admin');
+        $periode = Periode::where('status', 'open')->first();
+        \Carbon\Carbon::setLocale('id');
+        $date = Carbon::now()->format('l, d F Y');
+
+        $kelompok = Kelompok::where('persetujuan', 'diproses')->count();
+        $usulan = Usulan::where('status', 'diproses')->count();
+
+        return view('admin.admin', compact('periode','date', 'kelompok', 'usulan'));
     }
 
     public function indexdosen(){

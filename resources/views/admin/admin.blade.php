@@ -20,29 +20,29 @@
     <section class="content">
 		<div class="row">
 			<div class="col-md-12 text-center">
-                <p><h2>Periode PKL <strong>2019</strong></h2><i class="text-muted">4 December 2019</i></p>
+                <p><h2>Periode PKL <strong>{{$periode->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
                     <div class="row justify-content-center">
                         <div class="col-md-6 col-md-offset-3 text-center">
                             <div class="alert alert-success alert-dismissible">
                                 <i class="icon fas fa-calendar"></i> Saat ini adalah periode PKL.
-                                <h3><b>2 December 2019</b> - <b>9 December 2019</b></h3>
+                                <h3><b>{{$periode->tgl_mulai}}</b> - <b>{{$periode->tgl_selesai}}</b></h3>
                             </div>
                         </div>
                     </div>
 					<div class="row">
                         <div class="col-md-12">
-                            <center><a href="/periodeListing" class="btn bg-blue"><i class="fa fa-edit"></i> Setting Periode PKL</a></center>
+                            <center><a href="/admin/periode" class="btn bg-blue"><i class="fa fa-edit"></i> Setting Periode PKL</a></center>
                         </div>
                     </div>
                     <br>
 			</div>
 		</div>
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-lg-3 col-6">
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>0 <sup style="font-size: 20px"> Kelompok</sup></h3>
+                  <h3>{{$kelompok}}<sup style="font-size: 20px"> Kelompok</sup></h3>
                   <p>Pendaftar yang masuk</p>
                 </div>
                 <div class="icon">
@@ -63,31 +63,18 @@
                 </div>
                 <a href="https://pklkomsi.000webhostapp.com/admin/pendaftaran/pendaftaranMagangListing" class="small-box-footer">Cek List Kelompok (Magang) <i class="fa fa-arrow-circle-right"></i></a>
               </div>
-            </div><!-- ./col -->
-			            <div class="col-lg-3 col-6">
+            </div>
+            <div class="col-lg-3 col-6">
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>32<sup style="font-size: 20px">active</sup></h3>
-                  <p><b>123</b> Total User saat ini</p>
-                </div>
-                <div class="icon">
-                  <i class="ion ion-person-add"></i>
-                </div>
-                <a href="https://pklkomsi.000webhostapp.com/admin/user/userListing" class="small-box-footer">Buat Akun Pengguna <i class="fa fa-arrow-circle-right"></i></a>
-              </div>
-            </div><!-- ./col -->
-			            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>1</h3>
+                  <h3>{{$usulan}}</h3>
                   <p>Usulan yang masuk</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-chatbubbles"></i>
                 </div>
-                <a href="https://pklkomsi.000webhostapp.com/admin/usulan/usulanListing" class="small-box-footer">Cek Usulan <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="/admin/usulan" class="small-box-footer">Cek Usulan <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
           </div>

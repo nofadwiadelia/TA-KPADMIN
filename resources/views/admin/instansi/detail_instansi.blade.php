@@ -87,7 +87,7 @@
                                             <div class="form-group">
                                                 <select class="form-control form-control-sm">
                                                     @foreach($periode as $periodes)
-                                                        <option value="{{ $periodes->id }}">{{ $periodes->tahun_periode }}</option>
+                                                        <option value="{{ $periodes->id_periode }}">{{ $periodes->tahun_periode }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -127,7 +127,7 @@
                                             <div class="form-group">
                                                 <select class="form-control form-control-sm">
                                                     @foreach($periode as $periodes)
-                                                        <option value="{{ $periodes->id }}">{{ $periodes->tahun }}</option>
+                                                        <option value="{{ $periodes->id_periode }}">{{ $periodes->tahun_periode }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -156,12 +156,8 @@
                                                     <a href="{{ route('lowongan.show', $lowongan->id_lowongan) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
                                                 </td>
                                                 <td class="text-center py-0 align-middle">
-                                                    <form action="{{ route('lowongan.destroy', $lowongan->id_lowongan) }}" method="post">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('DELETE') }}
-                                                        <a href="{{ route('lowongan.edit', $lowongan->id_lowongan) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                                                        <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
-                                                    </form>
+                                                    <a href="{{ route('lowongan.edit', $lowongan->id_lowongan) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                                                    <button class="btn btn-sm btn-danger deleteLowongan" data-id="{{ $lowongan->id_lowongan }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
                                                 </td>
                                                 </tr>
                                         </table><br/>
@@ -194,4 +190,32 @@
     </section>
     <!-- /.content -->
 
+@endsection
+
+@section('scripts')
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<!-- page script -->
+<script>
+  $(document).ready(function(){
+        $('.deleteLowongan').click(function(){
+            var id = $(this).data('id');
+            $.ajax({
+                type: "DELETE",
+                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                dataType: "json",
+                url: '/api/admin/lowongan/'+id,
+                data: {'id_lowongan': id,},
+                success: function (data) {
+                    toastr.options.closeButton = true;
+                    toastr.options.closeMethod = 'fadeOut';
+                    toastr.options.closeDuration = 100;
+                    toastr.success(data.message);
+                    window.location.reload();
+                }
+            });
+        });
+    });
+</script>
 @endsection

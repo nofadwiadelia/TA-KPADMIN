@@ -22,157 +22,38 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body ">
-                <form role="form">
-                  <div class="col-sm-4">
-                    <p>Pilih Periode</p>
-                      <!-- select -->
-                      <div class="form-group">
-                          <select class="form-control form-control-sm">
-                            <option>2019</option>
-                            <option>2018</option>
-                          </select>
-                      </div>
-                      <button type="submit" class="btn btn-default">Filter</button> <br><br>
-                  </div>
-                </form>
-              <table id="example1" class="table table-bordered table-striped ">
-                <thead>
-                <tr>
-                  <th>Nama Kelompok</th>
-                  <th>Periode</th>
-                  <th>Dosen Pembimbing</th>
-                  <th>Instansi</th>
-                  <th>Status</th>
-                  <th>Detail</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                  <td>Trident</td>
-                  <td>2019
-                  </td>
-                  <td>Win 95+</td>
-                  <td>PT. GMF AeroAsia Tbk</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>2019
-                  </td>
-                  <td>Win 95+</td>
-                  <td>PT. KAI</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>2019
-                  </td>
-                  <td>Win 95+</td>
-                  <td>PT. Sabre</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>2019
-                  </td>
-                  <td>Win 98+</td>
-                  <td>PT. Asyst</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>2019</td>
-                  <td>Win XP SP2+</td>
-                  <td>Gamatechno</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Trident</td>
-                  <td>2019</td>
-                  <td>Win XP</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>2018</td>
-                  <td>Win 98+ / OSX.2+</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>2018</td>
-                  <td>Win 98+ / OSX.2+</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>2018</td>
-                  <td>Win 98+ / OSX.2+</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Magang</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>2018</td>
-                  <td>Win 2k+ / OSX.3+</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Selesai</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>2018</td>
-                  <td>OSX.2+</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Selesai</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Gecko</td>
-                  <td>2018</td>
-                  <td>OSX.2+</td>
-                  <td>Win 95+</td>
-                  <td class="text-center py-0 align-middle"><span class="badge bg-warning">Process</span></td>
-                  <td class="text-center py-0 align-middle">
-                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+              <form role="form">
+                <div class="col-sm-4">
+                  <p>Saring berdasarkan</p>
+                    <!-- select -->
+                    <div class="form-group">
+                        <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
+                          <option selected>Semua Periode</option>
+                          @foreach($periode as $row)
+                          <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                          @endforeach
+                        </select>
+                    </div>
+                </div>
+              </form>
+              <div class="card-primary">
+                <div class="table-responsive p-0">
+                <table id="magang_data" class="table table-bordered table-striped ">
+                  <thead>
+                  <tr>
+                    <th>Nama Kelompok</th>
+                    <th>Ketua</th>
+                    <th>Dosen Pembimbing</th>
+                    <th>Instansi</th>
+                    <th>Status</th>
+                    <th>Detail</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+                </div>
+              </div>
             </div>
             <!-- /.card-body -->
           </div>
@@ -193,6 +74,77 @@
 <script>
   $(function () {
     $("#example1").DataTable();
+  });
+
+  $(document).ready(function(){
+    fill_datatable();
+
+    function fill_datatable(id_periode = ''){
+      var dataTable = $('#magang_data').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax:{
+          url: "/admin/kelompok",
+          data:{id_periode:id_periode}
+        },
+        columns:[
+          {
+            data:'nama_kelompok',
+            name:'nama_kelompok'
+          },
+          {
+            data:'nama',
+            name:'nama'
+          },
+          {
+            data:'dosen_nama',
+            name:'dosen_nama'
+          },
+          {
+            data:'nama',
+            name:'nama',
+            render: function(data, type, full, meta){
+              return '<p>PT. GMF AeroAsia Tbk</p>';
+            },
+          },
+          {
+            data:'nama',
+            name:'nama',
+            render: function(data, type, full, meta){
+              return "<span class='badge bg-warning'>magang</span>";
+            },
+          },
+          // {
+          //   data:'status',
+          //   name:'status',
+          //   render: function(data, type, full, meta){
+          //     if (data == 'diproses'){
+          //       return "<span class='badge bg-warning'>"+ data + "</span>";
+          //     }else if(data == 'diterima'){
+          //       return "<span class='badge bg-success'>"+ data + "</span>";
+          //     }else if(data =='ditolak'){
+          //       return "<span class='badge bg-danger'>"+ data + "</span>"
+          //     }
+          //   },
+          //   orderable: false
+          // },
+          {
+            data: 'action',
+            name: 'action', 
+            orderable: false, 
+            searchable: false
+          },
+        ]
+      });
+    }
+    
+    $('#periode_filter').change(function(){
+      var id_periode = $('#periode_filter').val();
+    
+      $('#magang_data').DataTable().destroy();
+    
+      fill_datatable(id_periode);
+    });
   });
 </script>
 @endsection

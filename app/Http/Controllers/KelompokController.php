@@ -18,7 +18,46 @@ class KelompokController extends Controller
      */
     public function index()
     {
-        //
+        $periode = Periode::get();
+        if(request()->ajax()){
+            if(!empty($request->id_periode)){
+                $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->where('kelompok_detail.status', 'Ketua')
+                            ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                            ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                            ->where('kelompok.id_periode', $request->id_periode)
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'periode.tahun_periode')
+                            ->get();
+
+                            //pembeda pembimbing penguji blm
+            }else{
+                $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->where('kelompok_detail.status', 'Ketua')
+                            ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
+                            ->get();
+            }
+            return datatables()->of($data)->addIndexColumn()
+            ->addColumn('action', function($kelompok){
+                $btn = '<a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'/detail" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        return view('admin.magang.magangListing',compact('periode'));
+    }
+
+    public function detailmagang($id_kelompok){
+        $kelompok = Kelompok::findOrFail($id_kelompok);
+        $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
+                            ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
+                            ->get();
+        return view('admin.magang.detailMagang',compact('kelompok', 'kelompoks'));
     }
 
     public function indexdosen()
@@ -29,13 +68,55 @@ class KelompokController extends Controller
     
     public function acckelompok()
     {
+        $periode = Periode::get();
         $dosen = Dosen::get();
-        $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok_detail')
+        $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->where('kelompok_detail.status', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                            ->select('kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.persetujuan', 'mahasiswa.nama', 'dosen.id_dosen')
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->get();
-        return view('admin.kelompok.persetujuan_kelompok',compact('kelompok', 'dosen'));
+        if(request()->ajax()){
+            if(!empty($request->id_periode)){
+                $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->where('kelompok_detail.status', 'Ketua')
+                            ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                            ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                            ->where('kelompok.id_periode', $request->id_periode)
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
+                            ->get();
+            }else{
+                $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->where('kelompok_detail.status', 'Ketua')
+                            ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                            ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
+                            ->get();
+            }
+            return datatables()->of($data)->addIndexColumn()
+            ->addColumn('action', function($kelompok){
+                $btn = '<a href="#" id="'.$kelompok->id_kelompok.'" class="btn btn-sm btn-info editbtn"><i class="fas fa-check"></i></a>';
+                $btn .= '&nbsp;&nbsp;';
+                $btn .= '<button type="button" id="'.$kelompok->id_kelompok.'" class="btn btn-danger btn-sm declinebtn"><i class="fas fa-times"></i></button>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        return view('admin.kelompok.persetujuan_kelompok',compact('periode','kelompok', 'dosen'));
+    }
+
+    public function detailacckelompok($id_kelompok)
+    {
+        $kelompok = Kelompok::findOrFail($id_kelompok);
+        $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
+                            ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
+                            ->get();
+        return view('admin.kelompok.detailKelompok',compact('kelompok', 'kelompoks'));
     }
 
     public function postacckelompok(Request $request)

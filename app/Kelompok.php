@@ -15,6 +15,14 @@ class Kelompok extends Model
     }
 
     public function dosen(){
-        return $this->hasOne('App\Dosen', 'id_dosen');
+        return $this->belongsTo('App\Dosen', 'id_dosen');
+    }
+
+    public function presentasi(){
+        return $this->hasOne('App\Presentasi', 'id_kelompok');
+    }
+
+    public function usulan(){
+        return $this->hasMany('App\Usulan', 'id_kelompok');
     }
 }

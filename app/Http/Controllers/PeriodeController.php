@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Periode;
-
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PeriodeController extends Controller
@@ -16,7 +16,10 @@ class PeriodeController extends Controller
     public function index()
     {
         $periodes = Periode::get();
-        return view('admin.periode.periodeListing',compact('periodes'));
+        $aktif = Periode::where('status', 'open')->first();
+        \Carbon\Carbon::setLocale('id');
+        $date = Carbon::now()->format('l, d F Y');
+        return view('admin.periode.periodeListing',compact('periodes', 'aktif', 'date' ));
     }
 
     public function changeStatus(Request $request){

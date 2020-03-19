@@ -18,12 +18,12 @@
       <div class="row">
         <div class="col-12">
           <div class="col-12 text-center">
-            <p><h2>Periode PKL <strong>2019</strong></h2><i class="text-muted">4 December 2019</i></p>
+            <p><h2>Periode PKL <strong>{{$aktif->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
             <div class="row justify-content-center">
                 <div class="col-md-6 col-md-offset-3 text-center">
                     <div class="alert alert-success alert-dismissible">
                         <i class="icon fas fa-calendar"></i> Saat ini adalah periode PKL.
-                        <h3><b>2 December 2019</b> - <b>9 December 2019</b></h3>
+                        <h3><b>{{$aktif->tgl_mulai}}</b> - <b>{{$aktif->tgl_selesai}}</b></h3>
                     </div>
                 </div>
             </div>
@@ -35,6 +35,8 @@
                   <a href="{{route('periode.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Periode</a> <br><br>
                   </div>
                 </form>
+              <div class="card-primary">
+              <div class="table-responsive p-0">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -64,6 +66,8 @@
                 @endforeach
                 </tbody>
               </table>
+              </div>
+              </div>
             </div>
             <!-- /.card-body -->
           </div>

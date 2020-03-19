@@ -16,8 +16,30 @@ class LowonganController extends Controller
      */
     public function index()
     {
+        $periode = Periode::get();
         $lowongan = Lowongan::get();
-        return view('admin.lowongan.lowongan',compact('lowongan'));
+        if(request()->ajax()){
+            if(!empty($request->id_periode)){
+                $data = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
+                                ->select('lowongan.*', 'instansi.nama')
+                                ->where('lowongan.id_periode',  $request->id_periode)
+                                ->get();
+            }else{
+                $data = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
+                                ->select('lowongan.*', 'instansi.nama')
+                                ->get();
+            }
+            return datatables()->of($data)->addIndexColumn()
+            ->addColumn('action', function($lowongan){
+                $btn = '<a href="/admin/lowongan/'.$lowongan->id_lowongan.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                $btn .= '&nbsp;&nbsp;';
+                $btn .= '<button type="button" name="delete" id="'.$lowongan->id_lowongan.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        return view('admin.lowongan.lowongan',compact('lowongan', 'periode'));
     }
 
     /**
@@ -28,8 +50,8 @@ class LowonganController extends Controller
     public function create()
     {
         $data = Instansi::get();
-        $datas = Periode::get();
-        return view('admin.lowongan.add_lowongan',compact('data', 'datas'));
+        $periode = Periode::where('status', 'open')->first();
+        return view('admin.lowongan.add_lowongan',compact('data', 'periode'));
     }
 
     /**
@@ -42,7 +64,7 @@ class LowonganController extends Controller
     {
         $this->validate($request, [
             'pekerjaan' => 'required|string|max:100',
-            'persyaratan' => 'required',
+            'persyaratan' => 'required|string|max:1000',
             'kapasitas' => 'required',
         ]);
         $data = Lowongan::create([
