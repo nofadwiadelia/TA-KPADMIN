@@ -6,13 +6,16 @@ use App\User;
 use App\Mahasiswa;
 use App\Role;
 use App\Periode;
+use App\Imports\UsersImport;
 use DB;
 use Datatables;
+use Excel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input; //untuk input::get
 use Illuminate\Support\Facades\Auth;
+
 
 class UsersController extends Controller
 {
@@ -152,6 +155,17 @@ class UsersController extends Controller
 
         return redirect(route('users.index'))
                 ->with('alert-success','Berhasil Menambahkan Data!');
+    }
+
+    public function import(Request $request) 
+    {
+        $this->validate($request, [
+            'file'  => 'required|mimes:xls,xlsx'
+        ]);
+
+        Excel::import(new UsersImport,request()->file('file'));
+           
+        return back();
     }
 
     /**

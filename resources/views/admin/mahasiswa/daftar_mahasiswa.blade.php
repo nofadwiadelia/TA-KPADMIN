@@ -37,7 +37,7 @@
                   </div>
                 </form>
                 <div class="col-sm-12">
-                  <a href="" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
+                  <a href="{{ route('exportmahasiswa') }}" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
                 </div>
               <div class="card-primary">
                 <div class="card-body table-responsive p-0">

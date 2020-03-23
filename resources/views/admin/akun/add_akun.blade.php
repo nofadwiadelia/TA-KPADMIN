@@ -86,11 +86,14 @@
                                   </p>
                                   <div class="row">
                                     <div class="col-md-12">
+                                    <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
                                       <div class="form-group">
-                                        <input type="file" class="form-control required" id="excel" name="excel">
+                                        <input type="file" class="form-control required" id="file" name="file">
                                       </div>
-                                      <input type="submit" class="btn btn-primary" value="Import dari Excel">
+                                      <button type="submit" class="btn btn-primary">Import dari Excel</button>
                                     </div>
+                                  </form>
                                   </div>
                             </div>
                             <!-- /.card-body -->

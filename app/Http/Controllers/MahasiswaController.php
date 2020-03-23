@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\MahasiswaExport;
+use Excel;
 use File;
 use Image;
 
@@ -79,6 +81,10 @@ class MahasiswaController extends Controller
         //
     }
 
+    public function export() 
+    {
+        return Excel::download(new MahasiswaExport, 'mahasiswa.xlsx');
+    }
     /**
      * Store a newly created resource in storage.
      *

@@ -21,9 +21,11 @@ Route::prefix('admin')->group(function () {
     Route::get('/', 'dashboardController@indexadmin');
     Route::get('/dasboard', 'dashboardController@indexadmin');
     Route::resource('/users', 'UsersController');
+    Route::post('import', 'UsersController@import')->name('import');
     Route::get('/login', 'UsersController@indexlogin')->name('login');
     Route::post('/login', 'UsersController@login')->name('login');
     Route::post('/logout', 'UsersController@logout')->name('logout');
+    Route::get('exportmahasiswa', 'MahasiswaController@export')->name('exportmahasiswa');
     Route::get('/mahasiswa', ['as' => 'mahasiswa.index', 'uses' => 'MahasiswaController@index']);
     Route::get('/mahasiswa/{id}', ['as' => 'mahasiswa.show', 'uses' => 'MahasiswaController@show']);
     Route::resource('/dosen', 'DosenController');
