@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Usulan;
 use App\Kelompok;
 use App\Periode;
+use DB;
 
 class UsulanController extends Controller
 {
@@ -49,12 +50,21 @@ class UsulanController extends Controller
                                 ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
                                 ->get();
             }else{
+                // $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                //                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                //                 ->where('kelompok_detail.status', 'Ketua')
+                //                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                //                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
+                //                 ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                //                 ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
+                //                 ->get();
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->where('kelompok_detail.status', 'Ketua')
                                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
                                 ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
+                                ->whereRaw('usulan.id_usulan in (select max(usulan.id_usulan) from usulan group by (usulan.id_kelompok))')
                                 ->get();
             }
             return datatables()->of($data)->addIndexColumn()

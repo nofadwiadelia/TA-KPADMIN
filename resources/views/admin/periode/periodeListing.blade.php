@@ -18,12 +18,21 @@
       <div class="row">
         <div class="col-12">
           <div class="col-12 text-center">
-            <p><h2>Periode PKL <strong>{{$aktif->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
+          @if (!empty($aktif))
+            <p><h2>Periode KP <strong>{{$aktif->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
+          @else
+            <p><h2>Periode KP <strong>tidak aktif</strong></h2></p>
+          @endif
             <div class="row justify-content-center">
                 <div class="col-md-6 col-md-offset-3 text-center">
                     <div class="alert alert-success alert-dismissible">
-                        <i class="icon fas fa-calendar"></i> Saat ini adalah periode PKL.
-                        <h3><b>{{$aktif->tgl_mulai}}</b> - <b>{{$aktif->tgl_selesai}}</b></h3>
+                      @if (!empty($aktif))
+                        <i class="icon fas fa-calendar"></i> Saat ini adalah periode KP.
+                        <h3><b>{{Carbon\Carbon::parse($aktif->tgl_mulai)->translatedFormat('d F Y')}}</b> - <b>{{Carbon\Carbon::parse($aktif->tgl_selesai)->translatedFormat('d F Y')}}</b></h3>
+                      @else
+                      <i class="icon fas fa-calendar"></i> Saat ini tidak ada periode KP yang aktif .
+                      @endif
+                        
                     </div>
                 </div>
             </div>
@@ -49,12 +58,13 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php $no = 1; @endphp
                 @foreach($periodes as $periode)
                 <tr>
-                  <td>1</td>
+                  <td>{{$no++}}</td>
                   <td>{{ $periode->tahun_periode }}</td>
-                  <td>{{ $periode->tgl_mulai }}</td>
-                  <td>{{ $periode->tgl_selesai }}</td>
+                  <td>{{Carbon\Carbon::parse($periode->tgl_mulai)->translatedFormat('d F Y')}}</td>
+                  <td>{{Carbon\Carbon::parse($periode->tgl_selesai)->translatedFormat('d F Y')}}</td>
                   <td class="text-center py-0 align-middle">
                   <input type="checkbox" data-id="{{ $periode->id_periode }}" name="status" class="js-switch" {{ $periode->status == 'open' ? 'checked' : '' }}>
                   </td>

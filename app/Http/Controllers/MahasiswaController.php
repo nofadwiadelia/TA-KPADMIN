@@ -125,15 +125,16 @@ class MahasiswaController extends Controller
                             ->first();
         $bukuharian =  LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->select('mahasiswa.nama', 'buku_harian.id_buku_harian', 'buku_harian.tanggal', 'buku_harian.waktu_mulai', 'buku_harian.waktu_selesai', 'buku_harian.kegiatan', 'buku_harian.status')
-                                ->where('mahasiswa.id_mahasiswa', '=', $id_mahasiswa)
+                                ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                                 ->get();
         $hari_produktif = LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')           
                                 ->select('buku_harian.tanggal')
-                                ->where('buku_harian.id_mahasiswa', '=', $id_mahasiswa)
+                                ->where('buku_harian.id_mahasiswa', $id_mahasiswa)
                                 ->count();
         
-        $jam_produktif = LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')          ->where('mahasiswa.id_mahasiswa', '=', $id_mahasiswa)
-                                ->select(DB::raw("SEC_TO_TIME(SUM(TIME_TO_SEC(buku_harian.waktu_selesai) - TIME_TO_SEC(buku_harian.waktu_mulai))) as timediff"))
+        $jam_produktif = LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')          
+                                ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
+                                ->selectRaw("SEC_TO_TIME(SUM(TIME_TO_SEC(buku_harian.waktu_selesai) - TIME_TO_SEC(buku_harian.waktu_mulai))) as timediff")
                                 ->first();
 
         return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'kelompok', 'anggota', 'magang', 'bukuharian', 'hari_produktif', 'jam_produktif'));

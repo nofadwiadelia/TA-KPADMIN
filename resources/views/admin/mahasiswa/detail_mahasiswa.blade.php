@@ -242,7 +242,7 @@
                                 <div class="tab-pane" id="logbook">
                                     <div class="card-header">
                                         <div class="row text-right">
-                                            <div class="col-12"><b> <h5 class="float-right">Jumlah jam produktif : {{$jam_produktif}}</h5></b></div>
+                                            <div class="col-12"><b> <h5 class="float-right">Jumlah jam produktif : {{$jam_produktif->timediff}}</h5></b></div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12"><b> <h5 class="float-right">Selama {{$hari_produktif}} hari</h5></b></div>
@@ -266,7 +266,8 @@
                                         <tbody>
                                         @php $no = 1; @endphp
                                         @foreach($bukuharian as $buku)
-                                        <tr>
+                                        <tr>593zxv
+                                        5
                                             <td>{{$no++}}</td>
                                             <td>{{$buku->tanggal}}</td>
                                             <td>{{$buku->waktu_mulai}}</td>

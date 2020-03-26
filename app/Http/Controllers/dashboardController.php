@@ -29,8 +29,7 @@ class dashboardController extends Controller
 
     public function indexadmin(){
         $periode = Periode::where('status', 'open')->first();
-        \Carbon\Carbon::setLocale('id');
-        $date = Carbon::now()->format('l, d F Y');
+        $date = Carbon::now()->translatedFormat('l, d F Y');
 
         $kelompok = Kelompok::where('persetujuan', 'diproses')->count();
         $usulan = Usulan::where('status', 'diproses')->count();

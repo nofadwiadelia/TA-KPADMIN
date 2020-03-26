@@ -17,17 +17,25 @@ class PeriodeController extends Controller
     {
         $periodes = Periode::get();
         $aktif = Periode::where('status', 'open')->first();
-        \Carbon\Carbon::setLocale('id');
-        $date = Carbon::now()->format('l, d F Y');
+        $date = Carbon::now()->translatedFormat('l, d F Y');
         return view('admin.periode.periodeListing',compact('periodes', 'aktif', 'date' ));
     }
 
     public function changeStatus(Request $request){
         $periode = Periode::findOrFail($request->periode_id);
-        $periode->status = $request->status;
-        $periode->save();
-
-        return response()->json(['message' => 'Periode status updated successfully.']);
+        $check = Periode::where('status', 'open')
+                        ->first();
+        if($check){
+            $periode->status = $request->status = 'close';
+            $periode->save();
+            return response()->json(['message' => 'Matikan periode yang aktif terlebih dahulu']);
+        }else{
+            $periode->status = $request->status;
+            $periode->save();
+    
+            return response()->json(['message' => 'Periode status updated successfully.']);
+        }
+        
 
     }
 

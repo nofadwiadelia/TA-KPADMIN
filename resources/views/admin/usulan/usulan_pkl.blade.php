@@ -45,11 +45,12 @@
                 <table id="usulan_data" class="table table-bordered table-striped ">
                   <thead>
                   <tr>
+                    <th width="5%">No</th>
                     <th>Nama Kelompok</th>
                     <th>Ketua</th>
                     <th>Dosen Pembimbing</th>
                     <th>Status</th>
-                    <th>Detail</th>
+                    <th width="5%">Detail</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -91,6 +92,12 @@
           data:{id_periode:id_periode}
         },
         columns:[
+          {
+            data: 'DT_RowIndex', 
+            name: 'DT_RowIndex', 
+            orderable: false,
+            searchable: false
+          },
           {
             data:'nama_kelompok',
             name:'nama_kelompok'

@@ -18,8 +18,8 @@ class PengumumanController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Pengumuman::get();
         if(request()->ajax()){
+            $data = Pengumuman::select('pengumuman.*');
             return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($pengumuman){
 
@@ -32,7 +32,7 @@ class PengumumanController extends Controller
                 ->make(true);
         }
             
-        return view('admin.pengumuman.indexpengumuman',compact('data'));
+        return view('admin.pengumuman.indexpengumuman');
     }
 
     public function indexmahasiswa()

@@ -20,12 +20,20 @@
     <section class="content">
 		<div class="row">
 			<div class="col-md-12 text-center">
+              @if (!empty($periode))
                 <p><h2>Periode PKL <strong>{{$periode->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
+              @else
+                <p><h2>Periode KP <strong>tidak aktif</strong></h2></p>
+              @endif
                     <div class="row justify-content-center">
                         <div class="col-md-6 col-md-offset-3 text-center">
                             <div class="alert alert-success alert-dismissible">
-                                <i class="icon fas fa-calendar"></i> Saat ini adalah periode PKL.
-                                <h3><b>{{$periode->tgl_mulai}}</b> - <b>{{$periode->tgl_selesai}}</b></h3>
+                            @if (!empty($periode))
+                              <i class="icon fas fa-calendar"></i> Saat ini adalah periode KP.
+                              <h3><b>{{Carbon\Carbon::parse($periode->tgl_mulai)->translatedFormat('d F Y')}}</b> - <b>{{Carbon\Carbon::parse($periode->tgl_selesai)->translatedFormat('d F Y')}}</b></h3>
+                            @else
+                            <i class="icon fas fa-calendar"></i> Saat ini tidak ada periode KP yang aktif .
+                            @endif
                             </div>
                         </div>
                     </div>

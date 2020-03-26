@@ -29,14 +29,15 @@
                   </div>
                 </form>
               <div class="card-primary">
-                <div class="card-body table-responsive p-0">
+                <div class="table-responsive p-0">
                   <table id="pengumuman_data" class="table table-bordered table-striped">
                     <thead>
                     <tr>
+                      <th width="5%">No</th>
                       <th>Judul</th>
                       <th>deskripsi</th>
                       <th>Lampiran</th>
-                      <th>Aksi</th>
+                      <th width="10%">Aksi</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -92,6 +93,11 @@
           url: "{{route('pengumuman.index')}}",
         },
         columns:[
+          {data: 'DT_RowIndex', 
+          name: 'DT_RowIndex', 
+          orderable: false,
+          searchable: false
+          },
           {
             data:'judul',
             name:'judul'

@@ -70,12 +70,6 @@ class KelompokController extends Controller
     {
         $periode = Periode::get();
         $dosen = Dosen::get();
-        $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->where('kelompok_detail.status', 'Ketua')
-                            ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
-                            ->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
@@ -105,7 +99,7 @@ class KelompokController extends Controller
             ->rawColumns(['action'])
             ->make(true);
         }
-        return view('admin.kelompok.persetujuan_kelompok',compact('periode','kelompok', 'dosen'));
+        return view('admin.kelompok.persetujuan_kelompok',compact('periode', 'dosen'));
     }
 
     public function detailacckelompok($id_kelompok)

@@ -45,6 +45,7 @@
                 <table id="persetujuan_data" class="table table-bordered table-striped ">
                   <thead>
                   <tr>
+                  
                     <th scope="col">Nama Kelompok</th>
                     <th scope="col">Ketua</th>
                     <th scope="col">Dosen Pembimbing</th>
