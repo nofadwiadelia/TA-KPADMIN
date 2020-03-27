@@ -41,7 +41,7 @@
             <div class="card-body ">
                 <form role="form">
                   <div class="col-sm-12">
-                  <a href="{{route('periode.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Periode</a> <br><br>
+                  <a href="{{route('periode.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Periode</a> <br><br>
                   </div>
                 </form>
               <div class="card-primary">

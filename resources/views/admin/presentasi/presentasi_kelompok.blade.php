@@ -37,6 +37,9 @@
                       </div>
                   </div>
                 </form>
+                <div class="col-sm-12">
+                  <a href="{{route('presentasi.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Pengumuman</a> <br><br>
+                </div>
               <div class="card-primary">
                 <div class="table-responsive p-0">
                   <table id="presentasi_data" class="table table-bordered table-striped ">
@@ -91,6 +94,9 @@
 <!-- DataTables -->
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+<script src="../../plugins/moment/moment.min.js"></script>
+
 <!-- page script -->
 <script>
   $(function () {
@@ -122,12 +128,15 @@
             name:'dosen_nama'
           },
           {
-            data:'dosen_nama',
-            name:'dosen_nama'
+            data:'dosen.nama',
+            name:'dosen.nama'
           },
           {
             data:'waktu',
-            name:'waktu'
+            name:'waktu',
+            render : function (data) {
+            return moment(data).format('dddd, D MMMM YYYY. h:i');
+            } 
           },
           {
             data:'ruang',

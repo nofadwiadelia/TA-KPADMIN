@@ -202,6 +202,46 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item has-treeview">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-list"></i>
+                <p>
+                  Data Master
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/admin/roles" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Role</p>
+                  </a>
+                </li>
+                <li class="nav-item has-treeview">
+                  <a href="#" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>
+                      Presentasi
+                      <i class="fas fa-angle-left right"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="/admin/sesi" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Sesi</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="/admin/ruang" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Ruang</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
           </ul>
       </nav>
       <!-- /.sidebar-menu -->

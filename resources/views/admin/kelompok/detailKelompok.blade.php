@@ -27,7 +27,7 @@
             <div class="card-body">
               <div class="card-primary">
               <div class="table-responsive p-0">
-              <table class="table table-bordered table-striped">
+              <table class="table table-bordered table-striped" id="kelompokTable">
                 <thead>
                 <tr>
                   <th>NIM</th>
@@ -38,23 +38,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($kelompoks as $kel)
-                <tr>
-                  <td>{{$kel->nim}}</td>
-                  <td>{{$kel->nama}}
-                  </td>
-                  <td>{{$kel->no_hp}}</td>
-                  <td>{{$kel->status}}</td>
-                  <td class="text-center py-0 align-middle">
-                      <div class="btn-group btn-group-sm">
-                        <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                      </div>
-                    </td>
-                </tr>
-                @endforeach
                 </tbody>
               </table>
               </div>
+              <p type="hidden" value="{{$kelompok->id_kelompok}}" id="id_kelompok"></p>
               </div>
             </div>
             <!-- /.card-body -->
@@ -74,8 +61,42 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
+
+$(document).ready(function(){
+
+    var id_kelompok = 5;
+    // var id_kelompok = $(this).attr('id');
+    // var id_kelompok = $this('id_kelompok');
+
+    $.ajax({
+            type: 'get',
+            url: ('/api/admin/detailkelompok/'+id_kelompok),
+            dataType: 'JSON',
+            success: function (response) {
+                var len = response.length;
+                for(var i=0; i<len; i++){
+                    var id_mahasiswa = response[i].id_mahasiswa;
+                    var nim = response[i].nim;
+                    var nama = response[i].nama;
+                    var no_hp = response[i].no_hp;
+                    var status = response[i].status;
+
+                    var tr_str = "<tr>" +
+                        "<td>" + nim + "</td>" +
+                        "<td>" + nama + "</td>" +
+                        "<td>" + no_hp + "</td>" +
+                        "<td>" + status + "</td>" +
+                        "<td class='text-center py-0 align-middle'>"+
+                          "<div class='btn-group btn-group-sm'>"+
+                            "<a href='/admin/mahasiswa/"+id_mahasiswa+"' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
+                          "</div>"+
+                        "</td>"+
+                        "</tr>";
+
+                    $("#kelompokTable tbody").append(tr_str);
+                }
+            }
+        });
   });
 </script>
 @endsection

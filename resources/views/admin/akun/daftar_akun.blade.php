@@ -151,9 +151,6 @@
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         dataType: "json",
         url: '/api/admin/users/'+user_id,
-        beforeSend:function(){
-          $('#ok_button').text('Deleting...');
-        },
         success: function (data) {
             $('#confirmModal').modal('hide');
             $('#user_data').DataTable().ajax.reload();

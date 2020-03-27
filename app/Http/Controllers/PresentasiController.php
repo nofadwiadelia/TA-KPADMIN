@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Carbon;
 use App\Dosen;
 use App\Periode;
 use App\Kelompok;
@@ -25,17 +26,17 @@ class PresentasiController extends Controller
                 $data = Presentasi::leftJoin('kelompok', 'jadwal_presentasi.id_kelompok', 'kelompok.id_kelompok')
                                 ->leftJoin('periode', 'jadwal_presentasi.id_periode', 'periode.id_periode')
                                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                                // ->leftJoin('dosen', 'jadwal_presentasi.id_dosen', 'dosen.id_dosen')
                                 ->select('jadwal_presentasi.*', 'kelompok.nama_kelompok' ,'dosen.nama as dosen_nama', 'periode.tahun_periode')
                                 ->where('jadwal_presentasi.id_periode',  $request->id_periode)
-                                ->get();
+                                ->get()
+                                ->load('dosen');;
             }else{
                 $data = Presentasi::leftJoin('kelompok', 'jadwal_presentasi.id_kelompok', 'kelompok.id_kelompok')
                                 ->leftJoin('periode', 'jadwal_presentasi.id_periode', 'periode.id_periode')
                                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                                // ->leftJoin('dosen', 'jadwal_presentasi.id_dosen', 'dosen.id_dosen')
                                 ->select('jadwal_presentasi.*', 'kelompok.nama_kelompok' ,'dosen.nama as dosen_nama', 'periode.tahun_periode')
-                                ->get();
+                                ->get()
+                                ->load('dosen');;
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($presentasi){
@@ -59,7 +60,7 @@ class PresentasiController extends Controller
     {
         $kelompok = Kelompok::get();
         $dosen = Dosen::get();
-        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->where('status', 'open')->first();
+        $periode = Periode::where('status', 'open')->first();
         return view('admin.presentasi.add_presentasi', compact('kelompok', 'dosen', 'periode'));
     }
 

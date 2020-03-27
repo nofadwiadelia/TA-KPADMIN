@@ -105,12 +105,19 @@ class KelompokController extends Controller
     public function detailacckelompok($id_kelompok)
     {
         $kelompok = Kelompok::findOrFail($id_kelompok);
-        $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
-                            ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
-                            ->get();
-        return view('admin.kelompok.detailKelompok',compact('kelompok', 'kelompoks'));
+        return view('admin.kelompok.detailKelompok', compact('kelompok'));
+    }
+    
+    public function detail($id_kelompok)
+    {
+        if(request()->ajax()){
+            $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                                ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
+                                ->where('kelompok_detail.id_kelompok', $id_kelompok)
+                                ->get();
+        }
+        return response()->json($kelompoks);
     }
 
     public function postacckelompok(Request $request)

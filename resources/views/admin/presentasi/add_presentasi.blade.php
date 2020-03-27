@@ -54,7 +54,7 @@
                                     </div>
                                     
                                     
-                                    <input type="text" name="id_periode" id="id_periode" class="form-control pull-right required" value="{{$periode->id_periode}}">
+                                    <input type="hidden" name="id_periode" id="id_periode" class="form-control pull-right required" value="{{$periode->id_periode}}">
                                     
                                     
                                     <div class="row">

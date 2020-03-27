@@ -49,6 +49,12 @@ Route::prefix('admin')->group(function () {
     Route::get('/presentasi/{id}/edit', ['as' => 'presentasi.edit', 'uses' => 'PresentasiController@edit']);
     Route::get('/usulan', 'UsulanController@usulan');
     Route::get('/usulan/kelompok/{id}/detail', 'UsulanController@detailusulan');
+    Route::get('/roles', 'RolesController@index');
+    Route::get('/roles/{id}', 'RolesController@edit');
+    Route::get('/sesi', 'SesiwaktuController@index');
+    Route::get('/sesi/{id}', 'SesiwaktuController@edit');
+    Route::get('/ruang', 'RuangController@index');
+    
 });
 
 Route::prefix('mahasiswa')->group(function () {

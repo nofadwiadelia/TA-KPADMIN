@@ -63,7 +63,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                    <input type="datetime-local" id="waktu" name="waktu" class="form-control pull-right required" value="{{$presentasi->waktu}}" >
+                                                    <input type="datetime-local" required id="waktu" name="waktu" class="form-control pull-right required" value="{{$presentasi->waktu}}" >
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -77,7 +77,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" name="ruang" id="ruang" value="{{$presentasi->ruang}}">
+                                                    <input type="text" required class="form-control" name="ruang" id="ruang" value="{{$presentasi->ruang}}">
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>

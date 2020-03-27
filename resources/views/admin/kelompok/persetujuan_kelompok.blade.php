@@ -223,7 +223,7 @@
               toastr.options.closeMethod = 'fadeOut';
               toastr.options.closeDuration = 100;
               toastr.success(data.message);
-              location.reload();
+              $('#persetujuan_data').DataTable().ajax.reload();
           },
           error: function(error){
             console.log(error);
@@ -235,7 +235,7 @@
   $(document).on('click','.declinebtn', function(e){
         e.preventDefault();
 
-        var persetujuan = $('#persetujuan').val();
+        var persetujuan = 'ditolak';
         id_kelompok = $(this).attr('id');
 
         $.ajax({
@@ -250,7 +250,7 @@
               toastr.options.closeMethod = 'fadeOut';
               toastr.options.closeDuration = 100;
               toastr.success(data.message);
-              location.reload();
+              $('#persetujuan_data').DataTable().ajax.reload();
             },
             error: function(error){
               console.log(error);

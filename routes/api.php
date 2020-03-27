@@ -27,6 +27,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/instansi/change', 'InstansiController@changeStatus');
     Route::post('/persetujuan_kelompoks', 'KelompokController@postacckelompok');
     Route::post('/tolak_kelompok', 'KelompokController@declinekelompok');
+    Route::get('/detailkelompok/{id}', 'KelompokController@detail');
     Route::post('/periode/add', 'PeriodeController@store');
     Route::put('/periode/{id}/edit', 'PeriodeController@update');
     Route::post('/periode/change', 'PeriodeController@changeStatus');
@@ -40,6 +41,14 @@ Route::prefix('admin')->group(function () {
     Route::post('/presentasi/add', 'PresentasiController@store');
     Route::put('/presentasi/{id}/edit', 'PresentasiController@update');
     Route::delete('/presentasi/{id}', 'PresentasiController@destroy');
+    Route::post('/roles', 'RolesController@store');
+    Route::delete('/roles/{id}', 'RolesController@destroy');
+    Route::post('/sesi', 'SesiwaktuController@store');
+    Route::delete('/sesi/{id}', 'SesiwaktuController@destroy');
+    Route::get('/ruang', 'RuangController@index');
+    Route::post('/ruang', 'RuangController@store');
+    Route::get('/ruang/{id}', 'RuangController@edit');
+    Route::delete('/ruang/{id}', 'RuangController@destroy');
 });
 
 
