@@ -26,6 +26,8 @@ class PresentasiController extends Controller
                 $data = Presentasi::leftJoin('kelompok', 'jadwal_presentasi.id_kelompok', 'kelompok.id_kelompok')
                                 ->leftJoin('periode', 'jadwal_presentasi.id_periode', 'periode.id_periode')
                                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                                ->leftJoin('sesiwaktu', 'jadwal_presentasi.id_sesiwaktu', 'sesiwaktu.id_sesiwaktu')
+                                ->leftJoin('ruang', 'jadwal_presentasi.id_ruang', 'ruang.id_ruang')
                                 ->select('jadwal_presentasi.*', 'kelompok.nama_kelompok' ,'dosen.nama as dosen_nama', 'periode.tahun_periode')
                                 ->where('jadwal_presentasi.id_periode',  $request->id_periode)
                                 ->get()

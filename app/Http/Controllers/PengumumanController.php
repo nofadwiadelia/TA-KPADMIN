@@ -19,7 +19,7 @@ class PengumumanController extends Controller
     public function index(Request $request)
     {
         if(request()->ajax()){
-            $data = Pengumuman::select('pengumuman.*');
+            $data = Pengumuman::get();
             return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($pengumuman){
 
@@ -66,36 +66,22 @@ class PengumumanController extends Controller
             'deskripsi' => 'nullable|string|max:500',
             'lampiran' => 'nullable|image|mimes:jpg,png,jpeg',
         ]);
-        try {
-            $lampiran = null;
-            if ($request->hasFile('lampiran')) {
-                $lampiran = $this->saveFile($request->name, $request->file('lampiran'));
-            }
 
-            $data = Pengumuman::create([
-                'judul' => $request->judul,
-                'deskripsi' => $request->deskripsi,
-                'lampiran' => $lampiran
-            ]);
-            return redirect(route('pengumuman.index'))
-                ->with('alert-success','Berhasil Menambahkan Data!');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with(['error' => $e->getMessage()]);
+        $lampiran = null;
+        if($request->hasFile('lampiran')){
+            $files=$request->file('lampiran');
+            $lampiran=str_slug($request->judul) . time() . '.' . $files->getClientOriginalExtension();
+            $files->move(public_path('uploads/pengumuman'),$lampiran);
         }
+
+        $data = Pengumuman::create([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'lampiran' => $lampiran
+        ]);
+        return response()->json(['message' => 'Pengumuman added successfully.']);
     }
 
-    private function saveFile($judul, $lampiran)
-    {
-        $images = str_slug($judul) . time() . '.' . $lampiran->getClientOriginalExtension();
-        $path = public_path('uploads/file');
-
-        if (!File::isDirectory($path)) {
-            File::makeDirectory($path, 0777, true, true);
-        } 
-        Image::make($lampiran)->save($path . '/' . $images);
-        return $images;
-    }
 
     /**
      * Display the specified resource.
@@ -135,27 +121,25 @@ class PengumumanController extends Controller
             'lampiran' => 'nullable|image|mimes:jpg,png,jpeg'
         ]);
 
-        try {
-            $data = Pengumuman::findOrFail($id_pengumuman);
-            $lampiran = $data->lampiran;
+       
+        $data = Pengumuman::findOrFail($id_pengumuman);
+        $lampiran = $data->lampiran;
 
-            if ($request->hasFile('lampiran')) {
-                !empty($lampiran) ? File::delete(public_path('uploads/file/' . $lampiran)):null;
-                $lampiran = $this->saveFile($request->judul, $request->file('lampiran'));
-            }
+        if ($request->hasFile('lampiran')) {
+            !empty($lampiran) ? File::delete(public_path('uploads/pengumuman/' . $lampiran)):null;
 
-            $data->update([
-                'judul' => $request->judul,
-                'deskripsi' => $request->deskripsi,
-                'lampiran' => $lampiran
-            ]);
-
-            return redirect(route('pengumuman.index'))
-            ->with('alert-success','Data berhasil diubah!');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with(['error' => $e->getMessage()]);
+            $files=$request->file('lampiran');
+            $lampiran=str_slug($request->judul) . time() . '.' . $files->getClientOriginalExtension();
+            $files->move(public_path('uploads/pengumuman'),$lampiran);
         }
+
+        $data->update([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'lampiran' => $lampiran
+        ]);
+
+        return response()->json(['message' => 'Pengumuman updated successfully.']);
     }
 
     /**

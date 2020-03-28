@@ -111,7 +111,7 @@
             name:'lampiran',
             render: function(data, type, full, meta){
               if (data != null){
-                return "<img src={{ URL::to('/') }}/uploads/file/" + data + " width='50' height='50' />";
+                return "<img src={{ URL::to('/') }}/uploads/pengumuman/" + data + " width='50' height='50' />";
               }else{
                 return "<img src='http://via.placeholder.com/50x50'>";
               }

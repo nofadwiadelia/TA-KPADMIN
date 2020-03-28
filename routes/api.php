@@ -36,7 +36,7 @@ Route::prefix('admin')->group(function () {
     Route::put('/lowongan/{id}/edit', 'LowonganController@update');
     Route::delete('/lowongan/{id}', 'LowonganController@destroy');
     Route::post('/pengumuman/add', 'PengumumanController@store');
-    Route::put('/pengumuman/{id}/edit', 'PengumumanController@update');
+    Route::post('/pengumuman/{id}/edit', 'PengumumanController@update');
     Route::delete('/pengumuman/{id}', 'PengumumanController@destroy');
     Route::post('/presentasi/add', 'PresentasiController@store');
     Route::put('/presentasi/{id}/edit', 'PresentasiController@update');

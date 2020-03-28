@@ -8,9 +8,8 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-                <form action="{{ route('pengumuman.update', $data->id_pengumuman) }}" method="post" enctype="multipart/form-data">
+                <form id="editPengumuman" enctype="multipart/form-data">
                 {{ csrf_field() }}
-                {{ method_field('PUT') }}
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Judul *</label>
@@ -26,7 +25,8 @@
                             <label for="exampleInputFile">Lampiran</label>
                               <div class="input-group">
                                 <div class="custom-file">
-                                  <input type="file" name="lampiran" id="lampiran" class="form-control" value="{{ $data->deskripsi }}">
+                                <input type="hidden" name="id_pengumuman" id="id_pengumuman" value="{{ $data->id_pengumuman }}">
+                                  <input type="file" name="lampiran" id="lampiran" class="form-control" value="{{ $data->lampiran }}">
                                   <!-- <input type="file" class="custom-file-input" id="exampleInputFile"> -->
                                   <label class="custom-file-label" for="lampiran">Choose file</label>
                                 </div>
@@ -58,6 +58,33 @@
 @endsection
 
 @section('scripts')
-
+<script>
+  $(document).ready(function(){   
+    $('#editPengumuman').on('submit', function(e){
+        e.preventDefault();
+        var id = $('#id_pengumuman').val();
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/pengumuman/"+id+"/edit",
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            data: new FormData(this),
+            success: function(data){
+                window.location = "/admin/pengumuman/";
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.success(data.message);
+            },
+            error: function(error){
+            console.log(error);
+            }
+        });
+    });
+  });
+</script>
 
 @endsection

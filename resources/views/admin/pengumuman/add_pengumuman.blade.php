@@ -19,7 +19,8 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-                <form action="{{ route('pengumuman.store') }}" method="post" enctype="multipart/form-data">
+                <form id="uploadPengumuman" method="post" enctype="multipart/form-data">
+                <!-- <form action="{{ route('pengumuman.store') }}" method="post" enctype="multipart/form-data"> -->
                 {{ csrf_field() }}
                     <div class="card-body">
                         <div class="form-group">
@@ -68,5 +69,32 @@
 @endsection
 
 @section('scripts')
+<script>
+  $(document).ready(function(){   
+    $('#uploadPengumuman').on('submit', function(e){
+        e.preventDefault();
 
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/pengumuman/add",
+            dataType:'JSON',
+            contentType: false,
+            cache: false,
+            processData: false,
+            data: new FormData(this),
+            success: function(data){
+                window.location = "/admin/pengumuman/";
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 100;
+                toastr.success(data.message);
+            },
+            error: function(error){
+            console.log(error);
+            }
+        });
+    });
+  });
+</script>
 @endsection
