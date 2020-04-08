@@ -102,7 +102,7 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id_mahasiswa)
+    public function show($id_mahasiswa)
     {
         $mahasiswa = Mahasiswa::findOrFail($id_mahasiswa);
         $role = Mahasiswa::leftJoin('users', 'mahasiswa.id_users', 'users.id_users')
@@ -116,7 +116,9 @@ class MahasiswaController extends Controller
         $anggota = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
-                            // ->where('kelompok_detail.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->whereNotIn('mahasiswa.id_mahasiswa', [$id_mahasiswa])
+                            ->where('kelompok_detail.id_kelompok', 4) 
+                            // kurang ambil id kelompok
                             ->get();
         $magang = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')

@@ -105,21 +105,10 @@
                                     <div class="card-primary card-outline">
                                     <div class="card-body"><br>
                                         <div class="row">
-                                        @php
-                                            $i=0;
-                                            $jumlahData = 5;
-                                        @endphp
-
                                         @foreach($anggota as $anggotas)
-
-                                            @php
-                                            if ($i++ % $jumlahData == 0) {
-                                                echo "<div class='row margin-bottom-5'>";
-                                            }
-                                            @endphp
-											<div class="col-md-5">
+											<div class="col-md-6">
                                                 <!-- Profile Image -->
-                                                <div class="card card-primary card-outline">
+                                                <div class="card card-primary ">
                                                 <div class="card-body box-profile">
                                                     <div class="text-center">
                                                     <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
@@ -145,11 +134,6 @@
                                                 <!-- /.box -->
                                             </div>
                                             <!-- /.col -->
-                                            @php
-                                            if ($i % $jumlahData == 0 || $i == $anggota->count()) {
-                                                echo "</div>";
-                                            }
-                                            @endphp
                                         @endforeach
 										</div>   
                                         <br/>
