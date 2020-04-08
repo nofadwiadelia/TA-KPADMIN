@@ -6,13 +6,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3 class="m-0 text-dark">Data Ruang</h3>
+            <h3 class="m-0 text-dark">Data Kelompok Penilai</h3>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Data Master</li>
-              <li class="breadcrumb-item active">Ruang</li>
+              <li class="breadcrumb-item active">Kelompok Penilai</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -24,15 +24,15 @@
           <div class="card">
             <div class="card-body ">
                 <div class="col-sm-12">
-                  <a href="javascript:void(0)" id="createNewRuang" class="btn btn-success float-right btn-sm addruang"><i class="fas fa-plus"></i> Tambah Ruang</a> <br><br>
+                  <a href="javascript:void(0)" id="createNewPenilai" class="btn btn-success float-right btn-sm addpenilai"><i class="fas fa-plus"></i> Tambah Kelompok Penilai</a> <br><br>
                 </div>
               <div class="card-primary">
                 <div class="table-responsive p-0">
-                  <table id="ruang_data" class="table table-bordered table-striped ">
+                  <table id="penilai_data" class="table table-bordered table-striped ">
                     <thead>
                     <tr>
-                      <th>ID ruang</th>
-                      <th>Nama Ruang</th>
+                      <th>ID Kelompok Penilai</th>
+                      <th>Nama</th>
                       <th>Aksi</th>
                     </tr>
                     </thead>
@@ -48,12 +48,12 @@
                             <h4 class="modal-title" id="modelHeading"></h4>
                         </div>
                         <div class="modal-body">
-                            <form id="RuangForm" name="RuangForm" class="form-horizontal">
-                              <input type="hidden" name="id_ruang" id="id_ruang">
+                            <form id="PenilaiForm" name="PenilaiForm" class="form-horizontal">
+                              <input type="hidden" name="id_kelompok_penilai" id="id_kelompok_penilai">
                                 <div class="form-group">
-                                    <label for="ruang" class="col-sm-2 control-label">Sesi</label>
+                                    <label for="nama" class="col-sm-2 control-label">Nama</label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="ruang" name="ruang" placeholder="Enter Name" value="" maxlength="50" required="">
+                                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter Name" value="" maxlength="50" required="">
                                     </div>
                                 </div>
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -119,20 +119,20 @@ $(document).ready(function(){
 
   fill_datatable();
   function fill_datatable(){
-    var dataTable = $('#ruang_data').DataTable({
+    var dataTable = $('#penilai_data').DataTable({
       processing: true,
       serverSide: true,
       ajax:{
-      url: "/admin/ruang",
+      url: "/admin/kelompokpenilai",
       },
       columns:[
       {
-        data: 'id_ruang',
-        name: 'id_ruang'
+        data: 'id_kelompok_penilai',
+        name: 'id_kelompok_penilai'
       },
       {
-        data: 'ruang',
-        name: 'ruang'
+        data: 'nama',
+        name: 'nama'
       },
       {
         data: 'action',
@@ -143,24 +143,24 @@ $(document).ready(function(){
     });
   }
 
-    $('#createNewRuang').click(function () {
-      $('#saveBtn').val("create-ruang");
-      $('#id_ruang').val('');
-      $('#RuangForm').trigger("reset");
-      $('#modelHeading').html("Create New Ruang");
+    $('#createNewPenilai').click(function () {
+      $('#saveBtn').val("create-penilai");
+      $('#id_kelompok_penilai').val('');
+      $('#PenilaiForm').trigger("reset");
+      $('#modelHeading').html("Create New Kelompok Penilai");
       $('#ajaxModel').modal('show');
     });
 
     
-    $('body').on('click', '.editRuang', function () {
-      var id_ruang = $(this).data('id');
-      $.get("/api/admin/ruang/" + id_ruang , function (data) {
-        var id_ruang = $(this).data('id');
-          $('#modelHeading').html("Edit Sesi");
-          $('#saveBtn').val("edit-user");
+    $('body').on('click', '.editPenilai', function () {
+      var id_kelompok_penilai = $(this).data('id');
+      $.get("/api/admin/kelompokpenilai/" + id_kelompok_penilai , function (data) {
+        var id_kelompok_penilai = $(this).data('id');
+          $('#modelHeading').html("Edit Kelompok Penilai");
+          $('#saveBtn').val("edit-penilai");
           $('#ajaxModel').modal('show');
-          $('#id_ruang').val(data.id_ruang);
-          $('#ruang').val(data.ruang);
+          $('#id_kelompok_penilai').val(data.id_kelompok_penilai);
+          $('#nama').val(data.nama);
       })
     });
 
@@ -169,13 +169,13 @@ $(document).ready(function(){
       e.preventDefault();
 
       $.ajax({
-        data: $('#RuangForm').serialize(),
-        url: "/api/admin/ruang",
+        data: $('#PenilaiForm').serialize(),
+        url: "/api/admin/kelompokpenilai",
         type: "POST",
         dataType: 'json',
         success: function (data) {
-          $('#ruang_data').DataTable().ajax.reload();
-          $('#RuangForm').trigger("reset");
+          $('#penilai_data').DataTable().ajax.reload();
+          $('#PenilaiForm').trigger("reset");
           $('#ajaxModel').modal('hide');
         },
         error: function (data) {
@@ -186,8 +186,8 @@ $(document).ready(function(){
     });
 
     // DELETE
-    $(document).on('click', '.deleteRuang', function(){
-      id_ruang = $(this).data("id");
+    $(document).on('click', '.deletePenilai', function(){
+      id_kelompok_penilai = $(this).data("id");
       $('#confirmModal').modal('show');
     });
     $('#ok_button').click(function(){
@@ -195,7 +195,7 @@ $(document).ready(function(){
           type: "DELETE",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
           dataType: "json",
-          url: '/api/admin/ruang/'+id_ruang,
+          url: '/api/admin/kelompokpenilai/'+id_kelompok_penilai,
           success: function (data) {
             $('#confirmModal').modal('hide');
             window.location.reload();

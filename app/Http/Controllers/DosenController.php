@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 use App\Dosen;
 use App\User;
 use App\Roles;
+use App\Periode;
+use App\Kelompok;
 
 class DosenController extends Controller
 {
@@ -74,15 +76,24 @@ class DosenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_dosen)
+    public function show(Request $request, $id_dosen)
     {
+        $periode = Periode::select('id_periode', 'tahun_periode')->get();
         $dosen = Dosen::findOrFail($id_dosen);
         $role = Dosen::leftJoin('users', 'dosen.id_users', 'users.id_users')
                         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
                         ->select('dosen.id_dosen', 'roles.roles')
                         ->where('dosen.id_dosen', '=', $id_dosen)
                         ->first();
-        return view('admin.dosen.detail_dosen',compact('role', 'dosen'));
+        $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+                            ->where('kelompok.id_dosen', $id_dosen)
+                            ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode')
+                            ->get();
+        
+        return view('admin.dosen.detail_dosen',compact('role', 'dosen', 'periode', 'kelompok'));
     }
 
     /**

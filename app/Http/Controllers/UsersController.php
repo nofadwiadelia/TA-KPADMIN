@@ -75,13 +75,19 @@ class UsersController extends Controller
             if(!empty($request->id_roles)){
                 $data = DB::table('users')
                     ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                    ->select('users.id_users', 'users.username', 'roles.roles')
+                    ->leftJoin('instansi', 'users.id_users', 'instansi.id_users')
+                    ->leftJoin('dosen', 'users.id_users', 'dosen.id_users')
+                    ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
+                    ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa', 'dosen.nama as namadosen', 'instansi.nama as namainstansi')
                     ->where('users.id_roles', $request->id_roles)
                     ->get();
             }else{
                 $data = DB::table('users')
                     ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                    ->select('users.id_users', 'users.username', 'roles.roles')
+                    ->leftJoin('instansi', 'users.id_users', 'instansi.id_users')
+                    ->leftJoin('dosen', 'users.id_users', 'dosen.id_users')
+                    ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
+                    ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa', 'dosen.nama as namadosen', 'instansi.nama as namainstansi')
                     ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -203,18 +209,15 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:191',
-            'password' => 'required|min:6|max:191'
+            'username' => 'required|string|max:191'
         ],
         [
             'nama.required' => 'can not be empty !',
             'username.required' => 'can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'password.max' => 'password is to long !',
+            'username.unique' => 'username has already been taken !'
         ]);
         $data = User::where ('id_users',$id_users)->first();
         $data->username = $request->username;
-        $data->password = Hash::make($request->password);
 
         if($request->id_roles == 2){
             $data->dosen()->update([
@@ -233,8 +236,22 @@ class UsersController extends Controller
         }
 
         $data->save();
-        return redirect()->route('users.index')->with(
+
+        return redirect()->back()->with(
             'alert-success','Data berhasil diubah!');
+    }
+
+    public function updatePassword(Request $request, $id_users){
+        $this->validate($request, [
+            'password' => 'required|min:6|max:191'
+        ],
+        [
+            'password.max' => 'password is to long !',
+        ]);
+        $data = User::where ('id_users',$id_users)->first();
+        $data->password = Hash::make($request->password);
+        $data->save();
+        return response()->json(['message'=>'Password updated successfully.']);
     }
 
     /**

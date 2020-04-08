@@ -156,7 +156,7 @@ $(document).ready(function(){
 
     $('body').on('click', '.editSesi', function () {
       var id_sesiwaktu = $(this).data('id');
-      $.get("/admin/sesi/" + id_sesiwaktu , function (data) {
+      $.get("/api/admin/sesi/" + id_sesiwaktu , function (data) {
         var id_sesiwaktu = $(this).data('id');
           $('#modelHeading').html("Edit Sesi");
           $('#saveBtn').val("edit-user");

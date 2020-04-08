@@ -56,17 +56,33 @@
                                     
                                     <input type="hidden" name="id_periode" id="id_periode" class="form-control pull-right required" value="{{$periode->id_periode}}">
                                     
+                                    <div class="row">
+                                        <div class="col-md-12">                                
+                                            <div class="form-group">
+                                                <label>Tanggal *</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                    <input type="date" name="tanggal" id="tanggal" class="form-control pull-right required" >
+                                                </div>
+                                                <!-- /.input group -->
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
                                     
                                     <div class="row">
                                         <div class="col-md-6">                                
                                             <!-- Date -->
                                             <div class="form-group">
                                                 <label>Waktu *</label>
-                                                <div class="input-group date">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                                    </div>
-                                                    <input type="datetime-local" name="waktu" id="waktu" class="form-control pull-right required" >
+                                                <div class="input-group">
+                                                    <select name="id_sesiwaktu" id="id_sesiwaktu" class="form-control select2" style="width: 100%;">
+                                                    @foreach($sesi as $waktu)
+                                                    <option value="{{ $waktu->id_sesiwaktu }}">{{ $waktu->sesi }}</option>
+                                                    @endforeach
+                                                    </select >
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
@@ -76,10 +92,11 @@
                                             <div class="form-group">
                                                 <label>Ruang *</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="ruang" name="ruang" placeholder="">
+                                                <select name="id_ruang" id="id_ruang" class="form-control select2" style="width: 100%;">
+                                                @foreach($ruang as $ruangs)
+                                                <option value="{{ $ruangs->id_ruang }}">{{ $ruangs->ruang }}</option>
+                                                @endforeach
+                                                </select >
                                                     
 
                                                 </div>
@@ -130,8 +147,8 @@ $(document).ready(function(){
 
         var id_kelompok = $('#id_kelompok').val();
         var id_dosen = $('#id_dosen').val();
-        var waktu = $('#waktu').val();
-        var ruang = $('#ruang').val();
+        var id_sesiwaktu = $('#id_sesiwaktu').val();
+        var id_ruang = $('#id_ruang').val();
         var id_periode = $('#id_periode').val();
 
         $.ajax({

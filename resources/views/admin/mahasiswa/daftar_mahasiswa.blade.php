@@ -27,7 +27,7 @@
                     <p>Saring berdasarkan</p>
                       <!-- select -->
                       <div class="form-group">
-                          <select name="roles_filter" id="roles_filter" class="form-control form-control-sm">
+                          <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
                             <option selected>Semua User</option>
                             @foreach($periode as $row)
                             <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
@@ -112,16 +112,16 @@
             name:'nama_kelompok'
           },
           {
-            data:'status',
-            name:'status'
+            data:'status_keanggotaan',
+            name:'status_keanggotaan'
           },
           {
-            data:'status',
-            name:'status',
+            data:'status_keanggotaan',
+            name:'status_keanggotaan',
           },
           {
-            data:'status',
-            name:'status',
+            data:'status_keanggotaan',
+            name:'status_keanggotaan',
             render: function(data, type, full, meta){
               if (data == 'Ketua'){
                 return "<span class='badge bg-warning'>"+ data + "</span>";
@@ -136,12 +136,12 @@
       });
     }
     
-    $('#roles_filter').change(function(){
-      var id_roles = $('#roles_filter').val();
+    $('#periode_filter').change(function(){
+      var id_periode = $('#periode_filter').val();
     
-      $('#user_data').DataTable().destroy();
+      $('#mahasiswa_data').DataTable().destroy();
     
-      fill_datatable(id_roles);
+      fill_datatable(id_periode);
     });
   });
 </script>

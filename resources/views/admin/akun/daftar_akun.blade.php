@@ -111,7 +111,7 @@
         processing: true,
         serverSide: true,
         ajax:{
-          url: "{{route('users.index')}}",
+          url: "/admin/users",
           data:{id_roles:id_roles}
         },
         columns:[

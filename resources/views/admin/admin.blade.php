@@ -48,10 +48,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-3 col-6">
               <!-- small box -->
-              <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{{$kelompok}}<sup style="font-size: 20px"> Kelompok</sup></h3>
-                  <p>Pendaftar yang masuk</p>
+              <div class="small-box bg-info"> 
+                <div class="inner" id="kelompokcount">
+                  <!-- <h3 id="kelompokcount"><sup style="font-size: 20px"> Kelompok</sup></h3>
+                  <p>Pendaftar yang masuk</p> -->
                 </div>
                 <div class="icon">
                   <i class="ion ion-clipboard"></i>
@@ -75,9 +75,8 @@
             <div class="col-lg-3 col-6">
               <!-- small box -->
               <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>{{$usulan}}</h3>
-                  <p>Usulan yang masuk</p>
+                <div class="inner" id="usulancount">
+                  
                 </div>
                 <div class="icon">
                   <i class="ion ion-chatbubbles"></i>
@@ -96,8 +95,30 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
+  
+  $(document).ready(function(){
+
+    $.ajax({
+      type: 'GET',
+      url: '/api/admin/kelompokcount/',
+      dataType: 'JSON',
+      success: function (response) {
+        var kel = "<h3>"+response.kelompok+"<sup style='font-size: 20px'>Kelompok</sup></h3>"+
+        "<p>Pendaftar yang masuk</p>";
+        $("#kelompokcount").append(kel);
+      }
+    });
+
+    $.ajax({
+      type: 'GET',
+      url: '/api/admin/usulancount/',
+      dataType: 'JSON',
+      success: function (response) {
+        var usulans = "<h3>"+response.usulan+"</h3>"+
+        "<p>Usulan yang masuk</p>";
+        $("#usulancount").append(usulans);
+      }
+    });
   });
 </script>
 @endsection

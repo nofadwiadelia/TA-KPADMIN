@@ -172,7 +172,7 @@ $(document).ready(function(){
 
     $('body').on('click', '.editRoles', function () {
       var roles_id = $(this).data('id');
-      $.get("/admin/roles/" + roles_id , function (data) {
+      $.get("/api/admin/roles/" + roles_id , function (data) {
         var roles_id = $(this).data('id');
           $('#modelHeading').html("Edit Roles");
           $('#saveBtn').val("edit-user");

@@ -49,6 +49,7 @@
                       <th>Periode</th>
                       <th>Dosen Pembimbing</th>
                       <th>Dosen Penguji</th>
+                      <th>Tanggal</th>
                       <th>Waktu</th>
                       <th>Ruang</th>
                       <th>Aksi</th>
@@ -132,11 +133,16 @@
             name:'dosen.nama'
           },
           {
-            data:'waktu',
-            name:'waktu',
+            data:'tanggal',
+            name:'tanggal',
             render : function (data) {
-            return moment(data).format('dddd, D MMMM YYYY. h:i');
+            return moment(data).format('dddd, D MMMM YYYY');
             } 
+          },
+          {
+            data:'sesi',
+            name:'sesi'
+            
           },
           {
             data:'ruang',

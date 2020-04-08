@@ -20,7 +20,11 @@ Route::get('/', function () {
 Route::prefix('admin')->group(function () {
     Route::get('/', 'dashboardController@indexadmin');
     Route::get('/dasboard', 'dashboardController@indexadmin');
-    Route::resource('/users', 'UsersController');
+    // Route::resource('/users', 'UsersController');
+    Route::get('/users/create', ['as' => 'users.create', 'uses' => 'UsersController@create']);
+    Route::put('/users/{id}', ['as' => 'users.update', 'uses' => 'UsersController@update']);
+    Route::get('/users', 'UsersController@index');
+    Route::get('/users/{id}/edit', 'UsersController@edit');
     Route::post('import', 'UsersController@import')->name('import');
     Route::get('/login', 'UsersController@indexlogin')->name('login');
     Route::post('/login', 'UsersController@login')->name('login');
@@ -38,7 +42,6 @@ Route::prefix('admin')->group(function () {
     Route::get('/periode/create', ['as' => 'periode.create', 'uses' => 'PeriodeController@create']);
     Route::get('/periode', ['as' => 'periode.index', 'uses' => 'PeriodeController@index']);
     Route::get('/periode/{id}/edit', ['as' => 'periode.edit', 'uses' => 'PeriodeController@edit']);
-    Route::delete('/periode/{id}', ['as' => 'periode.destroy', 'uses' => 'PeriodeController@destroy']);
     Route::resource('/lowongan', 'LowonganController');
     Route::get('/lowongan', ['as' => 'lowongan.index', 'uses' => 'LowonganController@index']);
     Route::get('/lowongan/{id}', ['as' => 'lowongan.show', 'uses' => 'LowonganController@show']);
@@ -52,8 +55,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/roles', 'RolesController@index');
     Route::get('/roles/{id}', 'RolesController@edit');
     Route::get('/sesi', 'SesiwaktuController@index');
-    Route::get('/sesi/{id}', 'SesiwaktuController@edit');
     Route::get('/ruang', 'RuangController@index');
+    Route::get('/aspekpenilaian', 'AspekpenilaianController@index');
+    Route::get('/kelompokpenilai', 'PenilaiController@index');
     
 });
 

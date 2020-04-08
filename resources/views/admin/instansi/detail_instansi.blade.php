@@ -134,32 +134,40 @@
                                             <button type="submit" class="btn btn-default">Filter</button> <br><br>
                                         </div>
                                     </form>
-                                    <div class="card-primary card-outline">
-                                    <div class="card-body table-responsive p-0">
-                                        <table class="table no-border">
+                                    <div class="card-primary">
+                                    <div class="table-responsive p-0">
+                                        <table id="lowongan_data" class="table table-bordered table-striped">
+                                                <thead>
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Posisi</th>
                                                     <th>Persyaratan</th>
-                                                    <th>Slot</th>
+                                                    <th>Kapasitas</th>
                                                     <th>Periode</th>
                                                     <th class="text-center py-0 align-middle">Detail</th>
                                                     <th class="text-center py-0 align-middle">Aksi</th>
                                                 </tr>
+                                                </thead>
+                                                <tbody>
+                                                @php $no = 1; @endphp
+                                                @foreach($lowongan as $lowongans)
                                                 <tr>
                                                 <td>1</td>
-                                                <td>{{ $lowongan->posisi }}</td>
-                                                <td>{{ $lowongan->persyaratan }}</td>
-                                                <td>{{ $lowongan->slot }}</td>
-                                                <td>{{ $lowongan->tahun }}</td>   
+                                                <td>{{ $lowongans->pekerjaan }}</td>
+                                                <td>{{ $lowongans->persyaratan }}</td>
+                                                <td>{{ $lowongans->kapasitas }}</td>
+                                                <td>{{ $lowongans->tahun_periode }}</td>   
                                                 <td class="text-center py-0 align-middle">
-                                                    <a href="{{ route('lowongan.show', $lowongan->id_lowongan) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
+                                                    <a href="{{ route('lowongan.show', $lowongans->id_lowongan) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>
                                                 </td>
                                                 <td class="text-center py-0 align-middle">
-                                                    <a href="{{ route('lowongan.edit', $lowongan->id_lowongan) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                                                    <button class="btn btn-sm btn-danger deleteLowongan" data-id="{{ $lowongan->id_lowongan }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
+                                                    <a href="{{ route('lowongan.edit', $lowongans->id_lowongan) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                                                    <button class="btn btn-sm btn-danger deleteLowongan" data-id="{{ $lowongans->id_lowongan }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
                                                 </td>
                                                 </tr>
+                                                @endforeach
+                                                </tbody>
+                                                
                                         </table><br/>
                                     </div>
                                     </div>

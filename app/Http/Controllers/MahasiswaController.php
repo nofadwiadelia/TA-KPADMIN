@@ -31,7 +31,7 @@ class MahasiswaController extends Controller
         $mahasiswa = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                            ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status')
+                            ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan')
                             ->get();
         $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
     
@@ -40,14 +40,14 @@ class MahasiswaController extends Controller
                 $data = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                                 ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                                 ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                                ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status')
+                                ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan')
                                 ->where('mahasiswa.id_periode', $request->id_periode)
                                 ->get();
             }else{
                 $data = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                 ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                 ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status')
+                ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan')
                 ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -111,12 +111,12 @@ class MahasiswaController extends Controller
                         ->first();
         $kelompok = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
-                            ->select('kelompok.nama_kelompok', 'kelompok_detail.status')
+                            ->select('kelompok.nama_kelompok', 'kelompok_detail.status_keanggotaan')
                             ->first();
-        $anggota = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
-                            // ->where('kelompok_detail.id_kelompok', '=', $request->id_kelompok)
+        $anggota = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                            ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
+                            // ->where('kelompok_detail.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->get();
         $magang = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')

@@ -36,7 +36,7 @@
                             <h3 class="profile-username text-center">{{ $dosen->nama }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>NIP  </b> <a class="float-right">17/415526/SV/13391</a>
+                                <b>NIP  </b> <a class="float-right">{{ $dosen->nip }}</a>
                             </li>
                             <li class="list-group-item">
                                 <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $role->roles }}</a>
@@ -81,45 +81,47 @@
                                         </div>
                                 </div>
                                 <div class="tab-pane" id="bimbingan">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Kelompok Bimbingan Dosen</h5>
-                                    </div><br>
-                                    <form role="form">
+                                <form role="form">
                                         <div class="col-sm-4">
                                             <!-- select -->
                                             <div class="form-group">
                                                 <select class="form-control form-control-sm">
-                                                    <option>Periode 2019</option>
-                                                    <option>Periode 2018</option>
+                                                    @foreach($periode as $periodes)
+                                                        <option value="{{ $periodes->id_periode }}">{{ $periodes->tahun_periode }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
-                                            <button type="submit" class="btn btn-default">Filter</button> <br><br>
                                         </div>
-                                    </form>
-                                    <div class="card-primary card-outline">
-                                    <div class="card-body table-responsive p-0">
-                                        <table class="table no-border">
+                                    </form><br>
+                                    <div class="card-primary">
+                                        <div class="table-responsive p-0">
+                                            <table id="kelompok_data" class="table table-bordered table-striped">
+                                                <thead>
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Kelompok</th>
                                                     <th>Periode</th>
                                                     <th>Tempat Magang</th>
                                                     <th>Nama Ketua</th>
-                                                    <th>Detail Kelompok</th>
+                                                    <th>Detail</th>
                                                 </tr>
+                                                </thead>
+                                                <tbody>
+                                                @php $no = 1; @endphp
+                                                @foreach($kelompok as $kel)
                                                 <tr>
-                                                <td>1</td>
-                                                <td>Trident</td>
-                                                <td>2018</td>
-                                                <td>ICON+</td>
-                                                <td>Marsekal Rama</td>
-                                                <td class="text-center py-0 align-middle">
-                                                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                                                </td>
+                                                <td>{{$no++}}</td>
+                                                <td>{{$kel->nama_kelompok}}</td>
+                                                <td>{{$kel->tahun_periode}}</td>
+                                                <td>{{$kel->tahun_periode}}</td>
+                                                <td>{{$kel->nama}}</td>
+                                                <td><a href="/admin/kelompok" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a></td>
                                                 </tr>
-                                        </table><br/>
-                                    </div>
-                                    </div>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                        <div>
+                                    <div>
                                 </div>
                                 <!-- /.tab-pane -->
 
@@ -147,4 +149,15 @@
     </section>
     <!-- /.content -->
 
+@endsection
+@section('scripts')
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<!-- page script -->
+<script>
+  $(function () {
+    $("#kelompok_data").DataTable();
+  });
+</script>
 @endsection

@@ -79,13 +79,13 @@ $(document).ready(function(){
                     var nim = response[i].nim;
                     var nama = response[i].nama;
                     var no_hp = response[i].no_hp;
-                    var status = response[i].status;
+                    var status_keanggotaan = response[i].status_keanggotaan;
 
                     var tr_str = "<tr>" +
                         "<td>" + nim + "</td>" +
                         "<td>" + nama + "</td>" +
                         "<td>" + no_hp + "</td>" +
-                        "<td>" + status + "</td>" +
+                        "<td>" + status_keanggotaan + "</td>" +
                         "<td class='text-center py-0 align-middle'>"+
                           "<div class='btn-group btn-group-sm'>"+
                             "<a href='/admin/mahasiswa/"+id_mahasiswa+"' class='btn btn-info'><i class='fas fa-eye'></i></a>"+

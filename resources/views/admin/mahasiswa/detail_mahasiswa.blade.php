@@ -96,7 +96,7 @@
                                         <a href=""><h2 style="font-weight: 600;">{{$kelompok->nama_kelompok}}</h2></a>
                                         </div>
                                         <div class="col-md-12 text-center">
-                                        <p>Status : {{$kelompok->status}}</p>
+                                        <p>Status : {{$kelompok->status_keanggotaan}}</p>
                                         </div>
                                     </div>
                                     <div class="card-header">
@@ -107,14 +107,14 @@
                                         <div class="row">
                                         @php
                                             $i=0;
-                                            $jumlahData = 3;
+                                            $jumlahData = 5;
                                         @endphp
 
                                         @foreach($anggota as $anggotas)
 
                                             @php
                                             if ($i++ % $jumlahData == 0) {
-                                                echo "<div class='row margin-bottom-10'>";
+                                                echo "<div class='row margin-bottom-5'>";
                                             }
                                             @endphp
 											<div class="col-md-5">
@@ -135,7 +135,7 @@
                                                             <b>Nomor HP</b> <a class="float-right">{{$anggotas->no_hp}}</a>
                                                         </li>
                                                         <li class="list-group-item">
-                                                            <b>Status</b> <a class="float-right">{{$anggotas->status}}</a>
+                                                            <b>Status</b> <a class="float-right">{{$anggotas->status_keanggotaan}}</a>
                                                         </li>
                                                     </ul>
                                                     <a href="/admin/mahasiswa/{{$anggotas->id_mahasiswa}}" class="btn btn-success btn-block"><b>Detail Mahasiswa</b></a>
@@ -266,8 +266,7 @@
                                         <tbody>
                                         @php $no = 1; @endphp
                                         @foreach($bukuharian as $buku)
-                                        <tr>593zxv
-                                        5
+                                        <tr>
                                             <td>{{$no++}}</td>
                                             <td>{{$buku->tanggal}}</td>
                                             <td>{{$buku->waktu_mulai}}</td>

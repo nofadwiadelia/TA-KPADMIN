@@ -21,7 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('admin')->group(function () {
+    Route::get('/kelompokcount', 'dashboardController@kelompokCount');
+    Route::get('/usulancount', 'dashboardController@usulanCount');
     Route::delete('/users/{id}', 'UsersController@destroy');
+    Route::put('/password/{id}/', 'UsersController@updatePassword');
     Route::get('/mahasiswa', 'MahasiswaController@index');
     Route::post('/dosen/change', 'DosenController@changeStatus');
     Route::post('/instansi/change', 'InstansiController@changeStatus');
@@ -42,13 +45,20 @@ Route::prefix('admin')->group(function () {
     Route::put('/presentasi/{id}/edit', 'PresentasiController@update');
     Route::delete('/presentasi/{id}', 'PresentasiController@destroy');
     Route::post('/roles', 'RolesController@store');
+    Route::get('/roles/{id}', 'RolesController@edit');
     Route::delete('/roles/{id}', 'RolesController@destroy');
     Route::post('/sesi', 'SesiwaktuController@store');
+    Route::get('/sesi/{id}', 'SesiwaktuController@edit');
     Route::delete('/sesi/{id}', 'SesiwaktuController@destroy');
-    Route::get('/ruang', 'RuangController@index');
     Route::post('/ruang', 'RuangController@store');
     Route::get('/ruang/{id}', 'RuangController@edit');
     Route::delete('/ruang/{id}', 'RuangController@destroy');
+    Route::post('/aspekpenilaian', 'AspekpenilaianController@store');
+    Route::get('/aspekpenilaian/{id}', 'AspekpenilaianController@edit');
+    Route::delete('/aspekpenilaian/{id}', 'AspekpenilaianController@destroy');
+    Route::post('/kelompokpenilai', 'PenilaiController@store');
+    Route::get('/kelompokpenilai/{id}', 'PenilaiController@edit');
+    Route::delete('/kelompokpenilai/{id}', 'PenilaiController@destroy');
 });
 
 

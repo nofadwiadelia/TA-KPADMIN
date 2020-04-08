@@ -20,8 +20,6 @@
         <div class="col-12">
           <div class="card">
                 <form id="uploadPengumuman" method="post" enctype="multipart/form-data">
-                <!-- <form action="{{ route('pengumuman.store') }}" method="post" enctype="multipart/form-data"> -->
-                {{ csrf_field() }}
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Judul *</label>

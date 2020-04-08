@@ -31,10 +31,22 @@ class dashboardController extends Controller
         $periode = Periode::where('status', 'open')->first();
         $date = Carbon::now()->translatedFormat('l, d F Y');
 
-        $kelompok = Kelompok::where('persetujuan', 'diproses')->count();
-        $usulan = Usulan::where('status', 'diproses')->count();
+        return view('admin.admin', compact('periode','date'));
+    }
 
-        return view('admin.admin', compact('periode','date', 'kelompok', 'usulan'));
+    public function kelompokCount(){
+        $kelompok = Kelompok::where('persetujuan', 'diproses')->count();
+        return response()->json([
+            'kelompok' =>$kelompok,
+            "message" => "succes",
+        ]);
+    }
+    public function usulanCount(){
+        $usulan = Usulan::where('status', 'diproses')->count();
+        return response()->json([
+            'usulan' =>$usulan,
+            "message" => "succes",
+        ]);
     }
 
     public function indexdosen(){

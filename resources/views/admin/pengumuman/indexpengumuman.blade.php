@@ -136,9 +136,6 @@
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         dataType: "json",
         url: '/api/admin/pengumuman/'+pengumuman_id,
-        beforeSend:function(){
-          $('#ok_button').text('Deleting...');
-        },
         success: function (data) {
           $('#confirmModal').modal('hide');
             $('#pengumuman_data').DataTable().ajax.reload();

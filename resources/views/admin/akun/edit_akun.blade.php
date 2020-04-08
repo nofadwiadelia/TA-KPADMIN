@@ -29,7 +29,16 @@
                                     <div class="form-group row">
                                         <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="nama" value="{{ $data->mahasiswa->nama }}">
+                                        @if ($data->id_roles == 2)
+                                          <input type="text" class="form-control" required name="nama" value="{{ $data->dosen->nama }}">
+                                        @endif
+                                        @if($data->id_roles == 3)
+                                          <input type="text" class="form-control" required name="nama" value="{{ $data->instansi->nama }}">
+                                        @endif
+                                        @if($data->id_roles == 4)
+                                          <input type="text" class="form-control" required name="nama" value="{{ $data->mahasiswa->nama }}">
+                                        @endif
+                                       
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -50,9 +59,10 @@
                                         </div>
                                     </div>
                                     <div class="row justify-content-center">
-                                      <a  data-toggle="modal" data-target="#modal-default">
+                                      <!-- <a  data-toggle="modal" data-target="#modal-default">
                                         Change Password
-                                      </a>
+                                      </a> -->
+                                      <a href="javascript:void(0)"  data-id="{{  $data->id_users }}" class="edit btn btn-sm btn-info editPassword">Edit Password</a>
                                     </div>
                                     <div class="d-flex flex-row justify-content-end">
                                         <span class="mr-2">
@@ -62,43 +72,46 @@
                                         <input type="submit" class="btn btn-primary" value="Submit" />
                                         </span>
                                    </div>
-                                   <div class="modal fade" id="modal-default">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h4 class="modal-title">Change Password</h4>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                          </button>
-                                        </div>
-                                        <div class="modal-body">
-                                          <div class="form-group row">
-                                            <label for="password" class="col-sm-3 col-form-label">Password *</label>
-                                            <div class="col-sm-9">
-                                            <input type="password" class="form-control" name="password" value="">
-                                            </div>
-                                          </div>
-                                          <div class="form-group row">
-                                              <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
-                                              <div class="col-sm-9">
-                                              <input type="password" class="form-control" name="password" value="">
-                                              </div>
-                                          </div>
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                          <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-                                        </div>
-                                      </div>
-                                      <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                  </div>
-                                  <!-- /.modal -->
                                 </div>
                                 <!-- /.card-body -->
-
                             </form>
+
+                              <div class="modal fade" id="modal-edit">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Change Password</h4>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <form id="updatePassword">
+                                      <div class="modal-body">
+                                        <div class="form-group row">
+                                          <label for="password" class="col-sm-3 col-form-label">Password *</label>
+                                          <div class="col-sm-9">
+                                          <input type="hidden" name="id_users" id="id_users">
+                                          <input type="password" class="form-control" name="password" id="password" value="">
+                                          </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
+                                            <div class="col-sm-9">
+                                            <input type="password" class="form-control" name="password" id="password" value="">
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button id="saveBtn" type="submit" class="btn btn-primary">Save changes</button>
+                                      </div>
+                                    </form>
+                                  </div>
+                                  <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                              </div>
+                              <!-- /.modal -->
                         </div>
                     </div>
                 </div>
@@ -114,5 +127,39 @@
 
 @section('scripts')
 
+<script >
+$(document).ready(function(){   
 
+    $(document).on('click', '.editPassword', function(){
+      id_users = $(this).data("id");
+      $('#id_users').val(id_users);
+      $('#password').val();
+      $('#modal-edit').modal('show');
+      $('#saveBtn').val("edit-password");
+    });
+
+    $('#saveBtn').click(function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        data: $('#updatePassword').serialize(),
+        url: "/api/admin/password/"+id_users,
+        type: "PUT",
+        dataType: 'json',
+        success: function (data) {
+          $('#modal-edit').modal('hide');
+          toastr.options.closeButton = true;
+          toastr.options.closeMethod = 'fadeOut';
+          toastr.options.closeDuration = 100;
+          toastr.success(data.message);
+        },
+        error: function (data) {
+            console.log('Error:', data);
+            $('#saveBtn').html('Save Changes');
+        }
+      });
+    });
+  
+});
+</script>
 @endsection

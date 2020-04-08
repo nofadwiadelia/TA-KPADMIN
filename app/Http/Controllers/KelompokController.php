@@ -23,7 +23,7 @@ class KelompokController extends Controller
             if(!empty($request->id_periode)){
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->where('kelompok_detail.status', 'Ketua')
+                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                             ->where('kelompok.id_periode', $request->id_periode)
@@ -34,7 +34,7 @@ class KelompokController extends Controller
             }else{
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->where('kelompok_detail.status', 'Ketua')
+                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->get();
@@ -54,7 +54,7 @@ class KelompokController extends Controller
         $kelompok = Kelompok::findOrFail($id_kelompok);
         $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
                             ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
                             ->get();
         return view('admin.magang.detailMagang',compact('kelompok', 'kelompoks'));
@@ -74,7 +74,7 @@ class KelompokController extends Controller
             if(!empty($request->id_periode)){
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->where('kelompok_detail.status', 'Ketua')
+                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                             ->where('kelompok.id_periode', $request->id_periode)
@@ -83,7 +83,7 @@ class KelompokController extends Controller
             }else{
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->where('kelompok_detail.status', 'Ketua')
+                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                             ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
@@ -113,7 +113,7 @@ class KelompokController extends Controller
         if(request()->ajax()){
             $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
+                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
                                 ->where('kelompok_detail.id_kelompok', $id_kelompok)
                                 ->get();
         }
