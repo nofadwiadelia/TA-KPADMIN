@@ -45,18 +45,23 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i><img src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User Avatar" style="width:25px" class="mr-3 img-circle"></i>
-          <span>{{ Auth::user()->username }}</span>
+          <span></span>
+          
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+        
+        <!-- <a class="dropdown-item" href="{{ route('logout') }}">
+                      {{ __('Logout') }} -->
         <a class="dropdown-item" href="{{ route('logout') }}"
                       onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
                       {{ __('Logout') }}
                   </a>
-
+        
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                   </form>
+       
         </div>
       </li>
     </ul>
@@ -78,7 +83,8 @@
           <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->username }}</a>
+          <a href="#" class="d-block"></a>
+         
         </div>
       </div>
 
@@ -314,6 +320,21 @@
 
 <!-- Toast -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+  
+  $(document).ready(function(){
+
+    $.ajax({
+      type: 'GET',
+      url: '/api/userlogin',
+      dataType: 'JSON',
+      success: function (response) {
+        var kel = response.username
+        $("#username").append(kel);
+      }
+    });
+
+</script>
 
 @yield('scripts')
 

@@ -31,20 +31,20 @@ class UsersController extends Controller
     public function login(Request $request){
         if(Auth::attempt($request->only('username','password'))){
             $akun = DB::table('users')->where('username', $request->username)->first();
-            //dd($akun);
             if($akun->id_roles == 1){
                 Auth::guard('administrator')->LoginUsingId($akun->id_users);
                 return redirect('/admin/dasboard')->with('sukses','Anda Berhasil Login');
-            } else if($akun->id_roles == 2){
-                Auth::guard('dosen')->LoginUsingId($akun->id_users);
-                return redirect('/dosen/dashboard')->with('sukses','Anda Berhasil Login');
-            }elseif ($akun->id_roles == 3) {
-              Auth::guard('instansi')->LoginUsingId($akun->id_users);
-              return redirect('/admin')->with('sukses','Anda Berhasil Login');
-            }elseif ($akun->id_roles == 4) {
-              Auth::guard('mahasiswa')->LoginUsingId($akun->id_users);
-              return redirect('/mahasiswa/index')->with('sukses','Anda Berhasil Login');
-            }
+            } 
+            // else if($akun->id_roles == 2){
+            //     Auth::guard('dosen')->LoginUsingId($akun->id_users);
+            //     return redirect('/dosen/dashboard')->with('sukses','Anda Berhasil Login');
+            // }elseif ($akun->id_roles == 3) {
+            //   Auth::guard('instansi')->LoginUsingId($akun->id_users);
+            //   return redirect('/admin')->with('sukses','Anda Berhasil Login');
+            // }elseif ($akun->id_roles == 4) {
+            //   Auth::guard('mahasiswa')->LoginUsingId($akun->id_users);
+            //   return redirect('/mahasiswa/index')->with('sukses','Anda Berhasil Login');
+            // }
     	}
     	return redirect('admin/login')->with('error','Akun Belum Terdaftar');
     }

@@ -81,7 +81,6 @@
                             </div>
                           </div>
                       </div>
-                      <input type="hidden" name="persetujuans" id="persetujuans" value="diterima">
                       <div class="modal-footer justify-content-between">
                         <button type="submit" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary" id="submit">Submit</button>
@@ -207,7 +206,6 @@
       e.preventDefault();
 
       var id_dosen = $('#id_dosen').val();
-      var persetujuans = $('#persetujuans').val();
 
       $.ajax({
           type: "POST",
@@ -215,7 +213,7 @@
           url: "/api/admin/persetujuan_kelompoks/",
           cache:false,
           dataType: "json",
-          data: {'id_dosen': id_dosen,'persetujuan': persetujuans, 'id_kelompok': id_kelompok},
+          data: {'id_dosen': id_dosen,'id_kelompok': id_kelompok},
           success: function(data){
               console.log(data);
               $("#modal-default").modal('hide');
@@ -235,7 +233,6 @@
   $(document).on('click','.declinebtn', function(e){
         e.preventDefault();
 
-        var persetujuan = 'ditolak';
         id_kelompok = $(this).attr('id');
 
         $.ajax({
@@ -244,7 +241,7 @@
             url: "/api/admin/tolak_kelompok/",
             cache:false,
             dataType: "json",
-            data: {'persetujuan': persetujuan, 'id_kelompok': id_kelompok},
+            data: {'id_kelompok': id_kelompok},
             success: function(data){
               toastr.options.closeButton = true;
               toastr.options.closeMethod = 'fadeOut';

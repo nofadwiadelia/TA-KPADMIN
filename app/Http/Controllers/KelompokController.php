@@ -124,7 +124,7 @@ class KelompokController extends Controller
     {
         $kelompok = Kelompok::findOrFail($request->id_kelompok);
         $kelompok->id_dosen = $request->id_dosen;
-        $kelompok->persetujuan = $request->persetujuan;
+        $kelompok->persetujuan = 'diterima';
 
         $kelompok->save();
         return response()->json(['message' => 'Acc Kelompok updated successfully.']);
@@ -133,7 +133,7 @@ class KelompokController extends Controller
     public function declinekelompok(Request $request)
     {
         $kelompok = Kelompok::findOrFail($request->id_kelompok);
-        $kelompok->persetujuan = $request->persetujuan;
+        $kelompok->persetujuan = 'ditolak';
 
         $kelompok->save();
         return response()->json(['message' => 'Decline Kelompok updated successfully.']);

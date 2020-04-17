@@ -16,7 +16,7 @@ class dashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function user(Request $request)
     {
         
         $user= User::where(['api_token'=>$request->api_token])->first();
