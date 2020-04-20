@@ -102,6 +102,9 @@
       type: 'GET',
       url: '/api/admin/kelompokcount/',
       dataType: 'JSON',
+      headers: {
+          Authorization : 'Bearer {{Auth::user()->api_token}}',
+      },
       success: function (response) {
         var kel = "<h3>"+response.kelompok+"<sup style='font-size: 20px'>Kelompok</sup></h3>"+
         "<p>Pendaftar yang masuk</p>";

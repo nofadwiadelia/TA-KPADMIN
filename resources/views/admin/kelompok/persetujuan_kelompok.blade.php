@@ -170,7 +170,7 @@
             data: 'id_kelompok',
             name: 'id_kelompok', 
             render: function(data, type, full, meta){
-              return '<a href="/admin/persetujuan_kelompok/'+data+'" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>';
+              return '<a href="/admin/kelompok/'+data+'" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>';
             },
             orderable: false
             

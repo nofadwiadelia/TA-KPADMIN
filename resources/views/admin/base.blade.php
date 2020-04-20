@@ -45,7 +45,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i><img src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User Avatar" style="width:25px" class="mr-3 img-circle"></i>
-          <span></span>
+          <span id="username"></span>
           
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
@@ -83,7 +83,7 @@
           <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"></a>
+          <a href="#" class="d-block" id="usernames"></a>
          
         </div>
       </div>
@@ -326,13 +326,18 @@
 
     $.ajax({
       type: 'GET',
-      url: '/api/userlogin',
+      url: '/api/admin/userlogin',
       dataType: 'JSON',
+      headers: {
+          Authorization : 'Bearer {{Auth::user()->api_token}}',
+      },
       success: function (response) {
-        var kel = response.username
-        $("#username").append(kel);
+        var user = response.user.username;
+        $("#username").append(user);
+        $("#usernames").append(user);
       }
     });
+  });
 
 </script>
 

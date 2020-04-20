@@ -28,7 +28,8 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form class="form" method="POST" action="{{route('login')}}" id="loginForm" novalidate="novalidate">
+      <form class="form" method="POST" action="{{route('login')}}">
+      @csrf
         <div class="input-group mb-3">
           <input type="text" id="username" class="form-control" placeholder="username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username">
           @if ($errors->has('username'))
@@ -60,7 +61,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('LOGIN') }}</button>
+            <button href="/admin" class="btn btn-primary btn-block btn-flat">{{ __('LOGIN') }}</button>
           </div>
           <!-- /.col -->
         </div><br>
@@ -82,33 +83,6 @@
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
-<script>
-$(document).ready(function(){   
-    $('#loginForm').on('submit', function(e){
-        e.preventDefault();
 
-        $.ajax({
-            type: "POST",
-            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            url: "/api/login",
-            dataType:'JSON',
-            contentType: false,
-            cache: false,
-            processData: false,
-            data: new FormData(this),
-            success: function(data){
-                window.location = "/admin";
-                toastr.options.closeButton = true;
-                toastr.options.closeMethod = 'fadeOut';
-                toastr.options.closeDuration = 100;
-                toastr.success(data.message);
-            },
-            error: function(error){
-            console.log(error);
-            }
-        });
-    });
-  });
-</script>
 </body>
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Lowongan;
 use App\Instansi;
 use App\Periode;
+use DB;
 
 use Illuminate\Http\Request;
 
@@ -86,8 +87,13 @@ class LowonganController extends Controller
      */
     public function show($id_lowongan)
     {
-        $data = Lowongan::findOrFail($id_lowongan);
-        return view('admin.lowongan.detail_lowongan',compact('data'));
+        $lowongan = Lowongan::findOrFail($id_lowongan);
+        $applylowongan = DB::table('daftar_lowongan')
+                            ->join('lowongan', 'daftar_lowongan.id_lowongan', '=', 'lowongan.id_lowongan')
+                            ->join('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
+                            ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok')
+                            ->get();
+        return view('admin.lowongan.detail_lowongan',compact('lowongan', 'applylowongan'));
     }
 
     /**

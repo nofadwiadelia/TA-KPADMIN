@@ -32,27 +32,27 @@
                         <ul class="list-group list-group-unbordered mb-3">
                           <li class="list-group-item">
                           <p class="badge badge-info">Instansi</p>
-                          <p>{{ $data->instansi->nama }}</p>
+                          <p>{{ $lowongan->instansi->nama }}</p>
                           </li>
                           <li class="list-group-item">
                           <p class="badge badge-info">Posisi</p>
-                          <p>{{ $data->pekerjaan }}</p>
+                          <p>{{ $lowongan->pekerjaan }}</p>
                           </li>
                           <li class="list-group-item">
                           <p class="badge badge-info">Persyaratan</p>
-                          <p>{{ $data->persyaratan }}</p>
+                          <p>{{ $lowongan->persyaratan }}</p>
                           </li>
                           <li class="list-group-item">
                           <p class="badge badge-info">Persyaratan</p>
-                          <p>{{ $data->persyaratan }}</p>
+                          <p>{{ $lowongan->persyaratan }}</p>
                           </li>
                           <li class="list-group-item">
                           <p class="badge badge-info">Kapasitas</p>
-                          <p>{{ $data->kapasitas }}</p>
+                          <p>{{ $lowongan->kapasitas }}</p>
                           </li>
                           <li class="list-group-item">
                           <p class="badge badge-info">Slot</p>
-                          <p>{{ $data->slot }}</p>
+                          <p>{{ $lowongan->slot }}</p>
                           </li>
                         
                         </ul>
@@ -65,17 +65,22 @@
                   <div class="card-primary card-outline">
                     <div class="card-body table-responsive p-0">
                         <table class="table table-bordered ">
+                              <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Kelompok</th>
                                     <th class="text-center py-0 align-middle">Detail</th>
                                     <th class="text-center py-0 align-middle">Terima</th>
                                 </tr>
+                              </thead>
+                              <tbody>
+                              @php $no = 1; @endphp
+                              @foreach($applylowongan as $row)
                                 <tr>
-                                  <td>1</td>
-                                  <td>ICON+</td>
+                                  <td>{{$no++}}</td>
+                                  <td>{{$row->nama_kelompok}}</td>
                                   <td class="text-center py-0 align-middle">
-                                    <a href="/detailKelompok" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
+                                    <a href="/admin/kelompok/{{$row->id_kelompok}}" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
                                   </td>
                                   <td class="text-center py-0 align-middle">
                                   <div class="form-check">
@@ -83,18 +88,8 @@
                                   </div>
                                   </td>
                                 </tr>
-                                <tr>
-                                  <td>2</td>
-                                  <td>ICON+</td>
-                                  <td class="text-center py-0 align-middle">
-                                    <a href="/detailKelompok" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                                  </td>
-                                  <td class="text-center py-0 align-middle">
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="blankRadio" id="blankRadio1" value="option1" aria-label="...">
-                                  </div>
-                                  </td>
-                                </tr>
+                              @endforeach
+                              </tbody>
                         </table><br/>
                         <div class="d-flex flex-row justify-content-end">
                               <span class="mr-2">

@@ -104,20 +104,20 @@ return [
         //     'provider' => 'admin',
         // ],
 
-        'dosen' => [
-            'driver' => 'session',
-            'provider' => 'dosen',
-        ],
+        // 'dosen' => [
+        //     'driver' => 'session',
+        //     'provider' => 'dosen',
+        // ],
 
-        'mahasiswa' => [
-            'driver' => 'session',
-            'provider' => 'mahasiswa',
-        ],
+        // 'mahasiswa' => [
+        //     'driver' => 'session',
+        //     'provider' => 'mahasiswa',
+        // ],
 
-        'instansi' => [
-            'driver' => 'session',
-            'provider' => 'instansi',
-        ],
+        // 'instansi' => [
+        //     'driver' => 'session',
+        //     'provider' => 'instansi',
+        // ],
 
     ],
 
@@ -152,18 +152,18 @@ return [
         //     'driver' => 'eloquent',
         //     'model' => App\User::class,
         // ],
-        'dosen' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
-        'mahasiswa' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
-        'instansi' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
+        // 'dosen' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\User::class,
+        // ],
+        // 'mahasiswa' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\User::class,
+        // ],
+        // 'instansi' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\User::class,
+        // ],
     ],
 
     /*

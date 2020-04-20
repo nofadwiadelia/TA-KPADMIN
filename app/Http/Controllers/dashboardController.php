@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Periode;
 use App\Kelompok;
 use App\Usulan;
+use Illuminate\Support\Facades\Auth;
 
 class dashboardController extends Controller
 {
@@ -16,15 +17,15 @@ class dashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function user(Request $request)
+    public function users()
     {
         
-        $user= User::where(['api_token'=>$request->api_token])->first();
+        $user= Auth::user();
 
         return response()->json([
             'user' =>$user,
-            'code' => 200,
-        ], 200);
+            'message' => "succes",
+        ]);
     }
 
     public function indexadmin(){

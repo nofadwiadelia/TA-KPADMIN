@@ -20,18 +20,15 @@ header("Acces-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 //     return $request->user();
 // });
 
-    Route::post('/login', 'Auth\LoginController@login');
-    Route::group(['middleware' => 'auth:api'], function(){
-        Route::get('/userlogin', 'dashboardController@index');
-    });
+    // Route::post('/login', 'UsersController@loginadmin');
+    
     
 
 Route::prefix('admin')->group(function () {
-    // Route::group(['middleware' => 'auth:api'], function(){
-    //     Route::post('/login', 'Auth\LoginController@login');
-    // });
-
-    Route::get('/kelompokcount', 'dashboardController@kelompokCount');
+    Route::group(['middleware' => 'auth:api'], function(){
+        Route::get('/userlogin', 'dashboardController@users');
+        Route::get('/kelompokcount', 'dashboardController@kelompokCount');
+    });
     Route::get('/usulancount', 'dashboardController@usulanCount');
     Route::delete('/users/{id}', 'UsersController@destroy');
     Route::put('/password/{id}/', 'UsersController@updatePassword');

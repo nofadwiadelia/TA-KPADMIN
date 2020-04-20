@@ -18,7 +18,6 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->group(function () {
-        // Route::get('dashboard', 'LoginController@dashboard')->name('customer.dashboard');
         Route::get('/', 'dashboardController@indexadmin');
         // Route::get('/dashboard', 'Auth\LoginController@dashboard');
         Route::get('/dasboard', 'dashboardController@indexadmin');
@@ -38,7 +37,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/kelompok', 'KelompokController@index');
         Route::get('/kelompok/magang/{id}/detail', 'KelompokController@detailmagang');
         Route::get('/persetujuan_kelompok', 'KelompokController@acckelompok');
-        Route::get('/persetujuan_kelompok/{id}', 'KelompokController@detailacckelompok');
+        Route::get('/kelompok/{id}', 'KelompokController@detailacckelompok');
         Route::get('/periode/create', ['as' => 'periode.create', 'uses' => 'PeriodeController@create']);
         Route::get('/periode', ['as' => 'periode.index', 'uses' => 'PeriodeController@index']);
         Route::get('/periode/{id}/edit', ['as' => 'periode.edit', 'uses' => 'PeriodeController@edit']);
@@ -58,8 +57,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/ruang', 'RuangController@index');
         Route::get('/aspekpenilaian', 'AspekpenilaianController@index');
         Route::get('/kelompokpenilai', 'PenilaiController@index');
-    Route::get('/login', 'Auth\LoginController@indexlogin')->name('login');
-    // Route::post('/login', 'Auth\LoginController@login')->name('login');
+        Route::get('/login', 'UsersController@indexlogin')->name('login');
+        Route::post('/login', 'UsersController@loginadmin')->name('login');
     
 });
 
@@ -186,7 +185,6 @@ Route::get('/tambahanggotakelompok', function () {
 
 
 Route::get('/detail_nilai_penguji', 'Mah@nilaipenguji')->name('/detail_nilai_penguji');
-Route::get('/login', 'Mah@login')->name('/login');
 
 
 
