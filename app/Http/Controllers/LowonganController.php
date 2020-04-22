@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Lowongan;
 use App\Instansi;
 use App\Periode;
+use App\DaftarLowongan;
 use DB;
 
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class LowonganController extends Controller
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($lowongan){
-                $btn = '<a href="/admin/lowongan/'.$lowongan->id_lowongan.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                $btn = '<a href="/admin/showlowongan/'.$lowongan->id_lowongan.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
                 $btn .= '&nbsp;&nbsp;';
                 $btn .= '<button type="button" name="delete" id="'.$lowongan->id_lowongan.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
                 return $btn;
@@ -91,10 +92,47 @@ class LowonganController extends Controller
         $applylowongan = DB::table('daftar_lowongan')
                             ->join('lowongan', 'daftar_lowongan.id_lowongan', '=', 'lowongan.id_lowongan')
                             ->join('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
-                            ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok')
+                            ->join('kelompok_detail', 'kelompok.id_kelompok', '=', 'kelompok_detail.id_kelompok')
+                            ->join('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+                            ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'daftar_lowongan.id_daftar_lowongan', 'daftar_lowongan.status')
+                            ->where('lowongan.id_lowongan', $id_lowongan)
                             ->get();
         return view('admin.lowongan.detail_lowongan',compact('lowongan', 'applylowongan'));
     }
+
+    public function acclowongan(Request $request){
+        $daftar_lowongan = DaftarLowongan::findOrFail($request->id_daftar_lowongan);
+        $daftar_lowongan->status = $request->status;
+
+        $daftar_lowongan->save();
+        return response()->json(['message' => 'Daftar Lowongan updated successfully.']);
+
+    }
+
+    // public function showlowongan(Request $request, $id_lowongan)
+    // {
+    //     $lowongan = Lowongan::findOrFail($id_lowongan);
+    //     if(request()->ajax()){
+    //         $data = DB::table('daftar_lowongan')
+    //                         ->join('lowongan', 'daftar_lowongan.id_lowongan', '=', 'lowongan.id_lowongan')
+    //                         ->join('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
+    //                         ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok')
+    //                         ->where('lowongan.id_lowongan', $id_lowongan)
+    //                         ->get();
+    //         return datatables()->of($data)->addIndexColumn()
+    //             ->addColumn('action', function($lowongan){
+    //                 $btn = '<a href="#" id="'.$lowongan->id_lowongan.'" class="btn btn-sm btn-info editbtn"><i class="fas fa-check"></i></a>';
+    //                 $btn .= '&nbsp;&nbsp;';
+    //                 $btn .= '<button type="button" id="'.$id_lowongan->id_lowongan.'" class="btn btn-danger btn-sm declinebtn"><i class="fas fa-times"></i></button>';
+    //                 return $btn;
+    //             })
+    //             ->rawColumns(['action'])
+    //             ->make(true);
+    //     }
+            
+    //     return view('admin.lowongan.detail_lowongan');
+    // }
 
     /**
      * Show the form for editing the specified resource.

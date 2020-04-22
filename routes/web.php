@@ -44,6 +44,7 @@ Route::prefix('admin')->group(function () {
         Route::resource('/lowongan', 'LowonganController');
         Route::get('/lowongan', ['as' => 'lowongan.index', 'uses' => 'LowonganController@index']);
         Route::get('/lowongan/{id}', ['as' => 'lowongan.show', 'uses' => 'LowonganController@show']);
+        Route::get('/showlowongan/{id}', 'LowonganController@showlowongan');
         Route::get('/lowongan/create', ['as' => 'lowongan.create', 'uses' => 'LowonganController@create']);
         Route::get('/lowongan/{id}/edit', ['as' => 'lowongan.edit', 'uses' => 'LowonganController@edit']);
         Route::get('/presentasi', 'PresentasiController@index');
