@@ -42,6 +42,12 @@
                               </div>
                               <p class="text-muted"><small><i>*jpg,png,jpeg</i></small></p>
                         </div>
+                        <div class="form-group">
+                          <label>Periode *</label>
+                          <select name="id_periode" class="form-control select2" style="width: 100%;">
+                              <option value="{{ $periode->id_periode }}">{{ $periode->tahun_periode }}</option>
+                          </select >
+                        </div>
                     </div>
                     <!-- /.card-body -->
 

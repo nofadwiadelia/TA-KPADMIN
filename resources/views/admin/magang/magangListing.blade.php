@@ -101,18 +101,20 @@
             name:'dosen_nama'
           },
           {
-            data:'nama',
-            name:'nama',
-            render: function(data, type, full, meta){
-              return '<p>PT. GMF AeroAsia Tbk</p>';
-            },
+            data:'instansi_nama',
+            name:'instansi_nama'
           },
           {
-            data:'nama',
-            name:'nama',
+            data:'status',
+            name:'status',
             render: function(data, type, full, meta){
-              return "<span class='badge bg-warning'>magang</span>";
+              if(data!=null){
+                return "<span class='badge bg-warning'>"+data+"</span>";
+              }else{
+                return "<span class='badge bg-warning'>belum magang</span>";
+              }
             },
+            orderable: false
           },
           // {
           //   data:'status',

@@ -186,7 +186,11 @@
                                             <div class="card-body box-profile">
                                                 <ul class="list-group list-group-unbordered">
                                                     <li class="list-group-item list-group-unbordered">
-                                                        <h5><i class="fas fa-building" ></i> Magang di <strong>ICON+</strong></h5>
+                                                    @if (!empty($instansi->nama))
+                                                        <h5><i class="fas fa-building" ></i> Magang di <strong>{{$instansi->nama}}</strong></h5>
+                                                    @else
+                                                        <h5><i class="fas fa-building" ></i> Magang di <strong>-</strong></h5>
+                                                    @endif
                                                     </li>
                                                 </ul>
                                             </div>
@@ -198,22 +202,26 @@
                                                     src="../../dist/img/user4-128x128.jpg"
                                                     alt="User profile picture">
                                             </div>
-                                            <h3 class="profile-username text-center">ICON+</h3>
-							                <p class="text-muted text-center"><i style="color: #de0000" class="fa fa-map-marker"></i> Jakarta Timur, DKI Jakarta <br>13640</p>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body box-profile">
                                                 <ul class="list-group list-group-unbordered">
                                                     <li class="list-group-item">
                                                     <p><b>Deskripsi Instansi</b></p>
-                                                    <p> Didirikan pada tanggal 3 Oktober 2000, PT Indonesia Comnets Plus (ICON+) berfokus pada penyediaan jaringan, jasa, dan content telekomunikasi, khusus untuk mendukung teknologi dan system informasi PT PLN (Persero) dan publik..</p>
+                                                    @if (!empty($instansi->deskripsi))
+                                                    <p>{{$instansi->deskripsi}}</p>
+                                                    @else
+                                                    <p>-</p>
+                                                    @endif
+                                                    
                                                     </li>
                                                     <li class="list-group-item">
-                                                    <p><b>Alamat Instansi</b></p>
-                                                    <p> PT Indonesia Comnets Plus
-                                                    Kawasan PLN Cawang,
-                                                    Jl. Mayjend Sutoyo No. 1, Cililitan
-                                                    Jakarta Timur, 13640.</p>
+                                                    <p><i style="color: #de0000" class="fa fa-map-marker"></i><b> Alamat Instansi</b></p>
+                                                    @if (!empty($instansi->alamat))
+                                                    <p>{{$instansi->alamat}}</p>
+                                                    @else
+                                                    <p>-</p>
+                                                    @endif
                                                     </li>
                                                 </ul>
                                             </div>

@@ -112,6 +112,7 @@ class MahasiswaController extends Controller
         $kelompok = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->select('kelompok.nama_kelompok', 'kelompok_detail.status_keanggotaan')
+                            ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                             ->first();
         $anggota = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
@@ -123,8 +124,17 @@ class MahasiswaController extends Controller
         $magang = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                            ->select('dosen.*')
+                            ->select('dosen.nama', 'dosen.email', 'dosen.nip', 'dosen.no_hp')
+                            ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                             ->first();
+        $instansi = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                            ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+                            ->join('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                            ->join('instansi', 'magang.id_instansi', 'instansi.id_instansi')
+                            ->select('instansi.nama', 'instansi.deskripsi', 'instansi.alamat')
+                            ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
+                            ->first();
+
         $bukuharian =  LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->select('mahasiswa.nama', 'buku_harian.id_buku_harian', 'buku_harian.tanggal', 'buku_harian.waktu_mulai', 'buku_harian.waktu_selesai', 'buku_harian.kegiatan', 'buku_harian.status')
                                 ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
@@ -139,7 +149,7 @@ class MahasiswaController extends Controller
                                 ->selectRaw("SEC_TO_TIME(SUM(TIME_TO_SEC(buku_harian.waktu_selesai) - TIME_TO_SEC(buku_harian.waktu_mulai))) as timediff")
                                 ->first();
 
-        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'kelompok', 'anggota', 'magang', 'bukuharian', 'hari_produktif', 'jam_produktif'));
+        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'kelompok', 'anggota', 'magang', 'instansi', 'bukuharian', 'hari_produktif', 'jam_produktif'));
     }
 
     /**

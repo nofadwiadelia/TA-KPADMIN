@@ -41,7 +41,7 @@
                 </tbody>
               </table>
               </div>
-              <p type="hidden" value="{{$kelompok->id_kelompok}}" id="id_kelompok"></p>
+              <input type="text" value="{{$kelompok->id_kelompok}}" data-id="{{$kelompok->id_kelompok}}" id="id_kelompok">
               </div>
             </div>
             <!-- /.card-body -->
@@ -63,8 +63,8 @@
 <script>
 
 $(document).ready(function(){
-
-    var id_kelompok = 5;
+    // var id_kelompok = $(this).data('id');
+    var id_kelompok = 4;
     // var id_kelompok = $(this).attr('id');
     // var id_kelompok = $this('id_kelompok');
 

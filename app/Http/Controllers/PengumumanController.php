@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Pengumuman;
+use App\Periode;
 use File;
+use DB;
 use Image;
 
 class PengumumanController extends Controller
@@ -18,8 +20,16 @@ class PengumumanController extends Controller
      */
     public function index(Request $request)
     {
+        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
         if(request()->ajax()){
-            $data = Pengumuman::get();
+            if(!empty($request->id_periode)){
+                $data = Pengumuman::select('judul', 'deskripsi', 'lampiran')
+                ->where('id_periode', $request->id_periode)
+                ->get();
+            }else{
+                $data = Pengumuman::select('judul', 'deskripsi', 'lampiran')
+                                    ->get();
+            }
             return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($pengumuman){
 
@@ -27,12 +37,12 @@ class PengumumanController extends Controller
                     $btn .= '&nbsp;&nbsp;';
                     $btn .= '<button type="button" name="delete" id="'.$pengumuman->id_pengumuman.'" class="btn btn-danger btn-sm deletePengumuman" ><i class="fas fa-trash"></i></button>';
                     return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            })
+            ->rawColumns(['action'])
+            ->make(true);
         }
             
-        return view('admin.pengumuman.indexpengumuman');
+        return view('admin.pengumuman.indexpengumuman', compact('periode'));
     }
 
     public function indexmahasiswa()
@@ -49,8 +59,9 @@ class PengumumanController extends Controller
      */
     public function create()
     {
+        $periode = Periode::where('status', 'open')->first();
         $data = Pengumuman::all();
-        return view('admin.pengumuman.add_pengumuman',compact('data'));
+        return view('admin.pengumuman.add_pengumuman',compact('data', 'periode'));
     }
 
     /**
@@ -65,6 +76,7 @@ class PengumumanController extends Controller
             'judul' => 'required|string|max:100',
             'deskripsi' => 'nullable|string|max:500',
             'lampiran' => 'nullable|image|mimes:jpg,png,jpeg',
+            'id_periode' => 'required',
         ]);
 
         $lampiran = null;
@@ -77,7 +89,8 @@ class PengumumanController extends Controller
         $data = Pengumuman::create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'lampiran' => $lampiran
+            'lampiran' => $lampiran,
+            'id_periode' => $request->id_periode
         ]);
         return response()->json(['message' => 'Pengumuman added successfully.']);
     }
@@ -118,7 +131,8 @@ class PengumumanController extends Controller
         $this->validate($request, [
             'judul' => 'required|string|max:100',
             'deskripsi' => 'nullable|string|max:500',
-            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg'
+            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg',
+            'id_periode' => 'required'
         ]);
 
        
@@ -136,7 +150,8 @@ class PengumumanController extends Controller
         $data->update([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'lampiran' => $lampiran
+            'lampiran' => $lampiran,
+            'id_periode' => $request->id_periode
         ]);
 
         return response()->json(['message' => 'Pengumuman updated successfully.']);

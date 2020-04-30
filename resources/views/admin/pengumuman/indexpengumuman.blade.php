@@ -24,6 +24,20 @@
             <!-- /.card-header -->
             <div class="card-body ">
                 <form role="form">
+                  <div class="col-sm-4">
+                    <p>Saring berdasarkan</p>
+                      <!-- select -->
+                      <div class="form-group">
+                          <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
+                            <option selected>Semua Periode</option>
+                            @foreach($periode as $row)
+                            <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                            @endforeach
+                          </select>
+                      </div>
+                  </div>
+                </form>
+                <form role="form">
                   <div class="col-sm-12">
                   <a href="{{route('pengumuman.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Pengumuman</a> <br><br>
                   </div>
@@ -85,12 +99,13 @@
   $(document).ready(function(){
     fill_datatable();
 
-    function fill_datatable(){
+    function fill_datatable(id_periode = ''){
       var dataTable = $('#pengumuman_data').DataTable({
         processing: true,
         serverSide: true,
         ajax:{
           url: "{{route('pengumuman.index')}}",
+          data:{id_periode:id_periode}
         },
         columns:[
           {data: 'DT_RowIndex', 
@@ -122,6 +137,13 @@
         ]
       });
     }
+    $('#periode_filter').change(function(){
+      var id_periode = $('#periode_filter').val();
+    
+      $('#pengumuman_data').DataTable().destroy();
+    
+      fill_datatable(id_periode);
+    });
   });
 
   

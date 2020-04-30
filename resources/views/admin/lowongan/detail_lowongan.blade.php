@@ -74,9 +74,10 @@
                                     <th width="5%">No</th>
                                     <th>Kelompok</th>
                                     <th>Nama Ketua</th>
+                                    <th>Tanggal Daftar</th>
                                     <th>Status</th>
                                     <th class="text-center py-0 align-middle">Detail</th>
-                                    <th class="text-center py-0 align-middle">Terima</th>
+                                    <th class="text-center py-0 align-middle">Persetujuan</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -86,15 +87,20 @@
                                   <td>{{$no++}}</td>
                                   <td>{{$row->nama_kelompok}}</td>
                                   <td>{{$row->nama}}</td>
+                                  <td>{{$row->tanggal_daftar}}</td>
                                   <td>{{$row->status}}</td>
                                   <td class="text-center py-0 align-middle">
                                     <a href="/admin/kelompok/{{$row->id_kelompok}}" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
                                   </td>
+
+                                    <input type="hidden" id="idkelompok" value="{{$row->id_kelompok}}">
+                                    <input type="hidden" id="idinstansi" value="{{$row->id_instansi}}">
+                                    
                                   <td class="text-center py-0 align-middle">
                                     <input type="hidden" id="statusacc" value="diterima">
-                                    <button id="{{$row->id_daftar_lowongan}}" class="btn btn-sm btn-info accbtn"><i class="fas fa-check" value="diterima"></i></button>
+                                    <button id="{{$row->id_daftar_lowongan}}" class="btn btn-sm btn-info accbtn" <?php if($row->status!=NULL) {echo ' disabled=disabled ';}?>><i class="fas fa-check" value="diterima"></i></button>
                                     <input type="hidden" id="statusdecline" value="ditolak">
-                                    <button type="button" id="{{$row->id_daftar_lowongan}}" class="btn btn-danger btn-sm declinebtn"><i class="fas fa-times" value="ditolak"></i></button>
+                                    <button type="button" id="{{$row->id_daftar_lowongan}}" class="btn btn-danger btn-sm declinebtn" <?php if($row->status!=NULL) {echo ' disabled=disabled ';}?>><i class="fas fa-times" value="ditolak"></i></button>
                                   </td>
                                 </tr> 
                               @endforeach
@@ -130,14 +136,13 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
-  });
 
   $(document).on('click','.accbtn', function(e){
     e.preventDefault();
 
     id_daftar_lowongan = $(this).attr('id');
+    id_kelompok = $('#idkelompok').val();
+    id_instansi = $('#idinstansi').val();
     var status = $('#statusacc').val();
 
     $.ajax({
@@ -146,13 +151,13 @@
         url: "/api/admin/persetujuanlowongan/",
         cache:false,
         dataType: "json",
-        data: {'id_daftar_lowongan': id_daftar_lowongan, 'status': status},
+        data: {'id_daftar_lowongan': id_daftar_lowongan, 'status': status, 'id_kelompok': id_kelompok, 'id_instansi': id_instansi},
         success: function(data){
           toastr.options.closeButton = true;
           toastr.options.closeMethod = 'fadeOut';
           toastr.options.closeDuration = 100;
           toastr.success(data.message);
-          // $('#persetujuan_data').DataTable().ajax.reload();
+          window.location.reload();
         },
         error: function(error){
           console.log(error);
@@ -178,7 +183,7 @@
           toastr.options.closeMethod = 'fadeOut';
           toastr.options.closeDuration = 100;
           toastr.success(data.message);
-          // $('#persetujuan_data').DataTable().ajax.reload();
+          window.location.reload();
         },
         error: function(error){
           console.log(error);
@@ -186,69 +191,6 @@
     });
   });
 
-  // $(document).ready(function(){
-  //     var dataTable = $('#daftar_lowongan').DataTable({
-  //       processing: true,
-  //       serverSide: true,
-  //       ajax:{
-  //         url: "/admin/showlowongan/8",
-  //       },
-  //       columns:[
-  //         {
-  //           data: 'DT_RowIndex', 
-  //           name: 'DT_RowIndex', 
-  //           orderable: false,
-  //           searchable: false
-  //         },
-  //         {
-  //           data:'nama_kelompok',
-  //           name:'nama_kelompok'
-  //         },
-  //         {
-  //           data:'nama_kelompok',
-  //           name:'nama_kelompok'
-  //         },
-  //         {
-  //           data:'nama_kelompok',
-  //           name:'nama_kelompok'
-  //         },
-  //         {
-  //           data:'nama_kelompok',
-  //           name:'nama_kelompok'
-  //         },
-  //         // {
-  //         //   data:'persetujuan',
-  //         //   name:'persetujuan',
-  //         //   render: function(data, type, full, meta){
-  //         //     if (data == 'diproses'){
-  //         //       return "<span class='badge bg-warning'>"+ data + "</span>";
-  //         //     }else if(data == 'diterima'){
-  //         //       return "<span class='badge bg-success'>"+ data + "</span>";
-  //         //     }else if(data =='ditolak'){
-  //         //       return "<span class='badge bg-danger'>"+ data + "</span>"
-  //         //     }
-  //         //   },
-  //         //   orderable: false
-  //         // },
-  //         {
-  //           data: 'action',
-  //           name: 'action', 
-  //           orderable: false, 
-  //           searchable: false
-  //         },
-  //         // {
-            
-  //         //   data: 'id_kelompok',
-  //         //   name: 'id_kelompok', 
-  //         //   render: function(data, type, full, meta){
-  //         //     return '<a href="/admin/kelompok/'+data+'" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>';
-  //         //   },
-  //         //   orderable: false
-            
-  //         // },
-  //       ]
-  //     });
-    
-  // });
+  
 </script>
 @endsection

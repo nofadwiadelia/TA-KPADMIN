@@ -20,33 +20,46 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-                <h4>Kelompok ASIK</h4><br>
+                <h4>Kelompok {{$kelompok->nama_kelompok}}</h4><br>
                 <div class="row">
                   <div class="col-2"><b>Dosen Pembimbing</b></div>
-                  <div class="col-3">: Imam Fakhrurrozi, M.Cs</div>
+                  <div class="col-3">: {{$kelompok->nama}}</div>
                 </div>
                 <div class="row">
-                  <div class="col-2"><b>Tempat Magang</b>
-                  </div>
-                  <div class="col-3">: PT. GMF AeroAsia Tbk
-                  </div>
+                  <div class="col-2"><b>Tempat Magang</b></div>
+                  @if (!empty($magang->instansi_nama))
+                  <div class="col-3">: {{$magang->instansi_nama}}</div>
+                  @else
+                  <div class="col-3">: </div>
+                  @endif
                 </div>
                 <div class="row">
                   <div class="col-2"><b>Waktu Magang</b>
                   </div>
-                  <div class="col-3">: 24 Juni 2019 - 10 Agustus 2019</div>
+                  @if (!empty($magang->tanggal_mulai) && ($magang->tanggal_selesai))
+                  <div class="col-3">: {{$magang->tanggal_mulai}} - {{$magang->tanggal_selesai}}</div>
+                  @else
+                  <div class="col-3">: - </div>
+                  @endif
                 </div>
                 <div class="row">
                   <div class="col-2"><b>Lokasi Magang</b>
                   </div>
-                  <div class="col-3">: 24 Juni 2019 - 10 Agustus 2019</div>
+                  @if (!empty($magang->alamat))
+                  <div class="col-3">: {{$magang->alamat}}</div>
+                  @else
+                  <div class="col-3">: </div>
+                  @endif
                 </div>
                 <div class="row">
                   <div class="col-2"><b>Jobdesk</b>
                   </div>
-                  <div class="col-3">: 24 Juni 2019 - 10 Agustus 2019</div>
+                  @if (!empty($magang->jobdesk))
+                  <div class="col-3">: {{$magang->jobdesk}}</div>
+                  @else
+                  <div class="col-3">: </div>
+                  @endif
                 </div>
-
                 <br>
               <div class="table-responsive p-0">
                 <table class="table table-bordered table-striped">
@@ -66,10 +79,10 @@
                     <td>{{$kel->nama}}
                     </td>
                     <td>{{$kel->no_hp}}</td>
-                    <td>{{$kel->status}}</td>
+                    <td>{{$kel->status_keanggotaan}}</td>
                     <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">
-                          <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                          <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                         </div>
                       </td>
                   </tr>
@@ -95,8 +108,5 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
-  });
 </script>
 @endsection

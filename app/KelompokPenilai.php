@@ -8,5 +8,5 @@ class KelompokPenilai extends Model
 {
     protected $table = 'kelompok_penilai';
     protected $primaryKey ='id_kelompok_penilai';
-    protected $fillable = ['nama'];
+    protected $fillable = ['nama', 'presentase'];
 }

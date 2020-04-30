@@ -33,6 +33,7 @@
                     <tr>
                       <th>ID Kelompok Penilai</th>
                       <th>Nama</th>
+                      <th>Prsesntase</th>
                       <th>Aksi</th>
                     </tr>
                     </thead>
@@ -51,10 +52,16 @@
                             <form id="PenilaiForm" name="PenilaiForm" class="form-horizontal">
                               <input type="hidden" name="id_kelompok_penilai" id="id_kelompok_penilai">
                                 <div class="form-group">
-                                    <label for="nama" class="col-sm-2 control-label">Nama</label>
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter Name" value="" maxlength="50" required="">
-                                    </div>
+                                  <label for="nama" class="col-sm-2 control-label">Nama</label>
+                                  <div class="col-sm-12">
+                                      <input type="text" class="form-control" id="nama" name="nama" placeholder="Enter Name" value="" maxlength="50" required="">
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="presentase" class="col-sm-2 control-label">Presentase</label>
+                                  <div class="col-sm-12">
+                                      <input type="text" class="form-control" id="presentase" name="presentase" placeholder="Enter Presentase" value="" maxlength="50" required="">
+                                  </div>
                                 </div>
                                 <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save changes
@@ -135,6 +142,10 @@ $(document).ready(function(){
         name: 'nama'
       },
       {
+        data: 'presentase',
+        name: 'presentase'
+      },
+      {
         data: 'action',
         name: 'action',
         orderable: false
@@ -161,6 +172,7 @@ $(document).ready(function(){
           $('#ajaxModel').modal('show');
           $('#id_kelompok_penilai').val(data.id_kelompok_penilai);
           $('#nama').val(data.nama);
+          $('#presentase').val(data.presentase);
       })
     });
 

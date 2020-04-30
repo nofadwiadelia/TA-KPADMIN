@@ -131,7 +131,8 @@ class UsersController extends Controller
             'username.unique' => 'username has already been taken !',
             'password.max' => 'password is to long !',
         ]);
-        
+        $periode = Periode::select('id_periode')->where('status', 'open');
+
         $data = User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
@@ -152,7 +153,7 @@ class UsersController extends Controller
         else if($request->id_roles == 4){
             $data->mahasiswa()->create([
                 'nama' => $request->nama,
-                'id_periode' => 3,
+                'id_periode' => $periode->id_periode,
             ]);
         }
 

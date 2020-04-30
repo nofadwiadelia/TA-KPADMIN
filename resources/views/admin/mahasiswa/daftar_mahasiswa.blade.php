@@ -22,13 +22,13 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body ">
-            <form role="form">
+                <form role="form">
                   <div class="col-sm-4">
                     <p>Saring berdasarkan</p>
                       <!-- select -->
                       <div class="form-group">
                           <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
-                            <option selected>Semua User</option>
+                            <option selected>Semua Periode</option>
                             @foreach($periode as $row)
                             <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
                             @endforeach
@@ -40,7 +40,7 @@
                   <a href="{{ route('exportmahasiswa') }}" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
                 </div>
               <div class="card-primary">
-                <div class="card-body table-responsive p-0">
+                <div class="table-responsive p-0">
                 <table id="mahasiswa_data" class="table table-bordered table-striped">
                   <thead>
                   <tr>

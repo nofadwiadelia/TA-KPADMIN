@@ -76,9 +76,6 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
-  });
 
   $(document).ready(function(){
     fill_datatable();

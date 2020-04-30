@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Lowongan;
 use App\Instansi;
 use App\Periode;
+use App\Magang;
 use App\DaftarLowongan;
 use DB;
 
@@ -90,12 +91,13 @@ class LowonganController extends Controller
     {
         $lowongan = Lowongan::findOrFail($id_lowongan);
         $applylowongan = DB::table('daftar_lowongan')
-                            ->join('lowongan', 'daftar_lowongan.id_lowongan', '=', 'lowongan.id_lowongan')
-                            ->join('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
-                            ->join('kelompok_detail', 'kelompok.id_kelompok', '=', 'kelompok_detail.id_kelompok')
-                            ->join('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                            ->leftJoin('lowongan', 'daftar_lowongan.id_lowongan', 'lowongan.id_lowongan')
+                            ->leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
+                            ->leftJoin('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
+                            ->leftJoin('kelompok_detail', 'kelompok.id_kelompok', '=', 'kelompok_detail.id_kelompok')
+                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                             ->where('kelompok_detail.status_keanggotaan', 'Ketua')
-                            ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'daftar_lowongan.id_daftar_lowongan', 'daftar_lowongan.status')
+                            ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'daftar_lowongan.id_daftar_lowongan', 'daftar_lowongan.status', 'daftar_lowongan.tanggal_daftar', 'instansi.id_instansi')
                             ->where('lowongan.id_lowongan', $id_lowongan)
                             ->get();
         return view('admin.lowongan.detail_lowongan',compact('lowongan', 'applylowongan'));
@@ -106,6 +108,14 @@ class LowonganController extends Controller
         $daftar_lowongan->status = $request->status;
 
         $daftar_lowongan->save();
+
+        if($request->status == 'diterima'){
+            $daftar_lowongan = Magang::create([
+                'id_kelompok' => $request->id_kelompok,
+                'id_instansi' => $request->id_instansi,
+                'status' => 'belum magang',
+            ]);
+        }
         return response()->json(['message' => 'Daftar Lowongan updated successfully.']);
 
     }

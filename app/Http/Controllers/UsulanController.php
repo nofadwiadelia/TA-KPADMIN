@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 use App\Usulan;
 use App\Kelompok;
 use App\Periode;
+use App\Instansi;
+use App\User;
+use App\Magang;
 use DB;
+use Illuminate\Support\Facades\Hash;
 
 class UsulanController extends Controller
 {
@@ -30,19 +34,13 @@ class UsulanController extends Controller
         //
     }
 
-    public function usulan(){
-        $periode = Periode::get();
-        $usulan = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->where('kelompok_detail.status', 'Ketua')
-                            ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
-                            ->get();
+    public function usulan(Request $request){
+        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                                ->where('kelompok_detail.status', 'Ketua')
+                                ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
                                 ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
@@ -50,17 +48,9 @@ class UsulanController extends Controller
                                 ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
                                 ->get();
             }else{
-                // $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                //                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                //                 ->where('kelompok_detail.status', 'Ketua')
-                //                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                //                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
-                //                 ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                //                 ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
-                //                 ->get();
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                                ->where('kelompok_detail.status', 'Ketua')
+                                ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
                                 ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
@@ -75,19 +65,59 @@ class UsulanController extends Controller
             ->rawColumns(['action'])
             ->make(true);
         }
-        return view('admin.usulan.usulan_pkl',compact('usulan', 'periode'));
+        return view('admin.usulan.usulan_pkl',compact('periode'));
     }
     public function detailusulan( $id_kelompok){
         $kelompok = Kelompok::findOrFail($id_kelompok);
         $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok.nama_kelompok')
                             ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
                             ->get();
         $usulan = Usulan::select('usulan.*')
                         ->where('usulan.id_kelompok', '=', $id_kelompok)
                         ->get();
         return view('admin.usulan.detail_usulan',compact('kelompok', 'kelompoks', 'usulan'));
+    }
+
+    public function editusulan($id_usulan)
+    {
+        $usulan = Usulan::find($id_usulan);
+        return response()->json($usulan);
+    }
+
+    public function accusulan(Request $request){
+        $usulan = Usulan::findOrFail($request->id_usulan);
+        $usulan->status = $request->status;
+
+        $usulan->save();
+
+        if($request->status == 'diterima'){
+            $usulan = User::create([
+                'username' => $request->username,
+                'password' =>  Hash::make($request->password),
+                'id_roles' => 3,
+            ]);
+
+            $usulan = Instansi::create([
+                'id_users' =>$usulan->id_users,
+                'nama' => $request->nama,
+                'deskripsi' => $request->deskripsi,
+                'alamat' => $request->alamat,
+                'website' => $request->website,
+                'status' => 'open',
+            ]);
+
+            $usulan = Magang::create([
+                'id_instansi' =>$usulan->id_instansi,
+                'id_periode' =>$request->id_periode,
+                'id_kelompok' => $request->id_kelompok,
+                'jobdesk' => $request->jobdesk,
+                'status' => 'belum magang',
+            ]);
+        }
+        
+        return response()->json(['message' => 'Usulan berhasil diterima.']);
     }
 
     /**

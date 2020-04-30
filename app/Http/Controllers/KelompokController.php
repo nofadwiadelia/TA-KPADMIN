@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Kelompok;
 use App\Periode;
 use App\Dosen;
+use App\Magang;
 use App\Mahasiswa;
 
 class KelompokController extends Controller
@@ -26,17 +27,19 @@ class KelompokController extends Controller
                             ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                            ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                            ->leftJoin('instansi', 'magang.id_instansi', 'instansi.id_instansi')
                             ->where('kelompok.id_periode', $request->id_periode)
-                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'periode.tahun_periode')
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'periode.tahun_periode', 'instansi.nama as instansi_nama', 'magang.status')
                             ->get();
-
-                            //pembeda pembimbing penguji blm
             }else{
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                             ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
+                            ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                            ->leftJoin('instansi', 'magang.id_instansi', 'instansi.id_instansi')
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'instansi.nama as instansi_nama', 'magang.status')
                             ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -51,13 +54,21 @@ class KelompokController extends Controller
     }
 
     public function detailmagang($id_kelompok){
-        $kelompok = Kelompok::findOrFail($id_kelompok);
-        $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+        $kelompok = Kelompok::join('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                            ->select('kelompok.nama_kelompok', 'dosen.nama')
+                            ->where('kelompok.id_kelompok', $id_kelompok)
+                            ->first();
+        $magang = Magang::leftJoin('kelompok', 'magang.id_kelompok', 'kelompok.id_kelompok')
+                        ->leftJoin('instansi','magang.id_instansi', 'instansi.id_instansi')
+                        ->select('instansi.nama as instansi_nama', 'magang.tanggal_mulai', 'magang.tanggal_selesai', 'instansi.alamat', 'magang.jobdesk')
+                        ->where('magang.id_kelompok', $id_kelompok)
+                        ->first();
+        $kelompoks = Kelompok::join('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                            ->join('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                             ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
                             ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
                             ->get();
-        return view('admin.magang.detailMagang',compact('kelompok', 'kelompoks'));
+        return view('admin.magang.detailMagang',compact('kelompok', 'magang', 'kelompoks'));
     }
 
     public function indexdosen()
@@ -66,10 +77,11 @@ class KelompokController extends Controller
         return view('dosen.kelompok.kelompok',compact('kelompok'));
     }
     
-    public function acckelompok()
+    public function acckelompok(Request $request)
     {
         $periode = Periode::get();
-        $dosen = Dosen::get();
+        $dosen = Dosen::select('id_dosen','nama')->where('status', 'open')
+                        ->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')

@@ -51,7 +51,7 @@ class PenilaiController extends Controller
     public function store(Request $request)
     {
         KelompokPenilai::updateOrCreate(['id_kelompok_penilai' => $request->id_kelompok_penilai],
-                ['nama' => $request->nama]);        
+                ['nama' => $request->nama, 'presentase' => $request->presentase]);        
 
         return response()->json(['success'=>'Kelompok penilai saved successfully.']);
 
