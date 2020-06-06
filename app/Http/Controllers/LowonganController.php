@@ -19,7 +19,7 @@ class LowonganController extends Controller
      */
     public function index(Request $request)
     {
-        $periode = Periode::get();
+        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
                 $data = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
