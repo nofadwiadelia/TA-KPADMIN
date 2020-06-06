@@ -78,6 +78,14 @@ class UsersController extends Controller
                     ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa', 'dosen.nama as namadosen', 'instansi.nama as namainstansi')
                     ->where('users.id_roles', $request->id_roles)
                     ->get();
+                $datamahasiswa = DB::table('users')
+                    ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+                    ->leftJoin('instansi', 'users.id_users', 'instansi.id_users')
+                    ->leftJoin('dosen', 'users.id_users', 'dosen.id_users')
+                    ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
+                    ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa')
+                    ->where('users.id_roles', $request->id_roles)
+                    ->get();
             }else{
                 $data = DB::table('users')
                     ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
@@ -86,8 +94,16 @@ class UsersController extends Controller
                     ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
                     ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa', 'dosen.nama as namadosen', 'instansi.nama as namainstansi')
                     ->get();
+                $datamahasiswa = DB::table('users')
+                    ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
+                    ->leftJoin('instansi', 'users.id_users', 'instansi.id_users')
+                    ->leftJoin('dosen', 'users.id_users', 'dosen.id_users')
+                    ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
+                    ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa')
+                    ->where('users.id_roles', $request->id_roles)
+                    ->get();
             }
-            return datatables()->of($data)->addIndexColumn()
+            return datatables()->of($data, $datamahasiswa)->addIndexColumn()
             ->addColumn('action', function($users){
 
                    $btn = '<a href="/admin/users/'.$users->id_users.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';

@@ -44,7 +44,9 @@
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i><img src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User Avatar" style="width:25px" class="mr-3 img-circle"></i>
+          <i id="avatar">
+          <!-- <img src="{{ asset('dist/img/user4-128x128.jpg') }}" alt="User Avatar" style="width:25px" class="mr-3 img-circle"> -->
+          </i>
           <span id="username"></span>
           
         </a>
@@ -79,8 +81,8 @@
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+        <div class="image" id="avatar1">
+          <!-- <img src="{{ asset('/uploads/users/admin/admin-utama1590507191.jpg') }}" class="img-circle elevation-2" alt="User Image"> -->
         </div>
         <div class="info">
           <a href="#" class="d-block" id="usernames"></a>
@@ -118,6 +120,12 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="/admin/daftaradmin" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Admin</p>
+                  </a>
+                </li>
                 <li class="nav-item">
                   <a href="{{route('mahasiswa.index')}}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
@@ -317,6 +325,13 @@
 <script src="{{ asset('/dist/js/adminlte.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('/dist/js/demo.js') }}"></script>
+<!-- bs-custom-file-input -->
+<script src="{{ asset('/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+  bsCustomFileInput.init();
+});
+</script>
 
 <!-- Toast -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -332,9 +347,25 @@
           Authorization : 'Bearer {{Auth::user()->api_token}}',
       },
       success: function (response) {
-        var user = response.user.username;
+        var user = response.user.admin.nama;
         $("#username").append(user);
         $("#usernames").append(user);
+        var kel = "<img src={{ URL::to('/') }}/uploads/users/admin/" + response.user.admin.foto + " width='25px' height='25px' class='mr-3 img-circle' />";
+        $("#avatar").append(kel);
+
+        var foto = response.user.admin.foto;
+        if(foto == 'null'){
+          var kel2 = "<img src={{ URL::to('/') }}/dist/img/default-avatar/default-avatar.png class='img-circle elevation-2' />";
+          $("#avatar1").append(kel2);
+          // var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " class='img-circle elevation-2' />";
+          // $("#avatar1").append(kel1);
+        }else{
+          var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " class='img-circle elevation-2' />";
+          $("#avatar1").append(kel1);
+          // var kel2 = "<img src={{ URL::to('/') }}/dist/img/default-avatar/default-avatar.png class='img-circle elevation-2' />";
+          // $("#avatar1").append(kel2);
+        }
+        
       }
     });
   });

@@ -41,7 +41,7 @@
                 </div>
               </form>
               <div class="card-primary">
-                <div class="card-body table-responsive p-0">
+                <div class="table-responsive p-0">
                 <table id="persetujuan_data" class="table table-bordered table-striped ">
                   <thead>
                   <tr>
@@ -146,8 +146,8 @@
             name:'dosen_nama'
           },
           {
-            data:'persetujuan',
-            name:'persetujuan',
+            data:'tahap',
+            name:'tahap',
             render: function(data, type, full, meta){
               if (data == 'diproses'){
                 return "<span class='badge bg-warning'>"+ data + "</span>";

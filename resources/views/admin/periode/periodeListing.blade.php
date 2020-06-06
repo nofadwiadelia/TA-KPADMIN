@@ -49,7 +49,7 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>No</th>
+                  <th>ID</th>
                   <th>Tahun Periode</th>
                   <th>Tanggal Mulai</th>
                   <th>Tanggal Selesai</th>
@@ -58,10 +58,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                @php $no = 1; @endphp
+                
                 @foreach($periodes as $periode)
                 <tr>
-                  <td>{{$no++}}</td>
+                  <td>{{$periode->id_periode}}</td>
                   <td>{{ $periode->tahun_periode }}</td>
                   <td>{{Carbon\Carbon::parse($periode->tgl_mulai)->translatedFormat('d F Y')}}</td>
                   <td>{{Carbon\Carbon::parse($periode->tgl_selesai)->translatedFormat('d F Y')}}</td>

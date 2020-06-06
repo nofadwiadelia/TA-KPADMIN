@@ -120,12 +120,12 @@
             name:'status_keanggotaan',
           },
           {
-            data:'status_keanggotaan',
-            name:'status_keanggotaan',
+            data:'status',
+            name:'status',
             render: function(data, type, full, meta){
-              if (data == 'Ketua'){
+              if (data == 'belum magang'){
                 return "<span class='badge bg-warning'>"+ data + "</span>";
-              }else if(data == 'Anggota'){
+              }else if(data == 'magang'){
                 return "<span class='badge bg-success'>"+ data + "</span>";
               }
             },

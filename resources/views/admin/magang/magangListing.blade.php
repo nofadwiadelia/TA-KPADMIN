@@ -22,20 +22,20 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body ">
-              <form role="form">
-                <div class="col-sm-4">
-                  <p>Saring berdasarkan</p>
-                    <!-- select -->
-                    <div class="form-group">
-                        <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
-                          <option selected>Semua Periode</option>
-                          @foreach($periode as $row)
-                          <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
-                          @endforeach
-                        </select>
-                    </div>
-                </div>
-              </form>
+                <form role="form">
+                  <div class="col-sm-4">
+                    <p>Saring berdasarkan</p>
+                      <!-- select -->
+                      <div class="form-group">
+                          <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
+                            <option selected>Semua Periode</option>
+                            @foreach($periode as $row)
+                            <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                            @endforeach
+                          </select>
+                      </div>
+                  </div>
+                </form>
               <div class="card-primary">
                 <div class="table-responsive p-0">
                 <table id="magang_data" class="table table-bordered table-striped ">

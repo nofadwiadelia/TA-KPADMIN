@@ -53,8 +53,8 @@ class UsulanController extends Controller
                                 ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
-                                ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
-                                ->whereRaw('usulan.id_usulan in (select max(usulan.id_usulan) from usulan group by (usulan.id_kelompok))')
+                                ->select('kelompok.id_kelompok', 'kelompok.nama_kelompok', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
+                                ->whereRaw('usulan.updated_at in (select max(usulan.updated_at) from usulan group by (usulan.id_kelompok))')
                                 ->get();
             }
             return datatables()->of($data)->addIndexColumn()

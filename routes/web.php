@@ -24,15 +24,19 @@ Route::prefix('admin')->group(function () {
         Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
         Route::get('/users/create', ['as' => 'users.create', 'uses' => 'UsersController@create']);
+        Route::post('/users', ['as' => 'users.store', 'uses' => 'UsersController@store']);
         Route::put('/users/{id}', ['as' => 'users.update', 'uses' => 'UsersController@update']);
         Route::get('/users', 'UsersController@index');
         Route::get('/users/{id}/edit', 'UsersController@edit');
         Route::post('import', 'UsersController@import')->name('import');
         Route::get('exportmahasiswa', 'MahasiswaController@export')->name('exportmahasiswa');
         Route::get('/mahasiswa', ['as' => 'mahasiswa.index', 'uses' => 'MahasiswaController@index']);
-        Route::get('/mahasiswa/{id}', ['as' => 'mahasiswa.show', 'uses' => 'MahasiswaController@show']);
+        Route::get('/mahasiswa/{id}/{kel}', ['as' => 'mahasiswa.show', 'uses' => 'MahasiswaController@show']);
         Route::resource('/dosen', 'DosenController');
         Route::resource('/instansi', 'InstansiController');
+        Route::get('/daftaradmin', 'AdminController@index');
+        Route::get('/admin/create',  'AdminController@create');
+        Route::get('/admin/{id}/edit',  'AdminController@edit');
         Route::resource('/pengumuman', 'PengumumanController');
         Route::get('/kelompok', 'KelompokController@index');
         Route::get('/kelompok/magang/{id}/detail', 'KelompokController@detailmagang');

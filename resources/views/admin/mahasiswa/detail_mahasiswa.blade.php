@@ -29,7 +29,7 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                             <img class="profile-user-img img-fluid img-circle"
-                                src="../../dist/img/user4-128x128.jpg"
+                            src="{{ asset('/dist/img/user4-128x128.jpg') }}"
                                 alt="User profile picture">
                             </div>
 
@@ -111,7 +111,7 @@
                                                 <div class="card card-primary ">
                                                 <div class="card-body box-profile">
                                                     <div class="text-center">
-                                                    <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+                                                    <img class="profile-user-img img-responsive img-circle" src="{{ asset('/dist/img/user4-128x128.jpg') }}" alt="User profile picture">
                                                     </div>
 
                                                     <h3 class="profile-username text-center">{{$anggotas->nama}}</h3>

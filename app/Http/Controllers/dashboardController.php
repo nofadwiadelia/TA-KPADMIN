@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Admin;
 use Carbon\Carbon;
 use App\Periode;
 use App\Kelompok;
@@ -20,7 +21,7 @@ class dashboardController extends Controller
     public function users()
     {
         
-        $user= Auth::user();
+        $user= Auth::user()->load('admin');
 
         return response()->json([
             'user' =>$user,
@@ -36,7 +37,7 @@ class dashboardController extends Controller
     }
 
     public function kelompokCount(){
-        $kelompok = Kelompok::where('persetujuan', 'diproses')->count();
+        $kelompok = Kelompok::where('tahap', 'diproses')->count();
         return response()->json([
             'kelompok' =>$kelompok,
             "message" => "succes",

@@ -17,7 +17,7 @@ class LowonganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $periode = Periode::get();
         $lowongan = Lowongan::get();
@@ -34,7 +34,7 @@ class LowonganController extends Controller
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($lowongan){
-                $btn = '<a href="/admin/showlowongan/'.$lowongan->id_lowongan.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                $btn = '<a href="/admin/lowongan/'.$lowongan->id_lowongan.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
                 $btn .= '&nbsp;&nbsp;';
                 $btn .= '<button type="button" name="delete" id="'.$lowongan->id_lowongan.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
                 return $btn;

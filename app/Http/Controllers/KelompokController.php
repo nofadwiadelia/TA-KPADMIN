@@ -17,7 +17,7 @@ class KelompokController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $periode = Periode::get();
         if(request()->ajax()){
@@ -90,7 +90,7 @@ class KelompokController extends Controller
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                             ->where('kelompok.id_periode', $request->id_periode)
-                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
+                            ->select('kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->get();
             }else{
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
@@ -98,14 +98,16 @@ class KelompokController extends Controller
                             ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
+                            ->select('kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->get();
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($kelompok){
-                $btn = '<a href="#" id="'.$kelompok->id_kelompok.'" class="btn btn-sm btn-info editbtn"><i class="fas fa-check"></i></a>';
+                $disable = $kelompok->tahap == 'diterima'? "disabled" : " ";
+
+                $btn = '<a href="#"  id="'.$kelompok->id_kelompok.'" class="btn btn-sm btn-info editbtn '.$disable.'"><i class="fas fa-check"></i></a>';
                 $btn .= '&nbsp;&nbsp;';
-                $btn .= '<button type="button" id="'.$kelompok->id_kelompok.'" class="btn btn-danger btn-sm declinebtn"><i class="fas fa-times"></i></button>';
+                $btn .= '<button type="button" id="'.$kelompok->id_kelompok.'" class="btn btn-danger btn-sm declinebtn '.$disable.'"><i class="fas fa-times"></i></button>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -136,7 +138,7 @@ class KelompokController extends Controller
     {
         $kelompok = Kelompok::findOrFail($request->id_kelompok);
         $kelompok->id_dosen = $request->id_dosen;
-        $kelompok->persetujuan = 'diterima';
+        $kelompok->tahap = 'diterima';
 
         $kelompok->save();
         return response()->json(['message' => 'Acc Kelompok updated successfully.']);
@@ -145,7 +147,7 @@ class KelompokController extends Controller
     public function declinekelompok(Request $request)
     {
         $kelompok = Kelompok::findOrFail($request->id_kelompok);
-        $kelompok->persetujuan = 'ditolak';
+        $kelompok->tahap = 'ditolak';
 
         $kelompok->save();
         return response()->json(['message' => 'Decline Kelompok updated successfully.']);

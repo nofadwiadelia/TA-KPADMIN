@@ -29,6 +29,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/userlogin', 'dashboardController@users');
         Route::get('/kelompokcount', 'dashboardController@kelompokCount');
     });
+    Route::post('/admin/add', 'AdminController@store');
+    Route::post('/admin/{id}', 'AdminController@update');
+    Route::post('/admin/{id}/edit', 'AdminController@updateAvatar');
     Route::get('/usulancount', 'dashboardController@usulanCount');
     Route::delete('/users/{id}', 'UsersController@destroy');
     Route::put('/password/{id}/', 'UsersController@updatePassword');

@@ -38,7 +38,7 @@
                   </div>
                 </form>
                 <div class="col-sm-12">
-                  <a href="{{route('presentasi.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Pengumuman</a> <br><br>
+                  <a href="{{route('presentasi.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Jadwal</a> <br><br>
                 </div>
               <div class="card-primary">
                 <div class="table-responsive p-0">

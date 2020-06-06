@@ -23,11 +23,11 @@ class PengumumanController extends Controller
         $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
-                $data = Pengumuman::select('judul', 'deskripsi', 'lampiran')
+                $data = Pengumuman::select('id_pengumuman','judul', 'deskripsi', 'lampiran')
                 ->where('id_periode', $request->id_periode)
                 ->get();
             }else{
-                $data = Pengumuman::select('judul', 'deskripsi', 'lampiran')
+                $data = Pengumuman::select('id_pengumuman','judul', 'deskripsi', 'lampiran')
                                     ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -131,8 +131,7 @@ class PengumumanController extends Controller
         $this->validate($request, [
             'judul' => 'required|string|max:100',
             'deskripsi' => 'nullable|string|max:500',
-            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg',
-            'id_periode' => 'required'
+            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg'
         ]);
 
        
@@ -150,8 +149,7 @@ class PengumumanController extends Controller
         $data->update([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
-            'lampiran' => $lampiran,
-            'id_periode' => $request->id_periode
+            'lampiran' => $lampiran
         ]);
 
         return response()->json(['message' => 'Pengumuman updated successfully.']);

@@ -47,7 +47,7 @@
                   </div>
                 </form>
               <div class="card-primary">
-                <div class="card-body table-responsive p-0">
+                <div class="table-responsive p-0">
                   <table id="user_data" class="table table-bordered table-striped">
                     <thead>
                     <tr>
@@ -116,8 +116,8 @@
         },
         columns:[
           {
-            data:'username',
-            name:'username'
+            data:'namamahasiswa',
+            name:'namamahasiswa'
           },
           {
             data:'username',
