@@ -55,9 +55,12 @@ class MahasiswaController extends Controller
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($mahasiswa){
-
-                   $btn = '<a href="/admin/mahasiswa/'.$mahasiswa->id_mahasiswa.'/'.$mahasiswa->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
-                   return $btn;
+                $btn = '<a href="/admin/admin/'.$mahasiswa->id_mahasiswa.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                $btn .= '&nbsp;&nbsp;';
+                $btn .= '<button type="button" name="delete" id="'.$mahasiswa->id_users.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
+                $btn .= '&nbsp;&nbsp;';
+                $btn .= '<a href="/admin/mahasiswa/'.$mahasiswa->id_mahasiswa.'/'.$mahasiswa->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                return $btn;
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -81,7 +84,7 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.mahasiswa.add_mahasiswa');
     }
 
     public function export() 

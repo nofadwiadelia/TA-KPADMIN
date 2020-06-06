@@ -20,7 +20,6 @@ class LowonganController extends Controller
     public function index(Request $request)
     {
         $periode = Periode::get();
-        $lowongan = Lowongan::get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
                 $data = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
@@ -42,7 +41,7 @@ class LowonganController extends Controller
             ->rawColumns(['action'])
             ->make(true);
         }
-        return view('admin.lowongan.lowongan',compact('lowongan', 'periode'));
+        return view('admin.lowongan.lowongan',compact('periode'));
     }
 
     /**

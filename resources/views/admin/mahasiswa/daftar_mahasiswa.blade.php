@@ -37,6 +37,9 @@
                   </div>
                 </form>
                 <div class="col-sm-12">
+                  <a href="/admin/mahasiswa/create" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> &nbsp; Tambah Mahasiswa</a> <br><br>
+                </div>
+                <div class="col-sm-12">
                   <a href="{{ route('exportmahasiswa') }}" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
                 </div>
               <div class="card-primary">
@@ -46,7 +49,6 @@
                   <tr>
                     <th>NIM</th>
                     <th>Nama</th>
-                    <th>No.HP</th>
                     <th>Periode</th>
                     <th>Kelompok</th>
                     <th>Status</th>
@@ -98,10 +100,6 @@
           {
             data:'nama',
             name:'nama'
-          },
-          {
-            data:'no_hp',
-            name:'no_hp'
           },
           {
             data:'tahun_periode',

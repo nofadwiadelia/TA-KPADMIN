@@ -30,6 +30,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/users/{id}/edit', 'UsersController@edit');
         Route::post('import', 'UsersController@import')->name('import');
         Route::get('exportmahasiswa', 'MahasiswaController@export')->name('exportmahasiswa');
+        Route::get('/mahasiswa/create',  'MahasiswaController@create');
         Route::get('/mahasiswa', ['as' => 'mahasiswa.index', 'uses' => 'MahasiswaController@index']);
         Route::get('/mahasiswa/{id}/{kel}', ['as' => 'mahasiswa.show', 'uses' => 'MahasiswaController@show']);
         Route::resource('/dosen', 'DosenController');
