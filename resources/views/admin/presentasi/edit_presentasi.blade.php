@@ -54,30 +54,37 @@
                                             
                                         </div>
                                     </div>
+
+                                    <input type="hidden" name="id_periode" id="id_periode" class="form-control pull-right required" value="{{$presentasi->id_periode}}">
                                     <div class="row">
                                         <div class="col-md-6">                                
                                             <!-- Date -->
                                             <div class="form-group">
                                                 <label>Waktu *</label>
-                                                <div class="input-group date">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                                    </div>
-                                                    <input type="datetime-local" required id="waktu" name="waktu" class="form-control pull-right required" value="{{$presentasi->waktu}}" >
+                                                <div class="input-group">
+                                                    <select name="id_sesiwaktu" id="id_sesiwaktu" class="form-control select2" style="width: 100%;">
+                                                    <option selected="selected" value="{{ $presentasi->id_sesiwaktu }}">{{$presentasi->id_sesiwaktu}}</option>
+                                                    @foreach($sesi as $waktu)
+                                                    <option value="{{ $waktu->id_sesiwaktu }}">{{ $waktu->sesi }}</option>
+                                                    @endforeach
+                                                    </select >
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>
                                             <!-- /.form group -->
                                         </div>
-                                        <div class="col-md-6">                                
-                                            <!-- Date -->
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Ruang *</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                                    </div>
-                                                    <input type="text" required class="form-control" name="ruang" id="ruang" value="{{$presentasi->ruang}}">
+                                                <select name="id_ruang" id="id_ruang" class="form-control select2" style="width: 100%;">
+                                                <option selected="selected" value="{{ $presentasi->id_ruang }}">{{$presentasi->ruang->ruang}}</option>
+                                                @foreach($ruang as $ruangs)
+                                                <option value="{{ $ruangs->id_ruang }}">{{ $ruangs->ruang }}</option>
+                                                @endforeach
+                                                </select >
+                                                    
+
                                                 </div>
                                                 <!-- /.input group -->
                                             </div>

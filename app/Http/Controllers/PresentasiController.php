@@ -119,10 +119,13 @@ class PresentasiController extends Controller
      */
     public function edit($id_jadwal_presentasi)
     {
-        $kelompok = Kelompok::get();
-        $dosen = Dosen::get();
         $presentasi = Presentasi::findOrFail($id_jadwal_presentasi);
-        return view('admin.presentasi.edit_presentasi', compact('presentasi', 'kelompok', 'dosen'));
+        $kelompok = Kelompok::select('id_kelompok', 'nama_kelompok')->get();
+        $dosen = Dosen::select('id_dosen', 'nama')->get();
+        $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->get();
+        $ruang = Ruang::select('id_ruang', 'ruang')->get();
+        $periode = Periode::where('status', 'open')->first();
+        return view('admin.presentasi.edit_presentasi', compact('presentasi','kelompok', 'sesi', 'ruang', 'dosen', 'periode'));
     }
 
     /**
