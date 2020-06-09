@@ -60,9 +60,9 @@ class AdminController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:191',
+            'username' => 'required|string|unique:users|max:191',
             'password' => 'required|min:6|max:191',
-            'email' => 'required|email|unique:admin|max:191',
+            'email' => 'required|email|max:191',
             'no_hp' => 'required|max:25',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],

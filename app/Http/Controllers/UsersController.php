@@ -179,13 +179,25 @@ class UsersController extends Controller
 
     public function import(Request $request) 
     {
+        //VALIDASI
         $this->validate($request, [
-            'file'  => 'required|mimes:xls,xlsx'
+            'file' => 'required|mimes:xls,xlsx'
         ]);
 
-        Excel::import(new UsersImport,request()->file('file'));
+        if ($request->hasFile('file')) {
+            $file = $request->file('file'); //GET FILE
+            Excel::import(new UsersImport, $file); //IMPORT FILE 
+            return redirect()->back()->with(['success' => 'Upload success']);
+        }  
+        return redirect()->back()->with(['error' => 'Please choose file before']);
+
+        // $this->validate($request, [
+        //     'file'  => 'required|mimes:xls,xlsx'
+        // ]);
+
+        // Excel::import(new UsersImport,request()->file('file'));
            
-        return back();
+        // return redirect()->back()->with(['success' => 'Upload success']);
     }
 
     /**
@@ -230,29 +242,33 @@ class UsersController extends Controller
             'username.required' => 'can not be empty !',
             'username.unique' => 'username has already been taken !'
         ]);
-        $data = User::where ('id_users',$id_users)->first();
-        $data->username = $request->username;
+        $data = User::findOrFail($id_users);
 
-        if($request->id_roles == 2){
+        $data->update([
+            'username' => $request->username,
+        ]);
+        
+        if($data->id_roles == 2){
             $data->dosen()->update([
                 'nama' => $request->nama,
+                'nip' => $request->nip,
+                'email' => $request->email,
+                'no_hp' => $request->no_hp
             ]);
-        }
-        else if($request->id_roles == 3){
+        }else if($data->id_roles == 3){
             $data->instansi()->update([
                 'nama' => $request->nama,
+                'email' => $request->email,
+                'no_hp' => $request->no_hp
             ]);
-        }
-        else if($request->id_roles == 4){
+        }else if($data->id_roles == 4){
             $data->mahasiswa()->update([
                 'nama' => $request->nama,
+                'email' => $request->email,
+                'no_hp' => $request->no_hp
             ]);
         }
-
-        $data->save();
-
-        return redirect()->back()->with(
-            'alert-success','Data berhasil diubah!');
+        return response()->json(['message' => 'Data updated successfully.']);
     }
 
     public function updatePassword(Request $request, $id_users){

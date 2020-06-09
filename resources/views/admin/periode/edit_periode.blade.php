@@ -27,7 +27,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <p><h2>Periode PKL<br><strong>2019</strong></h2><br><i class="text-muted">4 December 2019</i></p>
+                                            <p><h2>Periode PKL<br><strong>{{ $data->tahun_periode }}</strong>
                                         </div>
                                     </div>
                                     <div class="row">

@@ -97,24 +97,29 @@
                                     <div class="card-primary card-outline">
                                     <div class="card-body table-responsive p-0">
                                         <table class="table no-border">
+                                            <thead>
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Kelompok</th>
                                                     <th>Periode</th>
-                                                    <th>Tempat Magang</th>
                                                     <th>Nama Ketua</th>
                                                     <th>Detail Kelompok</th>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
+                                            @php $no = 1; @endphp
+                                            @foreach($kelompok as $kel)
                                                 <tr>
-                                                <td>1</td>
-                                                <td>Trident</td>
-                                                <td>2018</td>
-                                                <td>ICON+</td>
-                                                <td>Marsekal Rama</td>
+                                                <td>{{$no++}}</td>
+                                                <td>{{$kel->nama_kelompok}}</td>
+                                                <td>{{$kel->tahun_periode}}</td>
+                                                <td>{{$kel->nama}}</td>
                                                 <td class="text-center py-0 align-middle">
-                                                    <a href="/detailMagang" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
+                                                    <a href="/admin/kelompok/magang/{{$kel->id_kelompok}}/detail" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
                                                 </td>
                                                 </tr>
+                                            @endforeach
+                                            </tbody>
                                         </table><br/>
                                     </div>
                                     </div>

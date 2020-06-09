@@ -243,7 +243,7 @@
                                         <h5 class="float-right">Selama : 35hari</h5> -->
                                     </div><br>
                                     <div class="card-primary">
-                                    <div class="card-body table-responsive p-0">
+                                    <div class="table-responsive p-0">
                                         <table id="example1" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>

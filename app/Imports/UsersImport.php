@@ -3,8 +3,8 @@
 namespace App\Imports;
 
 use App\User;
-use App\Dosen;
 use App\Instansi;
+use App\Role;
 use App\Mahasiswa;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -20,6 +20,8 @@ class UsersImport implements ToModel, WithHeadingRow
     {
         $data = new User([
             'username'     => $row['username'],
+            // 'slug' => str_slug($row['username']),
+            // 'password' => $row['password'],
             'password' => \Hash::make('password'),
             'id_roles'     => $row['id_roles'],
         ]);
@@ -39,6 +41,8 @@ class UsersImport implements ToModel, WithHeadingRow
         else if($row['id_roles'] == 4){
             $data->mahasiswa()->create([
                 'nama'     => $row['nama'],
+                'nim'     => $row['nim'],
+                'id_periode'     => $row['id_periode'],
             ]);
         }
     }

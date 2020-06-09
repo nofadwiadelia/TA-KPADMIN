@@ -28,11 +28,16 @@
                         <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
+                            @if (!empty($data->foto))
                             <img class="profile-user-img img-fluid img-circle"
-                                src="../../dist/img/user4-128x128.jpg"
+                                src="{{ asset('uploads/users/dosen/' . $dosen->foto) }}"
                                 alt="User profile picture">
+                            
+                            @else
+                              <img src="{{ asset('dist/img/default-avatar.png') }}" 
+                                  alt="{{ $dosen->nama }}" class="profile-user-img img-fluid img-circle">
+                            @endif
                             </div>
-
                             <h3 class="profile-username text-center">{{ $dosen->nama }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
@@ -115,11 +120,12 @@
                                                 <td>{{$kel->tahun_periode}}</td>
                                                 <td>{{$kel->tahun_periode}}</td>
                                                 <td>{{$kel->nama}}</td>
-                                                <td><a href="/admin/kelompok" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a></td>
+                                                <td><a href="/admin/kelompok/magang/{{$kel->id_kelompok}}/detail" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a></td>
                                                 </tr>
                                                 @endforeach
                                                 </tbody>
                                             </table>
+
                                         <div>
                                     <div>
                                 </div>
@@ -159,5 +165,6 @@
   $(function () {
     $("#kelompok_data").DataTable();
   });
+
 </script>
 @endsection

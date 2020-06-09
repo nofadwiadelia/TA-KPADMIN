@@ -29,14 +29,22 @@ Route::prefix('admin')->group(function () {
         Route::get('/userlogin', 'dashboardController@users');
         Route::get('/kelompokcount', 'dashboardController@kelompokCount');
     });
+
+    Route::post('/users/{id}', 'UsersController@update');
     Route::post('/admin/add', 'AdminController@store');
     Route::post('/admin/{id}', 'AdminController@update');
     Route::post('/admin/{id}/edit', 'AdminController@updateAvatar');
     Route::get('/usulancount', 'dashboardController@usulanCount');
+    Route::get('/magangcount', 'dashboardController@magangCount');
     Route::delete('/users/{id}', 'UsersController@destroy');
     Route::put('/password/{id}/', 'UsersController@updatePassword');
     Route::get('/mahasiswa', 'MahasiswaController@index');
+    Route::post('/mahasiswa/add', 'MahasiswaController@store');
     Route::post('/dosen/change', 'DosenController@changeStatus');
+    Route::post('/dosen/add', 'DosenController@store');
+    Route::post('/dosen/{id}', 'DosenController@update');
+    Route::post('/instansi/add', 'InstansiController@store');
+    Route::post('/instansi/{id}', 'InstansiController@update');
     Route::post('/instansi/change', 'InstansiController@changeStatus');
     Route::post('/persetujuan_kelompoks', 'KelompokController@postacckelompok');
     Route::post('/tolak_kelompok', 'KelompokController@declinekelompok');

@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Periode;
 use App\Kelompok;
 use App\Usulan;
+use DB;
 use Illuminate\Support\Facades\Auth;
 
 class dashboardController extends Controller
@@ -47,6 +48,13 @@ class dashboardController extends Controller
         $usulan = Usulan::where('status', 'diproses')->count();
         return response()->json([
             'usulan' =>$usulan,
+            "message" => "succes",
+        ]);
+    }
+    public function magangCount(){
+        $magang = DB::table('periode')->where('status', 'magang')->count();
+        return response()->json([
+            'magang' =>$magang,
             "message" => "succes",
         ]);
     }

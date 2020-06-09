@@ -8,7 +8,7 @@
             <div class="col-sm-12">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Daftar Akun</li>
+                <li class="breadcrumb-item active">Instansi</li>
                 <li class="breadcrumb-item active">Edit</li>
               </ol>
             </div><!-- /.col -->
@@ -21,49 +21,61 @@
           <div class="card">
                 <div class="container">
                     <div class="row justify-content-center">
+                        <div class="card-body">
+                          <div class="col-4">
+                            <div class="row">
+                              @if (!empty($instansi->foto))
+                              <img src="{{ asset('uploads/users/admin/' . $instansi->foto) }}" 
+                                  alt="{{ $instansi->nama }}" width="200px" height="250px">
+                              @else
+                              <img src="{{ asset('dist/img/default-avatar.png') }}" 
+                                  alt="{{ $instansi->nama }}" width="200px" height="250px">
+                              @endif
+                            </div>
+                            
+                          </div>
+                        </div>
                         <div class="col-8">
-                            <form action="{{ route('users.update', $data->id_users) }}" method="post" >
-                            {{ csrf_field() }}
-                            {{ method_field('PUT') }}
+                            <form id="editInstansi" method="post" >
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                         <div class="col-sm-9">
-                                        @if ($data->id_roles == 2)
-                                          <input type="text" class="form-control" required name="nama" value="{{ $data->username }}">
-                                        @endif
-                                        @if($data->id_roles == 3)
-                                          <input type="text" class="form-control" required name="nama" value="{{ $data->username }}">
-                                        @endif
-                                        @if($data->id_roles == 4)
-                                          <input type="text" class="form-control" required name="nama" value="{{ $data->username }}">
-                                        @endif
-                                       
+                                        <input type="text" class="form-control" required name="nama" value="{{ $instansi->nama }}">                                       
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="teusernamext" class="col-sm-3 col-form-label">Username *</label>
+                                      <label for="alamat" class="col-sm-3 col-form-label">Alamat *</label>
+                                      <div class="col-sm-9">
+                                      <input type="text" class="form-control" required name="alamat" value="{{ $instansi->alamat }}">
+                                    </div>
+                                  </div>
+                                    <div class="form-group row">
+                                      <label for="email" class="col-sm-3 col-form-label">Email *</label>
+                                      <div class="col-sm-9">
+                                      <input type="text" class="form-control" name="email" value="{{ $instansi->email }}">
+                                      </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="username" value="{{ $data->username }}">
+                                        <input type="text" class="form-control" name="no_hp" value="{{ $instansi->no_hp }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="id_roles" class="col-sm-3 col-form-label">Role *</label>
+                                        <label for="username" class="col-sm-3 col-form-label">Username *</label>
                                         <div class="col-sm-9">
-                                          <select name="id_roles" class="form-control select2" style="width: 100%;">
-                                              <option selected disabled>Pilih Role</option>
-                                              @foreach($roles as $role)
-                                              <option value="{{ $role->id_roles }}">{{ $role->roles }}</option>
-                                              @endforeach
-                                          </select >
+                                        <input type="text" class="form-control" required name="username" value="{{ $instansi->users->username }}">
                                         </div>
                                     </div>
+                                    
                                     <div class="row justify-content-center">
                                       <!-- <a  data-toggle="modal" data-target="#modal-default">
                                         Change Password
                                       </a> -->
-                                      <a href="javascript:void(0)"  data-id="{{  $data->id_users }}" class="edit btn btn-sm btn-info editPassword">Edit Password</a>
-                                    </div>
+                                      <a href="javascript:void(0)"  data-id="{{  $instansi->id_users }}" class="edit btn btn-sm btn-info editPassword">Edit Password</a>
+                                    </div><br>
+                                    <input type="hidden" name="id_users" id="id_users" value="{{ $instansi->id_users }}">
                                     <div class="d-flex flex-row justify-content-end">
                                         <span class="mr-2">
                                         <input type="submit" class="btn btn-danger" value="Cancel" />
@@ -130,36 +142,41 @@
 <script >
 $(document).ready(function(){   
 
-    $(document).on('click', '.editPassword', function(){
-      id_users = $(this).data("id");
-      $('#id_users').val(id_users);
-      $('#password').val();
-      $('#modal-edit').modal('show');
-      $('#saveBtn').val("edit-password");
-    });
-
-    $('#saveBtn').click(function (e) {
-      e.preventDefault();
-
-      $.ajax({
-        data: $('#updatePassword').serialize(),
-        url: "/api/admin/password/"+id_users,
-        type: "PUT",
-        dataType: 'json',
-        success: function (data) {
-          $('#modal-edit').modal('hide');
+$('#editInstansi').on('submit', function(e){
+  e.preventDefault();
+  var id = $('#id_users').val();
+  $.ajax({
+      type: "POST",
+      headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+      url: "/api/admin/instansi/"+id,
+      dataType:'JSON',
+      contentType: false,
+      cache: false,
+      processData: false,
+      data: new FormData(this),
+      success: function(data){
+          window.location = "/admin/instansi/";
           toastr.options.closeButton = true;
           toastr.options.closeMethod = 'fadeOut';
           toastr.options.closeDuration = 100;
           toastr.success(data.message);
-        },
-        error: function (data) {
-            console.log('Error:', data);
-            $('#saveBtn').html('Save Changes');
-        }
-      });
-    });
-  
+      },
+      error: function(error){
+      console.log(error);
+      }
+  });
+});
+
+
+$(document).on('click', '.editPassword', function(){
+  id_users = $(this).data("id");
+  $('#id_users').val(id_users);
+  $('#password').val();
+  $('#modal-edit').modal('show');
+  $('#saveBtn').val("edit-password");
+});
+
+
 });
 </script>
 @endsection

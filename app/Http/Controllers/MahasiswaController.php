@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -29,11 +30,6 @@ class MahasiswaController extends Controller
      */
     public function index(Request $request)
     {
-        // $mahasiswa = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
-        //                     ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
-        //                     ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-        //                     ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan')
-        //                     ->get();
         $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
     
         if(request()->ajax()){
@@ -41,7 +37,7 @@ class MahasiswaController extends Controller
                 $data = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                                 ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                                 ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
-                                ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                                ->leftJoin('periode', 'mahasiswa.id_periode', 'periode.id_periode')
                                 ->select('mahasiswa.*', 'kelompok.id_kelompok', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan', 'magang.status')
                                 ->where('mahasiswa.id_periode', $request->id_periode)
                                 ->get();
@@ -49,13 +45,13 @@ class MahasiswaController extends Controller
                 $data = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                 ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                 ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
-                ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                ->select('mahasiswa.*','kelompok.id_kelompok', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan', 'magang.status')
+                ->leftJoin('periode', 'mahasiswa.id_periode', 'periode.id_periode')
+                ->select('mahasiswa.*', 'kelompok.id_kelompok', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan', 'magang.status')
                 ->get();
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($mahasiswa){
-                $btn = '<a href="/admin/admin/'.$mahasiswa->id_mahasiswa.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                $btn = '<a href="/admin/mahasiswa/'.$mahasiswa->id_mahasiswa.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
                 $btn .= '&nbsp;&nbsp;';
                 $btn .= '<button type="button" name="delete" id="'.$mahasiswa->id_users.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
                 $btn .= '&nbsp;&nbsp;';
@@ -85,6 +81,11 @@ class MahasiswaController extends Controller
     public function create()
     {
         return view('admin.mahasiswa.add_mahasiswa');
+    }
+
+    public function downloadexcel(){
+        $file = storage_path('/public/uploads/contohIsianUser.xlsx');
+        return response()->download($file);
     }
 
     public function export() 
@@ -124,8 +125,7 @@ class MahasiswaController extends Controller
                             ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
                             ->whereNotIn('mahasiswa.id_mahasiswa', [$id_mahasiswa])
-                            ->where('kelompok_detail.id_kelompok', $id_kelompok) 
-                            // kurang ambil id kelompok
+                            ->where('kelompok_detail.id_kelompok', $id_kelompok)
                             ->get();
         $magang = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
@@ -164,14 +164,12 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
-    public function edit($id)
-    {
-        $mahasiswa = Mahasiswa::leftJoin('users', 'mahasiswa.users_id', 'users.id_users')
-                                ->select('mahasiswa.id', 'mahasiswa.users_id', 'users.id_users', 'users.nama_lengkap', 'mahasiswa.nim', 'mahasiswa.no_hp', 'mahasiswa.pengalaman', 'mahasiswa.keahlian')
-                                ->where('id',$id)->first();
-        return view('mahasiswa.editprofil', compact('mahasiswa'));
+
+    public function editaccount($id_mahasiswa){
+        $mahasiswa = Mahasiswa::findOrFail($id_mahasiswa);
+        return view('admin.mahasiswa.edit_mahasiswa', compact('mahasiswa'));
     }
+   
 
     /**
      * Update the specified resource in storage.

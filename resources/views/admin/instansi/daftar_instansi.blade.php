@@ -6,12 +6,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h4 class="m-0 text-dark">Perusahaan</h4>
+            <h4 class="m-0 text-dark">Instansi</h4>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Perusahaan</li>
+              <li class="breadcrumb-item active">Instansi</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -22,6 +22,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
+              <div class="col-sm-12">
+                <a href="/admin/instansi/create" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> &nbsp; Tambah Instansi</a> <br><br>
+              </div>
               <div class="card-primary">
               <div class="card-body table-responsive p-0">
               <table id="example1" class="table table-bordered table-striped">
@@ -45,7 +48,14 @@
                   </td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="{{ route('instansi.show', $instansis->id_instansi) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        <a href="/admin/instansi/{{$instansis->id_instansi}}/edit" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
+                        <!-- <a href="#" class="btn btn-danger"><i class="fas fa-pencil-alt"></i></a> -->
+                      </div>
+                      <div class="btn-group btn-group-sm">
+                        <button type="button" name="delete" id="{{$instansis->id_users}}" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>
+                      </div>
+                      <div class="btn-group btn-group-sm">
+                        <a href="/admin/instansi/{{$instansis->id_instansi}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                       </div>
                     </td>
                 </tr>

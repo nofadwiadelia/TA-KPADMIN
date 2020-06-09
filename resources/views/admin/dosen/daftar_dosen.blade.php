@@ -22,6 +22,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
+              <div class="col-sm-12">
+                <a href="/admin/dosen/create" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> &nbsp; Tambah Dosen</a> <br><br>
+              </div>
               <div class="card-primary">
                 <div class="card-body table-responsive p-0">
                 <table id="example1" class="table table-bordered table-striped">
@@ -45,15 +48,22 @@
                     </td>
                     <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">
-                          <a href="{{ route('dosen.show', $dosens->id_dosen) }}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                          <a href="/admin/dosen/{{$dosens->id_dosen}}/edit" class="btn btn-info"><i class="fas fa-pencil-alt"></i></a>
                           <!-- <a href="#" class="btn btn-danger"><i class="fas fa-pencil-alt"></i></a> -->
                         </div>
+                        <div class="btn-group btn-group-sm">
+                          <button type="button" name="delete" id="{{$dosens->id_users}}" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>
+                        </div>
+                        <div class="btn-group btn-group-sm">
+                          <a href="/admin/dosen/{{$dosens->id_dosen}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        </div>
+                        
                       </td>
                   </tr>
                   @endforeach
                   </tbody>
                 </table>
-                <div class="card-body table-responsive p-0">
+                <!-- <div class="card-body table-responsive p-0">
                 <table id="dosen_data" class="table table-bordered table-striped">
                   <thead>
                   <tr>
@@ -67,7 +77,26 @@
                   <tbody>
                   </tbody>
                 </table>
-              </div>
+              </div> -->
+                <div id="confirmModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Confirmation</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <h6 align="center" style="margin:0;">Anda yakin ingin menghapus data ini?</h6>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- /.card-body -->
@@ -97,67 +126,88 @@
 <script>
 
 $(document).ready(function(){
-    fill_datatable();
+  fill_datatable();
 
-    function fill_datatable(){
-      var dataTable = $('#dosen_data').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax:{
-          url: "/admin/dosen",
+  function fill_datatable(){
+    var dataTable = $('#dosen_data').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax:{
+        url: "/admin/dosen",
+      },
+      columns:[
+        {
+          data:'nip',
+          name:'nip'
         },
-        columns:[
-          {
-            data:'nip',
-            name:'nip'
+        {
+          data:'nama',
+          name:'nama'
+        },
+        {
+          data:'no_hp',
+          name:'no_hp'
+        },
+        {data: 'status', 
+        name: 'status', 
+          render: function(data, type, full, meta){
+            if (data != null){
+              return '<input type="checkbox" data-id="{{ $dosens->id_dosen }}" name="status" class="js-switch" {{ $dosens->status == 'open' ? 'checked' : '' }}>';
+            }
           },
-          {
-            data:'nama',
-            name:'nama'
-          },
-          {
-            data:'no_hp',
-            name:'no_hp'
-          },
-          {data: 'status', 
-          name: 'status', 
-            render: function(data, type, full, meta){
-              if (data != null){
-                return '<input type="checkbox" data-id="{{ $dosens->id_dosen }}" name="status" class="js-switch" {{ $dosens->status == 'open' ? 'checked' : '' }}>';
+          orderable: false
+        },
+        
+        {data: 'action', name: 'action', orderable: false, searchable: false},
+      ]
+    });
+  }
+});
+
+  let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+  elems.forEach(function(html) {
+      let switchery = new Switchery(html,  { size: 'small' });
+  });
+  $(document).ready(function(){
+      $('.js-switch').change(function () {
+        let status = $(this).prop('checked') === true ? 'open' : 'close';
+        let dosenId = $(this).data('id');
+          $.ajax({
+              type: "POST",
+              headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+              dataType: "json",
+              url: '/api/admin/dosen/change',
+              data: {'status': status, 'dosen_id': dosenId},
+              success: function (data) {
+                  toastr.options.closeButton = true;
+                  toastr.options.closeMethod = 'fadeOut';
+                  toastr.options.closeDuration = 100;
+                  toastr.success(data.message);
               }
-            },
-            orderable: false
-          },
-          
-          {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+          });
       });
-    }
   });
 
-    let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-    elems.forEach(function(html) {
-        let switchery = new Switchery(html,  { size: 'small' });
+  $(document).on('click', '.deleteUser', function(){
+    user_id = $(this).attr('id');
+    $('#confirmModal').modal('show');
+  });
+  $('#ok_button').click(function(){
+    $.ajax({
+        type: "DELETE",
+        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+        dataType: "json",
+        url: '/api/admin/users/'+user_id,
+        success: function (data) {
+            $('#confirmModal').modal('hide');
+            $('#mahasiswa_data').DataTable().ajax.reload();
+            toastr.options.closeButton = true;
+            toastr.options.closeMethod = 'fadeOut';
+            toastr.options.closeDuration = 100;
+            toastr.success(data.message);
+        }
     });
-    $(document).ready(function(){
-        $('.js-switch').change(function () {
-          let status = $(this).prop('checked') === true ? 'open' : 'close';
-          let dosenId = $(this).data('id');
-            $.ajax({
-                type: "POST",
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                dataType: "json",
-                url: '/api/admin/dosen/change',
-                data: {'status': status, 'dosen_id': dosenId},
-                success: function (data) {
-                    toastr.options.closeButton = true;
-                    toastr.options.closeMethod = 'fadeOut';
-                    toastr.options.closeDuration = 100;
-                    toastr.success(data.message);
-                }
-            });
-        });
-    });
+  });
 </script>
 
 @endsection

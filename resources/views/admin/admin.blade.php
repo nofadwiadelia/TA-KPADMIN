@@ -56,20 +56,20 @@
                 <div class="icon">
                   <i class="ion ion-clipboard"></i>
                 </div>
-                <a href="https://pklkomsi.000webhostapp.com/admin/pendaftaran/pendaftaranListing" class="small-box-footer">Cek List Pendaftaran (Daftar) <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="/admin/persetujuan_kelompok" class="small-box-footer">Cek List Pendaftaran (Daftar) <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div><!-- ./col -->
             <div class="col-lg-3 col-6">
               <!-- small box -->
               <div class="small-box bg-info">
-                <div class="inner">
-                  <h3>5<sup style="font-size: 20px"> Kelompok</sup></h3>
-                  <p>Status sedang <b>Magang</b></p>
+                <div class="inner" id="magangcount">
+                  <!-- <h3>5<sup style="font-size: 20px"> Kelompok</sup></h3>
+                  <p>Status sedang <b>Magang</b></p> -->
                 </div>
                 <div class="icon">
                   <i class="ion ion-stats-bars"></i>
                 </div>
-                <a href="https://pklkomsi.000webhostapp.com/admin/pendaftaran/pendaftaranMagangListing" class="small-box-footer">Cek List Kelompok (Magang) <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="/admin/kelompok" class="small-box-footer">Cek List Kelompok (Magang) <i class="fa fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <div class="col-lg-3 col-6">
@@ -118,8 +118,19 @@
       dataType: 'JSON',
       success: function (response) {
         var usulans = "<h3>"+response.usulan+"</h3>"+
-        "<p>Usulan yang masuk</p>";
+        "<p>Usulan KP yang masuk</p>";
         $("#usulancount").append(usulans);
+      }
+    });
+
+    $.ajax({
+      type: 'GET',
+      url: '/api/admin/magangcount/',
+      dataType: 'JSON',
+      success: function (response) {
+        var magang = "<h3>"+response.magang+"<sup style='font-size: 20px'>Kelompok</sup></h3>"+
+        "<p>Status sedang <b>magang</b></p>";
+        $("#magangcount").append(magang);
       }
     });
   });
