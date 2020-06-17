@@ -63,6 +63,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="website" class="col-sm-3 col-form-label">Website</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="website" value="{{ $instansi->website }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="username" class="col-sm-3 col-form-label">Username *</label>
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control" required name="username" value="{{ $instansi->users->username }}">
@@ -162,7 +168,11 @@ $('#editInstansi').on('submit', function(e){
           toastr.success(data.message);
       },
       error: function(error){
-      console.log(error);
+        // console.log(error);
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 100;
+        toastr.error(error.error);
       }
   });
 });

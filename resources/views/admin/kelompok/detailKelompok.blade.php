@@ -38,10 +38,20 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach($kelompok as $kel)
+                <tr>
+                    <td>{{$kel->nim}}</td>
+                    <td>{{$kel->nama}}</td>
+                    <td>{{$kel->no_hp}}</td>
+                    <td>{{$kel->status_keanggotaan}}</td>
+                    <td class="text-center py-0 align-middle">
+                        <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}/{{kel->id_kelompok}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                    </td>
+                </tr>
+                @endforeach
                 </tbody>
               </table>
               </div>
-              <input type="text" value="{{$kelompok->id_kelompok}}" data-id="{{$kelompok->id_kelompok}}" id="id_kelompok">
               </div>
             </div>
             <!-- /.card-body -->
@@ -60,13 +70,10 @@
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
-<script>
+<!-- <script>
 
 $(document).ready(function(){
-    // var id_kelompok = $(this).data('id');
     var id_kelompok = 4;
-    // var id_kelompok = $(this).attr('id');
-    // var id_kelompok = $this('id_kelompok');
 
     $.ajax({
             type: 'get',
@@ -98,5 +105,5 @@ $(document).ready(function(){
             }
         });
   });
-</script>
+</script> -->
 @endsection

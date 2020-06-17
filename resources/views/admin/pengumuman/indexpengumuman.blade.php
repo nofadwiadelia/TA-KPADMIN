@@ -29,7 +29,6 @@
                       <!-- select -->
                       <div class="form-group">
                           <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
-                            <option selected>Semua Periode</option>
                             @foreach($periode as $row)
                             <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
                             @endforeach

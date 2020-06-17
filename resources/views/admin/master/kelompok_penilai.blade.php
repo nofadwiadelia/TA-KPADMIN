@@ -33,7 +33,7 @@
                     <tr>
                       <th>ID Kelompok Penilai</th>
                       <th>Nama</th>
-                      <th>Prsesntase</th>
+                      <th>Bobot</th>
                       <th>Aksi</th>
                     </tr>
                     </thead>
@@ -58,9 +58,9 @@
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label for="presentase" class="col-sm-2 control-label">Presentase</label>
+                                  <label for="bobot" class="col-sm-2 control-label">Bobot</label>
                                   <div class="col-sm-12">
-                                      <input type="text" class="form-control" id="presentase" name="presentase" placeholder="Enter Presentase" value="" maxlength="50" required="">
+                                      <input type="text" class="form-control" id="bobot" name="bobot" placeholder="Enter Bobot" value="" maxlength="50" required="">
                                   </div>
                                 </div>
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -142,8 +142,8 @@ $(document).ready(function(){
         name: 'nama'
       },
       {
-        data: 'presentase',
-        name: 'presentase'
+        data: 'bobot',
+        name: 'bobot'
       },
       {
         data: 'action',
@@ -172,7 +172,7 @@ $(document).ready(function(){
           $('#ajaxModel').modal('show');
           $('#id_kelompok_penilai').val(data.id_kelompok_penilai);
           $('#nama').val(data.nama);
-          $('#presentase').val(data.presentase);
+          $('#bobot').val(data.bobot);
       })
     });
 

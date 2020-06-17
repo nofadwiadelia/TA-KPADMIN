@@ -82,7 +82,7 @@
                     <td>{{$kel->status_keanggotaan}}</td>
                     <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">
-                          <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                          <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}/{{$kel->id_kelompok}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                         </div>
                       </td>
                   </tr>

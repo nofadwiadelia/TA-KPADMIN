@@ -135,6 +135,39 @@ class DosenController extends Controller
                             ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode')
                             ->get();
         
+        if(request()->ajax()){
+            if(!empty($request->id_periode)){
+
+                $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                                ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                                ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                                ->leftJoin('instansi', 'magang.id_instansi', 'instansi.id_instansi')
+                                ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                                ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+                                ->where('kelompok.id_periode', $request->id_periode)
+                                ->where('kelompok.id_dosen', $id_dosen)
+                                ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode', 'instansi.nama as nama_instansi')
+                                ->get();
+            }else{
+                $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                                ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                                ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                                ->leftJoin('instansi', 'magang.id_instansi', 'instansi.id_instansi')
+                                ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                                ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+                                ->where('kelompok.id_dosen', $id_dosen)
+                                ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode', 'instansi.nama as nama_instansi')
+                                ->get();
+            }
+            return datatables()->of($data)->addIndexColumn()
+            ->addColumn('action', function($kelompok){
+                $btn = '<a href="/admin/kelompok/'.$kelompok->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+        }
+        
         return view('admin.dosen.detail_dosen',compact('role', 'dosen', 'periode', 'kelompok'));
     }
 

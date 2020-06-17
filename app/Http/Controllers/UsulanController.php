@@ -71,7 +71,7 @@ class UsulanController extends Controller
         $kelompok = Kelompok::findOrFail($id_kelompok);
         $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok.nama_kelompok')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok.nama_kelompok', 'kelompok.id_kelompok')
                             ->where('kelompok_detail.id_kelompok', $id_kelompok)
                             ->get();
         $usulan = Usulan::select('usulan.*')

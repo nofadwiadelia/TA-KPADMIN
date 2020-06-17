@@ -65,7 +65,7 @@ class KelompokController extends Controller
                         ->first();
         $kelompoks = Kelompok::join('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->join('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok.id_kelompok')
                             ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
                             ->get();
         return view('admin.magang.detailMagang',compact('kelompok', 'magang', 'kelompoks'));
@@ -90,7 +90,7 @@ class KelompokController extends Controller
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                             ->where('kelompok.id_periode', $request->id_periode)
-                            ->select('kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
+                            ->select('periode.tahun_periode','kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->get();
             }else{
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
@@ -98,7 +98,7 @@ class KelompokController extends Controller
                             ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                            ->select('kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
+                            ->select('periode.tahun_periode','kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -118,21 +118,28 @@ class KelompokController extends Controller
 
     public function detailacckelompok($id_kelompok)
     {
-        $kelompok = Kelompok::findOrFail($id_kelompok);
-        return view('admin.kelompok.detailKelompok', compact('kelompok'));
-    }
-    
-    public function detail($id_kelompok)
-    {
-        if(request()->ajax()){
-            $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+        // $kelompok = Kelompok::findOrFail($id_kelompok);
+        $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
                                 ->where('kelompok_detail.id_kelompok', $id_kelompok)
+                                ->whereNotIn('kelompok_detail.status_join', ['diinvite'])
                                 ->get();
-        }
-        return response()->json($kelompoks);
+        return view('admin.kelompok.detailKelompok', compact('kelompok'));
     }
+    
+    // public function detail($id_kelompok)
+    // {
+    //     if(request()->ajax()){
+    //         $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+    //                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+    //                             ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
+    //                             ->where('kelompok_detail.id_kelompok', $id_kelompok)
+    //                             ->get();
+    //     }
+    //     return response()->json($kelompoks);
+        
+    // }
 
     public function postacckelompok(Request $request)
     {

@@ -51,6 +51,7 @@ class InstansiController extends Controller
             'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
             'no_hp' => 'required|max:25',
+            'website' => 'max:25',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
@@ -79,6 +80,7 @@ class InstansiController extends Controller
             'deskripsi' => $request->deskripsi,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
+            'website' => $request->website,
             'foto' => $foto,
         ]);
         $data->save();
@@ -156,6 +158,7 @@ class InstansiController extends Controller
             'nama' => 'required|string|max:191',
             'username' => 'required|string|max:191',
             'email' => 'required|email|max:191',
+            'website' => 'max:25',
             'no_hp' => 'required|max:25',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
@@ -174,9 +177,11 @@ class InstansiController extends Controller
         $data->instansi()->update([
             'nama' => $request->nama,
             'alamat' => $request->alamat, 
+            'alamat' => $request->alamat, 
             'deskripsi' => $request->deskripsi,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
+            'website' => $request->website,
         ]);
         return response()->json(['message' => 'Data updated successfully.']);
     }
@@ -187,8 +192,10 @@ class InstansiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_users)
     {
-        //
+        $data = User::find($id_users);
+        $data->delete();
+        return response()->json(['message' => 'User deleted successfully.']);
     }
 }

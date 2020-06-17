@@ -55,6 +55,12 @@
                                       </div>
                                   </div>
                                   <div class="form-group row">
+                                      <label for="website" class="col-sm-3 col-form-label">Website </label>
+                                      <div class="col-sm-9">
+                                      <input type="text" class="form-control"  name="website" placeholder="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
                                     <label for="exampleInputFile" class="col-sm-3 col-form-label">Foto</label>
                                       <div class="col-sm-9"> 
                                         <div class="input-group">

@@ -123,7 +123,7 @@ class MahasiswaController extends Controller
                             ->first();
         $anggota = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
+                            ->select('kelompok.id_kelompok','mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
                             ->whereNotIn('mahasiswa.id_mahasiswa', [$id_mahasiswa])
                             ->where('kelompok_detail.id_kelompok', $id_kelompok)
                             ->get();

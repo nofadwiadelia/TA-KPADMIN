@@ -90,9 +90,10 @@
                                         <div class="col-sm-4">
                                             <!-- select -->
                                             <div class="form-group">
-                                                <select class="form-control form-control-sm">
-                                                    @foreach($periode as $periodes)
-                                                        <option value="{{ $periodes->id_periode }}">{{ $periodes->tahun_periode }}</option>
+                                                <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
+                                                    <option selected>Semua Periode</option>
+                                                    @foreach($periode as $row)
+                                                    <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -126,7 +127,25 @@
                                                 </tbody>
                                             </table>
 
+                                            
                                         <div>
+
+                                        <div class="table-responsive p-0">
+                                            <table id="kel_data" class="table table-bordered table-striped ">
+                                                <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Nama Kelompok</th>
+                                                    <th>Periode</th>
+                                                    <th>Tempat Magang</th>
+                                                    <th>Nama Ketua</th>
+                                                    <th>Detail</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     <div>
                                 </div>
                                 <!-- /.tab-pane -->
@@ -166,5 +185,52 @@
     $("#kelompok_data").DataTable();
   });
 
+  $(document).ready(function(){
+    fill_datatable();
+
+    function fill_datatable(id_periode = ''){
+      var dataTable = $('#kel_data').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax:{
+          url: "/admin/dosen/2",
+          data:{id_periode:id_periode}
+        },
+        columns:[
+            {data: 'DT_RowIndex', 
+             name: 'DT_RowIndex', 
+             orderable: false,
+             searchable: false
+          },
+          {
+            data:'nama_kelompok',
+            name:'nama_kelompok'
+          },
+          {
+            data:'tahun_periode',
+            name:'tahun_periode'
+          },
+          {
+            data:'nama_instansi',
+            name:'nama_instansi'
+          },
+          {
+            data:'nama',
+            name:'nama'
+          },
+          
+          {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+      });
+    }
+    
+    $('#periode_filter').change(function(){
+      var id_periode = $('#periode_filter').val();
+    
+      $('#kel_data').DataTable().destroy();
+    
+      fill_datatable(id_periode);
+    });
+  });
 </script>
 @endsection

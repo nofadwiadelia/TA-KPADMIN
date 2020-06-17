@@ -106,14 +106,14 @@
                               @endforeach
                               </tbody>
                         </table><br/>
-                        <div class="d-flex flex-row justify-content-end">
+                        <!-- <div class="d-flex flex-row justify-content-end">
                               <span class="mr-2">
                               <input type="submit" class="btn btn-danger" value="Cancel" />
                               </span>
                               <span>
                               <input type="submit" class="btn btn-primary" value="Submit" />
                               </span>
-                          </div>
+                          </div> -->
                     </div>
                   </div>
                 </div>  

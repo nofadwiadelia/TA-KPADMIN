@@ -38,21 +38,27 @@ class dashboardController extends Controller
     }
 
     public function kelompokCount(){
-        $kelompok = Kelompok::where('tahap', 'diproses')->count();
+        $kelompok = Kelompok::leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                            ->where('periode.status', 'open')->count();
         return response()->json([
             'kelompok' =>$kelompok,
             "message" => "succes",
         ]);
     }
     public function usulanCount(){
-        $usulan = Usulan::where('status', 'diproses')->count();
+        $usulan = Usulan::leftJoin('periode', 'usulan.id_periode', 'periode.id_periode')
+                        ->where('periode.status', 'open')->count();
         return response()->json([
             'usulan' =>$usulan,
             "message" => "succes",
         ]);
     }
     public function magangCount(){
-        $magang = DB::table('periode')->where('status', 'magang')->count();
+        $magang = DB::table('magang')->leftJoin('periode', 'magang.id_periode', 'periode.id_periode')
+                    ->where('magang.status', 'magang')
+                    ->orWhere(function($query){
+                        $query->where('periode.status', 'open');
+                    })->count();
         return response()->json([
             'magang' =>$magang,
             "message" => "succes",

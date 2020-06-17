@@ -63,7 +63,7 @@
                                                 <label>Waktu *</label>
                                                 <div class="input-group">
                                                     <select name="id_sesiwaktu" id="id_sesiwaktu" class="form-control select2" style="width: 100%;">
-                                                    <option selected="selected" value="{{ $presentasi->id_sesiwaktu }}">{{$presentasi->id_sesiwaktu}}</option>
+                                                    <option selected="selected" value="{{ $presentasi->id_sesiwaktu }}">{{$presentasi->sesi->sesi}}</option>
                                                     @foreach($sesi as $waktu)
                                                     <option value="{{ $waktu->id_sesiwaktu }}">{{ $waktu->sesi }}</option>
                                                     @endforeach

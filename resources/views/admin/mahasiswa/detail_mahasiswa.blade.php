@@ -42,7 +42,7 @@
                                 <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $role->roles }}</a>
                             </li>
                             <li class="list-group-item">
-                                <b>CV  </b> <a class="float-right">CV.pdf</a>
+                                <b>CV  </b> <a href="{{ asset('/uploads/users/mahasiswa/cv/' . $mahasiswa->cv) }}" class="float-right">CV</a>
                             </li>
                         </div>
                         <!-- /.card-body -->
@@ -127,7 +127,7 @@
                                                             <b>Status</b> <a class="float-right">{{$anggotas->status_keanggotaan}}</a>
                                                         </li>
                                                     </ul>
-                                                    <a href="/admin/mahasiswa/{{$anggotas->id_mahasiswa}}" class="btn btn-success btn-block"><b>Detail Mahasiswa</b></a>
+                                                    <a href="/admin/mahasiswa/{{$anggotas->id_mahasiswa}}/{{$anggotas->id_kelompok}}" class="btn btn-success btn-block"><b>Detail Mahasiswa</b></a>
                                                     </div>
                                                     <!-- /.box-body -->
                                                 </div>

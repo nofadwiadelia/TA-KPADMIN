@@ -32,7 +32,6 @@
                     <!-- select -->
                     <div class="form-group">
                         <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
-                          <option selected>Semua Periode</option>
                           @foreach($periode as $row)
                           <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
                           @endforeach
@@ -46,6 +45,8 @@
                   <thead>
                   <tr>
                   
+                    <th scope="col">No</th>
+                    <th scope="col">Periode</th>
                     <th scope="col">Nama Kelompok</th>
                     <th scope="col">Ketua</th>
                     <th scope="col">Dosen Pembimbing</th>
@@ -133,6 +134,16 @@
           data:{id_periode:id_periode}
         },
         columns:[
+          {
+            data: 'DT_RowIndex', 
+            name: 'DT_RowIndex', 
+            orderable: false,
+            searchable: false
+          },
+          {
+            data:'tahun_periode',
+            name:'tahun_periode'
+          },
           {
             data:'nama_kelompok',
             name:'nama_kelompok'
