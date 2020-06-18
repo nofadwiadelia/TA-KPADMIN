@@ -83,7 +83,7 @@
                               <td>{{$usulans->jobdesk}}</td>
                               
                               <td class="text-center py-0 align-middle">
-                              <div class="form-check">
+                              <div class="form-check">git
                                 <input type="hidden" id="statusacc" value="diterima">
                                 <input class="form-check-input" type="radio"  data-id="{{$usulans->id_usulan}}" name="id_usulan" aria-label="..." value="0" 
                                 {{ ($usulans->status=="diterima")? "checked" : ""}}

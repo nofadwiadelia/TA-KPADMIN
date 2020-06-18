@@ -49,6 +49,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/persetujuan_kelompoks', 'KelompokController@postacckelompok');
     Route::post('/tolak_kelompok', 'KelompokController@declinekelompok');
     Route::get('/detailkelompok/{id}', 'KelompokController@detail');
+    Route::delete('/kelompok/{id}', 'KelompokController@destroy');
+    Route::delete('/kick/{id}', 'KelompokController@kick');
     Route::post('/periode/add', 'PeriodeController@store');
     Route::put('/periode/{id}/edit', 'PeriodeController@update');
     Route::post('/periode/change', 'PeriodeController@changeStatus');

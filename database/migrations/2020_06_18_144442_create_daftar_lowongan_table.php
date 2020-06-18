@@ -21,7 +21,7 @@ class CreateDaftarLowonganTable extends Migration
             $table->enum('status', ['diterima', 'ditolak']);
             $table->timestamps();
 
-            $table->foreign('id_kelompok')->references('id_kelompok')->on('kelompok');
+            $table->foreign('id_kelompok')->references('id_kelompok')->on('kelompok')->onDelete('cascade');
             $table->foreign('id_lowongan')->references('id_lowongan')->on('lowongan');
         });
     }
@@ -33,6 +33,6 @@ class CreateDaftarLowonganTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('daftar_lowongan');
     }
 }

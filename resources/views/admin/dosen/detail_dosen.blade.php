@@ -101,36 +101,6 @@
                                     </form><br>
                                     <div class="card-primary">
                                         <div class="table-responsive p-0">
-                                            <table id="kelompok_data" class="table table-bordered table-striped">
-                                                <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Nama Kelompok</th>
-                                                    <th>Periode</th>
-                                                    <th>Tempat Magang</th>
-                                                    <th>Nama Ketua</th>
-                                                    <th>Detail</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                @php $no = 1; @endphp
-                                                @foreach($kelompok as $kel)
-                                                <tr>
-                                                <td>{{$no++}}</td>
-                                                <td>{{$kel->nama_kelompok}}</td>
-                                                <td>{{$kel->tahun_periode}}</td>
-                                                <td>{{$kel->tahun_periode}}</td>
-                                                <td>{{$kel->nama}}</td>
-                                                <td><a href="/admin/kelompok/magang/{{$kel->id_kelompok}}/detail" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a></td>
-                                                </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
-
-                                            
-                                        <div>
-
-                                        <div class="table-responsive p-0">
                                             <table id="kel_data" class="table table-bordered table-striped ">
                                                 <thead>
                                                 <tr>
@@ -181,10 +151,6 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#kelompok_data").DataTable();
-  });
-
   $(document).ready(function(){
     fill_datatable();
 
@@ -193,7 +159,7 @@
         processing: true,
         serverSide: true,
         ajax:{
-          url: "/admin/dosen/2",
+          url: "/admin/dosen/".$id,
           data:{id_periode:id_periode}
         },
         columns:[

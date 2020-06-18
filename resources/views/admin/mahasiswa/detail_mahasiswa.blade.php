@@ -29,8 +29,9 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                             <img class="profile-user-img img-fluid img-circle"
-                            src="{{ asset('/dist/img/user4-128x128.jpg') }}"
-                                alt="User profile picture">
+                            src="{{ asset('uploads/avatar/'.$mahasiswa->foto) }}"
+                                alt="User profile picture" onerror="this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}';" >
+                        
                             </div>
 
                             <h3 class="profile-username text-center">{{ $mahasiswa->nama }}</h3>
@@ -42,7 +43,7 @@
                                 <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $role->roles }}</a>
                             </li>
                             <li class="list-group-item">
-                                <b>CV  </b> <a href="{{ asset('/uploads/users/mahasiswa/cv/' . $mahasiswa->cv) }}" class="float-right">CV</a>
+                                <b>CV  </b> <a href="{{ asset('/uploads/users/mahasiswa/cv/' . $mahasiswa->cv) }}" target="_blank" class="float-right">CV</a>
                             </li>
                         </div>
                         <!-- /.card-body -->
@@ -93,22 +94,27 @@
                                 <div class="tab-pane" id="kelompok">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                        <a href=""><h2 style="font-weight: 600;">{{$kelompok->nama_kelompok}}</h2></a>
-                                        </div>
-                                        <div class="col-md-12 text-center">
-                                        <p>Status : {{$kelompok->status_keanggotaan}}</p>
+                                            <div class="card-body box-profile">
+                                                <ul class="list-group list-group">
+                                                    <li class="list-group-item list-group-unbordered">
+                                                        <h2 style="font-weight: 600;"> <font color="#4287f5">{{$kelompok->nama_kelompok}}</font></h2>
+                                                        <p>Status : {{$kelompok->status_keanggotaan}}</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="card-header">
                                         <h5 class="card-title">Anggota Lain</h5>
                                     </div>
-                                    <div class="card-primary card-outline">
+                                    <!-- <div class="card-primary card-outline"> -->
                                     <div class="card-body"><br>
+                                    
                                         <div class="row">
                                         @foreach($anggota as $anggotas)
 											<div class="col-md-6">
                                                 <!-- Profile Image -->
-                                                <div class="card card-primary ">
+                                                <div class="card card-primary card-outline">
                                                 <div class="card-body box-profile">
                                                     <div class="text-center">
                                                     <img class="profile-user-img img-responsive img-circle" src="{{ asset('/dist/img/user4-128x128.jpg') }}" alt="User profile picture">
@@ -138,7 +144,7 @@
 										</div>   
                                         <br/>
                                     </div>
-                                    </div>
+                                    <!-- </div> -->
                                 </div>
                                 <!-- /.tab-pane -->
 
@@ -156,9 +162,9 @@
 
                                         <div class="col-md-4">
                                             <div class="text-center">
-                                                <img class="profile-user-img img-fluid img-circle"
-                                                    src="../../dist/img/user4-128x128.jpg"
-                                                    alt="User profile picture">
+                                                    <img class="profile-user-img img-fluid img-circle"
+                                                    src="{{ asset('uploads/avatar/'.$mahasiswa->foto) }}"
+                                                        alt="User profile picture" onerror="this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}';" >
                                             </div>
                                             <h3 class="profile-username text-center">{{$magang->nama}}</h3>
 							                <p class="text-muted text-center">NIP <br>{{$magang->nip}}</p>
@@ -198,9 +204,9 @@
 
                                         <div class="col-md-4">
                                             <div class="text-center">
-                                                <img class="profile-user-img img-fluid img-circle"
-                                                    src="../../dist/img/user4-128x128.jpg"
-                                                    alt="User profile picture">
+                                            <img class="profile-user-img img-fluid img-circle"
+                                                    src="{{ asset('uploads/avatar/'.$instansi->foto) }}"
+                                                        alt="User profile picture" onerror="this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}';" >
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -244,7 +250,7 @@
                                     </div><br>
                                     <div class="card-primary">
                                     <div class="table-responsive p-0">
-                                        <table id="example1" class="table table-bordered table-striped">
+                                        <table id="logbook" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                             <th>No</th>
@@ -256,17 +262,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        @php $no = 1; @endphp
-                                        @foreach($bukuharian as $buku)
-                                        <tr>
+                                            @php $no = 1; @endphp
+                                            @foreach($bukuharian as $buku)
+                                            <tr>
                                             <td>{{$no++}}</td>
                                             <td>{{$buku->tanggal}}</td>
                                             <td>{{$buku->waktu_mulai}}</td>
                                             <td>{{$buku->waktu_selesai}}</td>
                                             <td>{{$buku->kegiatan}}</td>
                                             <td class="text-center py-0 align-middle"><span class="badge bg-warning">{{$buku->status}}</td>
-                                        </tr>
-                                        @endforeach
+                                            </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                     </div>
@@ -439,7 +445,44 @@
 <!-- page script -->
 <script>
   $(function () {
-    $("#example1").DataTable();
+    $("#logbook").DataTable();
   });
+// $(document).ready(function(){
+
+//         var dataTable = $('#logbook').DataTable({
+//         processing: true,
+//         serverSide: true,
+//         ajax:{
+//         url: "/admin/mahasiswa/7/5",
+//         },
+//         columns:[
+//         {data: 'DT_RowIndex', 
+//             name: 'DT_RowIndex', 
+//             orderable: false,
+//             searchable: false
+//         },
+//         {
+//             data: 'tanggal',
+//             name: 'tanggal'
+//         },
+//         {
+//             data: 'waktu_mulai',
+//             name: 'waktu_mulai'
+//         },
+//         {
+//             data: 'waktu_selesai',
+//             name: 'waktu_selesai'
+//         },
+//         {
+//             data: 'kegiatan',
+//             name: 'kegiatan'
+//         },
+//         {
+//             data: 'status',
+//             name: 'status',
+//         }
+//         ]
+//         });
+// });
 </script>
 @endsection

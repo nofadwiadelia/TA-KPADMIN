@@ -9,6 +9,7 @@ use App\Periode;
 use App\Dosen;
 use App\Magang;
 use App\Mahasiswa;
+use DB;
 
 class KelompokController extends Controller
 {
@@ -101,7 +102,7 @@ class KelompokController extends Controller
                             ->select('periode.tahun_periode','kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->get();
             }
-            return datatables()->of($data)->addIndexColumn()
+            return datatables()->of($data)
             ->addColumn('action', function($kelompok){
                 $disable = $kelompok->tahap == 'diterima'? "disabled" : " ";
 
@@ -110,7 +111,14 @@ class KelompokController extends Controller
                 $btn .= '<button type="button" id="'.$kelompok->id_kelompok.'" class="btn btn-danger btn-sm declinebtn '.$disable.'"><i class="fas fa-times"></i></button>';
                 return $btn;
             })
-            ->rawColumns(['action'])
+            ->addColumn('detail', function($kelompok){
+                $btn = '<div class="btn-group btn-group-sm"><a href="/admin/kelompok/'.$kelompok->id_kelompok.'"  class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a></div>';
+                $btn .= '&nbsp;&nbsp;';
+                $btn .= '<div class="btn-group btn-group-sm"><button type="button" id="'.$kelompok->id_kelompok.'" class="btn btn-danger btn-sm deleteKelompok"><i class="fas fa-trash"></i></button></div>';
+                return $btn;
+            })
+            ->addIndexColumn()
+            ->rawColumns(['action', 'detail'])
             ->make(true);
         }
         return view('admin.kelompok.persetujuan_kelompok',compact('periode', 'dosen'));
@@ -121,25 +129,25 @@ class KelompokController extends Controller
         // $kelompok = Kelompok::findOrFail($id_kelompok);
         $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
+                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok_detail.id_kelompok_detail')
                                 ->where('kelompok_detail.id_kelompok', $id_kelompok)
                                 ->whereNotIn('kelompok_detail.status_join', ['diinvite'])
                                 ->get();
         return view('admin.kelompok.detailKelompok', compact('kelompok'));
     }
     
-    // public function detail($id_kelompok)
-    // {
-    //     if(request()->ajax()){
-    //         $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-    //                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-    //                             ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
-    //                             ->where('kelompok_detail.id_kelompok', $id_kelompok)
-    //                             ->get();
-    //     }
-    //     return response()->json($kelompoks);
+    public function detail($id_kelompok)
+    {
+        if(request()->ajax()){
+            $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                                ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
+                                ->where('kelompok_detail.id_kelompok', $id_kelompok)
+                                ->get();
+        }
+        return response()->json($kelompoks);
         
-    // }
+    }
 
     public function postacckelompok(Request $request)
     {
@@ -221,14 +229,23 @@ class KelompokController extends Controller
         //
     }
 
+    public function kick($id_kelompok_detail)
+    {
+        $anggota = DB::table('kelompok_detail')->where('id_kelompok_detail',$id_kelompok_detail);
+        $anggota->delete();
+        return response()->json(['message' => 'Anggota deleted successfully.']);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_kelompok)
     {
-        //
+        $kelompok = Kelompok::find($id_kelompok);
+        $kelompok->delete();
+        return response()->json(['message' => 'Kelompok deleted successfully.']);
     }
 }

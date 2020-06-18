@@ -109,7 +109,7 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_mahasiswa, $id_kelompok)
+    public function show(Request $request, $id_mahasiswa, $id_kelompok)
     {
         $mahasiswa = Mahasiswa::findOrFail($id_mahasiswa);
         $role = Mahasiswa::leftJoin('users', 'mahasiswa.id_users', 'users.id_users')
