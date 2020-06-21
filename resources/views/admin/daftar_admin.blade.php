@@ -133,8 +133,8 @@
               toastr.options.closeDuration = 100;
               toastr.success(data.message);
             }
+      });
     });
-  });
   });
 </script>
 @endsection

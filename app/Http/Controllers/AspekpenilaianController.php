@@ -49,10 +49,10 @@ class AspekpenilaianController extends Controller
      */
     public function store(Request $request)
     {
-        Aspekpenilaian::updateOrCreate(['id_aspek_penilaian' => $request->id_aspek_penilaian],
-                ['nama' => $request->nama]);        
+        // Aspekpenilaian::updateOrCreate(['id_aspek_penilaian' => $request->id_aspek_penilaian],
+        //         ['nama' => $request->nama]);        
 
-        return response()->json(['success'=>'Aspek nilai saved successfully.']);
+        // return response()->json(['success'=>'Aspek nilai saved successfully.']);
     }
 
     /**
@@ -74,8 +74,8 @@ class AspekpenilaianController extends Controller
      */
     public function edit($id_aspek_penilaian)
     {
-        $aspek = Aspekpenilaian::find($id_aspek_penilaian);
-        return response()->json($aspek);
+        // $aspek = Aspekpenilaian::find($id_aspek_penilaian);
+        // return response()->json($aspek);
     }
 
     /**
@@ -87,8 +87,8 @@ class AspekpenilaianController extends Controller
      */
     public function update(Request $request, $id_aspek_penilaian)
     {
-        $aspek = Aspekpenilaian::find($id_aspek_penilaian);
-        return response()->json(['success'=>'Aspek nilai updated successfully.']);
+        // $aspek = Aspekpenilaian::find($id_aspek_penilaian);
+        // return response()->json(['success'=>'Aspek nilai updated successfully.']);
     }
 
     /**
@@ -99,8 +99,8 @@ class AspekpenilaianController extends Controller
      */
     public function destroy($id_aspek_penilaian)
     {
-        $aspek = Aspekpenilaian::find($id_aspek_penilaian);
-        $aspek->delete();
-        return response()->json(['message' => 'Aspek nilai deleted successfully.']);
+        // $aspek = Aspekpenilaian::find($id_aspek_penilaian);
+        // $aspek->delete();
+        // return response()->json(['message' => 'Aspek nilai deleted successfully.']);
     }
 }

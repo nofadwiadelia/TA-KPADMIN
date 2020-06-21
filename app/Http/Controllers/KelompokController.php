@@ -126,28 +126,50 @@ class KelompokController extends Controller
 
     public function detailacckelompok($id_kelompok)
     {
-        // $kelompok = Kelompok::findOrFail($id_kelompok);
+        $kelompoks = Kelompok::findOrFail($id_kelompok);
         $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok_detail.id_kelompok_detail')
                                 ->where('kelompok_detail.id_kelompok', $id_kelompok)
                                 ->whereNotIn('kelompok_detail.status_join', ['diinvite'])
                                 ->get();
-        return view('admin.kelompok.detailKelompok', compact('kelompok'));
+        $anggota = Mahasiswa::select('id_mahasiswa', 'nama', 'nim', 'no_hp')
+                            ->get();
+
+        // jika Datatable
+        // if(request()->ajax()){
+        //     return datatables()->of($anggota)->addIndexColumn()
+        //     ->addColumn('action', function($mahasiswa){
+        //         $btn = '<div class="btn-group btn-group-sm">
+        //         <button data-nama="'.$mahasiswa->nama.'" data-id="'.$mahasiswa->id_mahasiswa.'" data-nim="'.$mahasiswa->nim.'" data-no="'.$mahasiswa->no_hp.'" class="btn btn-warning add-anggota"><i class="fas fa-plus"></i></button>
+        //         </div>';
+        //         return $btn;
+                
+        //     })
+        //     ->rawColumns(['action'])
+        //     ->make(true);
+        // }
+
+        // $anggota = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+        //                     ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+        //                     ->select('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp')
+        //                     ->whereNotIn('kelompok_detail.id_kelompok', [$id_kelompok])
+        //                     ->get();
+        return view('admin.kelompok.detailKelompok', compact('kelompok', 'anggota', 'kelompoks'));
     }
     
-    public function detail($id_kelompok)
-    {
-        if(request()->ajax()){
-            $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                                ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
-                                ->where('kelompok_detail.id_kelompok', $id_kelompok)
-                                ->get();
-        }
-        return response()->json($kelompoks);
+    // public function detail($id_kelompok)
+    // {
+    //     if(request()->ajax()){
+    //         $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+    //                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+    //                             ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
+    //                             ->where('kelompok_detail.id_kelompok', $id_kelompok)
+    //                             ->get();
+    //     }
+    //     return response()->json($kelompoks);
         
-    }
+    // }
 
     public function postacckelompok(Request $request)
     {
@@ -227,6 +249,17 @@ class KelompokController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function addAnggotaMerge(Request $request)
+    {
+        $data = DB::table('kelompok_detail')->insert([
+            'id_kelompok' => $request->id_kelompok,
+            'id_mahasiswa' => $request->id_mahasiswa,
+            'status_keanggotaan' => 'Anggota',
+            'status_join' => 'join',
+        ]);
+        return response()->json(['message' => 'Anggota added successfully.']);
     }
 
     public function kick($id_kelompok_detail)

@@ -76,7 +76,7 @@
                                     <input type="hidden" name="id_users" id="id_users" value="{{ $data->id_users }}">
                                     <div class="d-flex flex-row justify-content-end">
                                         <span class="mr-2">
-                                        <input type="reset" class="btn btn-danger" value="Cancel" />
+                                        <input type="submit" class="btn btn-danger" value="Cancel" />
                                         </span>
                                         <span>
                                         <input type="submit" class="btn btn-primary" value="Submit" />

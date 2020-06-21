@@ -276,7 +276,8 @@ class UsersController extends Controller
             'password' => 'required|min:6|max:191'
         ],
         [
-            'password.max' => 'password is to long !',
+            'password.min' => 'password is too short !',
+            'password.max' => 'password is too long !',
         ]);
         $data = User::where ('id_users',$id_users)->first();
         $data->password = Hash::make($request->password);

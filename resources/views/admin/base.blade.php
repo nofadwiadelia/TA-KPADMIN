@@ -147,14 +147,6 @@
               </ul>
             </li>
             <li class="nav-item has-treeview">
-              <a href="/admin/users" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                  Akun User
-                </p>
-              </a>
-            </li>
-            <li class="nav-item has-treeview">
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-check"></i>
                 <p>
@@ -226,58 +218,28 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="/admin/roles" class="nav-link">
+                  <a href="/admin/sesi" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Role</p>
+                    <p>Sesi</p>
                   </a>
                 </li>
-              </ul>
-              <ul class="nav nav-treeview">
-                <li class="nav-item has-treeview">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>
-                      Presentasi
-                      <i class="fas fa-angle-left right"></i>
-                    </p>
-                  </a>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="/admin/sesi" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Sesi</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/admin/ruang" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Ruang</p>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-              <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="/admin/ruang" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Nilai</p>
-                    <i class="fas fa-angle-left right"></i>
+                    <p>Ruang</p>
                   </a>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="/admin/aspekpenilaian" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Aspek</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="/admin/kelompokpenilai" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Penilai</p>
-                      </a>
-                    </li>
-                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a href="/admin/aspekpenilaian" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Aspek</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/admin/kelompokpenilai" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Penilai</p>
+                  </a>
                 </li>
               </ul>
             </li>

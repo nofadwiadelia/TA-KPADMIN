@@ -51,6 +51,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/detailkelompok/{id}', 'KelompokController@detail');
     Route::delete('/kelompok/{id}', 'KelompokController@destroy');
     Route::delete('/kick/{id}', 'KelompokController@kick');
+    Route::post('/anggota/add', 'KelompokController@addAnggotaMerge');
     Route::post('/periode/add', 'PeriodeController@store');
     Route::put('/periode/{id}/edit', 'PeriodeController@update');
     Route::post('/periode/change', 'PeriodeController@changeStatus');

@@ -25,6 +25,9 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                <div class="col-sm-12">
+                  <a href="javascript:void(0)" class="btn btn-success float-right btn-sm openAnggota"><i class="fas fa-plus"></i> Tambah Anggota</a> <br><br>
+                </div>
               <div class="card-primary">
               <div class="table-responsive p-0">
               <table class="table table-bordered table-striped" id="kelompokTable">
@@ -58,6 +61,55 @@
                 </tbody>
               </table>
               </div>
+
+              <div id="openModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Confirmation</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="table-responsive p-0">
+                            <table class="table table-bordered table-striped" id="mahasiswa">
+                              <thead>
+                              <tr>
+                                <th>No</th>
+                                <th>NIM</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Tambah</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              @php $no = 1; @endphp
+                              @foreach($anggota as $row)
+                              <tr>
+                                  <td>{{$no++}}</td>
+                                  <td>{{$row->nim}}</td>
+                                  <td>{{$row->nama}}</td>
+                                  <td class="text-center py-0 align-middle">
+                                      <div class="btn-group btn-group-sm">
+                                      <button data-nama="{{$row->nama}}" data-id="{{$row->id_mahasiswa}}" data-nim="{{$row->nim}}" data-no="{{$row->no_hp}}" class="btn btn-warning add-anggota"><i class="fas fa-plus"></i></button>
+                                      </div>
+                                  </td>
+                                  
+                              </tr>
+                              @endforeach
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <input type="hidden" name="id_kelompok" id="id_kelompok" value="{{ $kelompoks->id_kelompok }}">
+                        <div class="modal-footer justify-content-between">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary addAnggota">Save changes</button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
                 <div id="confirmModal" class="modal fade" role="dialog">
                   <div class="modal-dialog">
                       <div class="modal-content">
@@ -96,6 +148,34 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
+// jika datatable
+// $(document).ready(function(){
+
+//         var dataTable = $('#mahasiswa').DataTable({
+//         processing: true,
+//         serverSide: true,
+//         ajax:{
+//         url: "/admin/kelompok/".$id,
+//         },
+//         columns:[
+//         {data: 'DT_RowIndex', 
+//             name: 'DT_RowIndex', 
+//             orderable: false,
+//             searchable: false
+//         },
+//         {
+//             data: 'nim',
+//             name: 'nim'
+//         },
+//         {
+//             data: 'nama',
+//             name: 'nama'
+//         },
+//         {data: 'action', name: 'action', orderable: false, searchable: false},
+//         ]
+//         });
+// });
+
 
 // $(document).ready(function(){
 //     var id_kelompok = 4;
@@ -131,8 +211,15 @@
 //         });
 //   });
 
+
+// OpenAnggota
+  $(document).on('click', '.openAnggota', function(){
+    $('#openModal').modal('show');
+  });
+
+
 // DELETE
-$(document).on('click', '.deleteAnggota', function(){
+  $(document).on('click', '.deleteAnggota', function(){
   id_kelompok_detail = $(this).attr('id');
     $('#confirmModal').modal('show');
   });
@@ -144,7 +231,7 @@ $(document).on('click', '.deleteAnggota', function(){
         url: '/api/admin/kick/'+id_kelompok_detail,
         success: function (data) {
             $('#confirmModal').modal('hide');
-            $('#kelompokTable').DataTable().ajax.reload();
+            window.location.reload();
             toastr.options.closeButton = true;
             toastr.options.closeMethod = 'fadeOut';
             toastr.options.closeDuration = 100;
@@ -152,5 +239,67 @@ $(document).on('click', '.deleteAnggota', function(){
         }
     });
   });
+
+
+
+  function deleteRow(r, id) {
+      console.log("hi")
+      let i = r.parentNode.parentNode.rowIndex;
+      document.getElementById("kelompokTable").deleteRow(i);
+
+      $('table#mahasiswa tbody button[data-id="'+id+'"]').removeAttr("disabled");
+    }
+
+    $(".add-anggota").click(function () {
+
+      $(this).attr("disabled", true);
+
+      let nama = $(this).data("nama");
+      let nim = $(this).data("nim");
+      let no = $(this).data("no");
+      let id = $(this).data("id");
+
+      console.log(nama);
+      console.log(nim);
+
+      $(".addAnggota").click(function () {
+        // $('#openModal').modal('hide');
+        var id_kelompok = $('#id_kelompok').val();
+
+        $.ajax({
+          type: "POST",
+          headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+          url: "/api/admin/anggota/add",
+          cache:false,
+          dataType: "json",
+          data: {'id_mahasiswa': id,'id_kelompok': id_kelompok},
+          success: function(data){
+              console.log(data);
+              $("#openModal").modal('hide');
+              toastr.options.closeButton = true;
+              toastr.options.closeMethod = 'fadeOut';
+              toastr.options.closeDuration = 100;
+              toastr.success(data.message);
+              window.location.reload();
+          },
+          error: function(error){
+            console.log(error);
+          }
+        });
+
+      // let markup = 
+      
+      // "<tr>"
+      // + "<td>" + nim + "</td>"
+      // + "<td>" + nama + "</td>"
+      // + "<td>" + no + "</td>"
+      // + "<td>  </td>"
+      // + "<td><button class='btn btn-danger' onclick='deleteRow(this, "+id+")' >Delete</button> <input type='hidden' name='list_anggota[]' value='"+ id +"' ></td>"
+      // + "</tr>";
+
+      // tableBody = $("table#kelompokTable tbody"); 
+      // tableBody.append(markup);
+      });
+    }); 
 </script>
 @endsection

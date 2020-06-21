@@ -45,6 +45,7 @@ class UsulanController extends Controller
                                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
                                 ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                                 ->where('kelompok.id_periode', $request->id_periode)
+                                ->whereRaw('usulan.updated_at in (select max(usulan.updated_at) from usulan group by (usulan.id_kelompok))')
                                 ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
                                 ->get();
             }else{
@@ -69,7 +70,7 @@ class UsulanController extends Controller
     }
     public function detailusulan( $id_kelompok){
         $kelompok = Kelompok::findOrFail($id_kelompok);
-        $kelompoks = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+        $anggota = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                             ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok.nama_kelompok', 'kelompok.id_kelompok')
                             ->where('kelompok_detail.id_kelompok', $id_kelompok)
@@ -77,7 +78,9 @@ class UsulanController extends Controller
         $usulan = Usulan::select('usulan.*')
                         ->where('usulan.id_kelompok', $id_kelompok)
                         ->get();
-        return view('admin.usulan.detail_usulan',compact('kelompok', 'kelompoks', 'usulan'));
+        $instansi = Instansi::select('id_instansi', 'nama')->get();
+
+        return view('admin.usulan.detail_usulan',compact('kelompok', 'anggota', 'usulan', 'instansi'));
     }
 
     public function editusulan($id_usulan)
@@ -93,32 +96,44 @@ class UsulanController extends Controller
         $usulan->save();
 
         if($request->status == 'diterima'){
-            $usulan = User::create([
-                'username' => $request->username,
-                'password' =>  Hash::make($request->password),
-                'id_roles' => 3,
-            ]);
-
-            $usulan = Instansi::create([
-                'id_users' =>$usulan->id_users,
-                'nama' => $request->nama,
-                'deskripsi' => $request->deskripsi,
-                'alamat' => $request->alamat,
-                'website' => $request->website,
-                'status' => 'open',
-            ]);
-
-            $usulan = Magang::create([
-                'id_instansi' =>$usulan->id_instansi,
-                'id_periode' =>$request->id_periode,
-                'id_kelompok' => $request->id_kelompok,
-                'jobdesk' => $request->jobdesk,
-                'status' => 'belum magang',
-            ]);
+            if($request->id_instansi != null){
+                $usulan = Magang::create([
+                    'id_instansi' =>$request->id_instansi,
+                    'id_periode' =>$request->id_periode,
+                    'id_kelompok' => $request->id_kelompok,
+                    'jobdesk' => $request->jobdesk,
+                    'status' => 'belum magang',
+                ]);
+            }else{
+                $usulan = User::create([
+                    'username' => $request->username,
+                    'password' =>  Hash::make($request->password),
+                    'id_roles' => 3,
+                ]);
+    
+                $usulan = Instansi::create([
+                    'id_users' =>$usulan->id_users,
+                    'nama' => $request->nama,
+                    'deskripsi' => $request->deskripsi,
+                    'alamat' => $request->alamat,
+                    'website' => $request->website,
+                    'status' => 'open',
+                ]);
+    
+                $usulan = Magang::create([
+                    'id_instansi' =>$usulan->id_instansi,
+                    'id_periode' =>$request->id_periode,
+                    'id_kelompok' => $request->id_kelompok,
+                    'jobdesk' => $request->jobdesk,
+                    'status' => 'belum magang',
+                ]);
+            }
+            
         }
         
         return response()->json(['message' => 'Usulan berhasil diterima.']);
     }
+    
 
     /**
      * Store a newly created resource in storage.

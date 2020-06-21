@@ -23,9 +23,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body ">
-                <div class="col-sm-12">
+                <!-- <div class="col-sm-12">
                   <a href="javascript:void(0)" id="createNewAspekNilai" class="btn btn-success float-right btn-sm addaspeknilai"><i class="fas fa-plus"></i> Tambah Aspek Nilai</a> <br><br>
-                </div>
+                </div> -->
               <div class="card-primary">
                 <div class="table-responsive p-0">
                   <table id="aspeknilai_data" class="table table-bordered table-striped ">
