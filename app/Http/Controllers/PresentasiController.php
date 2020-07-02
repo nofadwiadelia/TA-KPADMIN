@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use DB;
 use Carbon;
 use App\Dosen;
@@ -64,7 +66,13 @@ class PresentasiController extends Controller
      */
     public function create()
     {
-        $kelompok = Kelompok::select('id_kelompok', 'nama_kelompok')->get();
+        $kelompok = DB::table('kelompok')->whereNotIn('id_kelompok', function($q){
+                            $q->select('id_kelompok')->from('jadwal_presentasi');
+                        })->get();
+        // $dosen = DB::table('dosen')->whereNotIn('id_dosen', function($q){
+        //     $q->select('id_dosen')->from('kelompok')
+        //     ->where('id_kelompok', $kelompok->id_kelompok);
+        // })->get();
         $dosen = Dosen::select('id_dosen', 'nama')->get();
         $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->get();
         $ruang = Ruang::select('id_ruang', 'ruang')->get();
@@ -80,24 +88,52 @@ class PresentasiController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'id_kelompok' => 'required|max:4',
-            'id_dosen' => 'required',
-            'id_sesiwaktu' => 'required',
-            'id_ruang' => 'required',
-            'tanggal' => 'required',
-            'id_periode' => 'required',
-        ]);
-        $presentasi = Presentasi::create([
-            'id_kelompok' => $request->id_kelompok,
-            'id_dosen' => $request->id_dosen,
-            'id_sesiwaktu' => $request->id_sesiwaktu,
-            'id_ruang' => $request->id_ruang,
-            'tanggal' => $request->tanggal,
-            'id_periode' => $request->id_periode,
-        ]);
-        $presentasi->save();
-        return response()->json(['message' => 'Jadwal status added successfully.']);
+        $check = Presentasi::where('id_dosen', $request->id_dosen)
+                            ->where('id_sesiwaktu', $request->id_sesiwaktu)
+                            ->where('tanggal', $request->tanggal)
+                            ->where('id_ruang', $request->id_ruang)
+                            ->where('id_periode', $request->id_periode)
+                            ->first();
+        $check1 = Presentasi::where('id_sesiwaktu', $request->id_sesiwaktu)
+                            ->where('id_ruang', $request->id_ruang)
+                            ->where('tanggal', $request->tanggal)
+                            ->where('id_periode', $request->id_periode)
+                            ->first();
+        if($check){
+            return response()->json(['message' => 'Jadwal dosen presentasi bentrok']);
+        }else if($check1){
+            return response()->json(['message' => 'Jadwal presentasi bentrok']);
+        }else{
+
+            $this->validate($request, [
+                'id_kelompok' => 'required|max:4',
+                'id_dosen' => 'required',
+                'id_sesiwaktu' => 'required',
+                'id_ruang' => 'required',
+                'tanggal' => 'required',
+                'id_periode' => 'required',
+            ],
+            [
+                'judul.required' => 'judul can not be empty !',
+                'id_dosen.required' => 'dosen penguji can not be empty !',
+                'id_sesiwaktu.required' => 'sesi can not be empty !',
+                'id_ruang.required' => 'ruang can not be empty !',
+                'tanggal.required' => 'tanggal can not be empty !'
+            ]);
+    
+    
+            $presentasi = Presentasi::create([
+                'id_kelompok' => $request->id_kelompok,
+                'id_dosen' => $request->id_dosen,
+                'id_sesiwaktu' => $request->id_sesiwaktu,
+                'id_ruang' => $request->id_ruang,
+                'tanggal' => $request->tanggal,
+                'id_periode' => $request->id_periode,
+            ]);
+            $presentasi->save();
+            return response()->json(['message' => 'Jadwal status added successfully.']);
+        }
+        
     }
 
     /**
@@ -138,12 +174,21 @@ class PresentasiController extends Controller
     public function update(Request $request, $id_jadwal_presentasi)
     {
         $this->validate($request, [
-            'id_kelompok' => $request->id_kelompok,
-            'id_dosen' => $request->id_dosen,
-            'id_sesiwaktu' => $request->id_sesiwaktu,
-            'id_ruang' => $request->id_ruang,
-            'tanggal' => $request->tanggal,
+            'id_kelompok' => 'required|max:4',
+            'id_dosen' => 'required',
+            'id_sesiwaktu' => 'required',
+            'id_ruang' => 'required',
+            'tanggal' => 'required',
+            'id_periode' => 'required',
+        ],
+        [
+            'id_kelompok.required' => 'judul can not be empty !',
+            'id_dosen.required' => 'dosen penguji can not be empty !',
+            'id_sesiwaktu.required' => 'sesi can not be empty !',
+            'id_ruang.required' => 'ruang can not be empty !',
+            'tanggal.required' => 'tanggal can not be empty !'
         ]);
+
         $presentasi = Presentasi::findOrFail($id_jadwal_presentasi);
         $presentasi->update([
             'id_kelompok' => $request->id_kelompok,

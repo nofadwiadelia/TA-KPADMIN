@@ -19,16 +19,19 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
+
+          <!-- <div id="errors">
+          </div> -->
                 <form id="uploadPengumuman" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Judul *</label>
-                            <input type="text" name="judul" id="judul" required  class="form-control" maxlength="100">
+                            <input type="text" name="judul" id="judul"   class="form-control" maxlength="100">
                             <p class="text-muted"><small><i>*Max 100 karakter</i></small></p>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Detail *</label>
-                            <textarea name="deskripsi" id="deskripsi" required class="form-control" maxlength="1000"></textarea>
+                            <textarea name="deskripsi" id="deskripsi" class="form-control" maxlength="1000"></textarea>
                             <p class="text-muted"><small><i>*Max 1000 karakter</i></small></p>
                         </div>
                         <div class="form-group">
@@ -54,7 +57,7 @@
                     <div class="card-footer">
                       <div class="d-flex flex-row justify-content-end">
                           <span class="mr-2">
-                          <button type="submit" class="btn btn-danger">Cancel</button>
+                          <button type="reset" class="btn btn-danger">Cancel</button>
                           </span>
                           <span>
                           <button type="submit" class="btn btn-primary">Submit</button>
@@ -94,8 +97,18 @@
                 toastr.options.closeDuration = 100;
                 toastr.success(data.message);
             },
-            error: function(error){
-            console.log(error);
+            error: function(xhr, status, error) 
+            {
+
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 200;
+                toastr.error(item);
+              });
+
             }
         });
     });

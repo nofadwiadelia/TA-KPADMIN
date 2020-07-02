@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use App\Lowongan;
 use App\Instansi;
 use App\Periode;
 use App\Magang;
-use App\DaftarLowongan;
+use App\Pelamar;
 use DB;
 
 use Illuminate\Http\Request;
@@ -51,9 +53,10 @@ class LowonganController extends Controller
      */
     public function create()
     {
+        $userId = Auth::id();
         $data = Instansi::get();
         $periode = Periode::where('status', 'open')->first();
-        return view('admin.lowongan.add_lowongan',compact('data', 'periode'));
+        return view('admin.lowongan.add_lowongan',compact('data', 'periode', 'userId'));
     }
 
     /**
@@ -74,7 +77,8 @@ class LowonganController extends Controller
             'persyaratan' => $request->persyaratan,
             'kapasitas' => $request->kapasitas,
             'id_instansi' => $request->id_instansi,
-            'id_periode' => $request->id_periode
+            'id_periode' => $request->id_periode,
+            'created_by' => $request->created_by,
         ]);
         $data->save();
         return response()->json(['message' => 'Lowongan status added successfully.']);
@@ -89,33 +93,56 @@ class LowonganController extends Controller
     public function show($id_lowongan)
     {
         $lowongan = Lowongan::findOrFail($id_lowongan);
-        $applylowongan = DB::table('daftar_lowongan')
-                            ->leftJoin('lowongan', 'daftar_lowongan.id_lowongan', 'lowongan.id_lowongan')
+        $applylowongan = DB::table('pelamar')
+                            ->leftJoin('lowongan', 'pelamar.id_lowongan', 'lowongan.id_lowongan')
+                            ->leftJoin('periode', 'lowongan.id_periode', 'periode.id_periode')
                             ->leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
-                            ->leftJoin('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
+                            ->leftJoin('kelompok', 'pelamar.id_kelompok', '=', 'kelompok.id_kelompok')
                             ->leftJoin('kelompok_detail', 'kelompok.id_kelompok', '=', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                             ->where('kelompok_detail.status_keanggotaan', 'Ketua')
-                            ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'daftar_lowongan.id_daftar_lowongan', 'daftar_lowongan.status', 'daftar_lowongan.tanggal_daftar', 'instansi.id_instansi')
+                            ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'pelamar.id_pelamar', 'pelamar.status', 'pelamar.tanggal_daftar', 'instansi.id_instansi', 'periode.id_periode', 'lowongan.pekerjaan')
                             ->where('lowongan.id_lowongan', $id_lowongan)
                             ->get();
+        if(request()->ajax()){
+            $data = DB::table('pelamar')
+                    ->leftJoin('lowongan', 'pelamar.id_lowongan', 'lowongan.id_lowongan')
+                    ->leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
+                    ->leftJoin('kelompok', 'pelamar.id_kelompok', '=', 'kelompok.id_kelompok')
+                    ->leftJoin('kelompok_detail', 'kelompok.id_kelompok', '=', 'kelompok_detail.id_kelompok')
+                    ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                    ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+                    ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'pelamar.id_pelamar', 'pelamar.status', 'pelamar.tanggal_daftar', 'instansi.id_instansi')
+                    ->where('lowongan.id_lowongan', $id_lowongan)
+                    ->get();
+            return datatables()->of($data)->addIndexColumn()
+                ->addColumn('action', function($lowongan){
+                    $btn = '<a href="#" id="'.$lowongan->id_lowongan.'" class="btn btn-sm btn-info editbtn"><i class="fas fa-check"></i></a>';
+                    $btn .= '&nbsp;&nbsp;';
+                    $btn .= '<button type="button" id="'.$id_lowongan->id_lowongan.'" class="btn btn-danger btn-sm declinebtn"><i class="fas fa-times"></i></button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
         return view('admin.lowongan.detail_lowongan',compact('lowongan', 'applylowongan'));
     }
 
     public function acclowongan(Request $request){
-        $daftar_lowongan = DaftarLowongan::findOrFail($request->id_daftar_lowongan);
-        $daftar_lowongan->status = $request->status;
+        $pelamar = Pelamar::findOrFail($request->id_pelamar);
+        $pelamar->status = $request->statuslamaran;
 
-        $daftar_lowongan->save();
+        $pelamar->save();
 
         if($request->status == 'diterima'){
-            $daftar_lowongan = Magang::create([
+            $pelamar = Magang::create([
                 'id_kelompok' => $request->id_kelompok,
                 'id_instansi' => $request->id_instansi,
-                'status' => 'belum magang',
+                'id_periode' => $request->id_periode,
+                'jobdesk' => $request->jobdesk,
             ]);
         }
-        return response()->json(['message' => 'Daftar Lowongan updated successfully.']);
+        return response()->json(['message' => 'Lamaran updated successfully.']);
 
     }
 
@@ -123,9 +150,9 @@ class LowonganController extends Controller
     // {
     //     $lowongan = Lowongan::findOrFail($id_lowongan);
     //     if(request()->ajax()){
-    //         $data = DB::table('daftar_lowongan')
-    //                         ->join('lowongan', 'daftar_lowongan.id_lowongan', '=', 'lowongan.id_lowongan')
-    //                         ->join('kelompok', 'daftar_lowongan.id_kelompok', '=', 'kelompok.id_kelompok')
+    //         $data = DB::table('pelamar')
+    //                         ->join('lowongan', 'pelamar.id_lowongan', '=', 'lowongan.id_lowongan')
+    //                         ->join('kelompok', 'pelamar.id_kelompok', '=', 'kelompok.id_kelompok')
     //                         ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok')
     //                         ->where('lowongan.id_lowongan', $id_lowongan)
     //                         ->get();

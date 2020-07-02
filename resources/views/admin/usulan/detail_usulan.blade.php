@@ -49,7 +49,7 @@
                   <td>{{$kel->status_keanggotaan}}</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
-                        <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}/{{$kel->id_kelompok}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                        <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                       </div>
                     </td>
                 </tr>
@@ -62,16 +62,20 @@
               <p>Usulan</p>
               <div class="card-primary">
                 <div class="table-responsive p-0">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-striped">
+                          <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Insatansi</th>
                                 <th>Alamat</th>
                                 <th>Website</th>
-                                <th>Surat Keterangan</th>
+                                <th >Surat Keterangan</th>
                                 <th>Keterangan Jobdesk</th>
-                                <th>Terima</th>
+                                <th>Satatus</th>
+                                <th width="10%">Aksi</th>
                             </tr>
+                          </thead>
+                            
                             @php $no = 1; @endphp
                             @foreach($usulan as $usulans)
                             <tr>
@@ -81,6 +85,13 @@
                               <td>{{$usulans->website_instansi}}</td>
                               <td><a href="{{ asset('/uploads/users/mahasiswa/usulan/' . $usulans->surat) }}" target="_blank" class="float-right">Surat</a></td>
                               <td>{{$usulans->jobdesk}}</td>
+                              @if ($usulans->status == 'diproses')
+                              <td><span class='badge bg-warning'>{{$usulans->status}}</span></td>
+                              @elseif ($usulans->status == 'diterima')
+                              <td><span class='badge bg-success'>{{$usulans->status}}</span></td>
+                              @else ($usulans->status == 'ditolak')
+                              <td><span class='badge bg-danger'>{{$usulans->status}}</span></td>
+                              @endif
                               
                               <td class="text-center py-0 align-middle">
                                   <a href="#"  data-id="{{$usulans->id_usulan}}" class="btn btn-sm btn-info showaccusulan"><i class="fas fa-check" ></i></a>
@@ -191,41 +202,20 @@
 
 @section('scripts')
 <!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="{{asset('/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
+
 <!-- page script -->
 <script>
 //ACCINSTANSI
     $(document).on('click','.accbtnInstansi', function(e){
       e.preventDefault();
       $('#confirmModal').modal('show');
-
-      // id_instansi = $('#id_instansi').val();
-      // id_usulan = $('#id_usulan').val();
-      // var status = $('#statusaccterima').val();
-      // id_kelompok = $('#id_kelompok').val();
-      // id_periode = $('#id_periode').val();
-      // jobdesk = $('#jobdesk').val();
     });
 
   $(document).on('click','.accbtn', function(e){
     e.preventDefault();
     $('#confirmModal').modal('show');
-
-    // id_usulan = $('#id_usulan').val();
-    // var status = $('#statusaccterima').val();
-
-    // username = $('#user').val();
-    // password = $('#user').val();
-
-    // nama = $('#nama_instansi').val();
-    // deskripsi = $('#deskripsi_instansi').val();
-    // alamat = $('#alamat_instansi').val();
-    // website = $('#website_instansi').val();
-    // jobdesk = $('#jobdesk').val();
-    
-    // id_kelompok = $('#id_kelompok').val();
-    // id_periode = $('#id_periode').val();
 
   });
 
@@ -292,15 +282,16 @@
   $(document).on('click','.declinebtn', function(e){
         e.preventDefault();
 
-        id_kelompok = $(this).attr('id');
-
+        id_usulan = $(this).attr('id');
+        id_kelompok = $('#id_kelompok').val();
+        status = 'ditolak';
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            url: "/api/admin/tolak_kelompok/",
+            url: "/api/admin/persetujuanusulan/",
             cache:false,
             dataType: "json",
-            data: {'id_kelompok': id_kelompok},
+            data: {'id_usulan': id_usulan, 'id_kelompok': id_kelompok, 'status': status},
             success: function(data){
               toastr.options.closeButton = true;
               toastr.options.closeMethod = 'fadeOut';

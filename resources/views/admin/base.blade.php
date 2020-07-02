@@ -51,19 +51,19 @@
           
         </a>
         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+          <a href="/admin/admin/{{Auth::id()}}/edit" class="dropdown-item">Profile</a>
+          <!-- <a class="dropdown-item" href="{{ route('logout') }}">
+                        {{ __('Logout') }} -->
+          <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                          document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+          
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                      @csrf
+                    </form>
         
-        <!-- <a class="dropdown-item" href="{{ route('logout') }}">
-                      {{ __('Logout') }} -->
-        <a class="dropdown-item" href="{{ route('logout') }}"
-                      onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();">
-                      {{ __('Logout') }}
-                  </a>
-        
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                  </form>
-       
         </div>
       </li>
     </ul>
@@ -74,7 +74,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
-      <span class="brand-text font-weight-light">Komsi PKL</span>
+      <span class="brand-text font-weight-light">Komsi KP</span>
     </a>
 
     <!-- Sidebar -->
@@ -86,7 +86,7 @@
         </div>
         <div class="info">
           <a href="#" class="d-block" id="usernames"></a>
-         
+          <!-- <h2>{{Session::get('password')}}</h2> -->
         </div>
       </div>
 
@@ -164,7 +164,7 @@
                 <li class="nav-item">
                   <a href="/admin/usulan" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Usulan PKL</p>
+                    <p>Usulan KP</p>
                   </a>
                 </li>
               </ul>
@@ -196,7 +196,7 @@
               <a href="/admin/periode" class="nav-link">
                 <i class="nav-icon far fa-clock"></i>
                 <p>
-                  Setting Periode PKL
+                  Setting Periode KP
                 </p>
               </a>
             </li>
@@ -230,12 +230,6 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="/admin/aspekpenilaian" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Aspek</p>
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a href="/admin/kelompokpenilai" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Penilai</p>
@@ -260,7 +254,7 @@
     <strong >Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Komsi</b> PKL
+      <b>Komsi</b> KP
     </div>
   </footer>
 

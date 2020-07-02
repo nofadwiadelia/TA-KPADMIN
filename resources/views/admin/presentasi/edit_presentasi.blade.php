@@ -56,6 +56,23 @@
                                     </div>
 
                                     <input type="hidden" name="id_periode" id="id_periode" class="form-control pull-right required" value="{{$presentasi->id_periode}}">
+
+                                    <div class="row">
+                                        <div class="col-md-12">                                
+                                            <div class="form-group">
+                                                <label>Tanggal *</label>
+                                                <div class="input-group date">
+                                                    <!-- <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                    </div> -->
+                                                    <input type="date" name="tanggal" id="tanggal" class="form-control pull-right required" value="{{$presentasi->tanggal}}">
+                                                </div>
+                                                <!-- /.input group -->
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-6">                                
                                             <!-- Date -->
@@ -115,9 +132,10 @@
 
 @section('scripts')
 <!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
+<script src="{{ asset('/plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="{{ asset('/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- InputMask -->
 <!-- <script src="../../plugins/moment/moment.min.js"></script>
 <script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script> -->
@@ -126,12 +144,6 @@
 $(document).ready(function(){   
     $('#editPresentasi').on('submit', function(e){
         e.preventDefault();
-
-        var id_kelompok = $('#id_kelompok').val();
-        var id_dosen = $('#id_dosen').val();
-        var waktu = $('#waktu').val();
-        var ruang = $('#ruang').val();
-        var id_periode = $('#id_periode').val();
         var id = $('#id_jadwal_presentasi').val();
 
         $.ajax({
@@ -148,8 +160,18 @@ $(document).ready(function(){
                 toastr.options.closeDuration = 100;
                 toastr.success(data.message);
             },
-            error: function(error){
-            console.log(error);
+            error: function(xhr, status, error) 
+            {
+
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 200;
+                toastr.error(item);
+              });
+
             }
         });
     });

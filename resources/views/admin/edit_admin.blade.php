@@ -45,25 +45,25 @@
                                     <div class="form-group row">
                                         <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="nama" value="{{ $data->nama }}">                                       
+                                        <input type="text" class="form-control" name="nama" value="{{ $data->nama }}">                                       
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                       <label for="email" class="col-sm-3 col-form-label">Email *</label>
                                       <div class="col-sm-9">
-                                      <input type="text" class="form-control" required name="email" value="{{ $data->email }}">
+                                      <input type="text" class="form-control" name="email" value="{{ $data->email }}">
                                       </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="no_hp" value="{{ $data->no_hp }}">
+                                        <input type="text" class="form-control" name="no_hp" value="{{ $data->no_hp }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="username" class="col-sm-3 col-form-label">Username *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="username" value="{{ $data->users->username }}">
+                                        <input type="text" class="form-control" name="username" value="{{ $data->users->username }}">
                                         </div>
                                     </div>
                                     
@@ -192,8 +192,15 @@ $(document).ready(function(){
               toastr.options.closeDuration = 100;
               toastr.success(data.message);
           },
-          error: function(error){
-          console.log(error);
+          error: function(xhr, status, error){
+            $.each(xhr.responseJSON.errors, function (key, item) 
+            {
+              // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+              toastr.options.closeButton = true;
+              toastr.options.closeMethod = 'fadeOut';
+              toastr.options.closeDuration = 200;
+              toastr.error(item);
+            });
           }
       });
     });
@@ -249,14 +256,21 @@ $(document).ready(function(){
             data: new FormData(this),
             success: function(data){
               $('#modal-editAvatar').modal('hide');
-          toastr.options.closeButton = true;
-          toastr.options.closeMethod = 'fadeOut';
-          toastr.options.closeDuration = 100;
-          toastr.success(data.message);
-          window.location.reload();
+              toastr.options.closeButton = true;
+              toastr.options.closeMethod = 'fadeOut';
+              toastr.options.closeDuration = 100;
+              toastr.success(data.message);
+              window.location.reload();
             },
-            error: function(error){
-            console.log(error);
+            error: function(xhr, status, error){
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 200;
+                toastr.error(item);
+              });
             }
         });
     });

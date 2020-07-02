@@ -19,6 +19,7 @@ use App\Periode;
 use App\LaporanHarian;
 use App\Kelompok;
 use App\Magang;
+use App\Nilai;
 use DB;
 
 class MahasiswaController extends Controller
@@ -55,7 +56,7 @@ class MahasiswaController extends Controller
                 $btn .= '&nbsp;&nbsp;';
                 $btn .= '<button type="button" name="delete" id="'.$mahasiswa->id_users.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
                 $btn .= '&nbsp;&nbsp;';
-                $btn .= '<a href="/admin/mahasiswa/'.$mahasiswa->id_mahasiswa.'/'.$mahasiswa->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                $btn .= '<a href="/admin/mahasiswa/'.$mahasiswa->id_mahasiswa.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -109,7 +110,7 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id_mahasiswa, $id_kelompok)
+    public function show(Request $request, $id_mahasiswa)
     {
         $mahasiswa = Mahasiswa::findOrFail($id_mahasiswa);
         $role = Mahasiswa::leftJoin('users', 'mahasiswa.id_users', 'users.id_users')
@@ -121,12 +122,21 @@ class MahasiswaController extends Controller
                             ->select('kelompok.nama_kelompok', 'kelompok_detail.status_keanggotaan')
                             ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                             ->first();
+        $idkelompok = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                                ->where('kelompok_detail.id_mahasiswa',  $id_mahasiswa)
+                                ->select('kelompok_detail.id_kelompok')
+                                ->first();
         $anggota = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->select('kelompok.id_kelompok','mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
                             ->whereNotIn('mahasiswa.id_mahasiswa', [$id_mahasiswa])
-                            ->where('kelompok_detail.id_kelompok', $id_kelompok)
+                            ->where('kelompok_detail.id_kelompok', $idkelompok->id_kelompok)
+                            ->where(function($q) {
+                                $q->where('kelompok_detail.status_join', 'create')
+                                ->orWhere('kelompok_detail.status_join', 'diterima');
+                            })
                             ->get();
+
         $magang = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
@@ -155,7 +165,147 @@ class MahasiswaController extends Controller
                                 ->selectRaw("SEC_TO_TIME(SUM(TIME_TO_SEC(buku_harian.waktu_selesai) - TIME_TO_SEC(buku_harian.waktu_mulai))) as timediff")
                                 ->first();
 
-        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'kelompok', 'anggota', 'magang', 'instansi', 'bukuharian', 'hari_produktif', 'jam_produktif'));
+        //Belum rata" per aspek penilaian!!!
+        $nilaiTeman = Nilai::where('id_mahasiswa',$id_mahasiswa)
+                        ->leftJoin('aspek_penilaian', 'nilai.id_aspek_penilaian', 'aspek_penilaian.id_aspek_penilaian')
+                        ->select('nilai.nilai')
+                        ->where('id_kelompok_penilai','1')
+                        ->get();
+
+        //Hitung Skill M
+        $countTemanM = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '1')
+        ->count();
+        $skillM = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '1')
+        ->sum('nilai');
+        $resultSkillM = number_format(@($skillM / $countTemanM),2);
+
+        //Hitung Kerapihan
+        $countTemanMKp = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '5')
+        ->count();
+        $kerapihanM = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '5')
+        ->sum('nilai');
+        $resultkerapihanM = number_format(@($kerapihanM / $countTemanMKp), 2);
+
+        //Hitung Sikap
+        $countTemanMS = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '3')
+        ->count();
+        $sikapM = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '3')
+        ->sum('nilai');
+        $resultsikapM = number_format(@($sikapM / $countTemanMS), 2);
+
+        //Hitung Keaktifan
+        $countTemanMK = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '2')
+        ->count();
+        $keaktifanM = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '2')
+        ->sum('nilai');
+        $resultkeaktifanM = number_format(@($keaktifanM / $countTemanMK), 2);
+
+        //Hitung Perhatian
+        $countTemanMPr = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '6')
+        ->count();
+        $perhatianM = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '6')
+        ->sum('nilai');
+        $resultperhatianM = number_format(@($perhatianM / $countTemanMPr), 2);
+
+        //Hitung Kehadiran
+        $countTemanMKh = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '7')
+        ->count();
+        $kehadiranM = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->where('id_aspek_penilaian', '7')
+        ->sum('nilai');
+        $resultkehadiranM = number_format(@($kehadiranM / $countTemanMKh), 2);
+
+        $summaryTeman = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->sum('nilai');
+        $countTeman = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','1')
+        ->count('id_kelompok_penilai');
+        $bobotTeman = \DB::table('kelompok_penilai')
+        ->where('id_kelompok_penilai','1')
+        ->first();
+        $resultTeman1 = number_format(@($summaryTeman / $countTeman), 2);
+        $resultTeman2 = number_format(@(($bobotTeman->bobot*$resultTeman1)/100), 2); //Nilai Total Teman
+
+        $nilaiMentor = Nilai::where('id_mahasiswa',$id_mahasiswa)
+                        ->select('nilai.nilai')
+                        ->where('id_kelompok_penilai','2')
+                        ->get(); //get Nilai Mentor
+
+        $summaryInstansi = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->sum('nilai');
+        $countInstansi = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->count('id_kelompok_penilai');
+        $bobotInstansi = \DB::table('kelompok_penilai')
+        ->where('id_kelompok_penilai','2')
+        ->first();
+        $resultInstansi1 = number_format(@($summaryInstansi / $countInstansi), 2);
+        $resultInstansi2 = number_format(@(($bobotInstansi ->bobot*$resultInstansi1)/100), 2); //nilai akhir mentor
+
+
+        $nilaiDP = Nilai::where('id_mahasiswa',$id_mahasiswa)
+                        ->select('nilai.nilai')
+                        ->where('id_kelompok_penilai','3')
+                        ->get();
+
+        $summaryPenguji = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','3')
+        ->sum('nilai');
+        $countPenguji = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','3')
+        ->count('id_kelompok_penilai');
+        $bobotPenguji = \DB::table('kelompok_penilai')
+        ->where('id_kelompok_penilai','3')
+        ->first();
+        $resultPenguji1 = number_format(@($summaryPenguji / $countPenguji), 2);
+        $resultPenguji2 = number_format(@(($bobotPenguji->bobot*$resultPenguji1)/100), 2);
+
+
+        $nilaiDosbing = Nilai::where('id_mahasiswa',$id_mahasiswa)
+                        ->select('nilai.nilai')
+                        ->where('id_kelompok_penilai','4')
+                        ->get();
+
+        $summaryDospem = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','4')
+        ->sum('nilai');
+        $countDospem = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','4')
+        ->count('id_kelompok_penilai');
+        $bobotDospem = \DB::table('kelompok_penilai')
+        ->where('id_kelompok_penilai','4')
+        ->first();
+        $resultDospem1 = number_format(@($summaryDospem / $countDospem), 2) ;
+        $resultDospem2 = number_format(@(($bobotDospem ->bobot*$resultDospem1)/100), 2); //nilai akhir dosbing
+
+        $finalResult = $resultTeman2 + $resultInstansi2 + $resultPenguji2 + $resultDospem2;
+
+        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'kelompok', 'anggota', 'magang', 'instansi', 'bukuharian', 'hari_produktif', 'jam_produktif', 'resultSkillM', 'resultkerapihanM', 'resultsikapM', 'resultkeaktifanM', 'resultperhatianM', 'resultkehadiranM', 'nilaiDP', 'nilaiDosbing', 'nilaiMentor', 'resultTeman1', 'resultTeman2', 'resultInstansi1','resultInstansi2', 'resultPenguji1' ,'resultPenguji2', 'resultDospem1', 'resultDospem2', 'resultTeman2', 'finalResult'));
     }
 
     /**

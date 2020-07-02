@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use App\Admin;
 use App\User;
 use App\Role;
@@ -30,8 +31,6 @@ class AdminController extends Controller
                 $btn = '<a href="/admin/admin/'.$admin->id_admin.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
                 $btn .= '&nbsp;&nbsp;';
                 $btn .= '<button type="button" name="delete" id="'.$admin->id_users.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
-                $btn .= '&nbsp;&nbsp;';
-                $btn .= '<a href="/admin/mahasiswa/'.$admin->id_admin.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -60,7 +59,7 @@ class AdminController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|unique:users|max:191',
+            'username' => 'required|string|unique:users,username|max:191',
             'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
             'no_hp' => 'required|max:25',
@@ -129,6 +128,8 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id_users)
     {
+        $data = User::findOrFail($id_users);
+
         $this->validate($request, [
             'nama' => 'required|string|max:191',
             'username' => 'required|string|max:191',
@@ -137,21 +138,21 @@ class AdminController extends Controller
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
-            'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
+            'nama.required' => 'nama can not be empty !',
+            'username.required' => 'username can not be empty !',
             'username.unique' => 'username has already been taken !',
-            'email.required' => 'can not be empty !',
-            'no_hp.required' => 'can not be empty !',
+            'email.required' => 'username can not be empty !',
+            'no_hp.required' => 'username can not be empty !',
         ]);
 
-        $data = User::findOrFail($id_users);
+        
         $data->update([
             'username' => $request->username,
         ]);
         $data->admin()->update([
             'nama' => $request->nama,
             'email' => $request->email,
-            'no_hp' => $request->no_hp
+            'no_hp' => $request->no_hp,
         ]);
         return response()->json(['message' => 'Data updated successfully.']);
     }

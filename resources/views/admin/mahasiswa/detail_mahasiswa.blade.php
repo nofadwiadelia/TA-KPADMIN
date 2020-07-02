@@ -37,7 +37,7 @@
                             <h3 class="profile-username text-center">{{ $mahasiswa->nama }}</h3>
                             <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b>NIM  </b> <a class="float-right">17/415526/SV/13391</a>
+                                <b>NIM  </b> <a class="float-right">{{ $mahasiswa->nim }}</a>
                             </li>
                             <li class="list-group-item">
                                 <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $role->roles }}</a>
@@ -133,7 +133,7 @@
                                                             <b>Status</b> <a class="float-right">{{$anggotas->status_keanggotaan}}</a>
                                                         </li>
                                                     </ul>
-                                                    <a href="/admin/mahasiswa/{{$anggotas->id_mahasiswa}}/{{$anggotas->id_kelompok}}" class="btn btn-success btn-block"><b>Detail Mahasiswa</b></a>
+                                                    <a href="/admin/mahasiswa/{{$anggotas->id_mahasiswa}}" class="btn btn-success btn-block"><b>Detail Mahasiswa</b></a>
                                                     </div>
                                                     <!-- /.box-body -->
                                                 </div>
@@ -250,7 +250,7 @@
                                     </div><br>
                                     <div class="card-primary">
                                     <div class="table-responsive p-0">
-                                        <table id="logbook" class="table table-bordered table-striped">
+                                        <table id="logbooks" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                             <th>No</th>
@@ -285,26 +285,26 @@
                                     <div class="row">
                                         <div class="col-md-12 text-center">
                                             <p>Nilai Akhir</p>
-                                            <p style="font-size: 40px"><b>4.4295</b></p>
+                                            <p style="font-size: 40px"><b>{{$finalResult}}</b></p>
                                         </div>
                                     </div>
                                     <!-- ./row -->
                                     <div class="row">
                                         <div class="col-md-3 text-center">
                                             <p>Nilai Instansi (Mentor)</p>
-                                            <p style="font-size: 40px"><b>1.35</b></p>
+                                            <p style="font-size: 40px"><b>{{$resultInstansi2}}</b></p>
                                         </div>
                                         <div class="col-md-3 text-center">
                                             <p>Nilai Dosen Pembimbing</p>
-                                            <p style="font-size: 40px"><b>1.13</b></p>
+                                            <p style="font-size: 40px"><b>{{$resultDospem2}}</b></p>
                                         </div>
                                         <div class="col-md-3 text-center">
                                             <p>Nilai Tim Penguji</p>
-                                            <p style="font-size: 40px"><b>1.3</b></p>
+                                            <p style="font-size: 40px"><b>{{$resultPenguji2}}</b></p>
                                         </div>
                                         <div class="col-md-3 text-center">
                                             <p>Nilai Total Teman</p>
-                                            <p style="font-size: 40px"><b>0.6495</b></p>
+                                            <p style="font-size: 40px"><b>{{$resultTeman2}}</b></p>
                                         </div>
                                     </div>
                                     <!-- ./row -->
@@ -321,16 +321,16 @@
                                                     <th>Keaktifan</th>
                                                     <th>Perhatian</th>
                                                     <th>Kehadiran</th>
-                                                    <th>Jumlah Nilai</th>
+                                                    <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
-                                                <td>4</td>
-                                                <td>5</td>
-                                                <td>5</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>5</td>
-                                                <td>26</td>
+                                                <td>{{$resultSkillM}}</td>
+                                                <td>{{$resultkerapihanM}}</td>
+                                                <td>{{$resultsikapM}}</td>
+                                                <td>{{$resultkeaktifanM}}</td>
+                                                <td>{{$resultperhatianM}}</td>
+                                                <td>{{$resultkehadiranM}}</td>
+                                                <td>{{$resultTeman1}}</td>
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -348,16 +348,17 @@
                                                     <th>Keaktifan</th>
                                                     <th>Perhatian</th>
                                                     <th>Kehadiran</th>
-                                                    <th>Jumlah Nilai</th>
+                                                    <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
+                                                @foreach($nilaiMentor as $nmentor)
+                                                <td>{{$nmentor->nilai}}</td>
+                                                <!-- <td>5</td>
+                                                <td>5</td>
                                                 <td>4</td>
-                                                <td>5</td>
-                                                <td>5</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>5</td>
-                                                <td>26</td>
+                                                <td>3</td> -->
+                                                @endforeach
+                                                <td>{{$resultInstansi1}}</td>
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -374,15 +375,14 @@
                                                     <th>Sistematika</th>
                                                     <th>Ketepatan Waktu</th>
                                                     <th>Kekompakan</th>
-                                                    <th>Jumlah Nilai</th>
+                                                    <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
-                                                <td>4</td>
-                                                <td>5</td>
-                                                <td>5</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>26</td>
+                                                @foreach($nilaiDP as $ndp)
+                                                <td>{{$ndp->nilai}}</td>
+                                                @endforeach
+                                                <td>{{$resultPenguji1}}</td>
+                                                
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -398,14 +398,19 @@
                                                     <th>Kebersamaan</th>
                                                     <th>Sikap</th>
                                                     <th>Keaktifan</th>
-                                                    <th>Jumlah Nilai</th>
+                                                    <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
-                                                <td>4</td>
+                                                @foreach($nilaiDosbing as $dosbing)
+                                                <td>{{$dosbing->nilai}}</td>
+                                                <!-- <td>5</td>
                                                 <td>5</td>
-                                                <td>5</td>
                                                 <td>4</td>
-                                                <td>26</td>
+                                                <td>3</td>
+                                                <td>5</td> -->
+                                                @endforeach
+                                                
+                                                <td>{{$resultDospem1}}</td>
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -444,9 +449,13 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#logbook").DataTable();
+    $(function () {
+    $("#logbooks").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
   });
+
 // $(document).ready(function(){
 
 //         var dataTable = $('#logbook').DataTable({

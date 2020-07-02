@@ -15,13 +15,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input; //untuk input::get
 use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Session;
 
 
 class UsersController extends Controller
 {
 
-    // public function __construct(){
-    //     $this->middleware('auth');
+    // public function indexcek(){
+    //     if(!Session::get('login')){
+    //         return redirect('admin/login')->with('alert','Kamu harus login dulu');
+    //     }
+    //     else{
+    //         return view('/admin/dasboard');
+    //     }
     // }
 
     public function indexlogin(){
@@ -35,6 +41,10 @@ class UsersController extends Controller
         ]);
         $auth = $request->only('username', 'password');
         $auth['id_roles'] = 1;
+        // $data = User::where('username',$request->username)->first();
+        // Session::put('username',$data->username);
+        // Session::put('password',$data->password);
+        // Session::put('login',TRUE);
 
         if(Auth::attempt($auth)){
             $user = Auth::user();
@@ -44,6 +54,27 @@ class UsersController extends Controller
            
     	}
     	return redirect('admin/login')->with('error','Akun Belum Terdaftar');
+    }
+    public function loginmahasiswa(Request $request){
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required|string'
+        ]);
+        $auth = $request->only('username', 'password');
+        $auth['id_roles'] = 4;
+        // $data = User::where('username',$request->username)->first();
+        // Session::put('username',$data->username);
+        // Session::put('password',$data->password);
+        // Session::put('login',TRUE);
+
+        if(Auth::attempt($auth)){
+            $user = Auth::user();
+            $user->api_token = str_random(100);
+            $user->save();
+            return redirect('/mahasiswa/index')->with('sukses','Anda Berhasil Login');
+           
+    	}
+    	return redirect('/login')->with('error','Akun Belum Terdaftar');
     }
 
     public function logout(Request $request){
@@ -56,6 +87,7 @@ class UsersController extends Controller
         } else if(Auth::guard('instansi')->check()){
             Auth::guard('instansi')->logout();
         }
+        Session::flush();
     	return redirect('admin/login')->with('sukses','Anda Telah Logout');
     }
 

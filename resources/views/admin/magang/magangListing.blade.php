@@ -29,7 +29,7 @@
                       <div class="form-group">
                           <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
                             @foreach($periode as $row)
-                            <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                            <option value="{{ $row->id_periode }}">Periode {{ $row->tahun_periode }}</option>
                             @endforeach
                           </select>
                       </div>

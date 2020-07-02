@@ -61,9 +61,9 @@
                                             <div class="form-group">
                                                 <label>Tanggal *</label>
                                                 <div class="input-group date">
-                                                    <div class="input-group-prepend">
+                                                    <!-- <div class="input-group-prepend">
                                                         <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                                    </div>
+                                                    </div> -->
                                                     <input type="date" name="tanggal" id="tanggal" class="form-control pull-right required" >
                                                 </div>
                                                 <!-- /.input group -->
@@ -165,8 +165,18 @@ $(document).ready(function(){
                 toastr.options.closeDuration = 100;
                 toastr.success(data.message);
             },
-            error: function(error){
-            console.log(error);
+            error: function(xhr, status, error) 
+            {
+
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 200;
+                toastr.error(item);
+              });
+
             }
         });
     });

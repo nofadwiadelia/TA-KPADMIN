@@ -11,6 +11,7 @@ use App\User;
 use App\Magang;
 use DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class UsulanController extends Controller
 {
@@ -128,10 +129,13 @@ class UsulanController extends Controller
                     'status' => 'belum magang',
                 ]);
             }
-            
+
+            return response()->json(['message' => 'Usulan berhasil diterima.']);
+        }else{
+            return response()->json(['message' => 'Usulan ditolak.']);
         }
         
-        return response()->json(['message' => 'Usulan berhasil diterima.']);
+        
     }
     
 

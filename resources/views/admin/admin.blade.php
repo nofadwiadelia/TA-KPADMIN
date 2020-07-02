@@ -21,7 +21,7 @@
 		<div class="row">
 			<div class="col-md-12 text-center">
               @if (!empty($periode))
-                <p><h2>Periode PKL <strong>{{$periode->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
+                <p><h2>Periode KP <strong>{{$periode->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
               @else
                 <p><h2>Periode KP <strong>tidak aktif</strong></h2></p>
               @endif
@@ -39,7 +39,7 @@
                     </div>
 					<div class="row">
                         <div class="col-md-12">
-                            <center><a href="/admin/periode" class="btn bg-blue"><i class="fa fa-edit"></i> Setting Periode PKL</a></center>
+                            <center><a href="/admin/periode" class="btn bg-blue"><i class="fa fa-edit"></i> Setting Periode KP</a></center>
                         </div>
                     </div>
                     <br>
@@ -116,6 +116,9 @@
       type: 'GET',
       url: '/api/admin/usulancount/',
       dataType: 'JSON',
+      headers: {
+          Authorization : 'Bearer {{Auth::user()->api_token}}',
+      },
       success: function (response) {
         var usulans = "<h3>"+response.usulan+"</h3>"+
         "<p>Usulan KP yang masuk</p>";
@@ -127,6 +130,9 @@
       type: 'GET',
       url: '/api/admin/magangcount/',
       dataType: 'JSON',
+      headers: {
+          Authorization : 'Bearer {{Auth::user()->api_token}}',
+      },
       success: function (response) {
         var magang = "<h3>"+response.magang+"<sup style='font-size: 20px'>Kelompok</sup></h3>"+
         "<p>Status sedang <b>magang</b></p>";

@@ -49,7 +49,7 @@
                     <td>{{$kel->status_keanggotaan}}</td>
                     <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">
-                          <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}/{{$kel->id_kelompok}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
+                          <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
                         </div>
                         <div class="btn-group btn-group-sm">
                           <button type="button" name="delete" id="{{$kel->id_kelompok_detail}}" class="btn btn-danger btn-sm deleteAnggota" ><i class="fas fa-trash"></i></button>
@@ -66,7 +66,7 @@
                   <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title">Confirmation</h5>
+                          <h5 class="modal-title">Pilih Anggota</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -84,7 +84,7 @@
                               </thead>
                               <tbody>
                               @php $no = 1; @endphp
-                              @foreach($anggota as $row)
+                              @foreach($mahasiswa_tersedia as $row)
                               <tr>
                                   <td>{{$no++}}</td>
                                   <td>{{$row->nim}}</td>
@@ -148,6 +148,14 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
+  $(function () {
+    $("#mahasiswa").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    
+  });
+
 // jika datatable
 // $(document).ready(function(){
 
@@ -263,7 +271,6 @@
       console.log(nim);
 
       $(".addAnggota").click(function () {
-        // $('#openModal').modal('hide');
         var id_kelompok = $('#id_kelompok').val();
 
         $.ajax({
@@ -286,19 +293,6 @@
             console.log(error);
           }
         });
-
-      // let markup = 
-      
-      // "<tr>"
-      // + "<td>" + nim + "</td>"
-      // + "<td>" + nama + "</td>"
-      // + "<td>" + no + "</td>"
-      // + "<td>  </td>"
-      // + "<td><button class='btn btn-danger' onclick='deleteRow(this, "+id+")' >Delete</button> <input type='hidden' name='list_anggota[]' value='"+ id +"' ></td>"
-      // + "</tr>";
-
-      // tableBody = $("table#kelompokTable tbody"); 
-      // tableBody.append(markup);
       });
     }); 
 </script>

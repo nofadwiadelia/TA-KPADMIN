@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-
 use App\Dosen;
 use App\User;
 use App\Roles;
@@ -127,13 +126,13 @@ class DosenController extends Controller
                         ->first();
         
 
-        $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
-                            ->where('kelompok.id_dosen', $id_dosen)
-                            ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode')
-                            ->get();
+        // $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+        //                     ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+        //                     ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+        //                     ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+        //                     ->where('kelompok.id_dosen', $id_dosen)
+        //                     ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode')
+        //                     ->get();
         
         if(request()->ajax()){
             if(!empty($request->id_periode)){
@@ -168,7 +167,7 @@ class DosenController extends Controller
             ->make(true);
         }
         
-        return view('admin.dosen.detail_dosen',compact('role', 'dosen', 'periode', 'kelompok'));
+        return view('admin.dosen.detail_dosen',compact('role', 'dosen', 'periode'));
     }
 
     /**

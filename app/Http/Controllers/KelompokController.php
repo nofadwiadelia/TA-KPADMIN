@@ -131,10 +131,30 @@ class KelompokController extends Controller
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok_detail.id_kelompok_detail')
                                 ->where('kelompok_detail.id_kelompok', $id_kelompok)
-                                ->whereNotIn('kelompok_detail.status_join', ['diinvite'])
+                                ->where(function($q) {
+                                    $q->where('kelompok_detail.status_join', 'create')
+                                    ->orWhere('kelompok_detail.status_join', 'diterima');
+                                })
                                 ->get();
-        $anggota = Mahasiswa::select('id_mahasiswa', 'nama', 'nim', 'no_hp')
+                
+        $anggota = Mahasiswa::join('periode', 'mahasiswa.id_periode', 'periode.id_periode')
+                            ->leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                            ->select('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp')
+                            ->where('periode.status', 'open')
+                            ->where('kelompok_detail.id_kelompok', $id_kelompok)
                             ->get();
+        $anggotas = Mahasiswa::join('periode', 'mahasiswa.id_periode', 'periode.id_periode')
+                            ->leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+                            ->select('mahasiswa.id_mahasiswa')
+                            ->where('periode.status', 'open')
+                            ->where('kelompok_detail.id_kelompok', $id_kelompok)
+                            ->get();
+        $mahasiswa_all = $anggotas->pluck('id_mahasiswa');  
+        $mahasiswa_all->all();
+        
+        $mahasiswa_tersedia = Mahasiswa::whereNotIn('mahasiswa.id_mahasiswa', $mahasiswa_all)
+        ->select('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp')
+        ->get();
 
         // jika Datatable
         // if(request()->ajax()){
@@ -155,7 +175,7 @@ class KelompokController extends Controller
         //                     ->select('mahasiswa.id_mahasiswa', 'mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp')
         //                     ->whereNotIn('kelompok_detail.id_kelompok', [$id_kelompok])
         //                     ->get();
-        return view('admin.kelompok.detailKelompok', compact('kelompok', 'anggota', 'kelompoks'));
+        return view('admin.kelompok.detailKelompok', compact('kelompok', 'anggota', 'kelompoks', 'mahasiswa_tersedia'));
     }
     
     // public function detail($id_kelompok)
@@ -257,7 +277,7 @@ class KelompokController extends Controller
             'id_kelompok' => $request->id_kelompok,
             'id_mahasiswa' => $request->id_mahasiswa,
             'status_keanggotaan' => 'Anggota',
-            'status_join' => 'join',
+            'status_join' => 'diterima',
         ]);
         return response()->json(['message' => 'Anggota added successfully.']);
     }

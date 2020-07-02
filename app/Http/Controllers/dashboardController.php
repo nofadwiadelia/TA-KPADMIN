@@ -11,9 +11,14 @@ use App\Kelompok;
 use App\Usulan;
 use DB;
 use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Session;
 
 class dashboardController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *

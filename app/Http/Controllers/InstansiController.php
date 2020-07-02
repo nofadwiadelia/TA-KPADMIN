@@ -101,7 +101,7 @@ class InstansiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id_instansi)
+    public function show(Request $request, $id_instansi)
     {
         $periode = Periode::get();
         // $periode =  Periode::select('id_periode', 'tahun_periode')->get();
@@ -116,17 +116,65 @@ class InstansiController extends Controller
                             ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.kapasitas', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama', 'periode.tahun_periode')
                             ->where('lowongan.id_instansi', '=', $id_instansi)
                             ->get();
-        $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-                            ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
-                            ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-                            ->where('kelompok_detail.status_keanggotaan', 'Ketua')
-                            ->where('magang.id_instansi', $id_instansi)
-                            ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode')
-                            ->get();
+        if(request()->ajax()){
+            if(!empty($request->id_periode)){
+                $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                                    ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                                    ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                                    ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                                    ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+                                    ->where('kelompok.id_periode', $request->id_periode)
+                                    ->where('magang.id_instansi', $id_instansi)
+                                    ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode')
+                                    ->get();
+            }else{
+                $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
+                                    ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                                    ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
+                                    ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                                    ->where('kelompok_detail.status_keanggotaan', 'Ketua')
+                                    ->where('magang.id_instansi', $id_instansi)
+                                    ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode')
+                                    ->get();
+            }
+            return datatables()->of($data)->addIndexColumn()
+            ->addColumn('action', function($kelompok){
+                $btn = '<div class="text-center py-0 align-middle"><a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-list-alt"></i></a></div>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+            }
                             
-        return view('admin.instansi.detail_instansi',compact('role', 'periode','instansi', 'lowongan', 'kelompok'));
+        return view('admin.instansi.detail_instansi',compact('role', 'periode','instansi', 'lowongan'));
     }
+
+    // public function getLowongan(Request $request, $id_instansi){
+        
+    //     if(request()->ajax()){
+    //         if(!empty($request->id_periode)){
+    //             $lowongan = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
+    //                         ->leftJoin('periode', 'lowongan.id_periode', 'periode.id_periode')
+    //                         ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.kapasitas', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama', 'periode.tahun_periode')
+    //                         ->where('kelompok.id_periode', $request->id_periode)
+    //                         ->where('lowongan.id_instansi', '=', $id_instansi)
+    //                         ->get();
+    //         }else{
+    //             $lowongan = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
+    //                         ->leftJoin('periode', 'lowongan.id_periode', 'periode.id_periode')
+    //                         ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.kapasitas', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama', 'periode.tahun_periode')
+    //                         ->where('lowongan.id_instansi', '=', $id_instansi)
+    //                         ->get();
+    //         }
+    //         return datatables()->of($lowongan)->addIndexColumn()
+    //         ->addColumn('action', function($kelompok){
+    //             $btn = '<div class="text-center py-0 align-middle"><a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-list-alt"></i></a></div>';
+    //             return $btn;
+    //         })
+    //         ->rawColumns(['action'])
+    //         ->make(true);
+    //     }
+    // }
 
     /**
      * Show the form for editing the specified resource.

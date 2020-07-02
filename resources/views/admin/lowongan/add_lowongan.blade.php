@@ -31,6 +31,8 @@
                             <textarea name="persyaratan" id="persyaratan" class="form-control" maxlength="1000"></textarea>
                             <p class="text-muted"><small><i>*Max 1000 karakter</i></small></p>
                         </div>
+                        <input type="hidden" class="form-control" name="created_by" id="created_by" value="{{$userId}}">
+                        
                         <div class="form-group">
                             <label for="exampleInputEmail1">Kapasitas *</label>
                             <input type="number" class="form-control" name="kapasitas" id="kapasitas" placeholder="">
@@ -93,6 +95,7 @@
         var kapasitas = $('#kapasitas').val();
         var id_instansi = $('#id_instansi').val();
         var id_periode = $('#id_periode').val();
+        var created_by = $('#created_by').val();
 
         $.ajax({
             type: "POST",
@@ -107,9 +110,19 @@
                 toastr.options.closeMethod = 'fadeOut';
                 toastr.options.closeDuration = 100;
                 toastr.success(data.message);
-            },
-            error: function(error){
-            console.log(error);
+              },
+            error: function(xhr, status, error) 
+            {
+
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 200;
+                toastr.error(item);
+              });
+
             }
         });
     });

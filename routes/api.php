@@ -28,17 +28,20 @@ Route::prefix('admin')->group(function () {
     Route::group(['middleware' => 'auth:api'], function(){
         Route::get('/userlogin', 'dashboardController@users');
         Route::get('/kelompokcount', 'dashboardController@kelompokCount');
+        Route::get('/usulancount', 'dashboardController@usulanCount');
+        Route::get('/magangcount', 'dashboardController@magangCount');
     });
 
     Route::post('/users/{id}', 'UsersController@update');
     Route::post('/admin/add', 'AdminController@store');
     Route::post('/admin/{id}', 'AdminController@update');
     Route::post('/admin/{id}/edit', 'AdminController@updateAvatar');
-    Route::get('/usulancount', 'dashboardController@usulanCount');
-    Route::get('/magangcount', 'dashboardController@magangCount');
+    // Route::get('/usulancount', 'dashboardController@usulanCount');
+    // Route::get('/magangcount', 'dashboardController@magangCount');
     Route::delete('/users/{id}', 'UsersController@destroy');
     Route::put('/password/{id}/', 'UsersController@updatePassword');
     Route::get('/mahasiswa', 'MahasiswaController@index');
+    Route::get('/mahasiswa/nilai/{id}', 'NilaiController@index');
     Route::post('/mahasiswa/add', 'MahasiswaController@store');
     Route::post('/dosen/change', 'DosenController@changeStatus');
     Route::post('/dosen/add', 'DosenController@store');

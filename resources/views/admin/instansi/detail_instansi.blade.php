@@ -85,18 +85,17 @@
                                         <div class="col-sm-4">
                                             <!-- select -->
                                             <div class="form-group">
-                                                <select class="form-control form-control-sm">
-                                                    @foreach($periode as $periodes)
-                                                        <option value="{{ $periodes->id_periode }}">{{ $periodes->tahun_periode }}</option>
+                                                <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
+                                                    @foreach($periode as $row)
+                                                    <option value="{{ $row->id_periode }}">Periode {{ $row->tahun_periode }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button type="submit" class="btn btn-default">Filter</button> <br><br>
                                         </div>
-                                    </form>
-                                    <div class="card-primary card-outline">
-                                    <div class="card-body table-responsive p-0">
-                                        <table class="table no-border">
+                                        </form><br>
+                                    <div class="card-primary">
+                                    <div class="table-responsive p-0">
+                                        <table class="table table-bordered table-striped" id="kel_data">
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
@@ -107,18 +106,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            @php $no = 1; @endphp
-                                            @foreach($kelompok as $kel)
-                                                <tr>
-                                                <td>{{$no++}}</td>
-                                                <td>{{$kel->nama_kelompok}}</td>
-                                                <td>{{$kel->tahun_periode}}</td>
-                                                <td>{{$kel->nama}}</td>
-                                                <td class="text-center py-0 align-middle">
-                                                    <a href="/admin/kelompok/magang/{{$kel->id_kelompok}}/detail" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                                                </td>
-                                                </tr>
-                                            @endforeach
+                                            
                                             </tbody>
                                         </table><br/>
                                     </div>
@@ -132,7 +120,7 @@
                                             <div class="form-group">
                                                 <select class="form-control form-control-sm">
                                                     @foreach($periode as $periodes)
-                                                        <option value="{{ $periodes->id_periode }}">{{ $periodes->tahun_periode }}</option>
+                                                        <option value="{{ $periodes->id_periode }}">Periode {{ $periodes->tahun_periode }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -212,6 +200,46 @@
 <!-- page script -->
 <script>
   $(document).ready(function(){
+    fill_datatable();
+
+    function fill_datatable(id_periode = ''){
+    var dataTable = $('#kel_data').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax:{
+        url: "/admin/instansi/".$id,
+        data:{id_periode:id_periode}
+        },
+        columns:[
+            {data: 'DT_RowIndex', 
+            name: 'DT_RowIndex', 
+            orderable: false,
+            searchable: false
+        },
+        {
+            data:'nama_kelompok',
+            name:'nama_kelompok'
+        },
+        {
+            data:'tahun_periode',
+            name:'tahun_periode'
+        },
+        {
+            data:'nama',
+            name:'nama'
+        },
+        
+        {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    }
+
+    $('#periode_filter').change(function(){
+        var id_periode = $('#periode_filter').val();
+        $('#kel_data').DataTable().destroy();
+        fill_datatable(id_periode);
+    });
+
         $('.deleteLowongan').click(function(){
             var id = $(this).data('id');
             $.ajax({

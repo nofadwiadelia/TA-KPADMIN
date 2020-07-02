@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Ruang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class RuangController extends Controller
 {
@@ -49,6 +50,14 @@ class RuangController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'ruang' => 'required|unique:ruang,ruang'
+        ],
+        [
+            'ruang.required' => 'ruang can not be empty !',
+            'ruang.unique' => 'ruang already exist !'
+        ]);
+
         Ruang::updateOrCreate(['id_ruang' => $request->id_ruang],
                 ['ruang' => $request->ruang]);        
 

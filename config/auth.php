@@ -98,6 +98,20 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admin',
+        ],
+
+        // 'user' => [
+        //     'driver' => 'session',
+        //     'provider' => 'users',
+        //   ],
+  
+        // 'user-api' => [
+        //     'driver' => 'token',
+        //     'provider' => 'users',
+        // ],
 
         // 'admin' => [
         //     'driver' => 'session',
@@ -140,6 +154,10 @@ return [
 
     'providers' => [
         'users' => [
+            'driver' => 'eloquent',
+            'model' => App\User::class,
+        ],
+        'admin' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],

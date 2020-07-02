@@ -27,27 +27,27 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="row">
-                    <div class="col-2"><b class="badge badge-info">Instansi</b></div>
+                    <div class="col-2"><b>Instansi</b></div>
                     <div class="col-3">: {{ $lowongan->instansi->nama }}</div>
                   </div>
                   <div class="row">
-                    <div class="col-2"><b class="badge badge-info">Posisi</b>
+                    <div class="col-2"><b>Posisi</b>
                     </div>
                     <div class="col-3">: {{ $lowongan->pekerjaan }}
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-2"><b class="badge badge-info">Persyaratan</b>
+                    <div class="col-2"><b>Persyaratan</b>
                     </div>
                     <div class="col-3">: {{ $lowongan->persyaratan }}</div>
                   </div>
                   <div class="row">
-                    <div class="col-2"><b class="badge badge-info">Kapasitas</b>
+                    <div class="col-2"><b>Kapasitas</b>
                     </div>
                     <div class="col-3">: {{ $lowongan->kapasitas }}</div>
                   </div>
                   <div class="row">
-                    <div class="col-2"><b class="badge badge-info">Slot</b>
+                    <div class="col-2"><b>Slot</b>
                     </div>
                     <div class="col-3">: {{ $lowongan->slot }}</div>
                   </div>
@@ -55,7 +55,7 @@
                 <div class="col-md-12">
                   <div class="card-primary">
                     <div class="table-responsive p-0">
-                    <!-- <table id="daftar_lowongan" class="table table-bordered table-striped ">
+                    <!-- <table id="pelamar" class="table table-bordered table-striped ">
                       <thead>
                       <tr>
                         <th scope="col">No</th>
@@ -88,19 +88,25 @@
                                   <td>{{$row->nama_kelompok}}</td>
                                   <td>{{$row->nama}}</td>
                                   <td>{{$row->tanggal_daftar}}</td>
-                                  <td>{{$row->status}}</td>
+                                  @if ($row->status == 'melamar')
+                                  <td><span class='badge bg-warning'>{{$row->status}}</span></td>
+                                  @elseif ($row->status == 'diterima')
+                                  <td><span class='badge bg-success'>{{$row->status}}</span></td>
+                                  @else ($row->status == 'ditolak')
+                                  <td><span class='badge bg-danger'>{{$row->status}}</span></td>
+                                  @endif
                                   <td class="text-center py-0 align-middle">
                                     <a href="/admin/kelompok/{{$row->id_kelompok}}" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
                                   </td>
 
+                                    <input type="hidden" id="idperiode" value="{{$row->id_periode}}">
                                     <input type="hidden" id="idkelompok" value="{{$row->id_kelompok}}">
                                     <input type="hidden" id="idinstansi" value="{{$row->id_instansi}}">
+                                    <input type="hidden" id="jobdesk" value="{{$row->pekerjaan}}">
                                     
                                   <td class="text-center py-0 align-middle">
-                                    <input type="hidden" id="statusacc" value="diterima">
-                                    <button id="{{$row->id_daftar_lowongan}}" class="btn btn-sm btn-info accbtn" <?php if($row->status!=NULL) {echo ' disabled=disabled ';}?>><i class="fas fa-check" value="diterima"></i></button>
-                                    <input type="hidden" id="statusdecline" value="ditolak">
-                                    <button type="button" id="{{$row->id_daftar_lowongan}}" class="btn btn-danger btn-sm declinebtn" <?php if($row->status!=NULL) {echo ' disabled=disabled ';}?>><i class="fas fa-times" value="ditolak"></i></button>
+                                    <button id="{{$row->id_pelamar}}" class="btn btn-sm btn-info accbtn" <?php if($row->status!='melamar') {echo ' disabled=disabled ';}?>><i class="fas fa-check" value="diterima"></i></button>
+                                    <button type="button" id="{{$row->id_pelamar}}" class="btn btn-danger btn-sm declinebtn" <?php if($row->status!='melamar') {echo ' disabled=disabled ';}?>><i class="fas fa-times" value="ditolak"></i></button>
                                   </td>
                                 </tr> 
                               @endforeach
@@ -114,6 +120,25 @@
                               <input type="submit" class="btn btn-primary" value="Submit" />
                               </span>
                           </div> -->
+                          <div id="confirmModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">Confirmation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                  <label for="" class="col-sm-12 col-form-label">Yakin ingin menyetujui ?</label>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" name="ok_button" id="ok_button" class="btn btn-primary">Setujui</button>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
                     </div>
                   </div>
                 </div>  
@@ -132,18 +157,24 @@
 
 @section('scripts')
 <!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<!-- page script -->
+<script src="{{asset('/plugins/datatables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
 <script>
 
   $(document).on('click','.accbtn', function(e){
-    e.preventDefault();
+    $('#confirmModal').modal('show');
 
-    id_daftar_lowongan = $(this).attr('id');
+    e.preventDefault();
+    id_pelamar = $(this).attr('id');
+  });
+
+  $('#ok_button').click(function(){
+
     id_kelompok = $('#idkelompok').val();
     id_instansi = $('#idinstansi').val();
-    var status = $('#statusacc').val();
+    id_periode = $('#idperiode').val();
+    jobdesk = $('#jobdesk').val();
+    status = 'diterima';
 
     $.ajax({
         type: "POST",
@@ -151,7 +182,7 @@
         url: "/api/admin/persetujuanlowongan/",
         cache:false,
         dataType: "json",
-        data: {'id_daftar_lowongan': id_daftar_lowongan, 'status': status, 'id_kelompok': id_kelompok, 'id_instansi': id_instansi},
+        data: {'id_pelamar': id_pelamar, 'statuslamaran': status, 'id_kelompok': id_kelompok, 'id_instansi': id_instansi, 'id_periode': id_periode, 'jobdesk': jobdesk},
         success: function(data){
           toastr.options.closeButton = true;
           toastr.options.closeMethod = 'fadeOut';
@@ -168,8 +199,9 @@
   $(document).on('click','.declinebtn', function(e){
     e.preventDefault();
 
-    id_daftar_lowongan = $(this).attr('id');
-    var statusdecline = $('#statusdecline').val();
+    id_pelamar = $(this).attr('id');
+    statusdecline = 'ditolak';
+    // statusdecline = $('#statusdecline').val();
 
     $.ajax({
         type: "POST",
@@ -177,7 +209,7 @@
         url: "/api/admin/persetujuanlowongan/",
         cache:false,
         dataType: "json",
-        data: {'id_daftar_lowongan': id_daftar_lowongan, 'status': statusdecline},
+        data: {'id_pelamar': id_pelamar, 'statuslamaran': statusdecline},
         success: function(data){
           toastr.options.closeButton = true;
           toastr.options.closeMethod = 'fadeOut';

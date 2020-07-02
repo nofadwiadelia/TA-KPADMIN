@@ -122,8 +122,18 @@
                 toastr.options.closeDuration = 100;
                 toastr.success(data.message);
             },
-            error: function(error){
-            console.log(error);
+            error: function(xhr, status, error) 
+            {
+
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 200;
+                toastr.error(item);
+              });
+
             }
         });
     });

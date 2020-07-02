@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Contracts\Validation\Validator;
 use App\Pengumuman;
 use App\Periode;
 use File;
@@ -60,8 +62,7 @@ class PengumumanController extends Controller
     public function create()
     {
         $periode = Periode::where('status', 'open')->first();
-        $data = Pengumuman::all();
-        return view('admin.pengumuman.add_pengumuman',compact('data', 'periode'));
+        return view('admin.pengumuman.add_pengumuman',compact('periode'));
     }
 
     /**
@@ -74,9 +75,13 @@ class PengumumanController extends Controller
     {
         $this->validate($request, [
             'judul' => 'required|string|max:100',
-            'deskripsi' => 'nullable|string|max:500',
+            'deskripsi' => 'required|string|max:500',
             'lampiran' => 'nullable|image|mimes:jpg,png,jpeg',
             'id_periode' => 'required',
+        ],
+        [
+            'judul.required' => 'judul can not be empty !',
+            'deskripsi.required' => 'deskripsi can not be empty !'
         ]);
 
         $lampiran = null;
@@ -130,10 +135,13 @@ class PengumumanController extends Controller
     {
         $this->validate($request, [
             'judul' => 'required|string|max:100',
-            'deskripsi' => 'nullable|string|max:500',
+            'deskripsi' => 'required|string|max:500',
             'lampiran' => 'nullable|image|mimes:jpg,png,jpeg'
+        ],
+        [
+            'judul.required' => 'judul can not be empty !',
+            'deskripsi.required' => 'deskripsi can not be empty !'
         ]);
-
        
         $data = Pengumuman::findOrFail($id_pengumuman);
         $lampiran = $data->lampiran;
@@ -151,6 +159,7 @@ class PengumumanController extends Controller
             'deskripsi' => $request->deskripsi,
             'lampiran' => $lampiran
         ]);
+        
 
         return response()->json(['message' => 'Pengumuman updated successfully.']);
     }

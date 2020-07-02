@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Periode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class PeriodeController extends Controller
 {
