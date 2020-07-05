@@ -30,15 +30,15 @@
                     <div class="form-group">
                         <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
                           @foreach($periode as $row)
-                          <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                          <option value="{{ $row->id_periode }}">Periode {{ $row->tahun_periode }}</option>
                           @endforeach
                         </select>
                     </div>
                 </div>
               </form>
-              <div class="col-sm-12">
+              <!-- <div class="col-sm-12">
                   <a href="/add_form_pengumuman" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
-                </div>
+              </div> -->
               <div class="card-primary">
                 <div class="table-responsive p-0">  
                 <table id="usulan_data" class="table table-bordered table-striped ">

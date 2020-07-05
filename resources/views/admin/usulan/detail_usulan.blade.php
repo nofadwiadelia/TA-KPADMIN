@@ -94,14 +94,8 @@
                               @endif
                               
                               <td class="text-center py-0 align-middle">
-                                  <a href="#"  data-id="{{$usulans->id_usulan}}" class="btn btn-sm btn-info showaccusulan"><i class="fas fa-check" ></i></a>
-                                  <button type="button" id="{{$usulans->id_usulan}}" class="btn btn-danger btn-sm declinebtn" ><i class="fas fa-times"></i></button>
-                              <!-- <div class="form-check">
-                                <input type="hidden" id="statusaccterima" value="diterima">
-                                <input class="form-check-input" type="radio"  data-id="{{$usulans->id_usulan}}" name="id_usulan" aria-label="..." value="0" 
-                                {{ ($usulans->status=="diterima")? "checked" : ""}}
-                                >
-                              </div> -->
+                                  <button href="#"  data-id="{{$usulans->id_usulan}}" class="btn btn-sm btn-info showaccusulan" <?php if($usulans->status!='diproses') {echo ' disabled=disabled ';}?>><i class="fas fa-check" ></i></button>
+                                  <button type="button" id="{{$usulans->id_usulan}}" class="btn btn-danger btn-sm declinebtn" <?php if($usulans->status!='diproses') {echo ' disabled=disabled ';}?>><i class="fas fa-times"></i></button>
                               </td>
                             </tr>
 
@@ -296,8 +290,7 @@
               toastr.options.closeButton = true;
               toastr.options.closeMethod = 'fadeOut';
               toastr.options.closeDuration = 100;
-              toastr.success(data.message);
-              $('#persetujuan_data').DataTable().ajax.reload();
+              window.location.reload();
             },
             error: function(error){
               console.log(error);
