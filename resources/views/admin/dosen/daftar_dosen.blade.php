@@ -33,6 +33,8 @@
                     <th>NIP</th>
                     <th>Nama</th>
                     <th>No.HP</th>
+                    <th>Kapasitas</th>
+                    <th>Slot</th>
                     <th>Keterangan</th>
                     <th>Aksi</th>
                   </tr>
@@ -43,6 +45,8 @@
                     <td>{{$dosens->nip}}</td>
                     <td>{{ $dosens->nama}}</td>
                     <td>{{$dosens->no_hp}}</td>
+                    <td>{{$dosens->kapasitas}}</td>
+                    <td>{{$dosens->slot}}</td>
                     <td class="text-center py-0 align-middle"> 
                     <input type="checkbox" data-id="{{ $dosens->id_dosen }}" name="status" class="js-switch" {{ $dosens->status == 'open' ? 'checked' : '' }}>
                     </td>
@@ -194,13 +198,13 @@ $(document).ready(function(){
   });
   $('#ok_button').click(function(){
     $.ajax({
-        type: "DELETE",
+        type: "PUT",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         dataType: "json",
         url: '/api/admin/users/'+user_id,
         success: function (data) {
             $('#confirmModal').modal('hide');
-            $('#mahasiswa_data').DataTable().ajax.reload();
+            window.location.reload();
             toastr.options.closeButton = true;
             toastr.options.closeMethod = 'fadeOut';
             toastr.options.closeDuration = 100;

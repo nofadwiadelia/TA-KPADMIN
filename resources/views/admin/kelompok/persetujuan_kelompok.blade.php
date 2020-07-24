@@ -39,6 +39,9 @@
                     </div>
                 </div>
               </form>
+              <div class="col-sm-12">
+                <a href="/admin/kelompok/create" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> &nbsp; Buat Kelompok</a> <br><br>
+              </div>
               <div class="card-primary">
                 <div class="table-responsive p-0">
                 <table id="persetujuan_data" class="table table-bordered table-striped ">

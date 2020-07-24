@@ -39,16 +39,18 @@ class MahasiswaController extends Controller
                                 ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                                 ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
                                 ->leftJoin('periode', 'mahasiswa.id_periode', 'periode.id_periode')
-                                ->select('mahasiswa.*', 'kelompok.id_kelompok', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan', 'magang.status')
+                                ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan', 'magang.status')
                                 ->where('mahasiswa.id_periode', $request->id_periode)
+                                ->where('mahasiswa.isDeleted', '0')
                                 ->get();
             }else{
                 $data = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
-                ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
-                ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
-                ->leftJoin('periode', 'mahasiswa.id_periode', 'periode.id_periode')
-                ->select('mahasiswa.*', 'kelompok.id_kelompok', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan', 'magang.status')
-                ->get();
+                                ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
+                                ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                                ->leftJoin('periode', 'mahasiswa.id_periode', 'periode.id_periode')
+                                ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan', 'magang.status')
+                                ->where('mahasiswa.isDeleted', '0')
+                                ->get();
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($mahasiswa){
@@ -81,7 +83,10 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        return view('admin.mahasiswa.add_mahasiswa');
+        $periode = Periode::select('id_periode')
+                        ->where('status', 'open')->first();
+        $userId = Auth::id();
+        return view('admin.mahasiswa.add_mahasiswa', compact('userId', 'periode'));
     }
 
     public function downloadexcel(){
@@ -101,7 +106,34 @@ class MahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'nama' => 'required|string|max:191',
+            'username' => 'required|string|unique:users,username|max:191',
+            'password' => 'required|min:6|max:191',
+            'nim' => 'required|string|max:20',
+        ],
+        [
+            'nama.required' => 'nama can not be empty !',
+            'username.required' => 'username can not be empty !',
+            'username.unique' => 'username has already been taken !',
+            'password.required' => 'password can not be empty !',
+            'password.max' => 'password is to long !',
+            'nim.required' => 'nim can not be empty !',
+            'nim.max' => 'nim is to long !',
+        ]);
+        $data = User::create([
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'created_by' => $request->created_by, //blm bisa keubah
+            'id_roles' => 4
+        ])->mahasiswa()->create([
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'id_periode' => $request->id_periode,
+            'created_by' => $request->created_by,
+        ]);
+        $data->save();
+        return response()->json(['message' => 'Mahasiswa added successfully.']);
     }
 
     /**
@@ -140,14 +172,15 @@ class MahasiswaController extends Controller
         $magang = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
-                            ->select('dosen.nama', 'dosen.email', 'dosen.nip', 'dosen.no_hp')
+                            ->select('dosen.nama', 'dosen.email', 'dosen.nip', 'dosen.no_hp', 'dosen.foto')
                             ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                             ->first();
+
         $instansi = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->join('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
                             ->join('instansi', 'magang.id_instansi', 'instansi.id_instansi')
-                            ->select('instansi.nama', 'instansi.deskripsi', 'instansi.alamat')
+                            ->select('instansi.nama', 'instansi.deskripsi', 'instansi.alamat', 'instansi.foto')
                             ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                             ->first();
 
@@ -328,17 +361,35 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateadmin(Request $request, $id_users)
     {
-        $mahasiswa = Mahasiswa::find($id);
-        $mahasiswa->nim = $request->nim;
-        $mahasiswa->email = $request->email;
-        $mahasiswa->no_hp = $request->no_hp;
-        $mahasiswa->keahlian = $request->keahlian;
-        $mahasiswa->pengalaman = $request->pengalaman;
-        $mahasiswa->save();
+        $this->validate($request, [
+            'nama' => 'required|string|max:191',
+            'username' => 'required|string|max:191',
+            'email' => 'required|email|max:191',
+            'no_hp' => 'required|max:25',
+        ],
+        [
+            'nama.required' => 'nama can not be empty !',
+            'nama.max' => 'nama is to long !',
+            'username.required' => 'username can not be empty !',
+            'username.max' => 'username is to long !',
+            'email.required' => 'email can not be empty !',
+            'email.max' => 'email is to long !',
+            'no_hp.required' => 'no hp can not be empty !',
+            'no_hp.max' => 'no hp is to long !',
+        ]);
 
-        return redirect('mahasiswa/profile');
+        $data = User::findOrFail($id_users);
+        $data->update([
+            'username' => $request->username,
+        ]);
+        $data->mahasiswa()->update([
+            'nama' => $request->nama,
+            'email' => $request->email, 
+            'no_hp' => $request->no_hp
+        ]);
+        return response()->json(['message' => 'Data updated successfully.']);
     }
 
     public function updateAvatar(Request $request, $id)
@@ -366,8 +417,14 @@ class MahasiswaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_users)
     {
-        //
+        $data = User::find($id_users);
+        $data->isDeleted = 1;
+        $data->mahasiswa()->update([
+            'isDeleted' => 1,
+        ]);
+        $data->save();
+        return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

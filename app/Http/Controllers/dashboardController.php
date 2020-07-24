@@ -61,9 +61,8 @@ class dashboardController extends Controller
     public function magangCount(){
         $magang = DB::table('magang')->leftJoin('periode', 'magang.id_periode', 'periode.id_periode')
                     ->where('magang.status', 'magang')
-                    ->orWhere(function($query){
-                        $query->where('periode.status', 'open');
-                    })->count();
+                    ->where('periode.status', 'open')
+                    ->count();
         return response()->json([
             'magang' =>$magang,
             "message" => "succes",

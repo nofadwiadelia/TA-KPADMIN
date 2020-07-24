@@ -23,7 +23,7 @@
                     <div class="row justify-content-center">
                         <div class="col-8">
                           <div class="card-body">
-                              <form id="addAdmin" method="post" enctype="multipart/form-data">
+                              <form id="addMahasiswa" method="post" enctype="multipart/form-data">
                                   <div class="form-group row">
                                       <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                       <div class="col-sm-9">
@@ -54,6 +54,9 @@
                                       <input type="password" class="form-control" required name="password" placeholder="">
                                       </div>
                                   </div>
+                                  <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">
+                                  <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">
+                                  <input type="hidden" class="form-control" required name="id_periode" value="{{$periode->id_periode}}">
                                   <div class="d-flex flex-row justify-content-end">
                                       <span class="mr-2">
                                       <button type="" class="btn btn-danger"> Cancel </button>
@@ -65,7 +68,7 @@
                               </form>
                               <div class="row justify-content-center">
                                   <p class="text-center">-- ATAU --</p>
-                                  <img src="{{ asset('images/contohisian.png') }}">
+                                  <img src="{{ asset('images/IsianContoh.png') }}">
                                 </div><br>
                                 <div class="row justify-content-center">
                                   <div class="col-md-6">
@@ -124,20 +127,20 @@
 <!-- page script -->
 <script>
   $(document).ready(function(){   
-    $('#addAdmin').on('submit', function(e){
+    $('#addMahasiswa').on('submit', function(e){
         e.preventDefault();
 
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            url: "/api/admin/admin/add",
+            url: "/api/admin/mahasiswa/add",
             dataType:'JSON',
             contentType: false,
             cache: false,
             processData: false,
             data: new FormData(this),
             success: function(data){
-                window.location = "/admin/daftaradmin/";
+                window.location = "/admin/mahasiswa/";
                 toastr.options.closeButton = true;
                 toastr.options.closeMethod = 'fadeOut';
                 toastr.options.closeDuration = 100;

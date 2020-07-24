@@ -22,22 +22,9 @@ class DosenController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Dosen::get();
-        // if(request()->ajax()){
-        //     $data = Dosen::get();
-        //     return datatables()->of($data)->addIndexColumn()
-        //         // ->addColumn('status', function($dosen){
-        //         //     $input .= '<input type="checkbox" data-id="'. $dosen->id_dosen.'" name="status" class="js-switch" {{ '.$dosen->status == 'open' ? 'checked' : ''.' }}>';
-        //         //    return $input;
-        //         // })
-        //         ->addColumn('action', function($dosen){
-        //             $btn = '<a href="/admin/dosen/'.$dosen->id_dosen.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
-        //            return $btn;
-        //         })
-        //         // ->rawColumns(['status'])
-        //         ->rawColumns(['action'])
-        //         ->make(true);
-        // }
+        $data = Dosen::leftJoin('users', 'dosen.id_users', 'users.id_users')
+                    ->where('users.isDeleted', '0')
+                    ->get();
         return view('admin.dosen.daftar_dosen',compact('data'));
     }
 
@@ -57,7 +44,8 @@ class DosenController extends Controller
      */
     public function create()
     {
-        return view('admin.dosen.add_dosen');
+        $userId = Auth::id();
+        return view('admin.dosen.add_dosen', compact('userId'));
     }
 
     /**
@@ -79,12 +67,17 @@ class DosenController extends Controller
         ],
         [
             'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
+            'nama.max' => 'nama is to long !',
+            'username.required' => 'username can not be empty !',
             'username.unique' => 'username has already been taken !',
+            'username.max' => 'username is to long !',
+            'password.required' => 'password can not be empty !',
             'password.max' => 'password is to long !',
-            'email.required' => 'can not be empty !',
-            'nip.required' => 'can not be empty !',
-            'no_hp.required' => 'can not be empty !',
+            'email.required' => 'email can not be empty !',
+            'nip.required' => 'nip can not be empty !',
+            'no_hp.required' => 'no hp can not be empty !',
+            'no_hp.max' => 'no hp is to long !',
+            'foto.mimes' => 'format foto tidak sesuai !',
         ]);
 
         $foto = null;
@@ -97,6 +90,7 @@ class DosenController extends Controller
         $data = User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
+            'created_by' => $request->created_byy,
             'id_roles' => 2
         ])->dosen()->create([
             'nama' => $request->nama,
@@ -104,6 +98,9 @@ class DosenController extends Controller
             'email' => $request->email,
             'no_hp' => $request->no_hp,
             'foto' => $foto,
+            'slot' => $request->kapasitas,
+            'kapasitas' => $request->kapasitas,
+            'created_by' => $request->created_by,
         ]);
         $data->save();
         return response()->json(['message' => 'Dosen added successfully.']);
@@ -124,15 +121,6 @@ class DosenController extends Controller
                         ->select('dosen.id_dosen', 'roles.roles')
                         ->where('dosen.id_dosen', '=', $id_dosen)
                         ->first();
-        
-
-        // $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
-        //                     ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-        //                     ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
-        //                     ->where('kelompok_detail.status_keanggotaan', 'Ketua')
-        //                     ->where('kelompok.id_dosen', $id_dosen)
-        //                     ->select('kelompok.*', 'mahasiswa.nama', 'periode.tahun_periode')
-        //                     ->get();
         
         if(request()->ajax()){
             if(!empty($request->id_periode)){
@@ -160,7 +148,7 @@ class DosenController extends Controller
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($kelompok){
-                $btn = '<a href="/admin/kelompok/'.$kelompok->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                $btn = '<a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'/detail" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -197,14 +185,16 @@ class DosenController extends Controller
             'email' => 'required|email|max:191',
             'nip' => 'required|string|max:191',
             'no_hp' => 'required|max:25',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
             'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
-            'email.required' => 'can not be empty !',
-            'nip.required' => 'can not be empty !',
-            'no_hp.required' => 'can not be empty !',
+            'nama.max' => 'nama is to long !',
+            'username.required' => 'username can not be empty !',
+            'username.max' => 'username is to long !',
+            'email.required' => 'email can not be empty !',
+            'nip.required' => 'nip can not be empty !',
+            'no_hp.required' => 'no hp can not be empty !',
+            'no_hp.max' => 'no hp is to long !',
         ]);
 
         $data = User::findOrFail($id_users);
@@ -216,6 +206,8 @@ class DosenController extends Controller
             'nip' => $request->nip,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
+            'kapasitas' => $request->kapasitas,
+            'slot' => $request->slot,
         ]);
         return response()->json(['message' => 'Data updated successfully.']);
     }
@@ -226,8 +218,14 @@ class DosenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_users)
     {
-        //
+        $data = User::find($id_users);
+        $data->isDeleted = 1;
+        $data->dosen()->update([
+            'isDeleted' => 1,
+        ]);
+        $data->save();
+        return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

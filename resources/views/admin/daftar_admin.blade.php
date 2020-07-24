@@ -121,10 +121,10 @@
     });
     $('#ok_button').click(function(){
       $.ajax({
-          type: "DELETE",
+          type: "PUT",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
           dataType: "json",
-          url: '/api/admin/users/'+user_id,
+          url: '/api/admin/admin/delete/'+user_id,
           success: function (data) {
               $('#confirmModal').modal('hide');
               $('#admin_data').DataTable().ajax.reload();

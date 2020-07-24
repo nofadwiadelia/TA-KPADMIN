@@ -21,15 +21,6 @@ use Illuminate\Support\Facades\Auth;
 class UsersController extends Controller
 {
 
-    // public function indexcek(){
-    //     if(!Session::get('login')){
-    //         return redirect('admin/login')->with('alert','Kamu harus login dulu');
-    //     }
-    //     else{
-    //         return view('/admin/dasboard');
-    //     }
-    // }
-
     public function indexlogin(){
         return view('admin.login');
     }
@@ -41,10 +32,6 @@ class UsersController extends Controller
         ]);
         $auth = $request->only('username', 'password');
         $auth['id_roles'] = 1;
-        // $data = User::where('username',$request->username)->first();
-        // Session::put('username',$data->username);
-        // Session::put('password',$data->password);
-        // Session::put('login',TRUE);
 
         if(Auth::attempt($auth)){
             $user = Auth::user();
@@ -62,10 +49,6 @@ class UsersController extends Controller
         ]);
         $auth = $request->only('username', 'password');
         $auth['id_roles'] = 4;
-        // $data = User::where('username',$request->username)->first();
-        // Session::put('username',$data->username);
-        // Session::put('password',$data->password);
-        // Session::put('login',TRUE);
 
         if(Auth::attempt($auth)){
             $user = Auth::user();
@@ -78,16 +61,12 @@ class UsersController extends Controller
     }
 
     public function logout(Request $request){
-        if(Auth::guard('administrator')->check()){
-            Auth::guard('administrator')->logout();
-        } else if(Auth::guard('dosen')->check()){
-            Auth::guard('dosen')->logout();
-        } else if(Auth::guard('mahasiswa')->check()){
-            Auth::guard('mahasiswa')->logout();
-        } else if(Auth::guard('instansi')->check()){
-            Auth::guard('instansi')->logout();
-        }
-        Session::flush();
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->api_token = null;
+            $user->save();
+            Auth::logout();
+         }
     	return redirect('admin/login')->with('sukses','Anda Telah Logout');
     }
 
@@ -98,55 +77,6 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::select('id_roles', 'roles')->get();
-
-        if(request()->ajax()){
-            if(!empty($request->id_roles)){
-                $data = DB::table('users')
-                    ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                    ->leftJoin('instansi', 'users.id_users', 'instansi.id_users')
-                    ->leftJoin('dosen', 'users.id_users', 'dosen.id_users')
-                    ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
-                    ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa', 'dosen.nama as namadosen', 'instansi.nama as namainstansi')
-                    ->where('users.id_roles', $request->id_roles)
-                    ->get();
-                $datamahasiswa = DB::table('users')
-                    ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                    ->leftJoin('instansi', 'users.id_users', 'instansi.id_users')
-                    ->leftJoin('dosen', 'users.id_users', 'dosen.id_users')
-                    ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
-                    ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa')
-                    ->where('users.id_roles', $request->id_roles)
-                    ->get();
-            }else{
-                $data = DB::table('users')
-                    ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                    ->leftJoin('instansi', 'users.id_users', 'instansi.id_users')
-                    ->leftJoin('dosen', 'users.id_users', 'dosen.id_users')
-                    ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
-                    ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa', 'dosen.nama as namadosen', 'instansi.nama as namainstansi')
-                    ->get();
-                $datamahasiswa = DB::table('users')
-                    ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                    ->leftJoin('instansi', 'users.id_users', 'instansi.id_users')
-                    ->leftJoin('dosen', 'users.id_users', 'dosen.id_users')
-                    ->leftJoin('mahasiswa', 'users.id_users', 'mahasiswa.id_users')
-                    ->select('users.id_users', 'users.username', 'roles.roles', 'roles.id_roles', 'mahasiswa.nama as namamahasiswa')
-                    ->where('users.id_roles', $request->id_roles)
-                    ->get();
-            }
-            return datatables()->of($data, $datamahasiswa)->addIndexColumn()
-            ->addColumn('action', function($users){
-
-                   $btn = '<a href="/admin/users/'.$users->id_users.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
-                   $btn .= '&nbsp;&nbsp;';
-                   $btn .= '<button type="button" name="delete" id="'.$users->id_users.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
-                   return $btn;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
-        }
-        return view('admin.akun.daftar_akun',compact('roles'));
     }
 
     /**
@@ -156,8 +86,6 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $roles = Role::select('id_roles', 'roles')->get();
-        return view('admin.akun.add_akun', compact('roles'));
     }
 
     /**
@@ -168,45 +96,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:191',
-            'password' => 'required|min:6|max:191'
-        ],
-        [
-            'nama' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'password.max' => 'password is to long !',
-        ]);
-        $periode = Periode::select('id_periode')->where('status', 'open');
-
-        $data = User::create([
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'id_roles' => $request->id_roles
-        ]);
-        $data->save();
-
-        if($request->id_roles == 2){
-            $data->dosen()->create([
-                'nama' => $request->nama,
-            ]);
-        }
-        else if($request->id_roles == 3){
-            $data->instansi()->create([
-                'nama' => $request->nama,
-            ]);
-        }
-        else if($request->id_roles == 4){
-            $data->mahasiswa()->create([
-                'nama' => $request->nama,
-                'id_periode' => $periode->id_periode,
-            ]);
-        }
-
-        return redirect(route('users.index'))
-                ->with('alert-success','Berhasil Menambahkan Data!');
+        
     }
 
     public function import(Request $request) 
@@ -219,7 +109,7 @@ class UsersController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file'); //GET FILE
             Excel::import(new UsersImport, $file); //IMPORT FILE 
-            return redirect()->back()->with(['success' => 'Upload success']);
+            return redirect('/admin/mahasiswa');
         }  
         return redirect()->back()->with(['error' => 'Please choose file before']);
 
@@ -249,11 +139,9 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_users)
+    public function edit()
     {
-        $roles = Role::select('id_roles', 'roles')->get();
-        $data = User::findOrFail($id_users);
-        return view('admin.akun.edit_akun', compact('data','roles'));
+        
     }
 
     /**
@@ -263,44 +151,9 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_users)
+    public function update()
     {
-        $this->validate($request, [
-            'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:191'
-        ],
-        [
-            'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
-            'username.unique' => 'username has already been taken !'
-        ]);
-        $data = User::findOrFail($id_users);
-
-        $data->update([
-            'username' => $request->username,
-        ]);
         
-        if($data->id_roles == 2){
-            $data->dosen()->update([
-                'nama' => $request->nama,
-                'nip' => $request->nip,
-                'email' => $request->email,
-                'no_hp' => $request->no_hp
-            ]);
-        }else if($data->id_roles == 3){
-            $data->instansi()->update([
-                'nama' => $request->nama,
-                'email' => $request->email,
-                'no_hp' => $request->no_hp
-            ]);
-        }else if($data->id_roles == 4){
-            $data->mahasiswa()->update([
-                'nama' => $request->nama,
-                'email' => $request->email,
-                'no_hp' => $request->no_hp
-            ]);
-        }
-        return response()->json(['message' => 'Data updated successfully.']);
     }
 
     public function updatePassword(Request $request, $id_users){
@@ -326,7 +179,8 @@ class UsersController extends Controller
     public function destroy($id_users)
     {
         $data = User::find($id_users);
-        $data->delete();
+        $data->isDeleted = 1;
+        $data->save();
         return response()->json(['message' => 'User deleted successfully.']);
     }
 }

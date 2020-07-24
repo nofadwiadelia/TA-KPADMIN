@@ -22,43 +22,87 @@
             <div class="card-body">
                 <h4>Kelompok {{$kelompok->nama_kelompok}}</h4><br>
                 <div class="row">
-                  <div class="col-2"><b>Dosen Pembimbing</b></div>
-                  <div class="col-3">: {{$kelompok->nama}}</div>
-                </div>
-                <div class="row">
-                  <div class="col-2"><b>Tempat Magang</b></div>
-                  @if (!empty($magang->instansi_nama))
-                  <div class="col-3">: {{$magang->instansi_nama}}</div>
-                  @else
-                  <div class="col-3">: </div>
-                  @endif
-                </div>
-                <div class="row">
-                  <div class="col-2"><b>Waktu Magang</b>
+                  <div class="col-md-12 text-center">
+                      <div class="card-body box-profile">
+                          <ul class="list-group list-group-unbordered">
+                              <li class="list-group-item list-group-unbordered">
+                              <h5><i class="fa fa-user" ></i> Dibimbing Dosen <strong> 
+                                    @if (!empty($kelompok->nama))
+                                    {{$kelompok->nama}}
+                                    @else
+                                    <p>-</p>
+                                    @endif</strong></h5>
+
+                                    @if (!empty($magang->instansi_nama))
+                                      <p> <h5><i class="fas fa-building" ></i> Magang di <strong>{{$magang->instansi_nama}}</strong></h5></p>
+                                    @else
+                                    <p> <h5><i class="fas fa-building" ></i> Magang di <strong></strong></h5></p>
+                                    @endif   
+                              </li>
+                          </ul>
+                      </div>
                   </div>
-                  @if (!empty($magang->tanggal_mulai) && ($magang->tanggal_selesai))
-                  <div class="col-3">: {{$magang->tanggal_mulai}} - {{$magang->tanggal_selesai}}</div>
-                  @else
-                  <div class="col-3">: - </div>
-                  @endif
-                </div>
-                <div class="row">
-                  <div class="col-2"><b>Lokasi Magang</b>
+                  <div class="col-md-4">
+                    <div class="text-center">
+                    @if (!empty($magang->foto))
+                      <img class="profile-user-img img-fluid img-circle" src="{{ asset('uploads/avatar/'.$magang->foto) }}"  alt="User profile picture" > 
+                    @else
+                    <img class="profile-user-img img-fluid img-circle" src="{{ asset('/dist/img/default-avatar.png') }}"  alt="User profile picture" >
+                    @endif 
+                    </div>
+                    @if (!empty($magang->instansi_nama))
+                      <p> <h3 class="profile-username text-center">{{$magang->instansi_nama}}</h3></p>
+                    @else
+                    <p> <h3 class="profile-username text-center"></h3></p>
+                    @endif 
+
+                    @if (!empty($magang->alamat))
+                    <p class="text-muted text-center"><i class="fas fa-map-marker-alt"></i> {{$magang->alamat}}</p>
+                    @else
+                    <p class="text-muted text-center"><i class="fas fa-map-marker-alt"></i></p>
+                    @endif 
                   </div>
-                  @if (!empty($magang->alamat))
-                  <div class="col-3">: {{$magang->alamat}}</div>
-                  @else
-                  <div class="col-3">: </div>
-                  @endif
-                </div>
-                <div class="row">
-                  <div class="col-2"><b>Jobdesk</b>
+                  <div class="col-md-8">
+                    <div class="card-body box-profile">
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                              <div class="row">
+                                  <div class="col-6"><b>Website</b></div>
+                                  @if (!empty($magang->website))
+                                  <div class="col-6">{{$magang->website}}</div>
+                                  @else
+                                  <div class="col-6"></div>
+                                  @endif 
+                              </div>
+                            </li>
+                            
+                            <li class="list-group-item">
+                              <p><b>Deskripsi</b></p>
+                              @if (!empty($magang->deskripsi))
+                              <p>{{$magang->deskripsi}}</li>
+                              @else
+                              <p></li>
+                              @endif 
+                            </li>
+                            <li class="list-group-item">
+                              <div class="col-6"><b>Waktu Magang</b></div>
+                              @if (!empty($magang->tanggal_mulai) && ($magang->tanggal_selesai))
+                              <div class="col-6">{{$magang->tanggal_mulai}} - {{$magang->tanggal_selesai}}</div>
+                              @else
+                              <div class="col-6"></div>
+                              @endif 
+                            </li>
+                            <li class="list-group-item">
+                              <p><b>Jobdesk</b></p>
+                              @if (!empty($magang->jobdesk))
+                              <p>{{$magang->jobdesk}}</li>
+                              @else
+                              <p></li>
+                              @endif 
+                            </li>
+                        </ul>
+                    </div>
                   </div>
-                  @if (!empty($magang->jobdesk))
-                  <div class="col-3">: {{$magang->jobdesk}}</div>
-                  @else
-                  <div class="col-3">: </div>
-                  @endif
                 </div>
                 <br>
               <div class="table-responsive p-0">

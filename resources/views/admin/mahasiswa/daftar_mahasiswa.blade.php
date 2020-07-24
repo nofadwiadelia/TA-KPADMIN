@@ -38,9 +38,9 @@
                 <div class="col-sm-12">
                   <a href="/admin/mahasiswa/create" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> &nbsp; Tambah Mahasiswa</a> <br><br>
                 </div>
-                <div class="col-sm-12">
+                <!-- <div class="col-sm-12">
                   <a href="{{ route('exportmahasiswa') }}" class="btn btn-primary float-right btn-sm"><i class="fas fa-download"></i> &nbsp; Export to Excel</a> <br><br>
-                </div>
+                </div> -->
               <div class="card-primary">
                 <div class="table-responsive p-0">
                 <table id="mahasiswa_data" class="table table-bordered table-striped">
@@ -51,7 +51,6 @@
                     <th>Periode</th>
                     <th>Kelompok</th>
                     <th>Status</th>
-                    <th>Nilai</th>
                     <th>Status Magang</th>
                     <th>Aksi</th>
                   </tr>
@@ -132,10 +131,6 @@
             name:'status_keanggotaan'
           },
           {
-            data:'status_keanggotaan',
-            name:'status_keanggotaan',
-          },
-          {
             data:'status',
             name:'status',
             render: function(data, type, full, meta){
@@ -167,10 +162,10 @@
   });
   $('#ok_button').click(function(){
     $.ajax({
-        type: "DELETE",
+        type: "PUT",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         dataType: "json",
-        url: '/api/admin/users/'+user_id,
+        url: '/api/admin/mahasiswa/delete/'+user_id,
         success: function (data) {
             $('#confirmModal').modal('hide');
             $('#mahasiswa_data').DataTable().ajax.reload();

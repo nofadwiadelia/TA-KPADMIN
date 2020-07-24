@@ -27,10 +27,12 @@ class LowonganController extends Controller
                 $data = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
                                 ->select('lowongan.*', 'instansi.nama')
                                 ->where('lowongan.id_periode',  $request->id_periode)
+                                ->where('lowongan.isDeleted', '0')
                                 ->get();
             }else{
                 $data = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
                                 ->select('lowongan.*', 'instansi.nama')
+                                ->where('lowongan.isDeleted', '0')
                                 ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -71,17 +73,19 @@ class LowonganController extends Controller
             'pekerjaan' => 'required|string|max:100',
             'persyaratan' => 'required|string|max:1000',
             'kapasitas' => 'required',
+            'slot' => 'required',
         ]);
         $data = Lowongan::create([
             'pekerjaan' => $request->pekerjaan,
             'persyaratan' => $request->persyaratan,
             'kapasitas' => $request->kapasitas,
+            'slot' => $request->slot,
             'id_instansi' => $request->id_instansi,
             'id_periode' => $request->id_periode,
             'created_by' => $request->created_by,
         ]);
         $data->save();
-        return response()->json(['message' => 'Lowongan status added successfully.']);
+        return response()->json(['message' => 'Lowongan added successfully.']);
     }
 
     /**
@@ -129,46 +133,76 @@ class LowonganController extends Controller
     }
 
     public function acclowongan(Request $request){
-        $pelamar = Pelamar::findOrFail($request->id_pelamar);
-        $pelamar->status = $request->statuslamaran;
+        $lowongan = Lowongan::findOrFail($request->id_lowongan);
 
-        $pelamar->save();
+        if($lowongan->slot <= 0){
+            return response()->json(['message' => 'Maaf slot sudah penuh']);
+        }else{
 
-        if($request->status == 'diterima'){
+            $lowongan->slot = $lowongan->slot - 1;
+            $lowongan->save();
+
+            $pelamar = Pelamar::findOrFail($request->id_pelamar);
+            $pelamar->status = 'diterima';
+            $pelamar->save();
+
             $pelamar = Magang::create([
-                'id_kelompok' => $request->id_kelompok,
-                'id_instansi' => $request->id_instansi,
-                'id_periode' => $request->id_periode,
-                'jobdesk' => $request->jobdesk,
+                    'id_instansi' =>$request->id_instansi,
+                    'id_periode' =>$request->id_periode,
+                    'id_kelompok' => $request->id_kelompok,
+                    'jobdesk' => $request->jobdesk,
+                    'status' => 'belum magang',
             ]);
+            return response()->json(['message' => 'Lamaran berhasil diterima']);
         }
-        return response()->json(['message' => 'Lamaran updated successfully.']);
+
+        // $pelamar = Pelamar::findOrFail($request->id_pelamar);
+        // $pelamar->status = 'diterima';
+        // $pelamar->save();
+
+        
+
+        // $pelamar = Magang::create([
+        //         'id_instansi' =>$request->id_instansi,
+        //         'id_periode' =>$request->id_periode,
+        //         'id_kelompok' => $request->id_kelompok,
+        //         'jobdesk' => $request->jobdesk,
+        //         'status' => 'belum magang',
+        // ]);
+        // return response()->json(['message' => 'Lamaran berhasil diterima']);
 
     }
 
-    // public function showlowongan(Request $request, $id_lowongan)
-    // {
-    //     $lowongan = Lowongan::findOrFail($id_lowongan);
-    //     if(request()->ajax()){
-    //         $data = DB::table('pelamar')
-    //                         ->join('lowongan', 'pelamar.id_lowongan', '=', 'lowongan.id_lowongan')
-    //                         ->join('kelompok', 'pelamar.id_kelompok', '=', 'kelompok.id_kelompok')
-    //                         ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok')
-    //                         ->where('lowongan.id_lowongan', $id_lowongan)
-    //                         ->get();
-    //         return datatables()->of($data)->addIndexColumn()
-    //             ->addColumn('action', function($lowongan){
-    //                 $btn = '<a href="#" id="'.$lowongan->id_lowongan.'" class="btn btn-sm btn-info editbtn"><i class="fas fa-check"></i></a>';
-    //                 $btn .= '&nbsp;&nbsp;';
-    //                 $btn .= '<button type="button" id="'.$id_lowongan->id_lowongan.'" class="btn btn-danger btn-sm declinebtn"><i class="fas fa-times"></i></button>';
-    //                 return $btn;
-    //             })
-    //             ->rawColumns(['action'])
-    //             ->make(true);
+    public function declinelowongan(Request $request){
+        $pelamar = Pelamar::findOrFail($request->id_pelamar);
+        $pelamar->status = 'ditolak';
+
+        $pelamar->save();
+        return response()->json(['message' => 'Lamaran ditolak']);
+    }
+
+    // public function acclowongan(Request $request){
+    //     $pelamar = Pelamar::findOrFail($request->id_pelamar);
+    //     $pelamar->status = $request->statuslamaran;
+
+    //     $pelamar->save();
+
+    //     // $lowongan = Lowongan::where('id_lowongan', $pelamar->id_lowongan);
+
+    //     if($request->status == 'diterima'){
+    //         // $pelamar = $lowongan->slot-1;
+    //         $pelamar = Magang::create([
+    //             'id_kelompok' => $request->id_kelompok,
+    //             'id_instansi' => $request->id_instansi,
+    //             'id_periode' => $request->id_periode,
+    //             'jobdesk' => $request->jobdesk,
+    //         ]);
     //     }
-            
-    //     return view('admin.lowongan.detail_lowongan');
+    //     return response()->json(['message' => 'Lamaran updated successfully.']);
+
     // }
+
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -197,17 +231,19 @@ class LowonganController extends Controller
             'pekerjaan' => 'required|string|max:100',
             'persyaratan' => 'required',
             'kapasitas' => 'required',
+            'slot' => 'required',
         ]);
         $data = Lowongan::findOrFail($id_lowongan);
         $data->update([
             'pekerjaan' => $request->pekerjaan,
             'persyaratan' => $request->persyaratan,
             'kapasitas' => $request->kapasitas,
+            'slot' => $request->slot,
             'id_instansi' => $request->id_instansi,
             'id_periode' => $request->id_periode
         ]);
         $data->save();
-        return response()->json(['message' => 'Periode update successfully.']);
+        return response()->json(['message' => 'Lowongan update successfully.']);
     }
 
     /**
@@ -219,7 +255,8 @@ class LowonganController extends Controller
     public function destroy($id_lowongan)
     {
         $lowongan = Lowongan::find($id_lowongan);
-        $lowongan->delete();
+        $lowongan->isDeleted = 1;
+        $lowongan->save();
         return response()->json(['message' => 'Lowongan deleted successfully.']);
     }
 }

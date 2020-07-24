@@ -25,7 +25,7 @@
                           <div class="col-4">
                             <div class="row">
                               @if (!empty($dosen->foto))
-                              <img src="{{ asset('uploads/users/admin/' . $dosen->foto) }}" 
+                              <img src="{{ asset('uploads/users/dosen/' . $dosen->foto) }}" 
                                   alt="{{ $dosen->nama }}" width="200px" height="250px">
                               @else
                               <img src="{{ asset('dist/img/default-avatar.png') }}" 
@@ -63,16 +63,37 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="no_hp" class="col-sm-3 col-form-label">Kapasitas *</label>
+                                        <div class="col-sm-9">
+                                        <input type="number" class="form-control" name="kapasitas" value="{{ $dosen->kapasitas }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="no_hp" class="col-sm-3 col-form-label">Slot *</label>
+                                        <div class="col-sm-9">
+                                        <input type="number" class="form-control" name="slot" value="{{ $dosen->slot }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="username" class="col-sm-3 col-form-label">Username *</label>
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control" required name="username" value="{{ $dosen->users->username }}">
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                      <label for="kapasitas" class="col-sm-3 col-form-label">Kapasitas *</label>
+                                      <div class="col-sm-9">
+                                      <input type="number" class="form-control" required name="kapasitas" placeholder="" value="{{ $dosen->kapasitas }}">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
+                                      <label for="slot" class="col-sm-3 col-form-label">Slot *</label>
+                                      <div class="col-sm-9">
+                                      <input type="number" class="form-control" required name="slot" placeholder="" value="{{ $dosen->slot }}">
+                                      </div>
+                                  </div>
                                     
                                     <div class="row justify-content-center">
-                                      <!-- <a  data-toggle="modal" data-target="#modal-default">
-                                        Change Password
-                                      </a> -->
                                       <a href="javascript:void(0)"  data-id="{{  $dosen->id_users }}" class="edit btn btn-sm btn-info editPassword">Edit Password</a>
                                     </div><br>
                                     <input type="hidden" name="id_users" id="id_users" value="{{ $dosen->id_users }}">
@@ -179,12 +200,34 @@ $(document).ready(function(){
 
 
     $(document).on('click', '.editPassword', function(){
-      id_users = $(this).data("id");
-      $('#id_users').val(id_users);
-      $('#password').val();
-      $('#modal-edit').modal('show');
-      $('#saveBtn').val("edit-password");
+    id_users = $(this).data("id");
+    $('#id_users').val(id_users);
+    $('#password').val();
+    $('#modal-edit').modal('show');
+    $('#saveBtn').val("edit-password");
+  });
+
+  $('#saveBtn').click(function (e) {
+    e.preventDefault();
+
+    $.ajax({
+      data: $('#updatePassword').serialize(),
+      url: "/api/admin/password/"+id_users,
+      type: "PUT",
+      dataType: 'json',
+      success: function (data) {
+        $('#modal-edit').modal('hide');
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 100;
+        toastr.success(data.message);
+      },
+      error: function (data) {
+          console.log('Error:', data);
+          $('#saveBtn').html('Save Changes');
+      }
     });
+  });
     
   
 });

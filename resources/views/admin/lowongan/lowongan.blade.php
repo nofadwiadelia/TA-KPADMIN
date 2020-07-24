@@ -28,9 +28,8 @@
                       <!-- select -->
                       <div class="form-group">
                           <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
-                            <option selected>Semua Periode</option>
                             @foreach($periode as $row)
-                            <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                            <option value="{{ $row->id_periode }}">Periode {{ $row->tahun_periode }}</option>
                             @endforeach
                           </select>
                       </div>
@@ -47,6 +46,7 @@
                       <th>Posisi</th>
                       <th>Persyaratan</th>
                       <th>Kapasistas</th>
+                      <th>Slot</th>
                       <th>Instansi</th>
                       <th>Detail</th>
                       <th>Aksi</th>
@@ -117,6 +117,10 @@
           {
             data:'kapasitas',
             name:'kapasitas'
+          },
+          {
+            data:'slot',
+            name:'slot'
           },
           {
             data:'nama',

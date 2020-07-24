@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use App\Admin;
 use App\User;
 use App\Role;
@@ -24,6 +25,7 @@ class AdminController extends Controller
             $data = Admin::leftJoin('users', 'admin.id_users', 'users.id_users')
                             ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
                             ->select('admin.*','users.id_users', 'roles.roles')
+                            ->where('admin.isDeleted', '0')
                             ->get();
 
             return datatables()->of($data)->addIndexColumn()
@@ -46,7 +48,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view('admin.add_admin');
+        $userId = Auth::id();
+        return view('admin.add_admin', compact('userId'));
     }
 
     /**
@@ -66,12 +69,13 @@ class AdminController extends Controller
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
-            'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
+            'nama.required' => 'nama can not be empty !',
+            'username.required' => 'username can not be empty !',
             'username.unique' => 'username has already been taken !',
+            'password.required' => 'password can not be empty !',
             'password.max' => 'password is to long !',
-            'email.required' => 'can not be empty !',
-            'email.unique' => 'Email has already been taken !',
+            'email.required' => 'email can not be empty !',
+            'email.unique' => 'email has already been taken !',
             'no_hp.required' => 'can not be empty !',
         ]);
 
@@ -85,12 +89,14 @@ class AdminController extends Controller
         $data = User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
+            'created_by' => $request->created_by,
             'id_roles' => 1
         ])->admin()->create([
             'nama' => $request->nama,
             'email' => $request->email,
             'no_hp' => $request->no_hp,
             'foto' => $foto,
+            'created_by' => $request->created_by,
         ]);
         $data->save();
         return response()->json(['message' => 'Admin added successfully.']);
@@ -188,8 +194,13 @@ class AdminController extends Controller
     public function destroy($id_users)
     {
         $admin = User::where('id_users', '=', 1)->first();
-        if(Auth::user()->id_users != $id_users && $admin->id_users != $id_users){
-            $data = User::find($id_users)->delete();
+        if(Auth::id() != $id_users && $admin->id_users != $id_users){
+            $data = User::find($id_users);
+            $data->isDeleted = 1;
+            $data->admin()->update([
+                'isDeleted' => 1,
+            ]);
+            $data->save();
             return response()->json(['message' => 'Data berhasil dihapus.']);
         }else{
             return response()->json(['message' => 'Peringatan!, data tidak dapat dihapus']);

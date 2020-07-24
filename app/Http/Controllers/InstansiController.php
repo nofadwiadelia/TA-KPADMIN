@@ -23,7 +23,9 @@ class InstansiController extends Controller
      */
     public function index()
     {
-        $instansi = Instansi::get();
+        $instansi = Instansi::leftJoin('users', 'instansi.id_users', 'users.id_users')
+                            ->where('users.isDeleted', '0')
+                            ->get();
         return view('admin.instansi.daftar_instansi',compact('instansi'));
     }
 
@@ -34,7 +36,8 @@ class InstansiController extends Controller
      */
     public function create()
     {
-        return view('admin.instansi.add_instansi');
+        $userId = Auth::id();
+        return view('admin.instansi.add_instansi', compact('userId'));
     }
 
     /**
@@ -56,11 +59,16 @@ class InstansiController extends Controller
         ],
         [
             'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
+            'nama.max' => 'nama is to long !',
+            'username.required' => 'username can not be empty !',
             'username.unique' => 'username has already been taken !',
+            'username.max' => 'username is to long !',
+            'password.required' => 'password can not be empty !',
             'password.max' => 'password is to long !',
-            'email.required' => 'can not be empty !',
-            'no_hp.required' => 'can not be empty !',
+            'email.required' => 'email can not be empty !',
+            'nip.required' => 'nip can not be empty !',
+            'no_hp.required' => 'no hp can not be empty !',
+            'no_hp.max' => 'no hp is to long !',
         ]);
 
         $foto = null;
@@ -73,6 +81,7 @@ class InstansiController extends Controller
         $data = User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password),
+            'created_by' => $request->created_by,
             'id_roles' => 2
         ])->instansi()->create([
             'nama' => $request->nama,
@@ -82,9 +91,10 @@ class InstansiController extends Controller
             'no_hp' => $request->no_hp,
             'website' => $request->website,
             'foto' => $foto,
+            'created_by' => $request->created_by,
         ]);
         $data->save();
-        return response()->json(['message' => 'Dosen added successfully.']);
+        return response()->json(['message' => 'Instansi added successfully.']);
     }
 
     public function changeStatus(Request $request){
@@ -139,7 +149,7 @@ class InstansiController extends Controller
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($kelompok){
-                $btn = '<div class="text-center py-0 align-middle"><a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-list-alt"></i></a></div>';
+                $btn = '<div class="text-center py-0 align-middle"><a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'/detail" class="btn btn-info btn-sm"><i class="fas fa-list-alt"></i></a></div>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -243,7 +253,11 @@ class InstansiController extends Controller
     public function destroy($id_users)
     {
         $data = User::find($id_users);
-        $data->delete();
-        return response()->json(['message' => 'User deleted successfully.']);
+        $data->isDeleted = 1;
+        $data->instansi()->update([
+            'isDeleted' => 1,
+        ]);
+        $data->save();
+        return response()->json(['message' => 'Data berhasil dihapus.']);
     }
 }

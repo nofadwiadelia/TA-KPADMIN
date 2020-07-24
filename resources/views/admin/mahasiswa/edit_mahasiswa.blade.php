@@ -142,12 +142,13 @@ $(document).ready(function(){
       $.ajax({
           type: "POST",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-          url: "/api/admin/users/"+id,
+          url: "/api/admin/mahasiswa/"+id,
           dataType:'JSON',
           contentType: false,
           cache: false,
           processData: false,
           data: new FormData(this),
+          // data: $('#editMahasiswa').serialize(),
           success: function(data){
               window.location = "/admin/mahasiswa/";
               toastr.options.closeButton = true;
@@ -173,12 +174,34 @@ $(document).ready(function(){
 
 
     $(document).on('click', '.editPassword', function(){
-      id_users = $(this).data("id");
-      $('#id_users').val(id_users);
-      $('#password').val();
-      $('#modal-edit').modal('show');
-      $('#saveBtn').val("edit-password");
+    id_users = $(this).data("id");
+    $('#id_users').val(id_users);
+    $('#password').val();
+    $('#modal-edit').modal('show');
+    $('#saveBtn').val("edit-password");
+  });
+
+  $('#saveBtn').click(function (e) {
+    e.preventDefault();
+
+    $.ajax({
+      data: $('#updatePassword').serialize(),
+      url: "/api/admin/password/"+id_users,
+      type: "PUT",
+      dataType: 'json',
+      success: function (data) {
+        $('#modal-edit').modal('hide');
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 100;
+        toastr.success(data.message);
+      },
+      error: function (data) {
+          console.log('Error:', data);
+          $('#saveBtn').html('Save Changes');
+      }
     });
+  });
     
   
 });

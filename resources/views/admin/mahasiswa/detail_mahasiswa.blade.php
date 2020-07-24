@@ -163,7 +163,7 @@
                                         <div class="col-md-4">
                                             <div class="text-center">
                                                     <img class="profile-user-img img-fluid img-circle"
-                                                    src="{{ asset('uploads/avatar/'.$mahasiswa->foto) }}"
+                                                    src="{{ asset('uploads/avatar/'.$magang->foto) }}"
                                                         alt="User profile picture" onerror="this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}';" >
                                             </div>
                                             <h3 class="profile-username text-center">{{$magang->nama}}</h3>
@@ -204,9 +204,16 @@
 
                                         <div class="col-md-4">
                                             <div class="text-center">
+                                            @if(!empty($instansi->foto))
                                             <img class="profile-user-img img-fluid img-circle"
-                                                    src="{{ asset('uploads/avatar/'.$instansi->foto) }}"
+                                                    src="{{ asset('uploads/avatar/'.$instansi->infot) }}"
                                                         alt="User profile picture" onerror="this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}';" >
+                                            @else
+                                            <img class="profile-user-img img-fluid img-circle"
+                                                    src="{{ asset('/dist/img/default-avatar.png') }}"
+                                                        alt="User profile picture">
+                                            @endif
+                                            
                                             </div>
                                         </div>
                                         <div class="col-md-8">
@@ -324,13 +331,13 @@
                                                     <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
-                                                <td>{{$resultSkillM}}</td>
-                                                <td>{{$resultkerapihanM}}</td>
-                                                <td>{{$resultsikapM}}</td>
-                                                <td>{{$resultkeaktifanM}}</td>
-                                                <td>{{$resultperhatianM}}</td>
-                                                <td>{{$resultkehadiranM}}</td>
-                                                <td>{{$resultTeman1}}</td>
+                                                @if ($resultSkillM == 'nan')<td></td>@else<td>$resultSkillM</td>@endif
+                                                @if ($resultkerapihanM == 'nan')<td></td>@else<td>$resultkerapihanM</td>@endif
+                                                @if ($resultsikapM == 'nan')<td></td>@else<td>$resultsikapM</td>@endif
+                                                @if ($resultkeaktifanM == 'nan')<td></td>@else<td>$resultkeaktifanM</td>@endif
+                                                @if ($resultperhatianM == 'nan')<td></td>@else<td>$resultperhatianM</td>@endif
+                                                @if ($resultkehadiranM == 'nan')<td></td>@else<td>$resultkehadiranM</td>@endif
+                                                @if ($resultTeman1 == 'nan')<td></td>@else<td>$resultTeman1</td>@endif
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -353,12 +360,8 @@
                                                 <tr>
                                                 @foreach($nilaiMentor as $nmentor)
                                                 <td>{{$nmentor->nilai}}</td>
-                                                <!-- <td>5</td>
-                                                <td>5</td>
-                                                <td>4</td>
-                                                <td>3</td> -->
                                                 @endforeach
-                                                <td>{{$resultInstansi1}}</td>
+                                                @if ($resultInstansi1 == 'nan')<td></td>@else<td>$resultInstansi1</td>@endif
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -381,7 +384,7 @@
                                                 @foreach($nilaiDP as $ndp)
                                                 <td>{{$ndp->nilai}}</td>
                                                 @endforeach
-                                                <td>{{$resultPenguji1}}</td>
+                                                @if ($resultPenguji1 == 'nan')<td></td>@else<td>$resultPenguji1</td>@endif
                                                 
                                                 </tr>
                                         </table><br/>
@@ -409,8 +412,7 @@
                                                 <td>3</td>
                                                 <td>5</td> -->
                                                 @endforeach
-                                                
-                                                <td>{{$resultDospem1}}</td>
+                                                @if ($resultDospem1 == 'nan')<td></td>@else<td>$resultDospem1</td>@endif
                                                 </tr>
                                         </table><br/>
                                     </div>

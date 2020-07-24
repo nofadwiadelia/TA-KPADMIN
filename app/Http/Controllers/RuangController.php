@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Ruang;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class RuangController extends Controller
 {

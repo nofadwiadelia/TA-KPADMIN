@@ -38,6 +38,10 @@
                             <input type="number" class="form-control" name="kapasitas" id="kapasitas" placeholder="">
                         </div>
                         <div class="form-group">
+                            <label for="exampleInputEmail1">Slot *</label>
+                            <input type="number" class="form-control" name="slot" id="slot" placeholder="">
+                        </div>
+                        <div class="form-group">
                           <label>Instansi *</label>
                           <select name="id_instansi" class="form-control select2" style="width: 100%;">
                               <option selected disabled>Pilih Instansi</option>
@@ -77,25 +81,12 @@
 @endsection
 
 @section('scripts')
-<!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script src="../../plugins/summernote/summernote-bs4.min.js"></script>
 <!-- page script -->
 <script>
-  $(function () {
-    $("#example1").DataTable();
-  });
   $(document).ready(function(){   
     $('#lowonganForm').on('submit', function(e){
         e.preventDefault();
-
-        var pekerjaan = $('#pekerjaan').val();
-        var persyaratan = $('#persyaratan').val();
-        var kapasitas = $('#kapasitas').val();
-        var id_instansi = $('#id_instansi').val();
-        var id_periode = $('#id_periode').val();
-        var created_by = $('#created_by').val();
 
         $.ajax({
             type: "POST",
@@ -126,6 +117,6 @@
             }
         });
     });
-});
+  });
 </script>
 @endsection

@@ -10,6 +10,10 @@ class Lowongan extends Model
     protected $primaryKey = 'id_lowongan';
     protected $guarded = [];
     
+    public static function boot()
+    {
+        parent::boot();
+    }
 
     public function instansi(){
         return $this->belongsTo('App\Instansi', 'id_instansi');

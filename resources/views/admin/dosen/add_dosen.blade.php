@@ -78,6 +78,14 @@
                                       <input type="password" class="form-control" required name="password" placeholder="">
                                       </div>
                                   </div>
+                                  <div class="form-group row">
+                                      <label for="kapasitas" class="col-sm-3 col-form-label">Kapasitas *</label>
+                                      <div class="col-sm-9">
+                                      <input type="number" class="form-control" required name="kapasitas" placeholder="">
+                                      </div>
+                                  </div>
+                                  <input type="hidden" class="form-control" required name="created_byy" value="{{$userId}}">
+                                  <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">
                                   <div class="d-flex flex-row justify-content-end">
                                       <span class="mr-2">
                                       <button type="" class="btn btn-danger"> Cancel </button>

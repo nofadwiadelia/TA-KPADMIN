@@ -36,9 +36,13 @@
                             <input type="number" class="form-control" name="kapasitas" id="kapasitas" value="{{$lowongan->kapasitas}}" maxlength="2">
                         </div>
                         <div class="form-group">
+                            <label for="exampleInputEmail1">Slot *</label>
+                            <input type="number" class="form-control" name="slot" id="slot" value="{{$lowongan->slot}}" maxlength="2">
+                        </div>
+                        <div class="form-group">
                           <label>Instansi *</label>
-                          <select name="id_instansi" id="id_instansi" class="form-control select2" style="width: 100%;">
-                              <option selected="selected">{{$lowongan->instansi->nama}}</option>
+                          <select name="id_instansi" class="form-control select2" style="width: 100%;">
+                              <option selected="selected" value="{{$lowongan->instansi->id_instansi}}">{{$lowongan->instansi->nama}}</option>
                               @foreach($instansi as $instansis)
                               <option value="{{ $instansis->id_instansi }}">{{ $instansis->nama }}</option>
                               @endforeach
@@ -83,11 +87,6 @@ $(document).ready(function(){
         e.preventDefault();
 
         var id = $('#id_lowongan').val();
-        var pekerjaan = $('#pekerjaan').val();
-        var persyaratan = $('#persyaratan').val();
-        var kapasitas = $('#kapasitas').val();
-        var id_instansi = $('#id_instansi').val();
-        var id_periode = $('#id_periode').val();
 
         $.ajax({
             type: "PUT",

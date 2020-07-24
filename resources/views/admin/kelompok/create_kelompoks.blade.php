@@ -10,7 +10,7 @@
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item active">Persetujuan</li>
                 <li class="breadcrumb-item active">Kelompok</li>
-                <li class="breadcrumb-item active">Detail</li>
+                <li class="breadcrumb-item active">Add</li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -21,52 +21,34 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Detail Kelompok</h3>
+              <h3 class="card-title">Buat Kelompok</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+
+              <form id="kelompokForm" method="post"  role="form">             
                 <div class="col-sm-12">
-                  <a href="javascript:void(0)" class="btn btn-success float-right btn-sm openAnggota"><i class="fas fa-plus"></i> Tambah Anggota</a> <br><br>
+                  <div class="form-group row">
+                    <label for="nama_kelompok" class="col-sm-3 col-form-label">Nama Kelompok <font color="red">*</font> </label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control" id="nama_kelompok" name="nama_kelompok" >
+                  </div>
+                </div>
+                <!-- <div class="col-sm-12">
+                  <button type="submit" class="btn btn-primary float-right">Create</button>
+                </div> <br><br>
+              </form> -->
+
+                <div class="col-sm-12">
+                  <a href="javascript:void(0)" class="btn btn-success float-right btn-sm openAnggota"><i class="fas fa-plus"></i> Pilih Ketua</a> <br><br>
                 </div>
               <div class="card-primary">
-              <div class="table-responsive p-0">
-              <table class="table table-bordered table-striped" id="kelompokTable">
-                <thead>
-                <tr>
-                  <th>NIM</th>
-                  <th>Nama Mahasiswa</th>
-                  <th>No.HP</th>
-                  <th>Status</th>
-                  <th>Detail</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($kelompok as $kel)
-                <tr>
-                    <td>{{$kel->nim}}</td>
-                    <td>{{$kel->nama}}</td>
-                    <td>{{$kel->no_hp}}</td>
-                    <td>{{$kel->status_keanggotaan}}</td>
-                    <td class="text-center py-0 align-middle">
-                        <div class="btn-group btn-group-sm">
-                          <a href="/admin/mahasiswa/{{$kel->id_mahasiswa}}" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                        </div>
-                        <div class="btn-group btn-group-sm">
-                          <button type="button" name="delete" id="{{$kel->id_kelompok_detail}}" class="btn btn-danger btn-sm deleteAnggota" ><i class="fas fa-trash"></i></button>
-                        </div>
-                    </td>
-                    
-                </tr>
-                @endforeach
-                </tbody>
-              </table>
-              </div>
 
-              <div id="openModal" class="modal fade" role="dialog">
+                <div id="openModal" class="modal fade" role="dialog">
                   <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title">Pilih Anggota</h5>
+                          <h5 class="modal-title">Pilih Ketua</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -84,7 +66,7 @@
                               </thead>
                               <tbody>
                               @php $no = 1; @endphp
-                              @foreach($mahasiswa_tersedia as $row)
+                              @foreach($anggotas as $row)
                               <tr>
                                   <td>{{$no++}}</td>
                                   <td>{{$row->nim}}</td>
@@ -101,10 +83,10 @@
                             </table>
                           </div>
                         </div>
-                        <input type="hidden" name="id_kelompok" id="id_kelompok" value="{{ $kelompoks->id_kelompok }}">
+                        <input type="hidden" class="form-control" name="created_by" id="created_by" value="{{$userId}}">
                         <div class="modal-footer justify-content-between">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary addAnggota">Save changes</button>
+                          <button type="button" class="btn btn-primary ">Save changes</button>
                         </div>
                       </div>
                   </div>
@@ -129,7 +111,25 @@
                       </div>
                   </div>
                 </div>
+
+              <div class="table-responsive p-0">
+              <table class="table table-bordered table-striped" id="kelompokTable">
+                <thead>
+                <tr>
+                  <th>NIM</th>
+                  <th>Nama Mahasiswa</th>
+                  <th>No.HP</th>
+                  <th>Detail</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+              <button type="submit" class="btn btn-primary addAnggota">Submit</button>
+              <a href="{{url()->previous()}}" class="btn btn-danger"> Cancel </a>
               </div>
+              </div>
+            </form>
             </div>
             <!-- /.card-body -->
           </div>
@@ -143,6 +143,9 @@
 @endsection
 
 @section('scripts')
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
 <!-- DataTables -->
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
@@ -153,133 +156,52 @@
       "responsive": true,
       "autoWidth": false,
     });
-    
   });
 
-// jika datatable
-// $(document).ready(function(){
-
-//         var dataTable = $('#mahasiswa').DataTable({
-//         processing: true,
-//         serverSide: true,
-//         ajax:{
-//         url: "/admin/kelompok/".$id,
-//         },
-//         columns:[
-//         {data: 'DT_RowIndex', 
-//             name: 'DT_RowIndex', 
-//             orderable: false,
-//             searchable: false
-//         },
-//         {
-//             data: 'nim',
-//             name: 'nim'
-//         },
-//         {
-//             data: 'nama',
-//             name: 'nama'
-//         },
-//         {data: 'action', name: 'action', orderable: false, searchable: false},
-//         ]
-//         });
-// });
-
-
-// $(document).ready(function(){
-//     var id_kelompok = 4;
-
-//     $.ajax({
-//             type: 'get',
-//             url: ('/api/admin/detailkelompok/'+id_kelompok),
-//             dataType: 'JSON',
-//             success: function (response) {
-//                 var len = response.length;
-//                 for(var i=0; i<len; i++){
-//                     var id_mahasiswa = response[i].id_mahasiswa;
-//                     var nim = response[i].nim;
-//                     var nama = response[i].nama;
-//                     var no_hp = response[i].no_hp;
-//                     var status_keanggotaan = response[i].status_keanggotaan;
-
-//                     var tr_str = "<tr>" +
-//                         "<td>" + nim + "</td>" +
-//                         "<td>" + nama + "</td>" +
-//                         "<td>" + no_hp + "</td>" +
-//                         "<td>" + status_keanggotaan + "</td>" +
-//                         "<td class='text-center py-0 align-middle'>"+
-//                           "<div class='btn-group btn-group-sm'>"+
-//                             "<a href='/admin/mahasiswa/"+id_mahasiswa+"' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-//                           "</div>"+
-//                         "</td>"+
-//                         "</tr>";
-
-//                     $("#kelompokTable tbody").append(tr_str);
-//                 }
-//             }
-//         });
-//   });
-
-
-// OpenAnggota
+  // OpenAnggota
   $(document).on('click', '.openAnggota', function(){
-    $('#openModal').modal('show');
-  });
-
-
-// DELETE
-  $(document).on('click', '.deleteAnggota', function(){
-  id_kelompok_detail = $(this).attr('id');
-    $('#confirmModal').modal('show');
-  });
-  $('#ok_button').click(function(){
-    $.ajax({
-        type: "DELETE",
-        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-        dataType: "json",
-        url: '/api/admin/kick/'+id_kelompok_detail,
-        success: function (data) {
-            $('#confirmModal').modal('hide');
-            window.location.reload();
-            toastr.options.closeButton = true;
-            toastr.options.closeMethod = 'fadeOut';
-            toastr.options.closeDuration = 100;
-            toastr.success(data.message);
-        }
+      $('#openModal').modal('show');
     });
-  });
-
-
 
     function deleteRow(r, id) {
-      console.log("hi")
+      // console.log("hi")
       let i = r.parentNode.parentNode.rowIndex;
       document.getElementById("kelompokTable").deleteRow(i);
-
       $('table#mahasiswa tbody button[data-id="'+id+'"]').removeAttr("disabled");
     }
 
-    $(".add-anggota").click(function () {
+  $(".add-anggota").click(function () {
+    $(this).attr("disabled", true);
+    let no = $(this).data("no");
+    let nim = $(this).data("nim");
+    let nama = $(this).data("nama");
+    let id = $(this).data("id");
 
-      $(this).attr("disabled", true);
+    console.log(nim);
+    console.log(nama);
+    console.log(id);
 
-      let nama = $(this).data("nama");
-      let nim = $(this).data("nim");
-      let no = $(this).data("no");
-      let id = $(this).data("id");
+    let markup = 
+    "<tr>"
+    + "<td>" + nim + "</td>"
+    + "<td>" + nama + "</td>"
+    + "<td>" + no + "</td>"
+    + "<td><button class='btn btn-danger' onclick='deleteRow(this, "+id+")' >Delete</button> <input type='hidden' name='list_anggota[]' value='"+ id +"' ></td>"
+    + "</tr>";
+    tableBody = $("table#kelompokTable tbody"); 
+    tableBody.append(markup);
 
-      console.log(nama);
-      console.log(nim);
-
-      $(".addAnggota").click(function () {
-        var id_kelompok = $('#id_kelompok').val();
-
+    $("#kelompokForm").on('submit',function (e) {
+        e.preventDefault();
+        created_by = $('#created_by').val();
+        nama_kelompok = $('#nama_kelompok').val();
         $.ajax({
           type: "POST",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-          url: "/api/admin/anggota/add",
+          url: "/api/admin/create_kelompok",
           cache:false,
           dataType: "json",
-          data: {'id_mahasiswa': id,'id_kelompok': id_kelompok},
+          data: {'id_mahasiswa': id,'nama_kelompok': nama_kelompok,'created_by': created_by},
           success: function(data){
               console.log(data);
               $("#openModal").modal('hide');
@@ -287,13 +209,14 @@
               toastr.options.closeMethod = 'fadeOut';
               toastr.options.closeDuration = 100;
               toastr.success(data.message);
-              window.location.reload();
+              window.location = "/admin/persetujuan_kelompok";
           },
           error: function(error){
             console.log(error);
           }
         });
       });
-    }); 
+
+  });
 </script>
 @endsection

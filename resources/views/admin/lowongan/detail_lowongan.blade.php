@@ -99,14 +99,15 @@
                                     <a href="/admin/kelompok/{{$row->id_kelompok}}" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
                                   </td>
 
-                                    <input type="hidden" id="idperiode" value="{{$row->id_periode}}">
+                                    <!-- <input type="hidden" id="idperiode" value="{{$row->id_periode}}">
                                     <input type="hidden" id="idkelompok" value="{{$row->id_kelompok}}">
                                     <input type="hidden" id="idinstansi" value="{{$row->id_instansi}}">
-                                    <input type="hidden" id="jobdesk" value="{{$row->pekerjaan}}">
+                                    <input type="hidden" id="jobdesk" value="{{$row->pekerjaan}}"> -->
+
                                     
                                   <td class="text-center py-0 align-middle">
-                                    <button id="{{$row->id_pelamar}}" class="btn btn-sm btn-info accbtn" <?php if($row->status!='melamar') {echo ' disabled=disabled ';}?>><i class="fas fa-check" value="diterima"></i></button>
-                                    <button type="button" id="{{$row->id_pelamar}}" class="btn btn-danger btn-sm declinebtn" <?php if($row->status!='melamar') {echo ' disabled=disabled ';}?>><i class="fas fa-times" value="ditolak"></i></button>
+                                    <button data-id="{{$row->id_pelamar}}" data-idperiode="{{$row->id_periode}}" data-idkelompok="{{$row->id_kelompok}}" data-idinstansi="{{$row->id_instansi}}" data-jobdesk="{{$row->pekerjaan}}" class="btn btn-sm btn-info accbtn" <?php if($row->status!='melamar') {echo ' disabled=disabled ';}?>><i class="fas fa-check" ></i></button>
+                                    <button type="button" id="{{$row->id_pelamar}}" class="btn btn-danger btn-sm declinebtn" <?php if($row->status!='melamar') {echo ' disabled=disabled ';}?>><i class="fas fa-times"></i></button>
                                   </td>
                                 </tr> 
                               @endforeach
@@ -132,6 +133,7 @@
                                   <div class="modal-body">
                                   <label for="" class="col-sm-12 col-form-label">Yakin ingin menyetujui ?</label>
                                   </div>
+                                  <input type="hidden" id="id_lowongan" value="{{$lowongan->id_lowongan}}">
                                   <div class="modal-footer">
                                     <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                     <button type="button" name="ok_button" id="ok_button" class="btn btn-primary">Setujui</button>
@@ -165,16 +167,16 @@
     $('#confirmModal').modal('show');
 
     e.preventDefault();
-    id_pelamar = $(this).attr('id');
+    id_kelompok = $(this).data("idkelompok");
+    id_periode = $(this).data("idperiode");
+    id_instansi = $(this).data("idinstansi");
+    jobdesk = $(this).data("jobdesk");
+    id_pelamar = $(this).data("id");
   });
 
   $('#ok_button').click(function(){
 
-    id_kelompok = $('#idkelompok').val();
-    id_instansi = $('#idinstansi').val();
-    id_periode = $('#idperiode').val();
-    jobdesk = $('#jobdesk').val();
-    status = 'diterima';
+    id_lowongan = $('#id_lowongan').val();
 
     $.ajax({
         type: "POST",
@@ -182,7 +184,7 @@
         url: "/api/admin/persetujuanlowongan/",
         cache:false,
         dataType: "json",
-        data: {'id_pelamar': id_pelamar, 'statuslamaran': status, 'id_kelompok': id_kelompok, 'id_instansi': id_instansi, 'id_periode': id_periode, 'jobdesk': jobdesk},
+        data: {'id_pelamar': id_pelamar, 'id_lowongan': id_lowongan, 'id_kelompok': id_kelompok, 'id_instansi': id_instansi, 'id_periode': id_periode, 'jobdesk': jobdesk},
         success: function(data){
           toastr.options.closeButton = true;
           toastr.options.closeMethod = 'fadeOut';
@@ -200,16 +202,14 @@
     e.preventDefault();
 
     id_pelamar = $(this).attr('id');
-    statusdecline = 'ditolak';
-    // statusdecline = $('#statusdecline').val();
 
     $.ajax({
         type: "POST",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-        url: "/api/admin/persetujuanlowongan/",
+        url: "/api/admin/declinelowongan/",
         cache:false,
         dataType: "json",
-        data: {'id_pelamar': id_pelamar, 'statuslamaran': statusdecline},
+        data: {'id_pelamar': id_pelamar},
         success: function(data){
           toastr.options.closeButton = true;
           toastr.options.closeMethod = 'fadeOut';

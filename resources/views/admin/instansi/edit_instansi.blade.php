@@ -148,50 +148,71 @@
 <script >
 $(document).ready(function(){   
 
-$('#editInstansi').on('submit', function(e){
-  e.preventDefault();
-  var id = $('#id_users').val();
-  $.ajax({
-      type: "POST",
-      headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-      url: "/api/admin/instansi/"+id,
-      dataType:'JSON',
-      contentType: false,
-      cache: false,
-      processData: false,
-      data: new FormData(this),
-      success: function(data){
-          window.location = "/admin/instansi/";
-          toastr.options.closeButton = true;
-          toastr.options.closeMethod = 'fadeOut';
-          toastr.options.closeDuration = 100;
-          toastr.success(data.message);
-        },
-        error: function(xhr, status, error) 
-        {
-
-          $.each(xhr.responseJSON.errors, function (key, item) 
-          {
-            // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+  $('#editInstansi').on('submit', function(e){
+    e.preventDefault();
+    var id = $('#id_users').val();
+    $.ajax({
+        type: "POST",
+        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+        url: "/api/admin/instansi/"+id,
+        dataType:'JSON',
+        contentType: false,
+        cache: false,
+        processData: false,
+        data: new FormData(this),
+        success: function(data){
+            window.location = "/admin/instansi/";
             toastr.options.closeButton = true;
             toastr.options.closeMethod = 'fadeOut';
-            toastr.options.closeDuration = 200;
-            toastr.error(item);
-          });
+            toastr.options.closeDuration = 100;
+            toastr.success(data.message);
+          },
+          error: function(xhr, status, error) 
+          {
 
-        }
+            $.each(xhr.responseJSON.errors, function (key, item) 
+            {
+              // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+              toastr.options.closeButton = true;
+              toastr.options.closeMethod = 'fadeOut';
+              toastr.options.closeDuration = 200;
+              toastr.error(item);
+            });
+
+          }
+    });
   });
-});
 
 
-$(document).on('click', '.editPassword', function(){
-  id_users = $(this).data("id");
-  $('#id_users').val(id_users);
-  $('#password').val();
-  $('#modal-edit').modal('show');
-  $('#saveBtn').val("edit-password");
-});
+  $(document).on('click', '.editPassword', function(){
+    id_users = $(this).data("id");
+    $('#id_users').val(id_users);
+    $('#password').val();
+    $('#modal-edit').modal('show');
+    $('#saveBtn').val("edit-password");
+  });
 
+  $('#saveBtn').click(function (e) {
+    e.preventDefault();
+
+    $.ajax({
+      data: $('#updatePassword').serialize(),
+      url: "/api/admin/password/"+id_users,
+      type: "PUT",
+      dataType: 'json',
+      success: function (data) {
+        $('#modal-edit').modal('hide');
+        toastr.options.closeButton = true;
+        toastr.options.closeMethod = 'fadeOut';
+        toastr.options.closeDuration = 100;
+        toastr.success(data.message);
+      },
+      error: function (data) {
+          console.log('Error:', data);
+          $('#saveBtn').html('Save Changes');
+      }
+    });
+  });
 
 });
 </script>
