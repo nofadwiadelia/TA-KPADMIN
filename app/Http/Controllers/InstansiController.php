@@ -23,8 +23,7 @@ class InstansiController extends Controller
      */
     public function index()
     {
-        $instansi = Instansi::leftJoin('users', 'instansi.id_users', 'users.id_users')
-                            ->where('users.isDeleted', '0')
+        $instansi = Instansi::where('isDeleted', '0')
                             ->get();
         return view('admin.instansi.daftar_instansi',compact('instansi'));
     }
@@ -102,8 +101,13 @@ class InstansiController extends Controller
         $instansi->status = $request->status;
         $instansi->save();
 
-        return response()->json(['message' => 'Periode status updated successfully.']);
-
+        return response()->json(['message' => 'Status instansi berhasil diubah']);
+    }
+    public function changeBlacklist(Request $request){
+        $instansi = Instansi::findOrFail($request->instansi_id);
+        $instansi->isBlacklist = $request->isBlacklist;
+        $instansi->save();
+        return response()->json(['message' => 'Status blacklist berhasil diubah.']);
     }
     /**
      * Display the specified resource.
@@ -173,8 +177,9 @@ class InstansiController extends Controller
 
     public function editaccount($id_instansi)
     {
+        $userId = Auth::id();
         $instansi = Instansi::findOrFail($id_instansi);
-        return view('admin.instansi.edit_instansi', compact('instansi'));
+        return view('admin.instansi.edit_instansi', compact('instansi', 'userId'));
     }
 
     /**
@@ -205,6 +210,7 @@ class InstansiController extends Controller
         $data = User::findOrFail($id_users);
         $data->update([
             'username' => $request->username,
+            'updated_by' => $request->updated_by,
         ]);
         $data->instansi()->update([
             'nama' => $request->nama,

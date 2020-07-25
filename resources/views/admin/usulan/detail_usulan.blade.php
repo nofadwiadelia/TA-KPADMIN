@@ -83,7 +83,7 @@
                               <td>{{$usulans->nama_instansi}}</td>
                               <td>{{$usulans->alamat_instansi}}</td>
                               <td>{{$usulans->website_instansi}}</td>
-                              <td><a href="{{ asset('/uploads/users/mahasiswa/usulan/' . $usulans->surat) }}" target="_blank" class="float-right">Surat</a></td>
+                              <td><a href="javascript:void(0)" id="{{$usulans->id_usulan }}" class="float-right surat">{{$usulans->surat}}</a></td>
                               <td>{{$usulans->jobdesk}}</td>
                               @if ($usulans->status == 'diproses')
                               <td><span class='badge bg-warning'>{{$usulans->status}}</span></td>
@@ -101,6 +101,31 @@
 
                             @endforeach
                     </table><br/>
+
+                    <div class="modal fade" id="surat">
+                      <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+
+                              <div class="modal-body">
+                                  <div class="row justify-content-center" id="suratUsulan">
+                                        
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                  </div>
+                              </div>
+                          </div>
+                          <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                  </div>
+                  <!-- /.modal -->
+
                 </div>
               </div>
             </div>
@@ -201,6 +226,27 @@
 
 <!-- page script -->
 <script>
+
+  $(document).on('click', '.surat', function () {
+    id = $(this).attr('id');
+      $('#surat').modal('show');
+      $.ajax({
+          url: '/api/admin/usulan/'+id,
+          method: 'GET',
+          dataType: 'JSON',
+          data: {id_usulan: id},
+          success: function (response) {
+              var surat = "<iframe src={{ URL::to('/') }}/uploads/users/mahasiswa/usulan/" + response.surat + " width='700px' height='700px' frameborder='0' ></iframe>";
+              $("#suratUsulan").html(surat);
+              $('#surat').modal({
+                  backdrop: 'static',
+                  keyboard: true,
+                  show: true
+              });
+          }
+      });
+  });
+
 //ACCINSTANSI
     $(document).on('click','.accbtnInstansi', function(e){
       e.preventDefault();
@@ -210,7 +256,6 @@
   $(document).on('click','.accbtn', function(e){
     e.preventDefault();
     $('#confirmModal').modal('show');
-
   });
 
   $(document).on('click','.showaccusulan', function(e) {

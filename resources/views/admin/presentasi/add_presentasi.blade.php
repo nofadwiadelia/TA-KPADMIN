@@ -43,7 +43,7 @@
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label>Dosen Penguji *</label>
-                                                <select name="id_dosen" id="id_dosen" class="form-control select2" style="width: 100%;">
+                                                <select name="id_dospeng" id="id_dospeng" class="form-control select2" style="width: 100%;">
                                                 @foreach($dosen as $dosens)
                                                 <option value="{{ $dosens->id_dosen }}">{{ $dosens->nama }}</option>
                                                 @endforeach
@@ -55,6 +55,8 @@
                                     
                                     
                                     <input type="hidden" name="id_periode" id="id_periode" class="form-control pull-right required" value="{{$periode->id_periode}}">
+
+                                    <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">
                                     
                                     <div class="row">
                                         <div class="col-md-12">                                

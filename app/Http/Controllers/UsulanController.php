@@ -79,7 +79,12 @@ class UsulanController extends Controller
         $usulan = Usulan::select('usulan.*')
                         ->where('usulan.id_kelompok', $id_kelompok)
                         ->get();
-        $instansi = Instansi::select('id_instansi', 'nama')->get();
+
+        $instansi = Instansi::select('id_instansi','nama')
+                    ->where('status', 'open')
+                    ->where('isDeleted', '0')
+                    ->where('isBlacklist', '0')
+                    ->get();
 
         return view('admin.usulan.detail_usulan',compact('kelompok', 'anggota', 'usulan', 'instansi'));
     }

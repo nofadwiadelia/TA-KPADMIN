@@ -66,6 +66,7 @@
                                         <input type="text" class="form-control" name="username" value="{{ $data->username }}">
                                         </div>
                                     </div>
+                                    <input type="hidden" class="form-control" required name="updated_by" value="{{$userId}}">
                                     
                                     <div class="row justify-content-center">
                                       <!-- <a  data-toggle="modal" data-target="#modal-default">

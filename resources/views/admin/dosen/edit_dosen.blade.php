@@ -80,19 +80,7 @@
                                         <input type="text" class="form-control" required name="username" value="{{ $dosen->users->username }}">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                      <label for="kapasitas" class="col-sm-3 col-form-label">Kapasitas *</label>
-                                      <div class="col-sm-9">
-                                      <input type="number" class="form-control" required name="kapasitas" placeholder="" value="{{ $dosen->kapasitas }}">
-                                      </div>
-                                  </div>
-                                  <div class="form-group row">
-                                      <label for="slot" class="col-sm-3 col-form-label">Slot *</label>
-                                      <div class="col-sm-9">
-                                      <input type="number" class="form-control" required name="slot" placeholder="" value="{{ $dosen->slot }}">
-                                      </div>
-                                  </div>
-                                    
+                                    <input type="hidden" class="form-control" required name="updated_by" value="{{$userId}}">
                                     <div class="row justify-content-center">
                                       <a href="javascript:void(0)"  data-id="{{  $dosen->id_users }}" class="edit btn btn-sm btn-info editPassword">Edit Password</a>
                                     </div><br>

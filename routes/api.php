@@ -45,9 +45,10 @@ Route::prefix('admin')->group(function () {
     Route::post('/dosen/change', 'DosenController@changeStatus');
     Route::post('/dosen/add', 'DosenController@store');
     Route::post('/dosen/{id}', 'DosenController@update');
+    Route::post('/instansi/changestatus', 'InstansiController@changeStatus');
+    Route::post('/instansi/changeblacklist', 'InstansiController@changeBlacklist');
     Route::post('/instansi/add', 'InstansiController@store');
     Route::post('/instansi/{id}', 'InstansiController@update');
-    Route::post('/instansi/change', 'InstansiController@changeStatus');
     Route::put('/instansi/delete/{id}', 'InstansiController@destroy');
     Route::post('/persetujuan_kelompoks', 'KelompokController@postacckelompok');
     Route::post('/tolak_kelompok', 'KelompokController@declinekelompok');

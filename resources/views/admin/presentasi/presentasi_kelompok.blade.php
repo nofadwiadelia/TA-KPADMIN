@@ -128,8 +128,8 @@
             name:'dosen_nama'
           },
           {
-            data:'dosen.nama',
-            name:'dosen.nama'
+            data:'dospeng',
+            name:'dospeng'
           },
           {
             data:'tanggal',
@@ -168,7 +168,7 @@
 
 // DELETE
     $(document).on('click', '.deletePresentasi', function(){
-      lowongan_id = $(this).attr('id');
+      presentasi_id = $(this).attr('id');
       $('#confirmModal').modal('show');
     });
     $('#ok_button').click(function(){
@@ -176,13 +176,13 @@
           type: "DELETE",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
           dataType: "json",
-          url: '/api/admin/lowongan/'+lowongan_id,
+          url: '/api/admin/presentasi/'+presentasi_id,
           beforeSend:function(){
             $('#ok_button').text('Deleting...');
           },
           success: function (data) {
             $('#confirmModal').modal('hide');
-            $('#lowongan_data').DataTable().ajax.reload();
+            $('#presentasi_data').DataTable().ajax.reload();
             toastr.options.closeButton = true;
             toastr.options.closeMethod = 'fadeOut';
             toastr.options.closeDuration = 100;

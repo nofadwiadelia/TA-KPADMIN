@@ -33,7 +33,8 @@
                   <th>Nama Instansi</th>
                   <th>Website</th>
                   <th>Alamat</th>
-                  <th>Keterangan</th>
+                  <th>Status</th>
+                  <th>Blacklist</th>
                   <th>Aksi</th>
                 </tr>
                 </thead>
@@ -44,7 +45,10 @@
                   <td>{{ $instansis->website }}</td>
                   <td>{{ $instansis->alamat }}</td>
                   <td class="text-center py-0 align-middle"> 
-                    <input type="checkbox" data-id="{{ $instansis->id_instansi }}" name="status" class="js-switch" {{ $instansis->status == 'open' ? 'checked' : '' }}>
+                  <input type="checkbox" data-id="{{ $instansis->id_instansi }}" name="status" class="js-switch" {{ $instansis->status == 'open' ? 'checked' : '' }}>
+                  </td>
+                  <td class="text-center py-0 align-middle"> 
+                  <input type="checkbox" data-id="{{ $instansis->id_instansi }}" name="isBlacklist" class="js-switchblacklist" {{ $instansis->isBlacklist == '1' ? 'checked' : '' }}>
                   </td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
@@ -110,29 +114,56 @@
   });
 </script>
 <script>
-    let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-    elems.forEach(function(html) {
-        let switchery = new Switchery(html,  { size: 'small' });
-    });
-    $(document).ready(function(){
-        $('.js-switch').change(function () {
-          let status = $(this).prop('checked') === true ? 'open' : 'close';
-          let instansiId = $(this).data('id');
-            $.ajax({
-                type: "POST",
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                dataType: "json",
-                url: '/api/admin/instansi/change',
-                data: {'status': status, 'instansi_id': instansiId},
-                success: function (data) {
-                    toastr.options.closeButton = true;
-                    toastr.options.closeMethod = 'fadeOut';
-                    toastr.options.closeDuration = 100;
-                    toastr.success(data.message);
-                }
-            });
-        });
-    });
+  let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+  elems.forEach(function(html) {
+      let switchery = new Switchery(html,  { size: 'small' });
+  });
+  $(document).ready(function(){
+      $('.js-switch').change(function () {
+        let status = $(this).prop('checked') === true ? 'open' : 'close';
+        let instansiId = $(this).data('id');
+          $.ajax({
+              type: "POST",
+              headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+              dataType: "json",
+              url: '/api/admin/instansi/changestatus',
+              data: {'status': status, 'instansi_id': instansiId},
+              success: function (data) {
+                  window.location.reload();
+                  toastr.options.closeButton = true;
+                  toastr.options.closeMethod = 'fadeOut';
+                  toastr.options.closeDuration = 100;
+                  toastr.success(data.message);
+              }
+          });
+      });
+  });
+
+
+  let elemss = Array.prototype.slice.call(document.querySelectorAll('.js-switchblacklist'));
+  elemss.forEach(function(html) {
+      let switchery = new Switchery(html,  { size: 'small' });
+  });
+  $(document).ready(function(){
+      $('.js-switchblacklist').change(function () {
+        let isBlacklist = $(this).prop('checked') === true ? '1' : '0';
+        let instansi = $(this).data('id');
+          $.ajax({
+              type: "POST",
+              headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+              dataType: "json",
+              url: '/api/admin/instansi/changeblacklist',
+              data: {'isBlacklist': isBlacklist, 'instansi_id': instansi},
+              success: function (data) {
+                  window.location.reload();
+                  toastr.options.closeButton = true;
+                  toastr.options.closeMethod = 'fadeOut';
+                  toastr.options.closeDuration = 100;
+                  toastr.success(data.message);
+              }
+          });
+      });
+  });
 
     $(document).on('click', '.deleteUser', function(){
     user_id = $(this).attr('id');
@@ -143,7 +174,7 @@
           type: "PUT",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
           dataType: "json",
-          url: '/api/admin/instansi/'+user_id,
+          url: '/api/admin/instansi/delete/'+user_id,
           success: function (data) {
               $('#confirmModal').modal('hide');
               window.location.reload();

@@ -67,6 +67,7 @@
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control" required name="username" value="{{ $instansi->users->username }}">
                                         </div>
+                                        <input type="hidden" class="form-control" required name="updated_by" value="{{$userId}}">
                                     </div>
                                     
                                     <div class="row justify-content-center">

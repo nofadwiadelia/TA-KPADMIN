@@ -22,8 +22,7 @@ class DosenController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Dosen::leftJoin('users', 'dosen.id_users', 'users.id_users')
-                    ->where('users.isDeleted', '0')
+        $data = Dosen::where('isDeleted', '0')
                     ->get();
         return view('admin.dosen.daftar_dosen',compact('data'));
     }
@@ -166,8 +165,9 @@ class DosenController extends Controller
      */
     public function editaccount($id_dosen)
     {
+        $userId = Auth::id();
         $dosen = Dosen::findOrFail($id_dosen);
-        return view('admin.dosen.edit_dosen', compact('dosen'));
+        return view('admin.dosen.edit_dosen', compact('dosen', 'userId'));
     }
 
     /**
@@ -200,6 +200,7 @@ class DosenController extends Controller
         $data = User::findOrFail($id_users);
         $data->update([
             'username' => $request->username,
+            'updated_by' => $request->updated_by,
         ]);
         $data->dosen()->update([
             'nama' => $request->nama,

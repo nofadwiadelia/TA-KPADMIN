@@ -91,6 +91,7 @@ class AdminController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'created_by' => $request->created_by,
+            'updated_by' => $request->created_by,
             'id_roles' => 1
         ])->admin()->create([
             'nama' => $request->nama,
@@ -122,8 +123,9 @@ class AdminController extends Controller
      */
     public function edit($id_users)
     {
+        $userId = Auth::id();
         $data = User::findOrFail($id_users);
-        return view('admin.edit_admin', compact('data'));
+        return view('admin.edit_admin', compact('data', 'userId'));
     }
 
     /**
@@ -156,6 +158,7 @@ class AdminController extends Controller
         
         $data->update([
             'username' => $request->username,
+            'updated_by' => $request->updated_by,
         ]);
         $data->admin()->update([
             'nama' => $request->nama,

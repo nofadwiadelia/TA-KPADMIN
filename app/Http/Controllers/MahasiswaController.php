@@ -398,8 +398,9 @@ class MahasiswaController extends Controller
      */
 
     public function editaccount($id_mahasiswa){
+        $userId = Auth::id();
         $mahasiswa = Mahasiswa::findOrFail($id_mahasiswa);
-        return view('admin.mahasiswa.edit_mahasiswa', compact('mahasiswa'));
+        return view('admin.mahasiswa.edit_mahasiswa', compact('mahasiswa', 'userId'));
     }
    
 
@@ -432,6 +433,7 @@ class MahasiswaController extends Controller
         $data = User::findOrFail($id_users);
         $data->update([
             'username' => $request->username,
+            'updated_by' => $request->updated_by,
         ]);
         $data->mahasiswa()->update([
             'nama' => $request->nama,

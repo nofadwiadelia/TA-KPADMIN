@@ -27,11 +27,13 @@ class LowonganController extends Controller
                                 ->select('lowongan.*', 'instansi.nama')
                                 ->where('lowongan.id_periode',  $request->id_periode)
                                 ->where('lowongan.isDeleted', '0')
+                                ->where('instansi.isDeleted', '0')
                                 ->get();
             }else{
                 $data = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
                                 ->select('lowongan.*', 'instansi.nama')
                                 ->where('lowongan.isDeleted', '0')
+                                ->where('instansi.isDeleted', '0')
                                 ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -55,7 +57,11 @@ class LowonganController extends Controller
     public function create()
     {
         $userId = Auth::id();
-        $data = Instansi::get();
+        $data = Instansi::select('id_instansi','nama')
+                    ->where('status', 'open')
+                    ->where('isDeleted', '0')
+                    ->where('isBlacklist', '0')
+                    ->get();
         $periode = Periode::where('status', 'open')->first();
         return view('admin.lowongan.add_lowongan',compact('data', 'periode', 'userId'));
     }
@@ -183,7 +189,11 @@ class LowonganController extends Controller
     public function edit($id_lowongan)
     {
         $lowongan = Lowongan::findOrFail($id_lowongan);
-        $instansi = Instansi::get();
+        $instansi = Instansi::select('id_instansi','nama')
+        ->where('status', 'open')
+        ->where('isDeleted', '0')
+        ->where('isBlacklist', '0')
+        ->get();
         $periode = Periode::where('isDeleted', 0)->get();
         return view('admin.lowongan.edit_lowongan',compact('instansi', 'periode', 'lowongan'));
     }

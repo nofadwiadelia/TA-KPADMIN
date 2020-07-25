@@ -31,7 +31,7 @@
                                             <div class="form-group">
                                             <label>Kelompok *</label>
                                                 <select name="id_kelompok" id="id_kelompok" class="form-control select2" style="width: 100%;">
-                                                <option selected="selected" value="{{ $presentasi->id_kelompok }}">{{$presentasi->kelompok->nama_kelompok}}</option>
+                                                <option selected="selected" value="{{ $data->id_kelompok }}">{{$data->nama_kelompok}}</option>
                                                 @foreach($kelompok as $kelompoks)
                                                 <option value="{{ $kelompoks->id_kelompok }}">{{ $kelompoks->nama_kelompok }}</option>
                                                 @endforeach
@@ -44,8 +44,8 @@
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                             <label>Dosen Penguji *</label>
-                                                <select name="id_dosen" id="id_dosen" class="form-control select2" style="width: 100%;">
-                                                <option selected="selected" value="{{ $presentasi->id_dosen }}">{{$presentasi->dosen->nama}}</option>
+                                                <select name="id_dospeng" id="id_dospeng" class="form-control select2" style="width: 100%;">
+                                                <option selected="selected" value="{{ $data->id_dosen }}">{{$data->dospeng}}</option>
                                                 @foreach($dosen as $dosens)
                                                 <option value="{{ $dosens->id_dosen }}">{{ $dosens->nama }}</option>
                                                 @endforeach
