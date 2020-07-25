@@ -100,11 +100,45 @@
                               <p></li>
                               @endif 
                             </li>
+                            <li class="list-group-item">
+                              <div class="col-6"><b>Laporan Akhir</b> &nbsp <a data-toggle="modal" data-target="#modal-default" class="btn btn-warning text-center py-0 align-middle show_laporan" ><i class="nav-icon fas fa-eye"></i></a></div>
+                            </li>
                         </ul>
                     </div>
                   </div>
                 </div>
                 <br>
+
+                <div class="modal fade" id="modal-laporan">
+                  <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          
+                          <div class="modal-body">
+                              <div class="row justify-content-center">
+                              @if(empty($laporan->berkas)) <p>Belum upload laporan</p>
+                              @else
+                              <iframe src="{{ asset('/uploads/users/mahasiswa/laporanakhir/' . $laporan->berkas) }}"
+                                      style="width:700px; height:700px;" frameborder="0">
+                              </iframe>
+                              @endif
+                              </div>
+                              <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              </div>
+                              
+                          </div>
+                      </div>
+                      <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+              </div>
+              <!-- /.modal -->
+
               <div class="table-responsive p-0">
                 <table class="table table-bordered table-striped">
                   <thead>
@@ -152,5 +186,9 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
+    $(document).on('click', '.show_laporan', function(){
+        $('#modal-laporan').modal('show');
+    });
+
 </script>
 @endsection

@@ -53,21 +53,26 @@ class InstansiController extends Controller
             'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
             'alamat' => 'required|max:1000',
-            'website' => 'max:25',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+            'deskripsi' => 'required|max:1000',
+            'website' => 'required|max:25',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:1024',
         ],
         [
-            'nama.required' => 'can not be empty !',
-            'nama.max' => 'nama is to long !',
-            'username.required' => 'username can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'username.max' => 'username is to long !',
-            'password.required' => 'password can not be empty !',
-            'password.max' => 'password is to long !',
-            'email.required' => 'email can not be empty !',
-            'nip.required' => 'nip can not be empty !',
-            'alamat.required' => 'Alamat can not be empty !',
-            'alamat.max' => 'no hp is to long !',
+            'nama.required' => 'nama tidak boleh kosong !',
+            'nama.max' => 'nama terlalu panjang !',
+            'username.required' => 'username tidak boleh kosong !',
+            'username.unique' => 'username sudah terdaftar !',
+            'password.required' => 'password tidak boleh kosong !',
+            'password.max' => 'password terlalu panjang !',
+            'email.required' => 'email tidak boleh kosong !',
+            'email.max' => 'email terlalu panjang !',
+            'alamat.required' => 'alamat tidak boleh kosong !',
+            'alamat.max' => 'no hp terlalu panjang !',
+            'deskripsi.required' => 'deskripsi tidak boleh kosong !',
+            'deskripsi.max' => 'no hp terlalu panjang !',
+            'website.max' => 'website terlalu panjang !',
+            'foto.mimes' => 'format foto tidak sesuai !',
+            'foto.max' => 'foto terlalu besar !',
         ]);
 
         $foto = null;
@@ -84,7 +89,6 @@ class InstansiController extends Controller
             'id_roles' => 3
         ])->instansi()->create([
             'nama' => $request->nama,
-            'alamat' => $request->nama, 
             'deskripsi' => $request->deskripsi,
             'email' => $request->email,
             'alamat' => $request->alamat,
@@ -118,7 +122,6 @@ class InstansiController extends Controller
     public function show(Request $request, $id_instansi)
     {
         $periode = Periode::where('isDeleted', 0)->get();
-        // $periode =  Periode::select('id_periode', 'tahun_periode')->get();
         $instansi = Instansi::findOrFail($id_instansi);
         $role = Instansi::leftJoin('users', 'instansi.id_users', 'users.id_users')
                         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
@@ -194,17 +197,24 @@ class InstansiController extends Controller
         $this->validate($request, [
             'nama' => 'required|string|max:191',
             'username' => 'required|string|max:191',
+            'deskripsi' => 'required|string|max:1000',
             'email' => 'required|email|max:191',
-            'website' => 'max:25',
-            'alamat' => 'required|max:1000',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+            'website' => 'required|max:25',
+            'alamat' => 'required|string|max:1000',
         ],
         [
-            'nama.required' => 'can not be empty !',
-            'username.required' => 'can not be empty !',
-            'password.max' => 'password is to long !',
-            'email.required' => 'can not be empty !',
-            'alamat.required' => 'can not be empty !',
+            'nama.required' => 'nama tidak boleh kosong !',
+            'nama.max' => 'nama terlalu panjang !',
+            'username.required' => 'username tidak boleh kosong !',
+            'username.max' => 'username terlalu panjang !',
+            'email.required' => 'email tidak boleh kosong !',
+            'email.max' => 'email terlalu panjang !',
+            'alamat.required' => 'alamat tidak boleh kosong !',
+            'alamat.max' => 'no hp terlalu panjang !',
+            'deskripsi.required' => 'deskripsi tidak boleh kosong !',
+            'deskripsi.max' => 'no hp terlalu panjang !',
+            'website.requires' => 'website tidak boleh kosong !',
+            'website.max' => 'website terlalu panjang !',
         ]);
 
         $data = User::findOrFail($id_users);
@@ -214,8 +224,6 @@ class InstansiController extends Controller
         ]);
         $data->instansi()->update([
             'nama' => $request->nama,
-            'alamat' => $request->alamat, 
-            'alamat' => $request->alamat, 
             'deskripsi' => $request->deskripsi,
             'email' => $request->email,
             'alamat' => $request->alamat,

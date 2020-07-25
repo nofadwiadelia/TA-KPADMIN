@@ -31,7 +31,7 @@
                             @if (!empty($data->foto))
                             <img class="profile-user-img img-fluid img-circle"
                                 src="{{ asset('uploads/users/dosen/' . $dosen->foto) }}"
-                                alt="User profile picture">
+                                alt="User profile picture" style="object-fit: cover; object-position:top">
                             
                             @else
                               <img src="{{ asset('dist/img/default-avatar.png') }}" 
@@ -68,22 +68,26 @@
                                             <h2 style="font-weight: 600;">{{ $dosen->nama }}</h2>
                                         </div>
                                     </div></br>
-                                    <div class="card-body card-primary card-outline table-responsive p-0">
-                                        <table class="table no-border">
-                                                <tr>
-                                                <th>NIP</th>
-                                                <th>Nama</th>
-                                                <th>No.HP</th>
-                                                <th>Email</th>
-                                                </tr>
-                                                <tr>
-                                                <td>{{$dosen->nip}}</td>
-                                                <td>{{$dosen->nama}}</td>
-                                                <td>{{$dosen->no_hp}}</td>
-                                                <td>{{$dosen->email}}</td>
-                                                </tr>
-                                        </table><br/>
-                                        </div>
+                                    <div class="card-body card-primary card-outline ">
+                                      <div class="row">
+                                          <div class="col-md-3 text-center">
+                                              <p><strong>NIP</strong></p>
+                                              <p class="text-muted"> {{$dosen->nip}}</p>
+                                          </div>
+                                          <div class="col-md-3 text-center">
+                                              <p><strong>Nama</strong></p>
+                                              <p class="text-muted"> {{$dosen->nama}}</p>
+                                          </div>
+                                          <div class="col-md-3 text-center">
+                                              <p><strong>No. HP</strong></p>
+                                              <p class="text-muted"> {{$dosen->no_hp}}</p>
+                                          </div>
+                                          <div class="col-md-3 text-center">
+                                              <p><strong>Email</strong></p>
+                                              <p class="text-muted"> {{$dosen->email}}</p>
+                                          </div>
+                                      </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane" id="bimbingan">
                                 <form role="form">

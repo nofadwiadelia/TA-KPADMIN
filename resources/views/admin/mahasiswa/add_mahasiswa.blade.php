@@ -72,7 +72,7 @@
                                 </div><br>
                                 <div class="row justify-content-center">
                                   <div class="col-md-6">
-                                    <a style="display: block;" href="/admin/mahasiswa/contoh" class="btn btn-sm btn-primary">Download Format Excel Disini</a>
+                                    <a style="display: block;" href="{{ URL::to('/') }}/uploads/contohIsianUser.xlsx" class="btn btn-sm btn-primary">Download Format Excel Disini</a>
                                   </div>
                                 </div><br>
                                   <p>
@@ -161,6 +161,21 @@
             }
         });
     });
+
+    $(document).on('click', '.surat', function () {
+        $.ajax({
+            url: '/api/admin/isianUser',
+            method: 'GET',
+            dataType: 'JSON',
+            success: function (response) {
+              toastr.options.closeButton = true;
+              toastr.options.closeMethod = 'fadeOut';
+              toastr.options.closeDuration = 100;
+              toastr.success(data.message);
+            }
+        });
+    });
+
   });
 </script>
 

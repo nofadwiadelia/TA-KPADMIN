@@ -26,7 +26,7 @@
                             <div class="row">
                               @if (!empty($instansi->foto))
                               <img src="{{ asset('uploads/users/admin/' . $instansi->foto) }}" 
-                                  alt="{{ $instansi->nama }}" width="200px" height="250px">
+                                  alt="{{ $instansi->nama }}" width="200px" height="250px" style="object-fit: cover; object-position:top">
                               @else
                               <img src="{{ asset('dist/img/default-avatar.png') }}" 
                                   alt="{{ $instansi->nama }}" width="200px" height="250px">

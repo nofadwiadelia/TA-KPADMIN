@@ -83,24 +83,6 @@ Route::prefix('admin')->group(function () {
     Route::post('/ruang', 'RuangController@store');
     Route::get('/ruang/{id}', 'RuangController@edit');
     Route::delete('/ruang/{id}', 'RuangController@destroy');
-    Route::post('/aspekpenilaian', 'AspekpenilaianController@store');
-    Route::get('/aspekpenilaian/{id}', 'AspekpenilaianController@edit');
-    Route::delete('/aspekpenilaian/{id}', 'AspekpenilaianController@destroy');
+    Route::post('/kelompokpenilai', 'PenilaiController@store');
     Route::get('/kelompokpenilai/{id}', 'PenilaiController@edit');
 });
-
-
-// Route::post('login', function(Request $request){
-//     if(auth()->attempt(['username' => $request->input('username'), 'password' => $request->input('password')]))
-//     {
-//         $user = auth()->user();
-//         $user->api_token = str_random(60);
-//         $user->save();
-//         return $user;
-//     }
-//     return response()->json([
-//         'error' =>'error bung',
-//         'code' => 401,
-//     ], 401);
-// });
-

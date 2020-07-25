@@ -61,7 +61,7 @@
                                     <div class="modal-body">
                                         <div class="row justify-content-center">
                                         @if($mahasiswa->cv == null)
-                                        <iframe src='about:blank' style="width:700px; height:10px;" frameborder="0"></iframe>
+                                        <p>Belum upload cv</p>
                                         @else
                                         <iframe src="{{ asset('/uploads/users/mahasiswa/cv/' . $mahasiswa->cv) }}"
                                                 style="width:700px; height:700px;" frameborder="0">
@@ -101,28 +101,31 @@
                                             <h2 style="font-weight: 600;">{{ $mahasiswa->nama }}</h2>
                                         </div>
                                     </div></br>
-                                    <div class="card-body card-primary card-outline table-responsive p-0">
-                                        <table class="table no-border">
-                                                <tr>
-                                                <th>NIM</th>
-                                                <th>Nama</th>
-                                                <th>No.HP</th>
-                                                <th>Email</th>
-                                                <th>Alamat</th>
-                                                </tr>
-                                                <tr>
-                                                <td>{{$mahasiswa->nim}}</td>
-                                                <td>{{$mahasiswa->nama}}</td>
-                                                <td>{{$mahasiswa->no_hp}}</td>
-                                                <td>{{$mahasiswa->email}}</td>
-                                                <td>{{$mahasiswa->alamat}}</td>
-                                                </tr>
-                                        </table><br/>
+                                    <div class="card-body card-primary card-outline">
+                                        <div class="row">
+                                            <div class="col-md-3 text-center">
+                                                <p><strong>NIM</strong></p>
+                                                <p class="text-muted"> {{$mahasiswa->nim}}</p>
+                                            </div>
+                                            <div class="col-md-3 text-center">
+                                                <p><strong>No HP</strong></p>
+                                                <p class="text-muted"> {{$mahasiswa->no_hp}}</p>
+                                            </div>
+                                            <div class="col-md-3 text-center">
+                                                <p><strong>Email</strong></p>
+                                                <p class="text-muted"> {{$mahasiswa->email}}</p>
+                                            </div>
+                                            <div class="col-md-3 text-center">
+                                                <p><strong>Alamat</strong></p>
+                                                <p class="text-muted"> {{$mahasiswa->alamat}}</p>
+                                            </div>
+                                        </div><br><br>
                                         <strong><i class="fas fa-pencil-alt mr-1"></i> Keahlian</strong>
                                         <p class="text-muted">{{$mahasiswa->kemampuan}}</p><br/>
                                         <strong><i class="far fa-file-alt mr-1"></i> Pengalaman</strong>
                                         <p class="text-muted">{{$mahasiswa->pengalaman}}</p>
                                     </div>
+                                    
                                 </div>
                                 <div class="tab-pane" id="kelompok">
                                     <div class="row">

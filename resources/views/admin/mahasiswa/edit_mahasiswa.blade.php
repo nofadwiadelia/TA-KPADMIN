@@ -45,6 +45,12 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="nim" class="col-sm-3 col-form-label">NIM *</label>
+                                        <div class="col-sm-9">
+                                        <input type="text" class="form-control"  name="nim" value="{{ $mahasiswa->nim }}">                                       
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                       <label for="email" class="col-sm-3 col-form-label">Email *</label>
                                       <div class="col-sm-9">
                                       <input type="text" class="form-control"  name="email" value="{{ $mahasiswa->email }}">

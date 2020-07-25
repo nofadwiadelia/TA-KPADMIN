@@ -74,32 +74,37 @@ class LowonganController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'pekerjaan' => 'required|string|max:100',
-            'persyaratan' => 'required|string|max:1000',
-            'kapasitas' => 'required',
-            'slot' => 'required',
-        ],
-        [
-            'pekerjaan.required' => 'pekerjaan tidak boleh kosong !',
-            'pekerjaan.max' => 'pekerjaan terlalu panjang !',
-            'persyaratan.required' => 'persyaratan tidak boleh kosong !',
-            'persyaratan.max' => 'persyaratan terlalu panjang !',
-            'kapasitas.required' => 'kapasitas tidak boleh kosong !',
-            'slot.required' => 'slot tidak boleh kosong !',
-        ]);
-
-        $data = Lowongan::create([
-            'pekerjaan' => $request->pekerjaan,
-            'persyaratan' => $request->persyaratan,
-            'kapasitas' => $request->kapasitas,
-            'slot' => $request->slot,
-            'id_instansi' => $request->id_instansi,
-            'id_periode' => $request->id_periode,
-            'created_by' => $request->created_by,
-        ]);
-        $data->save();
-        return response()->json(['message' => 'Lowongan berhasil ditambahkan.']);
+            $this->validate($request, [
+                'pekerjaan' => 'required|string|max:100',
+                'persyaratan' => 'required|string|max:1000',
+                'kapasitas' => 'required',
+                'slot' => 'required',
+                'id_instansi' => 'required',
+            ],
+            [
+                'pekerjaan.required' => 'pekerjaan tidak boleh kosong !',
+                'pekerjaan.max' => 'pekerjaan terlalu panjang !',
+                'persyaratan.required' => 'persyaratan tidak boleh kosong !',
+                'persyaratan.max' => 'persyaratan terlalu panjang !',
+                'kapasitas.required' => 'kapasitas tidak boleh kosong !',
+                'slot.required' => 'slot tidak boleh kosong !',
+                'id_instansi.required' => 'instansi tidak boleh kosong !',
+            ]);
+            if($request->slot > $request->kapasitas){
+                return response()->json(['message' => 'Slot tidak boleh lebih dari kapasitas']);
+            }else{
+                $data = Lowongan::create([
+                    'pekerjaan' => $request->pekerjaan,
+                    'persyaratan' => $request->persyaratan,
+                    'kapasitas' => $request->kapasitas,
+                    'slot' => $request->slot,
+                    'id_instansi' => $request->id_instansi,
+                    'id_periode' => $request->id_periode,
+                    'created_by' => $request->created_by,
+                ]);
+                $data->save();
+                return response()->json(['message' => 'Lowongan berhasil ditambahkan.']);
+            }
     }
 
     /**
@@ -207,6 +212,7 @@ class LowonganController extends Controller
      */
     public function update(Request $request, $id_lowongan)
     {
+        
         $this->validate($request, [
             'pekerjaan' => 'required|string|max:100',
             'persyaratan' => 'required',
@@ -221,18 +227,21 @@ class LowonganController extends Controller
             'kapasitas.required' => 'kapasitas tidak boleh kosong !',
             'slot.required' => 'slot tidak boleh kosong !',
         ]);
-        
-        $data = Lowongan::findOrFail($id_lowongan);
-        $data->update([
-            'pekerjaan' => $request->pekerjaan,
-            'persyaratan' => $request->persyaratan,
-            'kapasitas' => $request->kapasitas,
-            'slot' => $request->slot,
-            'id_instansi' => $request->id_instansi,
-            'id_periode' => $request->id_periode
-        ]);
-        $data->save();
-        return response()->json(['message' => 'Lowongan berhasil diubah.']);
+        if($request->slot > $request->kapasitas){
+            return response()->json(['message' => 'Slot tidak boleh lebih dari kapasitas']);
+        }else{
+            $data = Lowongan::findOrFail($id_lowongan);
+            $data->update([
+                'pekerjaan' => $request->pekerjaan,
+                'persyaratan' => $request->persyaratan,
+                'kapasitas' => $request->kapasitas,
+                'slot' => $request->slot,
+                'id_instansi' => $request->id_instansi,
+                'id_periode' => $request->id_periode
+            ]);
+            $data->save();
+            return response()->json(['message' => 'Lowongan berhasil diubah.']);
+        }
     }
 
     /**

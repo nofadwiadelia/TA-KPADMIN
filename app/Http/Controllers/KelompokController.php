@@ -64,6 +64,9 @@ class KelompokController extends Controller
                             ->select('kelompok.nama_kelompok', 'dosen.nama')
                             ->where('kelompok.id_kelompok', $id_kelompok)
                             ->first();
+        $laporan = DB::table('kelompok')->join('laporan', 'kelompok.id_kelompok', 'laporan.id_kelompok')
+                            ->select('laporan.*')->where('laporan.id_kelompok', $id_kelompok)
+                            ->first();
         $magang = Magang::leftJoin('kelompok', 'magang.id_kelompok', 'kelompok.id_kelompok')
                         ->leftJoin('instansi','magang.id_instansi', 'instansi.id_instansi')
                         ->select('instansi.nama as instansi_nama', 'magang.tanggal_mulai', 'magang.tanggal_selesai', 'instansi.alamat', 'instansi.deskripsi','instansi.website', 'magang.jobdesk')
@@ -79,7 +82,7 @@ class KelompokController extends Controller
                             ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok.id_kelompok')
                             ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
                             ->get();
-        return view('admin.magang.detailMagang',compact('kelompok', 'magang', 'kelompoks'));
+        return view('admin.magang.detailMagang',compact('kelompok', 'magang', 'kelompoks', 'laporan'));
     }
 
     public function indexdosen()

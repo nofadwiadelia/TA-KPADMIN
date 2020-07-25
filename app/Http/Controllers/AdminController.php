@@ -66,11 +66,12 @@ class AdminController extends Controller
             'password' => 'required|min:6|max:191',
             'confirm_password' => 'same:password',
             'email' => 'required|email|max:191',
-            'no_hp' => 'required|max:25|regex:/^[0-9]+$/',
-            'foto' => 'required|image|mimes:jpg,png,jpeg',
+            'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
+            'foto' => 'required|image|mimes:jpg,png,jpeg|max:1024',
         ],
         [
             'nama.required' => 'nama tidak boleh kosong !',
+            'nama.max' => 'nama terlalu panjang !',
             'username.required' => 'username tidak boleh kosong !',
             'username.unique' => 'username sudah terdaftar !',
             'password.required' => 'password tidak boleh kosong !',
@@ -78,12 +79,16 @@ class AdminController extends Controller
             'email.required' => 'email tidak boleh kosong !',
             'email.max' => 'email terlalu panjang !',
             'no_hp.required' => 'no hp tidak boleh kosong !',
+            'no_hp.max' => 'no hp terlalu panjang !',
+            'foto.required' => 'foto tidak boleh kosong !',
+            'foto.mimes' => 'format foto tidak sesuai !',
+            'foto.max' => 'foto terlalu besar !',
         ]);
 
         $foto = null;
         if($request->hasFile('foto')){
             $files=$request->file('foto');
-            $foto=str_slug($request->nama) . '.' . $files->getClientOriginalExtension();
+            $foto=str_slug($request->nama) . time() . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/users/admin'),$foto);
         }
 
@@ -143,16 +148,17 @@ class AdminController extends Controller
             'nama' => 'required|string|max:191',
             'username' => 'required|string|max:191',
             'email' => 'required|email|max:191',
-            'no_hp' => 'required|max:25',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+            'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
         ],
         [
             'nama.required' => 'nama tidak boleh kosong !',
+            'nama.max' => 'nama terlalu panjang !',
             'username.required' => 'username tidak boleh kosong !',
             'username.max' => 'username terlalu panjang !',
             'email.required' => 'email tidak boleh kosong !',
+            'email.max' => 'email terlalu panjang !',
             'no_hp.required' => 'no hp tidak boleh kosong !',
-            'foto.mimes' => 'format tidak sesuai !',
+            'no_hp.max' => 'no hp terlalu panjang !',
         ]);
 
         
@@ -180,7 +186,7 @@ class AdminController extends Controller
             !empty($foto) ? File::delete(public_path('uploads/users/admin/' . $foto)):null;
 
             $files=$request->file('foto');
-            $foto=str_slug($data->nama) . '.' . $files->getClientOriginalExtension();
+            $foto=str_slug($data->nama) . time() . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/users/admin/'),$foto);
         }
         $data->update([

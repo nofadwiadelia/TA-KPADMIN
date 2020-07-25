@@ -20,8 +20,8 @@ class PenilaiController extends Controller
                 ->addColumn('action', function($penilai){
                     $btn = '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$penilai->id_kelompok_penilai.'" data-original-title="Edit" class="edit btn btn-sm btn-info editPenilai"><i class="fas fa-pencil-alt"></i></a>';
                     
-                    $btn .= '&nbsp;&nbsp;';
-                    $btn .= '<button type="button" name="delete" data-id="'.$penilai->id_kelompok_penilai.'" class="btn btn-danger btn-sm deletePenilai" ><i class="fas fa-trash"></i></button>';
+                    // $btn .= '&nbsp;&nbsp;';
+                    // $btn .= '<button type="button" name="delete" data-id="'.$penilai->id_kelompok_penilai.'" class="btn btn-danger btn-sm deletePenilai" ><i class="fas fa-trash"></i></button>';
 
                     return $btn;
                 })
@@ -50,7 +50,10 @@ class PenilaiController extends Controller
      */
     public function store(Request $request)
     {
+        KelompokPenilai::updateOrCreate(['id_kelompok_penilai' => $request->id_kelompok_penilai],
+        ['nama' => $request->nama, 'bobot' => $request->bobot]);        
 
+        return response()->json(['message'=>'Kelompok penilai berhasil diubah']);
     }
 
     /**

@@ -69,6 +69,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/ruang', 'RuangController@index');
         Route::get('/aspekpenilaian', 'AspekpenilaianController@index');
         Route::get('/kelompokpenilai', 'PenilaiController@index');
+        Route::get('/contoh/download', 'UsersController@getExcel')->name('contoh.download');
     });
         Route::get('/login', 'UsersController@indexlogin')->name('login');
         Route::post('/login', 'UsersController@loginadmin')->name('login');

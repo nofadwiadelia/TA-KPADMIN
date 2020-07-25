@@ -60,23 +60,25 @@ class DosenController extends Controller
             'username' => 'required|string|unique:users|max:191',
             'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
-            'nip' => 'required|string|max:191',
-            'no_hp' => 'required|max:25',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+            'nip' => 'required|string|unique:dosen|max:50',
+            'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:1024',
         ],
         [
-            'nama.required' => 'can not be empty !',
-            'nama.max' => 'nama is to long !',
-            'username.required' => 'username can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'username.max' => 'username is to long !',
-            'password.required' => 'password can not be empty !',
-            'password.max' => 'password is to long !',
-            'email.required' => 'email can not be empty !',
-            'nip.required' => 'nip can not be empty !',
-            'no_hp.required' => 'no hp can not be empty !',
-            'no_hp.max' => 'no hp is to long !',
+            'nama.required' => 'nama tidak boleh kosong !',
+            'nama.max' => 'nama terlalu panjang !',
+            'username.required' => 'username tidak boleh kosong !',
+            'username.unique' => 'username sudah terdaftar !',
+            'password.required' => 'password tidak boleh kosong !',
+            'password.max' => 'password terlalu panjang !',
+            'email.required' => 'email tidak boleh kosong !',
+            'email.max' => 'email terlalu panjang !',
+            'nip.required' => 'nip tidak boleh kosong !',
+            'nip.unique' => 'nip telah terdaftar !',
+            'no_hp.required' => 'no hp tidak boleh kosong !',
+            'no_hp.max' => 'no hp terlalu panjang !',
             'foto.mimes' => 'format foto tidak sesuai !',
+            'foto.max' => 'foto terlalu besar !',
         ]);
 
         $foto = null;
@@ -85,24 +87,23 @@ class DosenController extends Controller
             $foto=str_slug($request->nama) . time() . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/users/dosen'),$foto);
         }
-
-        $data = User::create([
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'created_by' => $request->created_byy,
-            'id_roles' => 2
-        ])->dosen()->create([
-            'nama' => $request->nama,
-            'nip' => $request->nip,
-            'email' => $request->email,
-            'no_hp' => $request->no_hp,
-            'foto' => $foto,
-            'slot' => $request->kapasitas,
-            'kapasitas' => $request->kapasitas,
-            'created_by' => $request->created_by,
-        ]);
-        $data->save();
-        return response()->json(['message' => 'Dosen added successfully.']);
+            $data = User::create([
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'created_by' => $request->created_byy,
+                'id_roles' => 2
+            ])->dosen()->create([
+                'nama' => $request->nama,
+                'nip' => $request->nip,
+                'email' => $request->email,
+                'no_hp' => $request->no_hp,
+                'foto' => $foto,
+                'slot' => $request->kapasitas,
+                'kapasitas' => $request->kapasitas,
+                'created_by' => $request->created_by,
+            ]);
+            $data->save();
+            return response()->json(['message' => 'Dosen added successfully.']);
     }
 
     /**
@@ -183,34 +184,39 @@ class DosenController extends Controller
             'nama' => 'required|string|max:191',
             'username' => 'required|string|max:191',
             'email' => 'required|email|max:191',
-            'nip' => 'required|string|max:191',
-            'no_hp' => 'required|max:25',
+            'nip' => 'required|string|max:50',
+            'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
         ],
         [
-            'nama.required' => 'can not be empty !',
-            'nama.max' => 'nama is to long !',
-            'username.required' => 'username can not be empty !',
-            'username.max' => 'username is to long !',
-            'email.required' => 'email can not be empty !',
-            'nip.required' => 'nip can not be empty !',
-            'no_hp.required' => 'no hp can not be empty !',
-            'no_hp.max' => 'no hp is to long !',
+            'nama.required' => 'nama tidak boleh kosong !',
+            'nama.max' => 'nama terlalu panjang !',
+            'username.required' => 'username tidak boleh kosong !',
+            'username.max' => 'username terlalu panjang !',
+            'email.required' => 'email tidak boleh kosong !',
+            'email.max' => 'email terlalu panjang !',
+            'nip.required' => 'nip tidak boleh kosong !',
+            'nip.max' => 'nip terlalu panjang !',
+            'no_hp.required' => 'no hp tidak boleh kosong !',
+            'no_hp.max' => 'no hp terlalu panjang !',
         ]);
-
-        $data = User::findOrFail($id_users);
-        $data->update([
-            'username' => $request->username,
-            'updated_by' => $request->updated_by,
-        ]);
-        $data->dosen()->update([
-            'nama' => $request->nama,
-            'nip' => $request->nip,
-            'email' => $request->email,
-            'no_hp' => $request->no_hp,
-            'kapasitas' => $request->kapasitas,
-            'slot' => $request->slot,
-        ]);
-        return response()->json(['message' => 'Data updated successfully.']);
+        if($request->slot > $request->kapasitas){
+            return response()->json(['message' => 'Slot tidak boleh lebih dari kapasitas']);
+        }else{
+            $data = User::findOrFail($id_users);
+            $data->update([
+                'username' => $request->username,
+                'updated_by' => $request->updated_by,
+            ]);
+            $data->dosen()->update([
+                'nama' => $request->nama,
+                'nip' => $request->nip,
+                'email' => $request->email,
+                'no_hp' => $request->no_hp,
+                'kapasitas' => $request->kapasitas,
+                'slot' => $request->slot,
+            ]);
+            return response()->json(['message' => 'Data updated successfully.']);
+        }
     }
 
     /**

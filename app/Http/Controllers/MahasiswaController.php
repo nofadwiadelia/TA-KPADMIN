@@ -136,7 +136,7 @@ class MahasiswaController extends Controller
             'created_by' => $request->created_by,
         ]);
         $data->save();
-        return response()->json(['message' => 'Mahasiswa added successfully.']);
+        return response()->json(['message' => 'Mahasiswa berhasil ditambah']);
     }
 
     /**
@@ -417,17 +417,20 @@ class MahasiswaController extends Controller
             'nama' => 'required|string|max:191',
             'username' => 'required|string|max:191',
             'email' => 'required|email|max:191',
-            'no_hp' => 'required|max:25',
+            'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
+            'nim' => 'required|string|max:20',
         ],
         [
-            'nama.required' => 'nama can not be empty !',
-            'nama.max' => 'nama is to long !',
-            'username.required' => 'username can not be empty !',
-            'username.max' => 'username is to long !',
-            'email.required' => 'email can not be empty !',
-            'email.max' => 'email is to long !',
-            'no_hp.required' => 'no hp can not be empty !',
-            'no_hp.max' => 'no hp is to long !',
+
+            'nama.required' => 'nama tidak boleh kosong !',
+            'nama.max' => 'nama terlalu panjang !',
+            'username.required' => 'username tidak boleh kosong !',
+            'username.max' => 'username terlalu panjang !',
+            'email.required' => 'email tidak boleh kosong!',
+            'email.max' => 'email terlalu panjang !',
+            'nim.required' => 'nim tidak boleh kosong ! !',
+            'nim.max' => 'nim terlalu panjang !',
+            'no_hp.max' => 'no hp terlalu panjang !',
         ]);
 
         $data = User::findOrFail($id_users);
@@ -437,6 +440,7 @@ class MahasiswaController extends Controller
         ]);
         $data->mahasiswa()->update([
             'nama' => $request->nama,
+            'nim' => $request->nim,
             'email' => $request->email, 
             'no_hp' => $request->no_hp
         ]);

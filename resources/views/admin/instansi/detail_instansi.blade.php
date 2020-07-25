@@ -28,7 +28,7 @@
                         <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
+                            <img class="profile-user-img img-fluid img-circle" style="object-fit: cover; object-position:top"
                         src="{{ asset('uploads/users/instansi/'.$instansi->foto) }}"
                             alt="User profile picture" onerror="this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}';" >
                             </div>
@@ -61,17 +61,21 @@
                                             <h2 style="font-weight: 600;">{{ $instansi->nama }}</h2>
                                         </div>
                                     </div></br>
-                                    <div class="card-body card-primary card-outline table-responsive p-0">
-                                        <table class="table no-border">
-                                                <tr>
-                                                <th>Nama Instansi</th>
-                                                <th>Website</th>
-                                                </tr>
-                                                <tr>
-                                                <td>{{ $instansi->nama }}</td>
-                                                <td>{{ $instansi->website }}</td>
-                                                </tr>
-                                        </table><br/>
+                                    <div class="card-body card-primary card-outline">
+                                        <div class="row">
+                                            <div class="col-md-4 text-left">
+                                                <p><strong>Nama</strong></p>
+                                                <p class="text-muted"> {{ $instansi->nama }}</p>
+                                            </div>
+                                            <div class="col-md-4 text-left">
+                                                <p><strong>Website</strong></p>
+                                                <p class="text-muted"> {{ $instansi->website }}</p>
+                                            </div>
+                                            <div class="col-md-4 text-left">
+                                                <p><strong>Email</strong></p>
+                                                <p class="text-muted"> {{$instansi->email}}</p>
+                                            </div>
+                                        </div><br>
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>
                                         <p class="text-muted">{{$instansi->alamat}}</p>
                                         <strong><i class="far fa-file-alt mr-1"></i> Deskripsi</strong>

@@ -189,6 +189,10 @@ $(document).ready(function(){
           $('#penilai_data').DataTable().ajax.reload();
           $('#PenilaiForm').trigger("reset");
           $('#ajaxModel').modal('hide');
+          toastr.options.closeButton = true;
+          toastr.options.closeMethod = 'fadeOut';
+          toastr.options.closeDuration = 100;
+          toastr.success(data.message);
         },
         error: function (data) {
             console.log('Error:', data);
