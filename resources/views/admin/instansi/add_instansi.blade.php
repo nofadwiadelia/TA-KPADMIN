@@ -49,12 +49,6 @@
                                       </div>
                                   </div>
                                   <div class="form-group row">
-                                      <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
-                                      <div class="col-sm-9">
-                                      <input type="text" class="form-control" required name="no_hp" placeholder="">
-                                      </div>
-                                  </div>
-                                  <div class="form-group row">
                                       <label for="website" class="col-sm-3 col-form-label">Website </label>
                                       <div class="col-sm-9">
                                       <input type="text" class="form-control"  name="website" placeholder="">

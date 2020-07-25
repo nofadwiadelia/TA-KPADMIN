@@ -99,8 +99,16 @@
                                             <div class="card-body box-profile">
                                                 <ul class="list-group list-group">
                                                     <li class="list-group-item list-group-unbordered">
+                                                        @if($kelompok->tahap =="diterima")
                                                         <h2 style="font-weight: 600;"> <font color="#4287f5">{{$kelompok->nama_kelompok}}</font></h2>
-                                                        <p>Status : {{$kelompok->status_keanggotaan}}</p>
+                                                            <p>Status : {{$kelompok->status_keanggotaan}}</p>
+                                                        @elseif($kelompok->tahap =="diproses")
+                                                        <h5 style="font-weight: 600;"> <font color="#4287f5">Kelompok belum disetujui</font></h5>
+                                                            <p>Status : {{$kelompok->status_keanggotaan}}</p>
+                                                        @elseif(empty($kelompok->tahap) || ($kelompok->tahap ="ditolak"))
+                                                        <h5 style="font-weight: 600;"> <font color="#4287f5">Belum memiliki kelompok</font></h5>
+                                                            <p>Status : -</p>
+                                                        @endif
                                                     </li>
                                                 </ul>
                                             </div>
@@ -111,7 +119,7 @@
                                     </div>
                                     <!-- <div class="card-primary card-outline"> -->
                                     <div class="card-body"><br>
-                                    
+                                    @if($kelompok->tahap =="diterima")
                                         <div class="row">
                                         @foreach($anggota as $anggotas)
 											<div class="col-md-6">
@@ -147,6 +155,7 @@
                                         @endforeach
 										</div>   
                                         <br/>
+                                    @endif
                                     </div>
                                     <!-- </div> -->
                                 </div>

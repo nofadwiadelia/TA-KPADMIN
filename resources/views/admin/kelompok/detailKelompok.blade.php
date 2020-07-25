@@ -26,7 +26,7 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <div class="col-sm-12">
-                  <a href="javascript:void(0)" class="btn btn-success float-right btn-sm openAnggota"><i class="fas fa-plus"></i> Tambah Anggota</a> <br><br>
+                  <button href="javascript:void(0)" class="btn btn-success float-right btn-sm openAnggota" <?php if ($kelompoks->tahap == 'ditolak') { echo 'disabled="disabled"';}?>><i class="fas fa-plus"></i> Tambah Anggota</button> <br><br>
                 </div>
               <div class="card-primary">
               <div class="table-responsive p-0">
@@ -120,7 +120,7 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                          <h6 align="center" style="margin:0;">Anda yakin ingin menghapus data ini?</h6>
+                          <h6 align="center" style="margin:0;">Anda yakin ingin mengeluarkan anggota?</h6>
                         </div>
                         <div class="modal-footer">
                           <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>

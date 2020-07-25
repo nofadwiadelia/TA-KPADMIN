@@ -156,7 +156,7 @@ class MahasiswaController extends Controller
         //TAB KELOMPOK
         $kelompok = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
-                            ->select('kelompok.nama_kelompok', 'kelompok_detail.status_keanggotaan')
+                            ->select('kelompok.tahap','kelompok.nama_kelompok', 'kelompok_detail.status_keanggotaan')
                             ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                             ->first();
         $anggota  = [];
@@ -207,7 +207,7 @@ class MahasiswaController extends Controller
                                 ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                                 ->selectRaw("SEC_TO_TIME(SUM(TIME_TO_SEC(buku_harian.waktu_selesai) - TIME_TO_SEC(buku_harian.waktu_mulai))) as timediff")
                                 ->first();
-                                
+
         //TAB NILAI
 
         //Hitung Skill M

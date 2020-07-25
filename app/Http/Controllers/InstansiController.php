@@ -53,7 +53,7 @@ class InstansiController extends Controller
             'username' => 'required|string|unique:users|max:191',
             'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
-            'no_hp' => 'required|max:25',
+            'alamat' => 'required|max:1000',
             'website' => 'max:25',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
@@ -67,8 +67,8 @@ class InstansiController extends Controller
             'password.max' => 'password is to long !',
             'email.required' => 'email can not be empty !',
             'nip.required' => 'nip can not be empty !',
-            'no_hp.required' => 'no hp can not be empty !',
-            'no_hp.max' => 'no hp is to long !',
+            'alamat.required' => 'Alamat can not be empty !',
+            'alamat.max' => 'no hp is to long !',
         ]);
 
         $foto = null;
@@ -82,13 +82,13 @@ class InstansiController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'created_by' => $request->created_by,
-            'id_roles' => 2
+            'id_roles' => 3
         ])->instansi()->create([
             'nama' => $request->nama,
             'alamat' => $request->nama, 
             'deskripsi' => $request->deskripsi,
             'email' => $request->email,
-            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
             'website' => $request->website,
             'foto' => $foto,
             'created_by' => $request->created_by,
@@ -191,7 +191,7 @@ class InstansiController extends Controller
             'username' => 'required|string|max:191',
             'email' => 'required|email|max:191',
             'website' => 'max:25',
-            'no_hp' => 'required|max:25',
+            'alamat' => 'required|max:1000',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
@@ -199,7 +199,7 @@ class InstansiController extends Controller
             'username.required' => 'can not be empty !',
             'password.max' => 'password is to long !',
             'email.required' => 'can not be empty !',
-            'no_hp.required' => 'can not be empty !',
+            'alamat.required' => 'can not be empty !',
         ]);
 
         $data = User::findOrFail($id_users);
@@ -212,7 +212,7 @@ class InstansiController extends Controller
             'alamat' => $request->alamat, 
             'deskripsi' => $request->deskripsi,
             'email' => $request->email,
-            'no_hp' => $request->no_hp,
+            'alamat' => $request->alamat,
             'website' => $request->website,
         ]);
         return response()->json(['message' => 'Data updated successfully.']);

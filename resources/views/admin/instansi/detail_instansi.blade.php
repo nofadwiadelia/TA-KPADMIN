@@ -66,12 +66,10 @@
                                                 <tr>
                                                 <th>Nama Instansi</th>
                                                 <th>Website</th>
-                                                <th>No.Telp</th>
                                                 </tr>
                                                 <tr>
                                                 <td>{{ $instansi->nama }}</td>
                                                 <td>{{ $instansi->website }}</td>
-                                                <td>{{ $instansi->no_hp }}</td>
                                                 </tr>
                                         </table><br/>
                                         <strong><i class="fas fa-map-marker-alt mr-1"></i> Alamat</strong>

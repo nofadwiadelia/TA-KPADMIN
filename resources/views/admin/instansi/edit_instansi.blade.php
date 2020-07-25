@@ -57,12 +57,6 @@
                                       </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
-                                        <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="no_hp" value="{{ $instansi->no_hp }}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
                                         <label for="website" class="col-sm-3 col-form-label">Website</label>
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control" name="website" value="{{ $instansi->website }}">
