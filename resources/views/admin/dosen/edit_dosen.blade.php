@@ -128,9 +128,9 @@
                                           </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
+                                            <label for="confirm_password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                             <div class="col-sm-9">
-                                            <input type="password" class="form-control" name="password" id="password" value="">
+                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" value="">
                                             </div>
                                         </div>
                                       </div>
@@ -203,6 +203,7 @@ $(document).ready(function(){
     id_users = $(this).data("id");
     $('#id_users').val(id_users);
     $('#password').val();
+    $('#confirm_password').val();
     $('#modal-edit').modal('show');
     $('#saveBtn').val("edit-password");
   });
@@ -222,10 +223,18 @@ $(document).ready(function(){
         toastr.options.closeDuration = 100;
         toastr.success(data.message);
       },
-      error: function (data) {
-          console.log('Error:', data);
+      error: function(xhr, status, error){
+        $.each(xhr.responseJSON.errors, function (key, item) 
+        {
+          toastr.options.closeButton = true;
+          toastr.options.closeMethod = 'fadeOut';
+          toastr.options.closeDuration = 200;
+          toastr.error(item);
           $('#saveBtn').html('Save Changes');
+        });
+
       }
+
     });
   });
     

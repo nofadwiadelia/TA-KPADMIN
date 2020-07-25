@@ -24,9 +24,9 @@
                         <div class="card-body">
                           <div class="col-4">
                             <div class="row">
-                              @if (!empty($data->foto))
-                              <img src="{{ asset('uploads/users/admin/' . $data->foto) }}" 
-                                  alt="{{ $data->nama }}" width="200px" height="250px">
+                              @if (!empty($data->admin->foto))
+                              <img src="{{ asset('uploads/users/admin/' . $data->admin->foto) }}" 
+                                  alt="{{ $data->nama }}" width="200px" height="250px" style="object-fit: cover; object-position:top">
                               @else
                               <img src="{{ asset('dist/img/default-avatar.png') }}" 
                                   alt="{{ $data->nama }}" width="200px" height="250px">
@@ -34,7 +34,7 @@
                             </div>
                             <br>
                             <div class="row">
-                              <a href="javascript:void(0)" data-id="{{  $data->id_admin }}" class="text editAvatar"><i class="fas fa-pencil-alt"></i> &nbsp; Ubah Foto</a>
+                              <a href="javascript:void(0)" data-id="{{  $data->admin->id_admin }}" class="text editAvatar"><i class="fas fa-pencil-alt"></i> &nbsp; Ubah Foto</a>
                             </div>
                             
                           </div>
@@ -45,25 +45,25 @@
                                     <div class="form-group row">
                                         <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="nama" value="{{ $data->nama }}">                                       
+                                        <input type="text" class="form-control" name="nama" value="{{ $data->admin->nama }}">                                       
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                       <label for="email" class="col-sm-3 col-form-label">Email *</label>
                                       <div class="col-sm-9">
-                                      <input type="text" class="form-control" name="email" value="{{ $data->email }}">
+                                      <input type="text" class="form-control" name="email" value="{{ $data->admin->email }}">
                                       </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="no_hp" value="{{ $data->no_hp }}">
+                                        <input type="text" class="form-control" name="no_hp" value="{{ $data->admin->no_hp }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="username" class="col-sm-3 col-form-label">Username *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="username" value="{{ $data->users->username }}">
+                                        <input type="text" class="form-control" name="username" value="{{ $data->username }}">
                                         </div>
                                     </div>
                                     
@@ -107,7 +107,7 @@
                                         <div class="form-group row">
                                             <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                             <div class="col-sm-9">
-                                            <input type="password" class="form-control" name="password" id="password" value="">
+                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" value="">
                                             </div>
                                         </div>
                                       </div>
@@ -134,11 +134,11 @@
                                           <span aria-hidden="true">&times;</span>
                                         </button>
                                         <div class="form-group">
-                                        <input type="hidden" name="id_admin" id="id_admin" value="{{$data->id_admin}}"><br>
+                                        <input type="hidden" name="id_admin" id="id_admin" value="{{$data->admin->id_admin}}"><br>
                                           <label for="exampleInputFile">Foto</label>
                                           <div class="input-group">
                                               <div class="custom-file">
-                                              <input type="file" name="foto" id="foto" class="form-control" value="{{ $data->foto }}">
+                                              <input type="file" name="foto" id="foto" class="form-control" value="{{ $data->admin->foto }}">
                                               <label class="custom-file-label" for="foto">Choose file</label>
                                           </div>
                                           </div>
@@ -210,6 +210,7 @@ $(document).ready(function(){
       id_users = $(this).data("id");
       $('#id_users').val(id_users);
       $('#password').val();
+      $('#confirm_password').val();
       $('#modal-edit').modal('show');
       $('#saveBtn').val("edit-password");
     });
@@ -229,9 +230,16 @@ $(document).ready(function(){
           toastr.options.closeDuration = 100;
           toastr.success(data.message);
         },
-        error: function (data) {
-            console.log('Error:', data);
+        error: function(xhr, status, error){
+          $.each(xhr.responseJSON.errors, function (key, item) 
+          {
+            toastr.options.closeButton = true;
+            toastr.options.closeMethod = 'fadeOut';
+            toastr.options.closeDuration = 200;
+            toastr.error(item);
             $('#saveBtn').html('Save Changes');
+          });
+
         }
       });
     });

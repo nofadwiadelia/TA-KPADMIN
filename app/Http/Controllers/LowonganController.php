@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Lowongan;
 use App\Instansi;
@@ -21,7 +20,7 @@ class LowonganController extends Controller
      */
     public function index(Request $request)
     {
-        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
+        $periode = DB::table('periode')->where('isDeleted', 0)->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
                 $data = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
@@ -39,7 +38,7 @@ class LowonganController extends Controller
             ->addColumn('action', function($lowongan){
                 $btn = '<a href="/admin/lowongan/'.$lowongan->id_lowongan.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
                 $btn .= '&nbsp;&nbsp;';
-                $btn .= '<button type="button" name="delete" id="'.$lowongan->id_lowongan.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
+                $btn .= '<button type="button" name="delete" id="'.$lowongan->id_lowongan.'" class="btn btn-danger btn-sm deleteLowongan" ><i class="fas fa-trash"></i></button>';
                 return $btn;
             })
             ->rawColumns(['action'])
@@ -74,7 +73,16 @@ class LowonganController extends Controller
             'persyaratan' => 'required|string|max:1000',
             'kapasitas' => 'required',
             'slot' => 'required',
+        ],
+        [
+            'pekerjaan.required' => 'pekerjaan tidak boleh kosong !',
+            'pekerjaan.max' => 'pekerjaan terlalu panjang !',
+            'persyaratan.required' => 'persyaratan tidak boleh kosong !',
+            'persyaratan.max' => 'persyaratan terlalu panjang !',
+            'kapasitas.required' => 'kapasitas tidak boleh kosong !',
+            'slot.required' => 'slot tidak boleh kosong !',
         ]);
+
         $data = Lowongan::create([
             'pekerjaan' => $request->pekerjaan,
             'persyaratan' => $request->persyaratan,
@@ -85,7 +93,7 @@ class LowonganController extends Controller
             'created_by' => $request->created_by,
         ]);
         $data->save();
-        return response()->json(['message' => 'Lowongan added successfully.']);
+        return response()->json(['message' => 'Lowongan berhasil ditambahkan.']);
     }
 
     /**
@@ -155,22 +163,6 @@ class LowonganController extends Controller
             ]);
             return response()->json(['message' => 'Lamaran berhasil diterima']);
         }
-
-        // $pelamar = Pelamar::findOrFail($request->id_pelamar);
-        // $pelamar->status = 'diterima';
-        // $pelamar->save();
-
-        
-
-        // $pelamar = Magang::create([
-        //         'id_instansi' =>$request->id_instansi,
-        //         'id_periode' =>$request->id_periode,
-        //         'id_kelompok' => $request->id_kelompok,
-        //         'jobdesk' => $request->jobdesk,
-        //         'status' => 'belum magang',
-        // ]);
-        // return response()->json(['message' => 'Lamaran berhasil diterima']);
-
     }
 
     public function declinelowongan(Request $request){
@@ -181,29 +173,7 @@ class LowonganController extends Controller
         return response()->json(['message' => 'Lamaran ditolak']);
     }
 
-    // public function acclowongan(Request $request){
-    //     $pelamar = Pelamar::findOrFail($request->id_pelamar);
-    //     $pelamar->status = $request->statuslamaran;
-
-    //     $pelamar->save();
-
-    //     // $lowongan = Lowongan::where('id_lowongan', $pelamar->id_lowongan);
-
-    //     if($request->status == 'diterima'){
-    //         // $pelamar = $lowongan->slot-1;
-    //         $pelamar = Magang::create([
-    //             'id_kelompok' => $request->id_kelompok,
-    //             'id_instansi' => $request->id_instansi,
-    //             'id_periode' => $request->id_periode,
-    //             'jobdesk' => $request->jobdesk,
-    //         ]);
-    //     }
-    //     return response()->json(['message' => 'Lamaran updated successfully.']);
-
-    // }
-
     
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -214,7 +184,7 @@ class LowonganController extends Controller
     {
         $lowongan = Lowongan::findOrFail($id_lowongan);
         $instansi = Instansi::get();
-        $periode = Periode::get();
+        $periode = Periode::where('isDeleted', 0)->get();
         return view('admin.lowongan.edit_lowongan',compact('instansi', 'periode', 'lowongan'));
     }
 
@@ -232,7 +202,16 @@ class LowonganController extends Controller
             'persyaratan' => 'required',
             'kapasitas' => 'required',
             'slot' => 'required',
+        ],
+        [
+            'pekerjaan.required' => 'pekerjaan tidak boleh kosong !',
+            'pekerjaan.max' => 'pekerjaan terlalu panjang !',
+            'persyaratan.required' => 'persyaratan tidak boleh kosong !',
+            'persyaratan.max' => 'persyaratan terlalu panjang !',
+            'kapasitas.required' => 'kapasitas tidak boleh kosong !',
+            'slot.required' => 'slot tidak boleh kosong !',
         ]);
+        
         $data = Lowongan::findOrFail($id_lowongan);
         $data->update([
             'pekerjaan' => $request->pekerjaan,
@@ -243,7 +222,7 @@ class LowonganController extends Controller
             'id_periode' => $request->id_periode
         ]);
         $data->save();
-        return response()->json(['message' => 'Lowongan update successfully.']);
+        return response()->json(['message' => 'Lowongan berhasil diubah.']);
     }
 
     /**
@@ -257,6 +236,6 @@ class LowonganController extends Controller
         $lowongan = Lowongan::find($id_lowongan);
         $lowongan->isDeleted = 1;
         $lowongan->save();
-        return response()->json(['message' => 'Lowongan deleted successfully.']);
+        return response()->json(['message' => 'Lowongan berhasil dihapus.']);
     }
 }

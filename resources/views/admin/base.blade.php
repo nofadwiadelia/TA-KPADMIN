@@ -80,13 +80,11 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel1 mt-3 pb-3 mb-3 d-flex" style="border-bottom: 1px solid #4f5962;padding: 5px 5px 5px 5px">
         <div class="image" id="avatar1">
-          <!-- <img src="{{ asset('/uploads/users/admin/admin-utama1590507191.jpg') }}" class="img-circle elevation-2" alt="User Image"> -->
         </div>
-        <div class="info">
+        <div class="info" style="padding: 5px 5px 5px 15px">
           <a href="#" class="d-block" id="usernames"></a>
-          <!-- <h2>{{Session::get('password')}}</h2> -->
         </div>
       </div>
 
@@ -306,21 +304,24 @@ $(document).ready(function () {
         var user = response.user.admin.nama;
         $("#username").append(user);
         $("#usernames").append(user);
-        var kel = "<img src={{ URL::to('/') }}/uploads/users/admin/" + response.user.admin.foto + " width='25px' height='25px' class='mr-3 img-circle' />";
+        var kel = "<img src={{ URL::to('/') }}/uploads/users/admin/" + response.user.admin.foto + " width='30px' height='30px' style='object-fit: cover; object-position:top' class='mr-3 img-circle' onerror=this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}' />";
         $("#avatar").append(kel);
 
         var foto = response.user.admin.foto;
-        if(foto == 'null'){
-          var kel2 = "<img src={{ URL::to('/') }}/dist/img/default-avatar/default-avatar.png class='img-circle elevation-2' />";
-          $("#avatar1").append(kel2);
-          // var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " class='img-circle elevation-2' />";
-          // $("#avatar1").append(kel1);
-        }else{
-          var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " class='img-circle elevation-2' />";
-          $("#avatar1").append(kel1);
-          // var kel2 = "<img src={{ URL::to('/') }}/dist/img/default-avatar/default-avatar.png class='img-circle elevation-2' />";
-          // $("#avatar1").append(kel2);
-        }
+        var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " style='object-fit: cover; object-position:top' width='40px' height='40px' class='mr-3 img-circle elevation-2' onerror=this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}' />";
+        $("#avatar1").append(kel1);
+
+        // if(foto == 'null'){
+        //   var kel2 = "<img src={{ URL::to('/') }}/dist/img/default-avatar/default-avatar.png class='img-circle elevation-2' />";
+        //   $("#avatar1").append(kel2);
+        //   // var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " class='img-circle elevation-2' />";
+        //   // $("#avatar1").append(kel1);
+        // }else{
+        //   var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " class='img-circle elevation-2' />";
+        //   $("#avatar1").append(kel1);
+        //   // var kel2 = "<img src={{ URL::to('/') }}/dist/img/default-avatar/default-avatar.png class='img-circle elevation-2' />";
+        //   // $("#avatar1").append(kel2);
+        // }
         
       }
     });

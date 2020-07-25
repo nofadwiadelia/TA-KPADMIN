@@ -62,6 +62,27 @@
                 </table>
                 </div>
               </div>
+
+              <div id="confirmTolak" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Confirmation</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <h6 align="center" style="margin:0;">Anda yakin ingin menolak kelompok?</h6>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" name="button_tolak" id="button_tolak" class="btn btn-danger">OK</button>
+                          <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
               <div class="modal fade" id="modal-default">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -260,10 +281,11 @@
     });
 
 // DECLINE
-      $(document).on('click','.declinebtn', function(e){
-        e.preventDefault();
+      $(document).on('click', '.declinebtn', function(){
         id_kelompok = $(this).attr('id');
-
+        $('#confirmTolak').modal('show');
+      });
+      $('#button_tolak').click(function(){
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
@@ -272,6 +294,7 @@
             dataType: "json",
             data: {'id_kelompok': id_kelompok},
             success: function(data){
+              $('#confirmTolak').modal('hide');
               toastr.options.closeButton = true;
               toastr.options.closeMethod = 'fadeOut';
               toastr.options.closeDuration = 100;
@@ -282,7 +305,8 @@
               console.log(error);
             }
         });
-    });
+      });
+
   
   // DELETE
   $(document).on('click', '.deleteKelompok', function(){

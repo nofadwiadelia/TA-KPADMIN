@@ -29,8 +29,8 @@
                         <div class="card-body box-profile">
                             <div class="text-center">
                             <img class="profile-user-img img-fluid img-circle"
-                                src="../../dist/img/user4-128x128.jpg"
-                                alt="User profile picture">
+                        src="{{ asset('uploads/users/instansi/'.$instansi->foto) }}"
+                            alt="User profile picture" onerror="this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}';" >
                             </div>
 
                             <h3 class="profile-username text-center">{{ $instansi->nama }}</h3>
@@ -114,19 +114,6 @@
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="lowongan">
-                                    <form role="form">
-                                        <div class="col-sm-4">
-                                            <!-- select -->
-                                            <div class="form-group">
-                                                <select class="form-control form-control-sm">
-                                                    @foreach($periode as $periodes)
-                                                        <option value="{{ $periodes->id_periode }}">Periode {{ $periodes->tahun_periode }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <button type="submit" class="btn btn-default">Filter</button> <br><br>
-                                        </div>
-                                    </form>
                                     <div class="card-primary">
                                     <div class="table-responsive p-0">
                                         <table id="lowongan_data" class="table table-bordered table-striped">

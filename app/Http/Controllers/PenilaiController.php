@@ -50,10 +50,6 @@ class PenilaiController extends Controller
      */
     public function store(Request $request)
     {
-        KelompokPenilai::updateOrCreate(['id_kelompok_penilai' => $request->id_kelompok_penilai],
-                ['nama' => $request->nama, 'bobot' => $request->bobot]);        
-
-        return response()->json(['success'=>'Kelompok penilai saved successfully.']);
 
     }
 
@@ -100,8 +96,6 @@ class PenilaiController extends Controller
      */
     public function destroy($id_kelompok_penilai)
     {
-        $penilai = KelompokPenilai::find($id_kelompok_penilai);
-        $penilai->delete();
-        return response()->json(['message' => 'Kelompok penilai deleted successfully.']);
+        
     }
 }

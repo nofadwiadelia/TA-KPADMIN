@@ -114,7 +114,7 @@ class DosenController extends Controller
      */
     public function show(Request $request, $id_dosen)
     {
-        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
+        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->where('isDeleted', 0)->get();
         $dosen = Dosen::findOrFail($id_dosen);
         $role = Dosen::leftJoin('users', 'dosen.id_users', 'users.id_users')
                         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')

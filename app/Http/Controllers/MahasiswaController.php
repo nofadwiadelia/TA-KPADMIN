@@ -31,7 +31,7 @@ class MahasiswaController extends Controller
      */
     public function index(Request $request)
     {
-        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
+        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->where('isDeleted', 0)->get();
     
         if(request()->ajax()){
             if(!empty($request->id_periode)){
@@ -110,16 +110,19 @@ class MahasiswaController extends Controller
             'nama' => 'required|string|max:191',
             'username' => 'required|string|unique:users,username|max:191',
             'password' => 'required|min:6|max:191',
-            'nim' => 'required|string|max:20',
+            'confirm_password' => 'same:password',
+            'nim' => 'required|unique:mahasiswa,nim|string|max:20',
         ],
         [
-            'nama.required' => 'nama can not be empty !',
-            'username.required' => 'username can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'password.required' => 'password can not be empty !',
-            'password.max' => 'password is to long !',
-            'nim.required' => 'nim can not be empty !',
-            'nim.max' => 'nim is to long !',
+            'nama.required' => 'nama tidak boleh kosong !',
+            'username.required' => 'username tidak boleh kosong !',
+            'username.unique' => 'username sudah terdaftar !',
+            'password.required' => 'password tidak boleh kosong ! !',
+            'password.min' => 'password kurang dari 6 karakter !',
+            'password.max' => 'password terlalu panjang !',
+            'nim.required' => 'nim tidak boleh kosong ! !',
+            'nim.max' => 'nim terlalu panjang !',
+            'nim.unique' => 'nim sudah terdaftar !',
         ]);
         $data = User::create([
             'username' => $request->username,
@@ -149,26 +152,33 @@ class MahasiswaController extends Controller
                         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
                         ->select( 'roles.roles')
                         ->first();
+
+        //TAB KELOMPOK
         $kelompok = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->select('kelompok.nama_kelompok', 'kelompok_detail.status_keanggotaan')
                             ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                             ->first();
-        $idkelompok = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+        $anggota  = [];
+        $group = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                                 ->where('kelompok_detail.id_mahasiswa',  $id_mahasiswa)
                                 ->select('kelompok_detail.id_kelompok')
                                 ->first();
-        $anggota = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
+        $id_kelompok = $group != null ? $group->id_kelompok : [];
+        if ($id_kelompok) {
+            $anggota = Mahasiswa::join('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->select('kelompok.id_kelompok','mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan')
                             ->whereNotIn('mahasiswa.id_mahasiswa', [$id_mahasiswa])
-                            ->where('kelompok_detail.id_kelompok', $idkelompok->id_kelompok)
+                            ->where('kelompok_detail.id_kelompok', $group->id_kelompok)
                             ->where(function($q) {
                                 $q->where('kelompok_detail.status_join', 'create')
                                 ->orWhere('kelompok_detail.status_join', 'diterima');
                             })
                             ->get();
+        }                        
 
+        // MAGANG
         $magang = Mahasiswa::leftJoin('kelompok_detail', 'mahasiswa.id_mahasiswa', 'kelompok_detail.id_mahasiswa')
                             ->leftJoin('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
@@ -180,10 +190,10 @@ class MahasiswaController extends Controller
                             ->join('kelompok', 'kelompok_detail.id_kelompok', 'kelompok.id_kelompok')
                             ->join('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
                             ->join('instansi', 'magang.id_instansi', 'instansi.id_instansi')
-                            ->select('instansi.nama', 'instansi.deskripsi', 'instansi.alamat', 'instansi.foto')
+                            ->select('instansi.nama','magang.jobdesk' ,'instansi.deskripsi', 'instansi.alamat', 'instansi.foto')
                             ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                             ->first();
-
+        //TAB LOGBOOK
         $bukuharian =  LaporanHarian::leftJoin('mahasiswa', 'buku_harian.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->select('mahasiswa.nama', 'buku_harian.id_buku_harian', 'buku_harian.tanggal', 'buku_harian.waktu_mulai', 'buku_harian.waktu_selesai', 'buku_harian.kegiatan', 'buku_harian.status')
                                 ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
@@ -197,13 +207,8 @@ class MahasiswaController extends Controller
                                 ->where('mahasiswa.id_mahasiswa', $id_mahasiswa)
                                 ->selectRaw("SEC_TO_TIME(SUM(TIME_TO_SEC(buku_harian.waktu_selesai) - TIME_TO_SEC(buku_harian.waktu_mulai))) as timediff")
                                 ->first();
-
-        //Belum rata" per aspek penilaian!!!
-        $nilaiTeman = Nilai::where('id_mahasiswa',$id_mahasiswa)
-                        ->leftJoin('aspek_penilaian', 'nilai.id_aspek_penilaian', 'aspek_penilaian.id_aspek_penilaian')
-                        ->select('nilai.nilai')
-                        ->where('id_kelompok_penilai','1')
-                        ->get();
+                                
+        //TAB NILAI
 
         //Hitung Skill M
         $countTemanM = Nilai::where('id_mahasiswa',$id_mahasiswa)
@@ -283,10 +288,26 @@ class MahasiswaController extends Controller
         $resultTeman1 = number_format(@($summaryTeman / $countTeman), 2);
         $resultTeman2 = number_format(@(($bobotTeman->bobot*$resultTeman1)/100), 2); //Nilai Total Teman
 
-        $nilaiMentor = Nilai::where('id_mahasiswa',$id_mahasiswa)
-                        ->select('nilai.nilai')
-                        ->where('id_kelompok_penilai','2')
-                        ->get(); //get Nilai Mentor
+        //NILAI MENTOR
+
+        $nilaiInstansiSkill = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->where('id_aspek_penilaian', '1')->sum('nilai');
+        $nilaiInstansiKerapihan = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->where('id_aspek_penilaian', '5')->sum('nilai');
+        $nilaiInstansiSikap = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->where('id_aspek_penilaian', '3')->sum('nilai');
+        $nilaiInstansiKeaktifan = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->where('id_aspek_penilaian', '2')->sum('nilai');
+        $nilaiInstansiPerhatian = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->where('id_aspek_penilaian', '6')->sum('nilai');
+        $nilaiInstansiKehadiran = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->where('id_aspek_penilaian', '7')->sum('nilai');
 
         $summaryInstansi = Nilai::where('id_mahasiswa',$id_mahasiswa)
         ->where('id_kelompok_penilai','2')
@@ -305,6 +326,24 @@ class MahasiswaController extends Controller
                         ->select('nilai.nilai')
                         ->where('id_kelompok_penilai','3')
                         ->get();
+        
+        //NILAI PENGUJI
+
+        $nilaiPengujiKeterkaitan = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','3')
+        ->where('id_aspek_penilaian', '8')->sum('nilai');
+        $nilaiPengujiKesesuaian = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','3')
+        ->where('id_aspek_penilaian', '9')->sum('nilai');
+        $nilaiPengujiSistematika = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','3')
+        ->where('id_aspek_penilaian', '10')->sum('nilai');
+        $nilaiPengujiKetepatan = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','3')
+        ->where('id_aspek_penilaian', '11')->sum('nilai');
+        $nilaiPengujiKekompakan = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','3')
+        ->where('id_aspek_penilaian', '12')->sum('nilai');               
 
         $summaryPenguji = Nilai::where('id_mahasiswa',$id_mahasiswa)
         ->where('id_kelompok_penilai','3')
@@ -319,10 +358,20 @@ class MahasiswaController extends Controller
         $resultPenguji2 = number_format(@(($bobotPenguji->bobot*$resultPenguji1)/100), 2);
 
 
-        $nilaiDosbing = Nilai::where('id_mahasiswa',$id_mahasiswa)
-                        ->select('nilai.nilai')
-                        ->where('id_kelompok_penilai','4')
-                        ->get();
+        //NILAI PEMBIMBING
+
+        $nilaiPembimbingSkill = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','4')
+        ->where('id_aspek_penilaian', '1')->sum('nilai');
+        $nilaiPembimbingKebersamaan = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','4')
+        ->where('id_aspek_penilaian', '4')->sum('nilai');
+        $nilaiPembimbingSikap = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','4')
+        ->where('id_aspek_penilaian', '3')->sum('nilai');
+        $nilaiPembimbingKeaktifan = Nilai::where('id_mahasiswa',$id_mahasiswa)
+        ->where('id_kelompok_penilai','2')
+        ->where('id_aspek_penilaian', '11')->sum('nilai');
 
         $summaryDospem = Nilai::where('id_mahasiswa',$id_mahasiswa)
         ->where('id_kelompok_penilai','4')
@@ -338,7 +387,7 @@ class MahasiswaController extends Controller
 
         $finalResult = $resultTeman2 + $resultInstansi2 + $resultPenguji2 + $resultDospem2;
 
-        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'kelompok', 'anggota', 'magang', 'instansi', 'bukuharian', 'hari_produktif', 'jam_produktif', 'resultSkillM', 'resultkerapihanM', 'resultsikapM', 'resultkeaktifanM', 'resultperhatianM', 'resultkehadiranM', 'nilaiDP', 'nilaiDosbing', 'nilaiMentor', 'resultTeman1', 'resultTeman2', 'resultInstansi1','resultInstansi2', 'resultPenguji1' ,'resultPenguji2', 'resultDospem1', 'resultDospem2', 'resultTeman2', 'finalResult'));
+        return view('admin.mahasiswa.detail_mahasiswa',compact('mahasiswa', 'role', 'kelompok', 'anggota', 'magang', 'instansi', 'bukuharian', 'hari_produktif', 'jam_produktif', 'resultSkillM', 'resultkerapihanM', 'resultsikapM', 'resultkeaktifanM', 'resultperhatianM', 'resultkehadiranM', 'nilaiInstansiSkill', 'nilaiInstansiKerapihan','nilaiInstansiSikap','nilaiInstansiKeaktifan','nilaiInstansiPerhatian','nilaiInstansiKehadiran','nilaiPengujiKeterkaitan','nilaiPengujiKesesuaian','nilaiPengujiSistematika','nilaiPengujiKetepatan','nilaiPengujiKekompakan','nilaiPembimbingSkill','nilaiPembimbingKebersamaan','nilaiPembimbingSikap','nilaiPembimbingKeaktifan','resultTeman1', 'resultTeman2', 'resultInstansi1','resultInstansi2', 'resultPenguji1' ,'resultPenguji2', 'resultDospem1', 'resultDospem2', 'resultTeman2', 'finalResult'));
     }
 
     /**
@@ -392,24 +441,6 @@ class MahasiswaController extends Controller
         return response()->json(['message' => 'Data updated successfully.']);
     }
 
-    public function updateAvatar(Request $request, $id)
-    {
-        $mahasiswa = Mahasiswa::findOrFail($id);
-
-        $file = $request->file('photo');
-        $extension = strtolower($file->getClientOriginalExtension());
-        $filename = $data->nim . '.' . $extension;
-        Storage::put('images/uploads/avatar/' . $filename, File::get($file));
-        $file_server = Storage::get('images/uploads/avatar/' . $filename);
-        $img = Image::make($file_server)->resize(141, 141);
-        $img->save(base_path('public/images/uploads/avatar/' . $filename));
-
-        $mahasiswa->photo=$filename;
-        $mahasiswa->save();
-        Alert::success('Success', 'Avatar has been changed!');
-        return redirect('mahasiswa/profile');
-
-    }
 
     /**
      * Remove the specified resource from storage.

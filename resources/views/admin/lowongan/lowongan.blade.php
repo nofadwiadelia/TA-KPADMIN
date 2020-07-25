@@ -153,13 +153,13 @@
     });
   });
 
-    $(document).on('click', '.deleteUser', function(){
+    $(document).on('click', '.deleteLowongan', function(){
       lowongan_id = $(this).attr('id');
       $('#confirmModal').modal('show');
     });
     $('#ok_button').click(function(){
       $.ajax({
-          type: "DELETE",
+          type: "PUT",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
           dataType: "json",
           url: '/api/admin/lowongan/'+lowongan_id,
@@ -172,6 +172,6 @@
             toastr.success(data.message);
           }
       });
-      });
+    });
   </script>
   @endsection

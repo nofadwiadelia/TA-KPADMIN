@@ -23,7 +23,7 @@ class PresentasiController extends Controller
      */
     public function index(Request $request)
     {
-        $periode = Periode::get();
+        $periode = Periode::where('isDeleted', 0)->get();
        
         if(request()->ajax()){
             if(!empty($request->id_periode)){

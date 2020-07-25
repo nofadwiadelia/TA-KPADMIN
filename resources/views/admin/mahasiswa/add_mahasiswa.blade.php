@@ -49,9 +49,9 @@
                                       </div>
                                   </div>
                                   <div class="form-group row">
-                                      <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
+                                      <label for="confirm_password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                       <div class="col-sm-9">
-                                      <input type="password" class="form-control" required name="password" placeholder="">
+                                      <input type="password" class="form-control" required name="confirm_password" placeholder="">
                                       </div>
                                   </div>
                                   <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">

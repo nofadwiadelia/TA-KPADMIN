@@ -13,9 +13,8 @@ use Excel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Input; //untuk input::get
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Session;
+
 
 
 class UsersController extends Controller
@@ -101,9 +100,12 @@ class UsersController extends Controller
 
     public function import(Request $request) 
     {
-        //VALIDASI
         $this->validate($request, [
             'file' => 'required|mimes:xls,xlsx'
+        ],
+        [
+            'file.required' => 'file tidak boleh kosong !',
+            'file.mimes' => 'format salah !',
         ]);
 
         if ($request->hasFile('file')) {
@@ -111,15 +113,8 @@ class UsersController extends Controller
             Excel::import(new UsersImport, $file); //IMPORT FILE 
             return redirect('/admin/mahasiswa');
         }  
-        return redirect()->back()->with(['error' => 'Please choose file before']);
+        return redirect()->back()->with(['error' => 'Pilih file terlebih dahulu']);
 
-        // $this->validate($request, [
-        //     'file'  => 'required|mimes:xls,xlsx'
-        // ]);
-
-        // Excel::import(new UsersImport,request()->file('file'));
-           
-        // return redirect()->back()->with(['success' => 'Upload success']);
     }
 
     /**
@@ -158,16 +153,17 @@ class UsersController extends Controller
 
     public function updatePassword(Request $request, $id_users){
         $this->validate($request, [
-            'password' => 'required|min:6|max:191'
+            'password' => 'required|min:6|max:191',
+            'confirm_password' => 'same:password'
         ],
         [
-            'password.min' => 'password is too short !',
-            'password.max' => 'password is too long !',
+            'password.min' => 'password kurang dari 6 karakter !',
+            'password.max' => 'password terlalu panjang !',
         ]);
         $data = User::where ('id_users',$id_users)->first();
         $data->password = Hash::make($request->password);
         $data->save();
-        return response()->json(['message'=>'Password updated successfully.']);
+        return response()->json(['message'=>'Password berhasil diubah.']);
     }
 
     /**
@@ -181,6 +177,6 @@ class UsersController extends Controller
         $data = User::find($id_users);
         $data->isDeleted = 1;
         $data->save();
-        return response()->json(['message' => 'User deleted successfully.']);
+        return response()->json(['message' => 'User berhasil dihapus.']);
     }
 }

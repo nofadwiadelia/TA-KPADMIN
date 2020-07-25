@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Periode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 
 class PeriodeController extends Controller
 {
@@ -16,7 +16,7 @@ class PeriodeController extends Controller
      */
     public function index()
     {
-        $periodes = Periode::get();
+        $periodes = Periode::where('isDeleted', 0)->get();
         $aktif = Periode::where('status', 'open')->first();
         $date = Carbon::now()->translatedFormat('l, d F Y');
         return view('admin.periode.periodeListing',compact('periodes', 'aktif', 'date' ));
@@ -34,7 +34,7 @@ class PeriodeController extends Controller
             $periode->status = $request->status;
             $periode->save();
     
-            return response()->json(['message' => 'Periode status updated successfully.']);
+            return response()->json(['message' => 'Status periode berhasil diubah']);
         }
         
 
@@ -47,7 +47,8 @@ class PeriodeController extends Controller
      */
     public function create()
     {
-        return view('admin.periode.add_new_periode');
+        $userId = Auth::id();
+        return view('admin.periode.add_new_periode', compact('userId'));
     }
 
     /**
@@ -62,14 +63,22 @@ class PeriodeController extends Controller
             'tahun_periode' => 'required|max:4',
             'tgl_mulai' => 'required',
             'tgl_selesai' => 'required',
+        ],
+        [
+            'tahun_periode.required' => 'tahun periode tidak boleh kosong !',
+            'tahun_periode.max' => 'tahun periode terlalu panjang !',
+            'tgl_mulai.required' => 'tanggal mulai tidak boleh kosong !',
+            'tgl_selesai.required' => 'tanggal selesai tidak boleh kosong !',
         ]);
+
         $data = Periode::create([
             'tahun_periode' => $request->tahun_periode,
             'tgl_mulai' => $request->tgl_mulai,
-            'tgl_selesai' => $request->tgl_selesai
+            'tgl_selesai' => $request->tgl_selesai,
+            'created_by' => $request->created_by,
         ]);
         $data->save();
-        return response()->json(['message' => 'Periode status added successfully.']);
+        return response()->json(['message' => 'Berhasil menambahkan periode']);
     }
 
     /**
@@ -108,7 +117,13 @@ class PeriodeController extends Controller
             'tahun_periode' => 'required|max:4',
             'tgl_mulai' => 'required',
             'tgl_selesai' => 'required',
+        ],[
+            'tahun_periode.required' => 'tahun periode tidak boleh kosong !',
+            'tahun_periode.max' => 'tahun periode terlalu panjang !',
+            'tgl_mulai.required' => 'tanggal mulai tidak boleh kosong !',
+            'tgl_selesai.required' => 'tanggal selesai tidak boleh kosong !',
         ]);
+        
         $data = Periode::findOrFail($id_periode);
         $data->update([
             'tahun_periode' => $request->tahun_periode,
@@ -117,7 +132,7 @@ class PeriodeController extends Controller
         ]);
 
         $data->save();
-        return response()->json(['message' => 'Periode update successfully.']);
+        return response()->json(['message' => 'Periode berhasil diubah']);
     }
 
     /**
@@ -129,7 +144,8 @@ class PeriodeController extends Controller
     public function destroy($id_periode)
     {
         $periode = Periode::find($id_periode);
-        $periode->delete();
-        return response()->json(['message' => 'Periode deleted successfully.']);    
+        $periode->isDeleted = 1;
+        $periode->save();
+        return response()->json(['message' => 'Periode berhasil dihapus.']);    
     }
 }

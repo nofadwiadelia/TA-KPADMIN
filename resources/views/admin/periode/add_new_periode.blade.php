@@ -54,6 +54,7 @@
                                             </div>
                                             <!-- /.form group -->
                                         </div>
+                                        <input type="hidden" class="form-control" name="created_by" id="created_by" value="{{$userId}}">
                                         <div class="col-md-6">                                
                                             <!-- Date -->
                                             <div class="form-group">
@@ -105,10 +106,6 @@
 $(document).ready(function(){   
     $('#periodeForm').on('submit', function(e){
         e.preventDefault();
-
-        var tahun_periode = $('#tahun_periode').val();
-        var tgl_mulai = $('#tgl_mulai').val();
-        var tgl_selesai = $('#tgl_selesai').val();
 
         $.ajax({
             type: "POST",

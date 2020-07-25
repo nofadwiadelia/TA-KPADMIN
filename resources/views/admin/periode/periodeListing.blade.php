@@ -70,12 +70,31 @@
                   </td>
                   <td class="text-center py-0 align-middle">
                       <a href="{{ route('periode.edit', $periode->id_periode) }}" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                      <button class="btn btn-sm btn-danger deletePeriode" data-id="{{ $periode->id_periode }}" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fas fa-trash"></i></button>
+                      <button class="btn btn-sm btn-danger deletePeriode" id="{{ $periode->id_periode }}"><i class="fas fa-trash"></i></button>
                   </td>
                 </tr>
                 @endforeach
                 </tbody>
               </table>
+                <div id="confirmModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Confirmation</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <h6 align="center" style="margin:0;">Anda yakin ingin menghapus data ini?</h6>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
               </div>
               </div>
             </div>
@@ -128,24 +147,45 @@
         });
     });
 
-    $(document).ready(function(){
-        $('.deletePeriode').click(function(){
-            var id = $(this).data('id');
-            $.ajax({
-                type: "DELETE",
-                headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                dataType: "json",
-                url: '/api/admin/periode/'+id,
-                data: {'id_periode': id,},
-                success: function (data) {
-                    toastr.options.closeButton = true;
-                    toastr.options.closeMethod = 'fadeOut';
-                    toastr.options.closeDuration = 100;
-                    toastr.success(data.message);
-                    window.location.reload();
-                }
-            });
-        });
+    // $(document).ready(function(){
+    //     $('.deletePeriode').click(function(){
+    //         var id = $(this).data('id');
+    //         $.ajax({
+    //             type: "PUT",
+    //             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+    //             dataType: "json",
+    //             url: '/api/admin/periode/'+id,
+    //             data: {'id_periode': id,},
+    //             success: function (data) {
+    //                 toastr.options.closeButton = true;
+    //                 toastr.options.closeMethod = 'fadeOut';
+    //                 toastr.options.closeDuration = 100;
+    //                 toastr.success(data.message);
+    //                 window.location.reload();
+    //             }
+    //         });
+    //     });
+    // });
+
+    $(document).on('click', '.deletePeriode', function(){
+      // var id = $(this).data('id');
+      id = $(this).attr('id');
+      $('#confirmModal').modal('show');
+    });
+    $('#ok_button').click(function(){
+      $.ajax({
+          type: "PUT",
+          headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+          dataType: "json",
+          url: '/api/admin/periode/'+id,
+          success: function (data) {
+            toastr.options.closeButton = true;
+            toastr.options.closeMethod = 'fadeOut';
+            toastr.options.closeDuration = 100;
+            toastr.success(data.message);
+            window.location.reload();
+          }
+      });
     });
 </script>
 @endsection

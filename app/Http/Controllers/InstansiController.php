@@ -113,7 +113,7 @@ class InstansiController extends Controller
      */
     public function show(Request $request, $id_instansi)
     {
-        $periode = Periode::get();
+        $periode = Periode::where('isDeleted', 0)->get();
         // $periode =  Periode::select('id_periode', 'tahun_periode')->get();
         $instansi = Instansi::findOrFail($id_instansi);
         $role = Instansi::leftJoin('users', 'instansi.id_users', 'users.id_users')
@@ -159,32 +159,6 @@ class InstansiController extends Controller
         return view('admin.instansi.detail_instansi',compact('role', 'periode','instansi', 'lowongan'));
     }
 
-    // public function getLowongan(Request $request, $id_instansi){
-        
-    //     if(request()->ajax()){
-    //         if(!empty($request->id_periode)){
-    //             $lowongan = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
-    //                         ->leftJoin('periode', 'lowongan.id_periode', 'periode.id_periode')
-    //                         ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.kapasitas', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama', 'periode.tahun_periode')
-    //                         ->where('kelompok.id_periode', $request->id_periode)
-    //                         ->where('lowongan.id_instansi', '=', $id_instansi)
-    //                         ->get();
-    //         }else{
-    //             $lowongan = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
-    //                         ->leftJoin('periode', 'lowongan.id_periode', 'periode.id_periode')
-    //                         ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.kapasitas', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama', 'periode.tahun_periode')
-    //                         ->where('lowongan.id_instansi', '=', $id_instansi)
-    //                         ->get();
-    //         }
-    //         return datatables()->of($lowongan)->addIndexColumn()
-    //         ->addColumn('action', function($kelompok){
-    //             $btn = '<div class="text-center py-0 align-middle"><a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'" class="btn btn-info btn-sm"><i class="fas fa-list-alt"></i></a></div>';
-    //             return $btn;
-    //         })
-    //         ->rawColumns(['action'])
-    //         ->make(true);
-    //     }
-    // }
 
     /**
      * Show the form for editing the specified resource.

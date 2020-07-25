@@ -77,12 +77,14 @@
                                                 <th>Nama</th>
                                                 <th>No.HP</th>
                                                 <th>Email</th>
+                                                <th>Alamat</th>
                                                 </tr>
                                                 <tr>
                                                 <td>{{$mahasiswa->nim}}</td>
                                                 <td>{{$mahasiswa->nama}}</td>
                                                 <td>{{$mahasiswa->no_hp}}</td>
                                                 <td>{{$mahasiswa->email}}</td>
+                                                <td>{{$mahasiswa->alamat}}</td>
                                                 </tr>
                                         </table><br/>
                                         <strong><i class="fas fa-pencil-alt mr-1"></i> Keahlian</strong>
@@ -117,8 +119,10 @@
                                                 <div class="card card-primary card-outline">
                                                 <div class="card-body box-profile">
                                                     <div class="text-center">
-                                                    <img class="profile-user-img img-responsive img-circle" src="{{ asset('/dist/img/user4-128x128.jpg') }}" alt="User profile picture">
+                                                    <img class="profile-user-img img-fluid img-circle" src="{{ asset('uploads/avatar/'.$anggotas->foto) }}"
+                                                        alt="User profile picture" onerror="this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}';" >
                                                     </div>
+                                                    
 
                                                     <h3 class="profile-username text-center">{{$anggotas->nama}}</h3>
                                                     
@@ -236,6 +240,14 @@
                                                     <p>-</p>
                                                     @endif
                                                     </li>
+                                                    <li class="list-group-item">
+                                                    <p><b> Jobdesk</b></p>
+                                                    @if (!empty($instansi->jobdesk))
+                                                    <p>{{$instansi->jobdesk}}</p>
+                                                    @else
+                                                    <p>-</p>
+                                                    @endif
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -331,13 +343,13 @@
                                                     <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
-                                                @if ($resultSkillM == 'nan')<td></td>@else<td>$resultSkillM</td>@endif
-                                                @if ($resultkerapihanM == 'nan')<td></td>@else<td>$resultkerapihanM</td>@endif
-                                                @if ($resultsikapM == 'nan')<td></td>@else<td>$resultsikapM</td>@endif
-                                                @if ($resultkeaktifanM == 'nan')<td></td>@else<td>$resultkeaktifanM</td>@endif
-                                                @if ($resultperhatianM == 'nan')<td></td>@else<td>$resultperhatianM</td>@endif
-                                                @if ($resultkehadiranM == 'nan')<td></td>@else<td>$resultkehadiranM</td>@endif
-                                                @if ($resultTeman1 == 'nan')<td></td>@else<td>$resultTeman1</td>@endif
+                                                @if ($resultSkillM == 'nan')<td></td>@else<td>{{$resultSkillM}}</td>@endif
+                                                @if ($resultkerapihanM == 'nan')<td></td>@else<td>{{$resultkerapihanM}}</td>@endif
+                                                @if ($resultsikapM == 'nan')<td></td>@else<td>{{$resultsikapM}}</td>@endif
+                                                @if ($resultkeaktifanM == 'nan')<td></td>@else<td>{{$resultkeaktifanM}}</td>@endif
+                                                @if ($resultperhatianM == 'nan')<td></td>@else<td>{{$resultperhatianM}}</td>@endif
+                                                @if ($resultkehadiranM == 'nan')<td></td>@else<td>{{$resultkehadiranM}}</td>@endif
+                                                @if ($resultTeman1 == 'nan')<td></td>@else<td>{{$resultTeman1}}</td>@endif
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -358,10 +370,13 @@
                                                     <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
-                                                @foreach($nilaiMentor as $nmentor)
-                                                <td>{{$nmentor->nilai}}</td>
-                                                @endforeach
-                                                @if ($resultInstansi1 == 'nan')<td></td>@else<td>$resultInstansi1</td>@endif
+                                                @if ($nilaiInstansiSkill == 'nan')<td></td>@else<td>{{$nilaiInstansiSkill}}</td>@endif
+                                                @if ($nilaiInstansiKerapihan == 'nan')<td></td>@else<td>{{$nilaiInstansiKerapihan}}</td>@endif
+                                                @if ($nilaiInstansiSikap == 'nan')<td></td>@else<td>{{$nilaiInstansiSikap}}</td>@endif
+                                                @if ($nilaiInstansiKeaktifan == 'nan')<td></td>@else<td>{{$nilaiInstansiKeaktifan}}</td>@endif
+                                                @if ($nilaiInstansiPerhatian == 'nan')<td></td>@else<td>{{$nilaiInstansiPerhatian}}</td>@endif
+                                                @if ($nilaiInstansiKehadiran == 'nan')<td></td>@else<td>{{$nilaiInstansiKehadiran}}</td>@endif
+                                                @if ($resultInstansi1 == 'nan')<td></td>@else<td>{{$resultInstansi1}}</td>@endif
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -381,11 +396,12 @@
                                                     <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
-                                                @foreach($nilaiDP as $ndp)
-                                                <td>{{$ndp->nilai}}</td>
-                                                @endforeach
-                                                @if ($resultPenguji1 == 'nan')<td></td>@else<td>$resultPenguji1</td>@endif
-                                                
+                                                @if ($nilaiPengujiKeterkaitan == 'nan')<td></td>@else<td>{{$nilaiPengujiKeterkaitan}}</td>@endif
+                                                @if ($nilaiPengujiKesesuaian == 'nan')<td></td>@else<td>{{$nilaiPengujiKesesuaian}}</td>@endif
+                                                @if ($nilaiPengujiSistematika == 'nan')<td></td>@else<td>{{$nilaiPengujiSistematika}}</td>@endif
+                                                @if ($nilaiPengujiKetepatan == 'nan')<td></td>@else<td>{{$nilaiPengujiKetepatan}}</td>@endif
+                                                @if ($nilaiPengujiKekompakan == 'nan')<td></td>@else<td>{{$nilaiPengujiKekompakan}}</td>@endif
+                                                @if ($resultPenguji1 == 'nan')<td></td>@else<td>{{$resultPenguji1}}</td>@endif
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -404,15 +420,11 @@
                                                     <th>Rata" Nilai</th>
                                                 </tr>
                                                 <tr>
-                                                @foreach($nilaiDosbing as $dosbing)
-                                                <td>{{$dosbing->nilai}}</td>
-                                                <!-- <td>5</td>
-                                                <td>5</td>
-                                                <td>4</td>
-                                                <td>3</td>
-                                                <td>5</td> -->
-                                                @endforeach
-                                                @if ($resultDospem1 == 'nan')<td></td>@else<td>$resultDospem1</td>@endif
+                                                @if ($nilaiPembimbingSkill == 'nan')<td></td>@else<td>{{$nilaiPembimbingSkill}}</td>@endif
+                                                @if ($nilaiPembimbingKebersamaan == 'nan')<td></td>@else<td>{{$nilaiPembimbingKebersamaan}}</td>@endif
+                                                @if ($nilaiPembimbingSikap == 'nan')<td></td>@else<td>{{$nilaiPembimbingSikap}}</td>@endif
+                                                @if ($nilaiPembimbingKeaktifan == 'nan')<td></td>@else<td>{{$nilaiPembimbingKeaktifan}}</td>@endif
+                                                @if ($resultDospem1 == 'nan')<td></td>@else<td>{{$resultDospem1}}</td>@endif
                                                 </tr>
                                         </table><br/>
                                     </div>
@@ -458,42 +470,6 @@
     });
   });
 
-// $(document).ready(function(){
 
-//         var dataTable = $('#logbook').DataTable({
-//         processing: true,
-//         serverSide: true,
-//         ajax:{
-//         url: "/admin/mahasiswa/7/5",
-//         },
-//         columns:[
-//         {data: 'DT_RowIndex', 
-//             name: 'DT_RowIndex', 
-//             orderable: false,
-//             searchable: false
-//         },
-//         {
-//             data: 'tanggal',
-//             name: 'tanggal'
-//         },
-//         {
-//             data: 'waktu_mulai',
-//             name: 'waktu_mulai'
-//         },
-//         {
-//             data: 'waktu_selesai',
-//             name: 'waktu_selesai'
-//         },
-//         {
-//             data: 'kegiatan',
-//             name: 'kegiatan'
-//         },
-//         {
-//             data: 'status',
-//             name: 'status',
-//         }
-//         ]
-//         });
-// });
 </script>
 @endsection

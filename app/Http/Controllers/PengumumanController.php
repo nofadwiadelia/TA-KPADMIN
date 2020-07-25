@@ -22,14 +22,16 @@ class PengumumanController extends Controller
      */
     public function index(Request $request)
     {
-        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
+        $periode = DB::table('periode')->where('isDeleted', 0)->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
                 $data = Pengumuman::select('id_pengumuman','judul', 'deskripsi', 'lampiran')
+                ->where('isDeleted', 0)
                 ->where('id_periode', $request->id_periode)
                 ->get();
             }else{
                 $data = Pengumuman::select('id_pengumuman','judul', 'deskripsi', 'lampiran')
+                                    ->where('isDeleted', 0)
                                     ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -97,7 +99,7 @@ class PengumumanController extends Controller
             'lampiran' => $lampiran,
             'id_periode' => $request->id_periode
         ]);
-        return response()->json(['message' => 'Pengumuman added successfully.']);
+        return response()->json(['message' => 'Pengumuman berhasil ditambahkan.']);
     }
 
 
@@ -136,11 +138,12 @@ class PengumumanController extends Controller
         $this->validate($request, [
             'judul' => 'required|string|max:100',
             'deskripsi' => 'required|string|max:500',
-            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg'
+            'lampiran' => 'nullable|mimes:jpg,png,jpeg'
         ],
         [
             'judul.required' => 'judul can not be empty !',
-            'deskripsi.required' => 'deskripsi can not be empty !'
+            'deskripsi.required' => 'deskripsi can not be empty !',
+            'lampiran.mimes' => 'format tidak sesuai !'
         ]);
        
         $data = Pengumuman::findOrFail($id_pengumuman);
@@ -161,7 +164,7 @@ class PengumumanController extends Controller
         ]);
         
 
-        return response()->json(['message' => 'Pengumuman updated successfully.']);
+        return response()->json(['message' => 'Pengumuman berhasil diubah.']);
     }
 
     /**

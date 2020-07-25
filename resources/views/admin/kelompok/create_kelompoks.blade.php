@@ -66,7 +66,7 @@
                               </thead>
                               <tbody>
                               @php $no = 1; @endphp
-                              @foreach($anggotas as $row)
+                              @foreach($mahasiswa_tersedia as $row)
                               <tr>
                                   <td>{{$no++}}</td>
                                   <td>{{$row->nim}}</td>
@@ -84,10 +84,6 @@
                           </div>
                         </div>
                         <input type="hidden" class="form-control" name="created_by" id="created_by" value="{{$userId}}">
-                        <div class="modal-footer justify-content-between">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary ">Save changes</button>
-                        </div>
                       </div>
                   </div>
                 </div>
@@ -119,7 +115,7 @@
                   <th>NIM</th>
                   <th>Nama Mahasiswa</th>
                   <th>No.HP</th>
-                  <th>Detail</th>
+                  <th>Aksi</th>
                 </tr>
                 </thead>
                 <tbody>

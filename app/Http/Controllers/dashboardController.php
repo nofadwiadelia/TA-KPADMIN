@@ -42,32 +42,26 @@ class dashboardController extends Controller
         return view('admin.admin', compact('periode','date'));
     }
 
-    public function kelompokCount(){
+    public function datadashboard(){
         $kelompok = Kelompok::leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                             ->where('periode.status', 'open')->count();
-        return response()->json([
-            'kelompok' =>$kelompok,
-            "message" => "succes",
-        ]);
-    }
-    public function usulanCount(){
+
         $usulan = Usulan::leftJoin('periode', 'usulan.id_periode', 'periode.id_periode')
                         ->where('periode.status', 'open')->count();
-        return response()->json([
-            'usulan' =>$usulan,
-            "message" => "succes",
-        ]);
-    }
-    public function magangCount(){
+        
         $magang = DB::table('magang')->leftJoin('periode', 'magang.id_periode', 'periode.id_periode')
                     ->where('magang.status', 'magang')
                     ->where('periode.status', 'open')
                     ->count();
+
         return response()->json([
+            'kelompok' =>$kelompok,
+            'usulan' =>$usulan,
             'magang' =>$magang,
             "message" => "succes",
         ]);
     }
+
 
     public function indexdosen(){
         return view('dosen.layout.dashboard');

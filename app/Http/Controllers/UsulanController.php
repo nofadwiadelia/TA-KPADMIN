@@ -36,7 +36,7 @@ class UsulanController extends Controller
     }
 
     public function usulan(Request $request){
-        $periode = DB::table('periode')->select('id_periode', 'tahun_periode')->get();
+        $periode = DB::table('periode')->where('isDeleted', 0)->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')

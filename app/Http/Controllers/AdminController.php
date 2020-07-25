@@ -30,7 +30,7 @@ class AdminController extends Controller
 
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($admin){
-                $btn = '<a href="/admin/admin/'.$admin->id_admin.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                $btn = '<a href="/admin/admin/'.$admin->id_users.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
                 $btn .= '&nbsp;&nbsp;';
                 $btn .= '<button type="button" name="delete" id="'.$admin->id_users.'" class="btn btn-danger btn-sm deleteUser" ><i class="fas fa-trash"></i></button>';
                 return $btn;
@@ -64,25 +64,26 @@ class AdminController extends Controller
             'nama' => 'required|string|max:191',
             'username' => 'required|string|unique:users,username|max:191',
             'password' => 'required|min:6|max:191',
+            'confirm_password' => 'same:password',
             'email' => 'required|email|max:191',
-            'no_hp' => 'required|max:25',
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+            'no_hp' => 'required|max:25|regex:/^[0-9]+$/',
+            'foto' => 'required|image|mimes:jpg,png,jpeg',
         ],
         [
-            'nama.required' => 'nama can not be empty !',
-            'username.required' => 'username can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'password.required' => 'password can not be empty !',
-            'password.max' => 'password is to long !',
-            'email.required' => 'email can not be empty !',
-            'email.unique' => 'email has already been taken !',
-            'no_hp.required' => 'can not be empty !',
+            'nama.required' => 'nama tidak boleh kosong !',
+            'username.required' => 'username tidak boleh kosong !',
+            'username.unique' => 'username sudah terdaftar !',
+            'password.required' => 'password tidak boleh kosong !',
+            'password.max' => 'password terlalu panjang !',
+            'email.required' => 'email tidak boleh kosong !',
+            'email.max' => 'email terlalu panjang !',
+            'no_hp.required' => 'no hp tidak boleh kosong !',
         ]);
 
         $foto = null;
         if($request->hasFile('foto')){
             $files=$request->file('foto');
-            $foto=str_slug($request->nama) . time() . '.' . $files->getClientOriginalExtension();
+            $foto=str_slug($request->nama) . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/users/admin'),$foto);
         }
 
@@ -99,7 +100,7 @@ class AdminController extends Controller
             'created_by' => $request->created_by,
         ]);
         $data->save();
-        return response()->json(['message' => 'Admin added successfully.']);
+        return response()->json(['message' => 'Admin berhasil ditambahkan.']);
     }
 
     /**
@@ -119,9 +120,9 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_admin)
+    public function edit($id_users)
     {
-        $data = Admin::findOrFail($id_admin);
+        $data = User::findOrFail($id_users);
         return view('admin.edit_admin', compact('data'));
     }
 
@@ -144,11 +145,12 @@ class AdminController extends Controller
             'foto' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
-            'nama.required' => 'nama can not be empty !',
-            'username.required' => 'username can not be empty !',
-            'username.unique' => 'username has already been taken !',
-            'email.required' => 'username can not be empty !',
-            'no_hp.required' => 'username can not be empty !',
+            'nama.required' => 'nama tidak boleh kosong !',
+            'username.required' => 'username tidak boleh kosong !',
+            'username.max' => 'username terlalu panjang !',
+            'email.required' => 'email tidak boleh kosong !',
+            'no_hp.required' => 'no hp tidak boleh kosong !',
+            'foto.mimes' => 'format tidak sesuai !',
         ]);
 
         
@@ -160,7 +162,7 @@ class AdminController extends Controller
             'email' => $request->email,
             'no_hp' => $request->no_hp,
         ]);
-        return response()->json(['message' => 'Data updated successfully.']);
+        return response()->json(['message' => 'Data berhasil diubah .']);
     }
 
     public function updateAvatar(Request $request, $id_admin){
@@ -175,7 +177,7 @@ class AdminController extends Controller
             !empty($foto) ? File::delete(public_path('uploads/users/admin/' . $foto)):null;
 
             $files=$request->file('foto');
-            $foto=str_slug($data->nama) . time() . '.' . $files->getClientOriginalExtension();
+            $foto=str_slug($data->nama) . '.' . $files->getClientOriginalExtension();
             $files->move(public_path('uploads/users/admin/'),$foto);
         }
         $data->update([
@@ -183,7 +185,7 @@ class AdminController extends Controller
         ]);
 
         return response()->json(['data' => $data,
-            'message' => 'Photo updated successfully.']);
+            'message' => 'Photo berhasil diubah.']);
     }
     /**
      * Remove the specified resource from storage.

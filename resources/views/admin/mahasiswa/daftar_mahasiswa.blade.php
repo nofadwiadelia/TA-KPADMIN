@@ -124,7 +124,7 @@
           },
           {
             data:'nama_kelompok',
-            name:'nama_kelompok'
+            name:'nama_kelompok',
           },
           {
             data:'status_keanggotaan',

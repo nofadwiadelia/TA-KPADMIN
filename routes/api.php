@@ -27,9 +27,7 @@ header("Acces-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 Route::prefix('admin')->group(function () {
     Route::group(['middleware' => 'auth:api'], function(){
         Route::get('/userlogin', 'dashboardController@users');
-        Route::get('/kelompokcount', 'dashboardController@kelompokCount');
-        Route::get('/usulancount', 'dashboardController@usulanCount');
-        Route::get('/magangcount', 'dashboardController@magangCount');
+        Route::get('/datadashboard', 'dashboardController@datadashboard');
     });
 
     Route::post('/users/{id}', 'UsersController@update');
@@ -37,8 +35,6 @@ Route::prefix('admin')->group(function () {
     Route::post('/admin/{id}', 'AdminController@update');
     Route::post('/admin/{id}/edit', 'AdminController@updateAvatar');
     Route::put('/admin/delete/{id}', 'AdminController@destroy');
-    // Route::get('/usulancount', 'dashboardController@usulanCount');
-    // Route::get('/magangcount', 'dashboardController@magangCount');
     Route::put('/users/{id}', 'UsersController@destroy');
     Route::put('/password/{id}/', 'UsersController@updatePassword');
     Route::get('/mahasiswa', 'MahasiswaController@index');
@@ -63,10 +59,10 @@ Route::prefix('admin')->group(function () {
     Route::post('/periode/add', 'PeriodeController@store');
     Route::put('/periode/{id}/edit', 'PeriodeController@update');
     Route::post('/periode/change', 'PeriodeController@changeStatus');
-    Route::delete('/periode/{id}', 'PeriodeController@destroy');
+    Route::put('/periode/{id}', 'PeriodeController@destroy');
     Route::post('/lowongan/add', 'LowonganController@store');
     Route::put('/lowongan/{id}/edit', 'LowonganController@update');
-    Route::delete('/lowongan/{id}', 'LowonganController@destroy');
+    Route::put('/lowongan/{id}', 'LowonganController@destroy');
     Route::post('/persetujuanlowongan', 'LowonganController@acclowongan');
     Route::post('/declinelowongan', 'LowonganController@declinelowongan');
     Route::post('/persetujuanusulan', 'UsulanController@accusulan');
@@ -89,9 +85,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/aspekpenilaian', 'AspekpenilaianController@store');
     Route::get('/aspekpenilaian/{id}', 'AspekpenilaianController@edit');
     Route::delete('/aspekpenilaian/{id}', 'AspekpenilaianController@destroy');
-    Route::post('/kelompokpenilai', 'PenilaiController@store');
     Route::get('/kelompokpenilai/{id}', 'PenilaiController@edit');
-    Route::delete('/kelompokpenilai/{id}', 'PenilaiController@destroy');
 });
 
 

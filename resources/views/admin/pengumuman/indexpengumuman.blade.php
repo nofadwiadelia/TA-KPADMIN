@@ -30,7 +30,7 @@
                       <div class="form-group">
                           <select name="periode_filter" id="periode_filter" class="form-control form-control-sm">
                             @foreach($periode as $row)
-                            <option value="{{ $row->id_periode }}">{{ $row->tahun_periode }}</option>
+                            <option value="{{ $row->id_periode }}">Periode {{ $row->tahun_periode }}</option>
                             @endforeach
                           </select>
                       </div>
@@ -125,7 +125,8 @@
             name:'lampiran',
             render: function(data, type, full, meta){
               if (data != null){
-                return "<img src={{ URL::to('/') }}/uploads/pengumuman/" + data + " width='50' height='50' />";
+                return "<img src='{{ URL::to('/') }}/uploads/pengumuman/" + data + "' width='50' height='50' />";
+
               }else{
                 return "<img src='http://via.placeholder.com/50x50'>";
               }

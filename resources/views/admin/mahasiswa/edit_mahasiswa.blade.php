@@ -41,25 +41,25 @@
                                     <div class="form-group row">
                                         <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="nama" value="{{ $mahasiswa->nama }}">                                       
+                                        <input type="text" class="form-control"  name="nama" value="{{ $mahasiswa->nama }}">                                       
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                       <label for="email" class="col-sm-3 col-form-label">Email *</label>
                                       <div class="col-sm-9">
-                                      <input type="text" class="form-control" required name="email" value="{{ $mahasiswa->email }}">
+                                      <input type="text" class="form-control"  name="email" value="{{ $mahasiswa->email }}">
                                       </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="no_hp" value="{{ $mahasiswa->no_hp }}">
+                                        <input type="text" class="form-control"  name="no_hp" value="{{ $mahasiswa->no_hp }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="username" class="col-sm-3 col-form-label">Username *</label>
                                         <div class="col-sm-9">
-                                        <input type="text" class="form-control" required name="username" value="{{ $mahasiswa->users->username }}">
+                                        <input type="text" class="form-control"  name="username" value="{{ $mahasiswa->users->username }}">
                                         </div>
                                     </div>
                                     
@@ -103,7 +103,7 @@
                                         <div class="form-group row">
                                             <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                             <div class="col-sm-9">
-                                            <input type="password" class="form-control" name="password" id="password" value="">
+                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" value="">
                                             </div>
                                         </div>
                                       </div>
@@ -177,6 +177,7 @@ $(document).ready(function(){
     id_users = $(this).data("id");
     $('#id_users').val(id_users);
     $('#password').val();
+    $('#confirm_password').val();
     $('#modal-edit').modal('show');
     $('#saveBtn').val("edit-password");
   });
@@ -196,9 +197,15 @@ $(document).ready(function(){
         toastr.options.closeDuration = 100;
         toastr.success(data.message);
       },
-      error: function (data) {
-          console.log('Error:', data);
+      error: function(xhr, status, error){
+        $.each(xhr.responseJSON.errors, function (key, item) 
+        {
+          toastr.options.closeButton = true;
+          toastr.options.closeMethod = 'fadeOut';
+          toastr.options.closeDuration = 200;
+          toastr.error(item);
           $('#saveBtn').html('Save Changes');
+        });
       }
     });
   });
