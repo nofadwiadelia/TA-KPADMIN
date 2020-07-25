@@ -121,6 +121,7 @@
                                                     <th>Posisi</th>
                                                     <th>Persyaratan</th>
                                                     <th>Kapasitas</th>
+                                                    <th>Slot</th>
                                                     <th>Periode</th>
                                                     <th class="text-center py-0 align-middle">Detail</th>
                                                     <th class="text-center py-0 align-middle">Aksi</th>
@@ -134,6 +135,7 @@
                                                 <td>{{ $lowongans->pekerjaan }}</td>
                                                 <td>{{ $lowongans->persyaratan }}</td>
                                                 <td>{{ $lowongans->kapasitas }}</td>
+                                                <td>{{ $lowongans->slot }}</td>
                                                 <td>{{ $lowongans->tahun_periode }}</td>   
                                                 <td class="text-center py-0 align-middle">
                                                     <a href="{{ route('lowongan.show', $lowongans->id_lowongan) }}" class="btn-sm btn-warning"><i class="fas fa-arrow-right"></i></a>

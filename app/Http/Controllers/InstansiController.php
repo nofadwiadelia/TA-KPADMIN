@@ -123,7 +123,7 @@ class InstansiController extends Controller
                         ->first();
         $lowongan = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
                             ->leftJoin('periode', 'lowongan.id_periode', 'periode.id_periode')
-                            ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.kapasitas', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama', 'periode.tahun_periode')
+                            ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.kapasitas','lowongan.slot', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama', 'periode.tahun_periode')
                             ->where('lowongan.id_instansi', '=', $id_instansi)
                             ->get();
         if(request()->ajax()){

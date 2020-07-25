@@ -43,12 +43,43 @@
                                 <i class="nav-icon fas fa-users"></i> <a class="float-right">{{ $role->roles }}</a>
                             </li>
                             <li class="list-group-item">
-                                <b>CV  </b> <a href="{{ asset('/uploads/users/mahasiswa/cv/' . $mahasiswa->cv) }}" target="_blank" class="float-right">CV</a>
+                                <b>CV  </b> <a data-toggle="modal" data-target="#modal-default" class="btn btn-warning float-right text-center py-0 align-middle show_cv" ><i class="nav-icon fas fa-eye"></i></a>
                             </li>
                         </div>
                         <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
+                        <div class="modal fade" id="modal-cv">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="modal-body">
+                                        <div class="row justify-content-center">
+                                        @if($mahasiswa->cv == null)
+                                        <iframe src='about:blank' style="width:700px; height:10px;" frameborder="0"></iframe>
+                                        @else
+                                        <iframe src="{{ asset('/uploads/users/mahasiswa/cv/' . $mahasiswa->cv) }}"
+                                                style="width:700px; height:700px;" frameborder="0">
+                                        </iframe>
+                                        @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                        
                     </div>
                     <!-- /.col -->
                     <div class="col-md-9">
@@ -479,6 +510,9 @@
     });
   });
 
+    $(document).on('click', '.show_cv', function(){
+        $('#modal-cv').modal('show');
+    });
 
 </script>
 @endsection
