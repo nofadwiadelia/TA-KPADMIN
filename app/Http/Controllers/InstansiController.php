@@ -49,7 +49,7 @@ class InstansiController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|unique:users|max:12',
+            'username' => 'required|string|unique:users|max:25',
             'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
             'alamat' => 'required|max:1000',
@@ -62,6 +62,7 @@ class InstansiController extends Controller
             'nama.max' => 'nama terlalu panjang !',
             'username.required' => 'username tidak boleh kosong !',
             'username.unique' => 'username sudah terdaftar !',
+            'username.max' => 'username terlalu panjang !',
             'password.required' => 'password tidak boleh kosong !',
             'password.max' => 'password terlalu panjang !',
             'email.required' => 'email tidak boleh kosong !',
@@ -196,7 +197,7 @@ class InstansiController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:12',
+            'username' => 'required|string|max:25',
             'email' => 'required|email|max:191',
             'website' => 'required|max:25',
             'alamat' => 'required|string|max:1000',

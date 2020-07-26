@@ -85,12 +85,14 @@
                               @endif 
                             </li>
                             <li class="list-group-item">
-                              <div class="col-6"><b>Waktu Magang</b></div>
-                              @if (!empty($magang->tanggal_mulai) && ($magang->tanggal_selesai))
-                              <div class="col-6">{{$magang->tanggal_mulai}} - {{$magang->tanggal_selesai}}</div>
-                              @else
-                              <div class="col-6"></div>
-                              @endif 
+                              <div class="row">
+                                <div class="col-6"><b>Waktu Magang</b></div>
+                                @if (!empty($magang->tanggal_mulai) && ($magang->tanggal_selesai))
+                                <div class="col-6">{{$magang->tanggal_mulai}} - {{$magang->tanggal_selesai}}</div>
+                                @else
+                                <div class="col-6"></div>
+                                @endif
+                              </div> 
                             </li>
                             <li class="list-group-item">
                               <p><b>Jobdesk</b></p>
@@ -181,9 +183,6 @@
 @endsection
 
 @section('scripts')
-<!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
     $(document).on('click', '.show_laporan', function(){

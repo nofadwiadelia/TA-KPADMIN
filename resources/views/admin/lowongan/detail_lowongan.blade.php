@@ -126,6 +126,7 @@
                                   <label for="" class="col-sm-12 col-form-label">Yakin ingin menyetujui ?</label>
                                   </div>
                                   <input type="hidden" id="id_lowongan" value="{{$lowongan->id_lowongan}}">
+                                  <input type="hidden" id="created_by" value="{{$userId}}">
                                   <div class="modal-footer">
                                     <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                     <button type="button" name="ok_button" id="ok_button" class="btn btn-primary">Setujui</button>
@@ -169,6 +170,7 @@
   $('#ok_button').click(function(){
 
     id_lowongan = $('#id_lowongan').val();
+    created_by = $('#created_by').val();
 
     $.ajax({
         type: "POST",
@@ -176,7 +178,7 @@
         url: "/api/admin/persetujuanlowongan/",
         cache:false,
         dataType: "json",
-        data: {'id_pelamar': id_pelamar, 'id_lowongan': id_lowongan, 'id_kelompok': id_kelompok, 'id_instansi': id_instansi, 'id_periode': id_periode, 'jobdesk': jobdesk},
+        data: {'id_pelamar': id_pelamar, 'id_lowongan': id_lowongan, 'id_kelompok': id_kelompok,'created_by': created_by, 'id_instansi': id_instansi, 'id_periode': id_periode, 'jobdesk': jobdesk},
         success: function(data){
           toastr.options.closeButton = true;
           toastr.options.closeMethod = 'fadeOut';

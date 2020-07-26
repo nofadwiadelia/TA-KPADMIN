@@ -62,7 +62,7 @@ class AdminController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|unique:users,username|max:191',
+            'username' => 'required|string|unique:users,username|max:25',
             'password' => 'required|min:6|max:191',
             'confirm_password' => 'same:password',
             'email' => 'required|email|max:191',
@@ -74,6 +74,7 @@ class AdminController extends Controller
             'nama.max' => 'nama terlalu panjang !',
             'username.required' => 'username tidak boleh kosong !',
             'username.unique' => 'username sudah terdaftar !',
+            'username.max' => 'username terlalu panjang !',
             'password.required' => 'password tidak boleh kosong !',
             'password.max' => 'password terlalu panjang !',
             'email.required' => 'email tidak boleh kosong !',
@@ -146,7 +147,7 @@ class AdminController extends Controller
 
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:191',
+            'username' => 'required|string|max:25',
             'email' => 'required|email|max:191',
             'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
         ],

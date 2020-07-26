@@ -134,11 +134,11 @@ class PresentasiController extends Controller
                 'id_periode' => 'required',
             ],
             [
-                'judul.required' => 'judul can not be empty !',
-                'id_dospeng.required' => 'dosen penguji can not be empty !',
-                'id_sesiwaktu.required' => 'sesi can not be empty !',
-                'id_ruang.required' => 'ruang can not be empty !',
-                'tanggal.required' => 'tanggal can not be empty !'
+                'judul.required' => 'kelompok tidak boleh kosong !',
+                'id_dospeng.required' => 'dosen penguji tidak boleh kosong !',
+                'id_sesiwaktu.required' => 'sesi tidak boleh kosong !',
+                'id_ruang.required' => 'ruang tidak boleh kosong !',
+                'tanggal.required' => 'tanggal tidak boleh kosong !'
             ]);
     
     
@@ -152,7 +152,7 @@ class PresentasiController extends Controller
                 'created_by' => $request->created_by,
             ]);
             $presentasi->save();
-            return response()->json(['message' => 'Jadwal status added successfully.']);
+            return response()->json(['message' => 'Jadwal berhasil ditambahkan.']);
         }
         
     }
@@ -246,11 +246,11 @@ class PresentasiController extends Controller
                 'id_periode' => 'required',
             ],
             [
-                'id_kelompok.required' => 'judul can not be empty !',
-                'id_dospeng.required' => 'dosen penguji can not be empty !',
-                'id_sesiwaktu.required' => 'sesi can not be empty !',
-                'id_ruang.required' => 'ruang can not be empty !',
-                'tanggal.required' => 'tanggal can not be empty !'
+                'id_kelompok.required' => 'kelompok tidak boleh kosong !',
+                'id_dospeng.required' => 'dosen penguji tidak boleh kosong !',
+                'id_sesiwaktu.required' => 'sesi tidak boleh kosong !',
+                'id_ruang.required' => 'ruang tidak boleh kosong !',
+                'tanggal.required' => 'tanggal tidak boleh kosong !'
             ]);
 
             $presentasi = Presentasi::findOrFail($id_jadwal_presentasi);
@@ -262,7 +262,7 @@ class PresentasiController extends Controller
                 'tanggal' => $request->tanggal,
             ]);
             $presentasi->save();
-            return response()->json(['message' => 'Jadwal status updated successfully.']);
+            return response()->json(['message' => 'Jadwal berhasil diubah.']);
         }
     }
 
@@ -276,6 +276,6 @@ class PresentasiController extends Controller
     {
         $presentasi = Presentasi::find($id_jadwal_presentasi);
         $presentasi->delete();
-        return response()->json(['message' => 'Jadwal deleted successfully.']);
+        return response()->json(['message' => 'Jadwal berhasil dihapus.']);
     }
 }

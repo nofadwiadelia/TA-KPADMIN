@@ -113,6 +113,7 @@ class LowonganController extends Controller
      */
     public function show($id_lowongan)
     {
+        $userId = Auth::id();
         $lowongan = Lowongan::findOrFail($id_lowongan);
         $applylowongan = DB::table('pelamar')
                             ->leftJoin('lowongan', 'pelamar.id_lowongan', 'lowongan.id_lowongan')
@@ -146,7 +147,7 @@ class LowonganController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('admin.lowongan.detail_lowongan',compact('lowongan', 'applylowongan'));
+        return view('admin.lowongan.detail_lowongan',compact('userId','lowongan', 'applylowongan'));
     }
 
     public function acclowongan(Request $request){
@@ -169,6 +170,7 @@ class LowonganController extends Controller
                     'id_kelompok' => $request->id_kelompok,
                     'jobdesk' => $request->jobdesk,
                     'status' => 'belum magang',
+                    'created_by' => $request->created_by,
             ]);
             return response()->json(['message' => 'Lamaran berhasil diterima']);
         }

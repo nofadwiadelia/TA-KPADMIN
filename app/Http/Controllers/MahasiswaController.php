@@ -108,7 +108,7 @@ class MahasiswaController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|unique:users,username|max:191',
+            'username' => 'required|string|unique:users,username|max:25',
             'password' => 'required|min:6|max:191',
             'confirm_password' => 'same:password',
             'nim' => 'required|unique:mahasiswa,nim|string|max:20',
@@ -117,6 +117,7 @@ class MahasiswaController extends Controller
             'nama.required' => 'nama tidak boleh kosong !',
             'username.required' => 'username tidak boleh kosong !',
             'username.unique' => 'username sudah terdaftar !',
+            'username.max' => 'username terlalu panjang !',
             'password.required' => 'password tidak boleh kosong ! !',
             'password.min' => 'password kurang dari 6 karakter !',
             'password.max' => 'password terlalu panjang !',
@@ -370,8 +371,8 @@ class MahasiswaController extends Controller
         ->where('id_kelompok_penilai','4')
         ->where('id_aspek_penilaian', '3')->sum('nilai');
         $nilaiPembimbingKeaktifan = Nilai::where('id_mahasiswa',$id_mahasiswa)
-        ->where('id_kelompok_penilai','2')
-        ->where('id_aspek_penilaian', '11')->sum('nilai');
+        ->where('id_kelompok_penilai','4')
+        ->where('id_aspek_penilaian', '2')->sum('nilai');
 
         $summaryDospem = Nilai::where('id_mahasiswa',$id_mahasiswa)
         ->where('id_kelompok_penilai','4')
@@ -415,7 +416,7 @@ class MahasiswaController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:191',
+            'username' => 'required|string|max:25',
             'email' => 'required|email|max:191',
             'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
             'nim' => 'required|string|max:20',
@@ -444,7 +445,7 @@ class MahasiswaController extends Controller
             'email' => $request->email, 
             'no_hp' => $request->no_hp
         ]);
-        return response()->json(['message' => 'Data updated successfully.']);
+        return response()->json(['message' => 'Data berhasil diubah.']);
     }
 
 

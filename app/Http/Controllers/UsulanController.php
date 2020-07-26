@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Usulan;
 use App\Kelompok;
 use App\Periode;
@@ -70,6 +71,7 @@ class UsulanController extends Controller
         return view('admin.usulan.usulan_pkl',compact('periode'));
     }
     public function detailusulan( $id_kelompok){
+        $userId = Auth::id();
         $kelompok = Kelompok::findOrFail($id_kelompok);
         $anggota = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
@@ -86,7 +88,7 @@ class UsulanController extends Controller
                     ->where('isBlacklist', '0')
                     ->get();
 
-        return view('admin.usulan.detail_usulan',compact('kelompok', 'anggota', 'usulan', 'instansi'));
+        return view('admin.usulan.detail_usulan',compact('userId','kelompok', 'anggota', 'usulan', 'instansi'));
     }
 
     public function editusulan($id_usulan)
@@ -109,12 +111,14 @@ class UsulanController extends Controller
                     'id_kelompok' => $request->id_kelompok,
                     'jobdesk' => $request->jobdesk,
                     'status' => 'belum magang',
+                    'created_by' => $request->created_by,
                 ]);
             }else{
                 $usulan = User::create([
                     'username' => $request->username,
                     'password' =>  Hash::make($request->password),
                     'id_roles' => 3,
+                    'created_by' => $request->created_by,
                 ]);
     
                 $usulan = Instansi::create([
@@ -124,6 +128,7 @@ class UsulanController extends Controller
                     'alamat' => $request->alamat,
                     'website' => $request->website,
                     'status' => 'open',
+                    'created_by' => $request->created_by,
                 ]);
     
                 $usulan = Magang::create([
@@ -132,6 +137,7 @@ class UsulanController extends Controller
                     'id_kelompok' => $request->id_kelompok,
                     'jobdesk' => $request->jobdesk,
                     'status' => 'belum magang',
+                    'created_by' => $request->created_by,
                 ]);
             }
 

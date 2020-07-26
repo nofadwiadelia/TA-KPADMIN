@@ -53,8 +53,8 @@ class RuangController extends Controller
             'ruang' => 'required|unique:ruang,ruang'
         ],
         [
-            'ruang.required' => 'ruang can not be empty !',
-            'ruang.unique' => 'ruang already exist !'
+            'ruang.required' => 'ruang tidak boleh kosong !',
+            'ruang.unique' => 'ruang telah terdaftar !'
         ]);
 
         Ruang::updateOrCreate(['id_ruang' => $request->id_ruang],

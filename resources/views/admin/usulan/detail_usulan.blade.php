@@ -176,7 +176,7 @@
                             <input type="hidden" id="id_periode" value="">
                             <input type="hidden" class="form-control" id="user" name="user" value="">
                             </div>
-                          
+                            <input type="hidden" class="form-control" id="created_by" name="created_by" value="{{$userId}}">
                         </div>
                     </div>
                     <!-- <div class="modal-footer justify-content-between">
@@ -285,6 +285,7 @@
       id_kelompok = $('#id_kelompok').val();
       id_periode = $('#id_periode').val();
       jobdesk = $('#jobdesk').val();
+      created_by = $('#created_by').val();
 
       username = $('#user').val();
       password = $('#user').val();
@@ -301,7 +302,7 @@
         cache:false,
         dataType: "json",
         data: {'id_instansi': id_instansi,'id_usulan': id_usulan, 'status': status
-        , 'username': username, 'password': password, 'nama': nama, 'deskripsi': deskripsi, 'alamat': alamat, 'website': website, 'id_kelompok': id_kelompok , 'id_periode': id_periode ,'jobdesk': jobdesk 
+        , 'username': username, 'password': password, 'nama': nama, 'deskripsi': deskripsi, 'alamat': alamat, 'website': website, 'id_kelompok': id_kelompok , 'id_periode': id_periode ,'jobdesk': jobdesk , 'created_by': created_by
         },
         success: function(data){
           toastr.options.closeButton = true;

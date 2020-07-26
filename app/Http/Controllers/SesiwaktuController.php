@@ -50,10 +50,18 @@ class SesiwaktuController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'sesi' => 'required|unique|string|max:191',
+        ],
+        [
+            'sesi.required' => 'sesi tidak boleh kosong !',
+            'sesi.max' => 'sesi terlalu panjang !',
+            'sesi.unique' => 'sesi telah terdaftar !'
+        ]);
         Sesiwaktu::updateOrCreate(['id_sesiwaktu' => $request->id_sesiwaktu],
                 ['sesi' => $request->sesi]);        
 
-        return response()->json(['success'=>'Sesi saved successfully.']);
+        return response()->json(['success'=>'Sesi berhasil disimpan.']);
 
     }
 
@@ -103,6 +111,6 @@ class SesiwaktuController extends Controller
         $sesi = Sesiwaktu::find($id_sesiwaktu);
         $sesi->isDeleted = 1;
         $sesi->save();
-        return response()->json(['message' => 'Sesi deleted successfully.']);
+        return response()->json(['message' => 'Sesi berhasil dihapus.']);
     }
 }

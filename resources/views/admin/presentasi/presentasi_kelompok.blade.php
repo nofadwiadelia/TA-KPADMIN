@@ -51,7 +51,7 @@
                       <th>Tanggal</th>
                       <th>Waktu</th>
                       <th>Ruang</th>
-                      <th>Aksi</th>
+                      <th  width="10%">Aksi</th>
                     </tr>
                     </thead>
                     <tbody>

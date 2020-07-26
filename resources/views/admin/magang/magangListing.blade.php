@@ -107,8 +107,12 @@
             data:'status',
             name:'status',
             render: function(data, type, full, meta){
-              if(data!=null){
-                return "<span class='badge bg-warning'>"+data+"</span>";
+              if(data=='magang'){
+                return "<span class='badge bg-info'>"+data+"</span>";
+              }else if(data=='selesai'){
+                return "<span class='badge bg-success'>"+data+"</span>";
+              }else if(data=='belummagang'){
+                return "<span class='badge bg-success'>"+data+"</span>";
               }else{
                 return "<span class='badge bg-warning'>belum magang</span>";
               }
