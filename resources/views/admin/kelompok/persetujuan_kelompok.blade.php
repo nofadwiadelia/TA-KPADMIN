@@ -313,7 +313,7 @@
   });
   $('#ok_button').click(function(){
     $.ajax({
-        type: "DELETE",
+        type: "PUT",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         dataType: "json",
         url: '/api/admin/kelompok/'+id_kelompok,

@@ -39,7 +39,6 @@
                               <div class="input-group">
                                 <div class="custom-file">
                                   <input type="file" name="lampiran" id="lampiran" class="form-control" >
-                                  <!-- <input type="file" class="custom-file-input" id="exampleInputFile"> -->
                                   <label class="custom-file-label" for="lampiran">Choose file</label>
                                 </div>
                               </div>
@@ -57,7 +56,7 @@
                     <div class="card-footer">
                       <div class="d-flex flex-row justify-content-end">
                           <span class="mr-2">
-                          <button type="reset" class="btn btn-danger">Cancel</button>
+                          <a type="" href="{{url()->previous()}}" class="btn btn-danger"> Cancel </a>
                           </span>
                           <span>
                           <button type="submit" class="btn btn-primary">Submit</button>

@@ -211,6 +211,7 @@ class KelompokController extends Controller
 
     public function detailacckelompok($id_kelompok)
     {
+        $userId = Auth::id();
         $kelompoks = Kelompok::findOrFail($id_kelompok);
         $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
@@ -256,7 +257,7 @@ class KelompokController extends Controller
         ->get();
                     
 
-        return view('admin.kelompok.detailKelompok', compact('kelompok', 'kelompoks', 'mahasiswa_tersedia'));
+        return view('admin.kelompok.detailKelompok', compact('userId','kelompok', 'kelompoks', 'mahasiswa_tersedia'));
     }
 
     public function postacckelompok(Request $request)
@@ -350,6 +351,7 @@ class KelompokController extends Controller
             'id_mahasiswa' => $request->id_mahasiswa,
             'status_keanggotaan' => 'Anggota',
             'status_join' => 'diterima',
+            'created_by' => $request->created_by,
         ]);
         return response()->json(['message' => 'Anggota berhasil ditambahkan.']);
     }

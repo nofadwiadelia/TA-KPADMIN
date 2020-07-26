@@ -35,7 +35,8 @@
                   <th>Alamat</th>
                   <th>Status</th>
                   <th>Blacklist</th>
-                  <th>Aksi</th>
+                  <th width="15%">Aksi</th>
+
                 </tr>
                 </thead>
                 <tbody>

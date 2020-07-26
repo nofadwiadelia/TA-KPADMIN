@@ -79,7 +79,7 @@
                                     <input type="hidden" name="id_users" id="id_users" value="{{ $instansi->id_users }}">
                                     <div class="d-flex flex-row justify-content-end">
                                         <span class="mr-2">
-                                        <input type="submit" class="btn btn-danger" value="Cancel" />
+                                        <a type="" href="{{url()->previous()}}" class="btn btn-danger"> Cancel </a>
                                         </span>
                                         <span>
                                         <input type="submit" class="btn btn-primary" value="Submit" />

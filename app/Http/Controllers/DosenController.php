@@ -32,7 +32,7 @@ class DosenController extends Controller
         $dosen->status = $request->status;
         $dosen->save();
 
-        return response()->json(['message' => 'Dosen status updated successfully.']);
+        return response()->json(['message' => 'Status dosen berhasil diubah.']);
 
     }
 
@@ -57,7 +57,7 @@ class DosenController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|unique:users|max:191',
+            'username' => 'required|string|unique:users|max:12',
             'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
             'nip' => 'required|string|unique:dosen|max:50',
@@ -103,7 +103,7 @@ class DosenController extends Controller
                 'created_by' => $request->created_by,
             ]);
             $data->save();
-            return response()->json(['message' => 'Dosen added successfully.']);
+            return response()->json(['message' => 'Dosen berhasil ditambahkan.']);
     }
 
     /**
@@ -182,7 +182,7 @@ class DosenController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:191',
+            'username' => 'required|string|max:12',
             'email' => 'required|email|max:191',
             'nip' => 'required|string|max:50',
             'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
@@ -215,7 +215,7 @@ class DosenController extends Controller
                 'kapasitas' => $request->kapasitas,
                 'slot' => $request->slot,
             ]);
-            return response()->json(['message' => 'Data updated successfully.']);
+            return response()->json(['message' => 'Data berhasil diubah.']);
         }
     }
 

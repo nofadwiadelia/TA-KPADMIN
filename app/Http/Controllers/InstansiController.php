@@ -49,7 +49,7 @@ class InstansiController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|unique:users|max:191',
+            'username' => 'required|string|unique:users|max:12',
             'password' => 'required|min:6|max:191',
             'email' => 'required|email|max:191',
             'alamat' => 'required|max:1000',
@@ -97,7 +97,7 @@ class InstansiController extends Controller
             'created_by' => $request->created_by,
         ]);
         $data->save();
-        return response()->json(['message' => 'Instansi added successfully.']);
+        return response()->json(['message' => 'Instansi berhasil ditambahkan.']);
     }
 
     public function changeStatus(Request $request){
@@ -196,8 +196,7 @@ class InstansiController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|string|max:191',
-            'username' => 'required|string|max:191',
-            'deskripsi' => 'required|string|max:1000',
+            'username' => 'required|string|max:12',
             'email' => 'required|email|max:191',
             'website' => 'required|max:25',
             'alamat' => 'required|string|max:1000',
@@ -211,8 +210,6 @@ class InstansiController extends Controller
             'email.max' => 'email terlalu panjang !',
             'alamat.required' => 'alamat tidak boleh kosong !',
             'alamat.max' => 'no hp terlalu panjang !',
-            'deskripsi.required' => 'deskripsi tidak boleh kosong !',
-            'deskripsi.max' => 'no hp terlalu panjang !',
             'website.requires' => 'website tidak boleh kosong !',
             'website.max' => 'website terlalu panjang !',
         ]);
@@ -224,12 +221,11 @@ class InstansiController extends Controller
         ]);
         $data->instansi()->update([
             'nama' => $request->nama,
-            'deskripsi' => $request->deskripsi,
             'email' => $request->email,
             'alamat' => $request->alamat,
             'website' => $request->website,
         ]);
-        return response()->json(['message' => 'Data updated successfully.']);
+        return response()->json(['message' => 'Data berhasil diubah.']);
     }
 
     /**

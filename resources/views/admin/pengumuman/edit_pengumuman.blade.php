@@ -39,7 +39,7 @@
                     <div class="card-footer">
                       <div class="d-flex flex-row justify-content-end">
                           <span class="mr-2">
-                          <button type="reset" class="btn btn-danger">Cancel</button>
+                          <a type="" href="{{url()->previous()}}" class="btn btn-danger"> Cancel </a>
                           </span>
                           <span>
                           <button type="submit" class="btn btn-primary">Submit</button>

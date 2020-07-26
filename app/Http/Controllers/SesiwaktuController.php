@@ -15,7 +15,7 @@ class SesiwaktuController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Sesiwaktu::get();
+            $data = Sesiwaktu::where('isDeleted', 0)->get();
             return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($sesi){
                     $btn = '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$sesi->id_sesiwaktu.'" data-original-title="Edit" class="edit btn btn-sm btn-info editSesi"><i class="fas fa-pencil-alt"></i></a>';
@@ -101,7 +101,8 @@ class SesiwaktuController extends Controller
     public function destroy($id_sesiwaktu)
     {
         $sesi = Sesiwaktu::find($id_sesiwaktu);
-        $sesi->delete();
+        $sesi->isDeleted = 1;
+        $sesi->save();
         return response()->json(['message' => 'Sesi deleted successfully.']);
     }
 }

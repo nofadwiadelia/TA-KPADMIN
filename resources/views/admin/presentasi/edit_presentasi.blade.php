@@ -111,7 +111,7 @@
                                     <input type="hidden" name="id_jadwal_presentasi" id="id_jadwal_presentasi" value="{{ $presentasi->id_jadwal_presentasi }}">
                                     <div class="d-flex flex-row justify-content-end">
                                         <span class="mr-2">
-                                        <input type="submit" class="btn btn-danger" value="Cancel" />
+                                        <a type="" href="{{url()->previous()}}" class="btn btn-danger"> Cancel </a>
                                         <span class="mr-2">
                                         <input type="submit" class="btn btn-primary" value="Submit" />
                                    </div>

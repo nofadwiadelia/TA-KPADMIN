@@ -78,7 +78,6 @@ class LowonganController extends Controller
                 'pekerjaan' => 'required|string|max:100',
                 'persyaratan' => 'required|string|max:1000',
                 'kapasitas' => 'required',
-                'slot' => 'required',
                 'id_instansi' => 'required',
             ],
             [
@@ -87,7 +86,6 @@ class LowonganController extends Controller
                 'persyaratan.required' => 'persyaratan tidak boleh kosong !',
                 'persyaratan.max' => 'persyaratan terlalu panjang !',
                 'kapasitas.required' => 'kapasitas tidak boleh kosong !',
-                'slot.required' => 'slot tidak boleh kosong !',
                 'id_instansi.required' => 'instansi tidak boleh kosong !',
             ]);
             if($request->slot > $request->kapasitas){
@@ -97,7 +95,7 @@ class LowonganController extends Controller
                     'pekerjaan' => $request->pekerjaan,
                     'persyaratan' => $request->persyaratan,
                     'kapasitas' => $request->kapasitas,
-                    'slot' => $request->slot,
+                    'slot' => $request->kapasitas,
                     'id_instansi' => $request->id_instansi,
                     'id_periode' => $request->id_periode,
                     'created_by' => $request->created_by,

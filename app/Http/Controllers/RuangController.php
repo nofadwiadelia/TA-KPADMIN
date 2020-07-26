@@ -14,7 +14,7 @@ class RuangController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Ruang::get();
+            $data = Ruang::where('isDeleted', 0)->get();
             return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($ruang){
                     $btn = '<a href="javascript:void(0)"  data-toggle="tooltip" data-id="'.$ruang->id_ruang.'" data-original-title="Edit" class="edit btn btn-sm btn-info editRuang"><i class="fas fa-pencil-alt"></i></a>';
@@ -60,7 +60,7 @@ class RuangController extends Controller
         Ruang::updateOrCreate(['id_ruang' => $request->id_ruang],
                 ['ruang' => $request->ruang]);        
 
-        return response()->json(['success'=>'Ruang saved successfully.']);
+        return response()->json(['success'=>'Ruang berhasil disimpan.']);
 
     }
 
@@ -108,7 +108,8 @@ class RuangController extends Controller
     public function destroy($id_ruang)
     {
         $ruang = Ruang::find($id_ruang);
-        $ruang->delete();
-        return response()->json(['message' => 'Ruang deleted successfully.']);
+        $ruang->isDeleted = 1;
+        $ruang->save();
+        return response()->json(['message' => 'Ruang berhasil dihapus.']);
     }
 }

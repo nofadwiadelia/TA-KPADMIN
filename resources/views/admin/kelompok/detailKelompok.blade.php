@@ -102,6 +102,7 @@
                           </div>
                         </div>
                         <input type="hidden" name="id_kelompok" id="id_kelompok" value="{{ $kelompoks->id_kelompok }}">
+                        <input type="hidden" name="created_by" id="created_by" value="{{ $userId }}">
                         <div class="modal-footer justify-content-between">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                           <button type="button" class="btn btn-primary addAnggota">Save changes</button>
@@ -156,69 +157,6 @@
     
   });
 
-// jika datatable
-// $(document).ready(function(){
-
-//         var dataTable = $('#mahasiswa').DataTable({
-//         processing: true,
-//         serverSide: true,
-//         ajax:{
-//         url: "/admin/kelompok/".$id,
-//         },
-//         columns:[
-//         {data: 'DT_RowIndex', 
-//             name: 'DT_RowIndex', 
-//             orderable: false,
-//             searchable: false
-//         },
-//         {
-//             data: 'nim',
-//             name: 'nim'
-//         },
-//         {
-//             data: 'nama',
-//             name: 'nama'
-//         },
-//         {data: 'action', name: 'action', orderable: false, searchable: false},
-//         ]
-//         });
-// });
-
-
-// $(document).ready(function(){
-//     var id_kelompok = 4;
-
-//     $.ajax({
-//             type: 'get',
-//             url: ('/api/admin/detailkelompok/'+id_kelompok),
-//             dataType: 'JSON',
-//             success: function (response) {
-//                 var len = response.length;
-//                 for(var i=0; i<len; i++){
-//                     var id_mahasiswa = response[i].id_mahasiswa;
-//                     var nim = response[i].nim;
-//                     var nama = response[i].nama;
-//                     var no_hp = response[i].no_hp;
-//                     var status_keanggotaan = response[i].status_keanggotaan;
-
-//                     var tr_str = "<tr>" +
-//                         "<td>" + nim + "</td>" +
-//                         "<td>" + nama + "</td>" +
-//                         "<td>" + no_hp + "</td>" +
-//                         "<td>" + status_keanggotaan + "</td>" +
-//                         "<td class='text-center py-0 align-middle'>"+
-//                           "<div class='btn-group btn-group-sm'>"+
-//                             "<a href='/admin/mahasiswa/"+id_mahasiswa+"' class='btn btn-info'><i class='fas fa-eye'></i></a>"+
-//                           "</div>"+
-//                         "</td>"+
-//                         "</tr>";
-
-//                     $("#kelompokTable tbody").append(tr_str);
-//                 }
-//             }
-//         });
-//   });
-
 
 // OpenAnggota
   $(document).on('click', '.openAnggota', function(){
@@ -272,6 +210,7 @@
 
       $(".addAnggota").click(function () {
         var id_kelompok = $('#id_kelompok').val();
+        var created_by = $('#created_by').val();
 
         $.ajax({
           type: "POST",
@@ -279,7 +218,7 @@
           url: "/api/admin/anggota/add",
           cache:false,
           dataType: "json",
-          data: {'id_mahasiswa': id,'id_kelompok': id_kelompok},
+          data: {'id_mahasiswa': id,'id_kelompok': id_kelompok, 'created_by': created_by},
           success: function(data){
               console.log(data);
               $("#openModal").modal('hide');

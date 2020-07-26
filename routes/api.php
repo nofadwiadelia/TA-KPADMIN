@@ -45,6 +45,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/dosen/change', 'DosenController@changeStatus');
     Route::post('/dosen/add', 'DosenController@store');
     Route::post('/dosen/{id}', 'DosenController@update');
+    Route::put('/dosen/delete/{id}', 'DosenController@destroy');
     Route::post('/instansi/changestatus', 'InstansiController@changeStatus');
     Route::post('/instansi/changeblacklist', 'InstansiController@changeBlacklist');
     Route::post('/instansi/add', 'InstansiController@store');
@@ -54,7 +55,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/tolak_kelompok', 'KelompokController@declinekelompok');
     Route::post('/create_kelompok', 'KelompokController@storekelompok');
     Route::get('/detailkelompok/{id}', 'KelompokController@detail');
-    Route::delete('/kelompok/{id}', 'KelompokController@destroy');
+    Route::put('/kelompok/{id}', 'KelompokController@destroy');
     Route::delete('/kick/{id}', 'KelompokController@kick');
     Route::post('/anggota/add', 'KelompokController@addAnggotaMerge');
     Route::post('/periode/add', 'PeriodeController@store');
@@ -74,15 +75,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/presentasi/add', 'PresentasiController@store');
     Route::put('/presentasi/{id}/edit', 'PresentasiController@update');
     Route::delete('/presentasi/{id}', 'PresentasiController@destroy');
-    Route::post('/roles', 'RolesController@store');
-    Route::get('/roles/{id}', 'RolesController@edit');
-    Route::delete('/roles/{id}', 'RolesController@destroy');
     Route::post('/sesi', 'SesiwaktuController@store');
     Route::get('/sesi/{id}', 'SesiwaktuController@edit');
-    Route::delete('/sesi/{id}', 'SesiwaktuController@destroy');
+    Route::put('/sesi/{id}', 'SesiwaktuController@destroy');
     Route::post('/ruang', 'RuangController@store');
     Route::get('/ruang/{id}', 'RuangController@edit');
-    Route::delete('/ruang/{id}', 'RuangController@destroy');
+    Route::put('/ruang/{id}', 'RuangController@destroy');
     Route::post('/kelompokpenilai', 'PenilaiController@store');
     Route::get('/kelompokpenilai/{id}', 'PenilaiController@edit');
 });

@@ -36,7 +36,7 @@
                     <th>Kapasitas</th>
                     <th>Slot</th>
                     <th>Keterangan</th>
-                    <th>Aksi</th>
+                    <th  width="15%">Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -129,45 +129,6 @@
 </script>
 <script>
 
-$(document).ready(function(){
-  fill_datatable();
-
-  function fill_datatable(){
-    var dataTable = $('#dosen_data').DataTable({
-      processing: true,
-      serverSide: true,
-      ajax:{
-        url: "/admin/dosen",
-      },
-      columns:[
-        {
-          data:'nip',
-          name:'nip'
-        },
-        {
-          data:'nama',
-          name:'nama'
-        },
-        {
-          data:'no_hp',
-          name:'no_hp'
-        },
-        {data: 'status', 
-        name: 'status', 
-          render: function(data, type, full, meta){
-            if (data != null){
-              return '<input type="checkbox" data-id="{{ $dosens->id_dosen }}" name="status" class="js-switch" {{ $dosens->status == 'open' ? 'checked' : '' }}>';
-            }
-          },
-          orderable: false
-        },
-        
-        {data: 'action', name: 'action', orderable: false, searchable: false},
-      ]
-    });
-  }
-});
-
   let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
   elems.forEach(function(html) {
       let switchery = new Switchery(html,  { size: 'small' });
@@ -201,7 +162,7 @@ $(document).ready(function(){
         type: "PUT",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         dataType: "json",
-        url: '/api/admin/users/'+user_id,
+        url: '/api/admin/dosen/delete/'+user_id,
         success: function (data) {
             $('#confirmModal').modal('hide');
             window.location.reload();

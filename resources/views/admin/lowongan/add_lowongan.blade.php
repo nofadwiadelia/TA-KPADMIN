@@ -38,10 +38,6 @@
                             <input type="number" class="form-control" name="kapasitas" id="kapasitas" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Slot *</label>
-                            <input type="number" class="form-control" name="slot" id="slot" placeholder="">
-                        </div>
-                        <div class="form-group">
                           <label>Instansi *</label>
                           <select name="id_instansi" class="form-control select2" style="width: 100%;">
                               <option selected disabled>Pilih Instansi</option>
@@ -62,7 +58,7 @@
                     <div class="card-footer">
                       <div class="d-flex flex-row justify-content-end">
                           <span class="mr-2">
-                          <button type="submit" class="btn btn-danger">Cancel</button>
+                          <a type="" href="{{url()->previous()}}" class="btn btn-danger"> Cancel </a>
                           </span>
                           <span>
                           <button type="submit" class="btn btn-primary">Submit</button>
