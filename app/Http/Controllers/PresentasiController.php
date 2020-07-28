@@ -90,9 +90,8 @@ class PresentasiController extends Controller
     {
         //chect dospeng dengan dosbing belumm
         $che = Presentasi::join('kelompok as k', 'jadwal_presentasi.id_kelompok', 'k.id_kelompok')
-                        ->join('dosen as d', 'k.id_dosen', 'd.id_dosen')
-                        ->select('d.id_dosen', 'k.id_kelompok')
-                        ->where('d.id_dosen', $request->id_dospeng)
+                        ->select('k.id_dosen', 'k.id_kelompok')
+                        ->where('k.id_dosen', $request->id_dospeng)
                         ->where('k.id_kelompok', $request->id_kelompok)
                         ->first();
 

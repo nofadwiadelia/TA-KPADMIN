@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Komsi</title>
+  <title>Komsi - KP</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -74,7 +74,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
-      <span class="brand-text font-weight-light">Komsi KP</span>
+      <span class="brand-text font-weight-light">Kerja Praktik</span>
     </a>
 
     <!-- Sidebar -->
@@ -311,18 +311,6 @@ $(document).ready(function () {
         var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " style='object-fit: cover; object-position:top' width='40px' height='40px' class='mr-3 img-circle elevation-2' onerror=this.onerror=null;this.src='{{ asset('/dist/img/default-avatar.png') }}' />";
         $("#avatar1").append(kel1);
 
-        // if(foto == 'null'){
-        //   var kel2 = "<img src={{ URL::to('/') }}/dist/img/default-avatar/default-avatar.png class='img-circle elevation-2' />";
-        //   $("#avatar1").append(kel2);
-        //   // var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " class='img-circle elevation-2' />";
-        //   // $("#avatar1").append(kel1);
-        // }else{
-        //   var kel1 = "<img src={{ URL::to('/') }}/uploads/users/admin/" + foto + " class='img-circle elevation-2' />";
-        //   $("#avatar1").append(kel1);
-        //   // var kel2 = "<img src={{ URL::to('/') }}/dist/img/default-avatar/default-avatar.png class='img-circle elevation-2' />";
-        //   // $("#avatar1").append(kel2);
-        // }
-        
       }
     });
   });

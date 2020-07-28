@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Log in</title>
+  <title>KOMSI - KP</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,7 +21,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a class="login-title" href="#"><b>PKL Komsi</b><br>Admin Login System</a>
+    <a class="login-title" href="#"><b>KP Komsi</b><br>Admin Login System</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
