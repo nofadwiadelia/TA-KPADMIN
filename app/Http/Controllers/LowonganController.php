@@ -88,21 +88,19 @@ class LowonganController extends Controller
                 'kapasitas.required' => 'kapasitas tidak boleh kosong !',
                 'id_instansi.required' => 'instansi tidak boleh kosong !',
             ]);
-            if($request->slot > $request->kapasitas){
-                return response()->json(['message' => 'Slot tidak boleh lebih dari kapasitas']);
-            }else{
-                $data = Lowongan::create([
-                    'pekerjaan' => $request->pekerjaan,
-                    'persyaratan' => $request->persyaratan,
-                    'kapasitas' => $request->kapasitas,
-                    'slot' => $request->kapasitas,
-                    'id_instansi' => $request->id_instansi,
-                    'id_periode' => $request->id_periode,
-                    'created_by' => $request->created_by,
-                ]);
-                $data->save();
-                return response()->json(['message' => 'Lowongan berhasil ditambahkan.']);
-            }
+            
+            $data = Lowongan::create([
+                'pekerjaan' => $request->pekerjaan,
+                'persyaratan' => $request->persyaratan,
+                'kapasitas' => $request->kapasitas,
+                'slot' => $request->kapasitas,
+                'id_instansi' => $request->id_instansi,
+                'id_periode' => $request->id_periode,
+                'created_by' => $request->created_by,
+            ]);
+            $data->save();
+            return response()->json(['message' => 'Lowongan berhasil ditambahkan.']);
+
     }
 
     /**
@@ -126,27 +124,7 @@ class LowonganController extends Controller
                             ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'pelamar.id_pelamar', 'pelamar.status', 'pelamar.tanggal_daftar', 'instansi.id_instansi', 'periode.id_periode', 'lowongan.pekerjaan')
                             ->where('lowongan.id_lowongan', $id_lowongan)
                             ->get();
-        if(request()->ajax()){
-            $data = DB::table('pelamar')
-                    ->leftJoin('lowongan', 'pelamar.id_lowongan', 'lowongan.id_lowongan')
-                    ->leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')
-                    ->leftJoin('kelompok', 'pelamar.id_kelompok', '=', 'kelompok.id_kelompok')
-                    ->leftJoin('kelompok_detail', 'kelompok.id_kelompok', '=', 'kelompok_detail.id_kelompok')
-                    ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                    ->where('kelompok_detail.status_keanggotaan', 'Ketua')
-                    ->select('kelompok.nama_kelompok', 'kelompok.id_kelompok', 'mahasiswa.nama', 'pelamar.id_pelamar', 'pelamar.status', 'pelamar.tanggal_daftar', 'instansi.id_instansi')
-                    ->where('lowongan.id_lowongan', $id_lowongan)
-                    ->get();
-            return datatables()->of($data)->addIndexColumn()
-                ->addColumn('action', function($lowongan){
-                    $btn = '<a href="#" id="'.$lowongan->id_lowongan.'" class="btn btn-sm btn-info editbtn"><i class="fas fa-check"></i></a>';
-                    $btn .= '&nbsp;&nbsp;';
-                    $btn .= '<button type="button" id="'.$id_lowongan->id_lowongan.'" class="btn btn-danger btn-sm declinebtn"><i class="fas fa-times"></i></button>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
+                            
         return view('admin.lowongan.detail_lowongan',compact('userId','lowongan', 'applylowongan'));
     }
 

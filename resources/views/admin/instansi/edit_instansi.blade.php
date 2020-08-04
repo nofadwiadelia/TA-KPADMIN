@@ -39,7 +39,7 @@
                             <form id="editInstansi" method="post" >
                                 <div class="card-body">
                                     <div class="form-group row">
-                                        <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
+                                        <label for="nama" class="col-sm-3 col-form-label">Nama Instansi *</label>
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control" required name="nama" value="{{ $instansi->nama }}">                                       
                                         </div>

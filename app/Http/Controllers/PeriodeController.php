@@ -36,8 +36,6 @@ class PeriodeController extends Controller
     
             return response()->json(['message' => 'Status periode berhasil diubah']);
         }
-        
-
     }
 
     /**
@@ -60,12 +58,13 @@ class PeriodeController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'tahun_periode' => 'required|max:4',
+            'tahun_periode' => 'required|unique:periode,tahun_periode|max:4',
             'tgl_mulai' => 'required',
             'tgl_selesai' => 'required',
         ],
         [
             'tahun_periode.required' => 'tahun periode tidak boleh kosong !',
+            'tahun_periode.unique' => 'tahun periode sudah tersedia !',
             'tahun_periode.max' => 'tahun periode terlalu panjang !',
             'tgl_mulai.required' => 'tanggal mulai tidak boleh kosong !',
             'tgl_selesai.required' => 'tanggal selesai tidak boleh kosong !',

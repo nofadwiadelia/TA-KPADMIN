@@ -34,7 +34,7 @@ class KelompokController extends Controller
                             ->where('kelompok.id_periode', $request->id_periode)
                             ->where('kelompok.tahap', 'diterima')
                             ->where('kelompok.isDeleted', 0) 
-                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'periode.tahun_periode', 'instansi.nama as instansi_nama', 'magang.status')
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'periode.tahun_periode', 'instansi.nama as instansi_nama', 'magang.status', 'periode.tahun_periode')
                             ->get();
             }else{
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
@@ -42,8 +42,9 @@ class KelompokController extends Controller
                             ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                             ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
                             ->leftJoin('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                            ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                             ->leftJoin('instansi', 'magang.id_instansi', 'instansi.id_instansi')
-                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'instansi.nama as instansi_nama', 'magang.status')
+                            ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'instansi.nama as instansi_nama', 'magang.status', 'periode.tahun_periode')
                             ->where('kelompok.tahap', 'diterima')
                             ->where('kelompok.isDeleted', 0)
                             ->get();
@@ -64,11 +65,11 @@ class KelompokController extends Controller
                             ->select('kelompok.nama_kelompok', 'dosen.nama')
                             ->where('kelompok.id_kelompok', $id_kelompok)
                             ->first();
-        $laporan = DB::table('kelompok')->join('laporan', 'kelompok.id_kelompok', 'laporan.id_kelompok')
+        $laporan = Kelompok::join('laporan', 'kelompok.id_kelompok', 'laporan.id_kelompok')
                             ->select('laporan.*')->where('laporan.id_kelompok', $id_kelompok)
                             ->first();
-        $magang = Magang::leftJoin('kelompok', 'magang.id_kelompok', 'kelompok.id_kelompok')
-                        ->leftJoin('instansi','magang.id_instansi', 'instansi.id_instansi')
+        $magang = Kelompok::join('magang', 'kelompok.id_kelompok', 'magang.id_kelompok')
+                        ->join('instansi','magang.id_instansi', 'instansi.id_instansi')
                         ->select('instansi.nama as instansi_nama', 'magang.tanggal_mulai', 'magang.tanggal_selesai', 'instansi.alamat', 'instansi.deskripsi','instansi.website', 'magang.jobdesk')
                         ->where('magang.id_kelompok', $id_kelompok)
                         ->first();
@@ -79,7 +80,7 @@ class KelompokController extends Controller
                                 ->orWhere('kelompok_detail.status_join', 'diterima');
                             })
                             ->where('kelompok_detail.isDeleted', 0)
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok.id_kelompok')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'kelompok_detail.status_keanggotaan', 'kelompok.id_kelompok')
                             ->where('kelompok_detail.id_kelompok', '=', $id_kelompok)
                             ->get();
         return view('admin.magang.detailMagang',compact('kelompok', 'magang', 'kelompoks', 'laporan'));
@@ -215,7 +216,7 @@ class KelompokController extends Controller
         $kelompoks = Kelompok::findOrFail($id_kelompok);
         $kelompok = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok_detail.id_kelompok_detail')
+                                ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'kelompok_detail.status_keanggotaan', 'kelompok_detail.id_kelompok_detail')
                                 ->where('kelompok_detail.id_kelompok', $id_kelompok)
                                 ->where('kelompok_detail.status_join', '!=', 'ditolak')
                                 ->get();
@@ -278,7 +279,6 @@ class KelompokController extends Controller
     {
         $kelompok = Kelompok::findOrFail($request->id_kelompok);
         $kelompok->tahap = 'ditolak';
-
         $kelompok->save();
         return response()->json(['message' => 'Kelompok berhasil ditolak.']);
     }

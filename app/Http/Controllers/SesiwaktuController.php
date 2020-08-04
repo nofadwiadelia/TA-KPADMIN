@@ -32,7 +32,7 @@ class SesiwaktuController extends Controller
             return view('admin.master.sesiwaktu');
     }
 
-    /**
+    /** 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -51,11 +51,10 @@ class SesiwaktuController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'sesi' => 'required|unique|string|max:191',
+            'sesi' => 'required|unique|string',
         ],
         [
             'sesi.required' => 'sesi tidak boleh kosong !',
-            'sesi.max' => 'sesi terlalu panjang !',
             'sesi.unique' => 'sesi telah terdaftar !'
         ]);
         Sesiwaktu::updateOrCreate(['id_sesiwaktu' => $request->id_sesiwaktu],

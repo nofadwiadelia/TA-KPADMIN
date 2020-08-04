@@ -38,7 +38,7 @@
                 </form>
                 <form role="form">
                   <div class="col-sm-12">
-                  <a href="{{route('pengumuman.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Pengumuman</a> <br><br>
+                  <a href="{{route('pengumuman.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Pengumuman</a> <br><br>
                   </div>
                 </form>
               <div class="card-primary">

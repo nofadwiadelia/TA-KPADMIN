@@ -39,7 +39,7 @@ class UsersController extends Controller
             return redirect('/admin/dasboard')->with('sukses','Anda Berhasil Login');
            
     	}
-    	return redirect('admin/login')->with('error','Akun Belum Terdaftar');
+    	return redirect('admin/login')->with('error','Username atau password tidak sesuai');
     }
     public function loginmahasiswa(Request $request){
         $this->validate($request, [

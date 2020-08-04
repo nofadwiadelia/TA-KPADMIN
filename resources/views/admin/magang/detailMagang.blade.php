@@ -147,7 +147,6 @@
                   <tr>
                     <th>NIM</th>
                     <th>Nama Mahasiswa</th>
-                    <th>No.HP</th>
                     <th>Status</th>
                     <th>Detail</th>
                   </tr>
@@ -158,7 +157,6 @@
                     <td>{{$kel->nim}}</td>
                     <td>{{$kel->nama}}
                     </td>
-                    <td>{{$kel->no_hp}}</td>
                     <td>{{$kel->status_keanggotaan}}</td>
                     <td class="text-center py-0 align-middle">
                         <div class="btn-group btn-group-sm">

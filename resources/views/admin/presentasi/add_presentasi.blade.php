@@ -30,7 +30,8 @@
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label>Kelompok *</label>
-                                                <select name="id_kelompok" class="form-control select2" style="width: 100%;">
+                                                <select id="id_kelompok" name="id_kelompok" class="form-control select2" style="width: 100%;">
+                                                <option value="" selected disabled>Pilih Kelompok</option>
                                                 @foreach($kelompok as $kelompoks)
                                                 <option value="{{ $kelompoks->id_kelompok }}">{{ $kelompoks->nama_kelompok }}</option>
                                                 @endforeach
@@ -44,9 +45,7 @@
                                             <div class="form-group">
                                                 <label>Dosen Penguji *</label>
                                                 <select name="id_dospeng" id="id_dospeng" class="form-control select2" style="width: 100%;">
-                                                @foreach($dosen as $dosens)
-                                                <option value="{{ $dosens->id_dosen }}">{{ $dosens->nama }}</option>
-                                                @endforeach
+                                                
                                                 </select >
                                             </div>
                                             
@@ -143,6 +142,41 @@
 
 
 <script >
+
+
+   $('#id_kelompok').on('change', function(){
+       let id = $(this).val();
+       $('#id_dospeng').empty();
+       $('#id_dospeng').append('<option value="0" disabled selected>Proses</option>');
+       $.ajax({
+            type: "GET",
+            url: "/admin/getdospenglist/" + id,
+            success: function(response){
+                // var responses = JSON.stringify(response);
+                // console.log(responses);
+                $('#id_dospeng').empty();
+                $('#id_dospeng').append('<option value="0" disabled selected>Pilih Dosen</option>');
+                $.each(response, function(key, value){
+                        var dos = '<option value="' +key.nama+'">'+value.id_dosen+'</option>';
+                    $('#id_dospeng').append(dos);
+                });
+                // $.each(response, function(){
+                //     $.each(this, function(key, value){
+                //         var dos = '<option value="' +key['id_dosen']+'">'+value['nama']+'</option>';
+                //     $('#id_dospeng').append(dos);
+                //     });
+                // });
+                // for (var key in response){
+                //     if(response.hasOwnProperty(key)){
+                //         var dos = "<option value=" +key.id_dosen+">"+key.nama+"</option>"
+                //         $('#id_dospeng').append(dos);
+                //     }
+                // };
+            }
+        });
+   });
+
+
 $(document).ready(function(){   
     $('#addPresentasi').on('submit', function(e){
         e.preventDefault();
@@ -172,7 +206,6 @@ $(document).ready(function(){
 
               $.each(xhr.responseJSON.errors, function (key, item) 
               {
-                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
                 toastr.options.closeButton = true;
                 toastr.options.closeMethod = 'fadeOut';
                 toastr.options.closeDuration = 200;

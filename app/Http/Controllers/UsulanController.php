@@ -47,16 +47,19 @@ class UsulanController extends Controller
                                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
                                 ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                                 ->where('kelompok.id_periode', $request->id_periode)
+                                ->where('kelompok.isDeleted', 0)
                                 ->whereRaw('usulan.updated_at in (select max(usulan.updated_at) from usulan group by (usulan.id_kelompok))')
-                                ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
+                                ->select('kelompok.*', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status', 'periode.tahun_periode')
                                 ->get();
             }else{
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                                 ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
                                 ->where('kelompok_detail.status_keanggotaan', 'Ketua')
                                 ->leftJoin('dosen', 'kelompok.id_dosen', 'dosen.id_dosen')
+                                ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                                 ->leftJoin('usulan', 'kelompok.id_kelompok', 'usulan.id_kelompok')
-                                ->select('kelompok.id_kelompok', 'kelompok.nama_kelompok', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status')
+                                ->select('kelompok.id_kelompok', 'kelompok.nama_kelompok', 'mahasiswa.nama', 'dosen.nama as dosen_nama', 'usulan.status', 'periode.tahun_periode')
+                                ->where('kelompok.isDeleted', 0)
                                 ->whereRaw('usulan.updated_at in (select max(usulan.updated_at) from usulan group by (usulan.id_kelompok))')
                                 ->get();
             }
@@ -75,8 +78,9 @@ class UsulanController extends Controller
         $kelompok = Kelompok::findOrFail($id_kelompok);
         $anggota = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
                             ->leftJoin('mahasiswa', 'kelompok_detail.id_mahasiswa', 'mahasiswa.id_mahasiswa')
-                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'mahasiswa.no_hp', 'kelompok_detail.status_keanggotaan', 'kelompok.nama_kelompok', 'kelompok.id_kelompok')
+                            ->select('mahasiswa.id_mahasiswa','mahasiswa.nama', 'mahasiswa.nim', 'kelompok_detail.status_keanggotaan', 'kelompok.nama_kelompok', 'kelompok.id_kelompok')
                             ->where('kelompok_detail.id_kelompok', $id_kelompok)
+                            ->where('kelompok_detail.status_join', '!=', 'ditolak')
                             ->get();
         $usulan = Usulan::select('usulan.*')
                         ->where('usulan.id_kelompok', $id_kelompok)
@@ -142,11 +146,10 @@ class UsulanController extends Controller
             }
 
             return response()->json(['message' => 'Usulan berhasil diterima.']);
-        }else{
-            return response()->json(['message' => 'Usulan ditolak.']);
         }
-        
-        
+   
+        return response()->json(['message' => 'Usulan ditolak.']);
+
     }
     
 

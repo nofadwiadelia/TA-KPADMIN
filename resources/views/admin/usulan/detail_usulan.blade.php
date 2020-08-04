@@ -34,7 +34,6 @@
                 <tr>
                   <th>NIM</th>
                   <th>Nama Mahasiswa</th>
-                  <th>No.HP</th>
                   <th>Status</th>
                   <th>Detail</th>
                 </tr>
@@ -45,7 +44,6 @@
                   <td>{{$kel->nim}}</td>
                   <td>{{$kel->nama}}
                   </td>
-                  <td>{{$kel->no_hp}}</td>
                   <td>{{$kel->status_keanggotaan}}</td>
                   <td class="text-center py-0 align-middle">
                       <div class="btn-group btn-group-sm">
@@ -106,6 +104,7 @@
                       <div class="modal-dialog modal-lg">
                           <div class="modal-content">
                               <div class="modal-header">
+                              <h5 class="modal-title judul"></h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                   </button>
@@ -210,6 +209,25 @@
                 </div>
             </div>
           </div>
+          <div id="confirmTolak" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Confirmation</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <h6 align="center" style="margin:0;">Anda yakin ingin menolak usulan?</h6>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" name="button_tolak" id="button_tolak" class="btn btn-danger">OK</button>
+                          <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
 
         </div>
         <!-- /.col -->
@@ -317,14 +335,13 @@
     });
   });
 
-
-  // DECLINE
-  $(document).on('click','.declinebtn', function(e){
-        e.preventDefault();
-
+    $(document).on('click', '.declinebtn', function(){
         id_usulan = $(this).attr('id');
         id_kelompok = $('#id_kelompok').val();
         status = 'ditolak';
+        $('#confirmTolak').modal('show');
+      });
+      $('#button_tolak').click(function(){
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
@@ -333,15 +350,17 @@
             dataType: "json",
             data: {'id_usulan': id_usulan, 'id_kelompok': id_kelompok, 'status': status},
             success: function(data){
+              $('#confirmTolak').modal('hide');
               toastr.options.closeButton = true;
               toastr.options.closeMethod = 'fadeOut';
               toastr.options.closeDuration = 100;
+              toastr.success(data.message);
               window.location.reload();
             },
             error: function(error){
               console.log(error);
             }
         });
-    });
+      });
 </script>
 @endsection

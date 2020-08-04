@@ -51,7 +51,7 @@
                             <form id="RuangForm" name="RuangForm" class="form-horizontal">
                               <input type="hidden" name="id_ruang" id="id_ruang">
                                 <div class="form-group">
-                                    <label for="ruang" class="col-sm-2 control-label">Sesi</label>
+                                    <label for="ruang" class="col-sm-2 control-label">Ruang</label>
                                     <div class="col-sm-12">
                                         <input type="text" class="form-control" id="ruang" name="ruang" placeholder="Enter Name" value="" maxlength="50" required="">
                                     </div>
@@ -156,7 +156,7 @@ $(document).ready(function(){
       var id_ruang = $(this).data('id');
       $.get("/api/admin/ruang/" + id_ruang , function (data) {
         var id_ruang = $(this).data('id');
-          $('#modelHeading').html("Edit Sesi");
+          $('#modelHeading').html("Edit Ruang");
           $('#saveBtn').val("edit-user");
           $('#ajaxModel').modal('show');
           $('#id_ruang').val(data.id_ruang);

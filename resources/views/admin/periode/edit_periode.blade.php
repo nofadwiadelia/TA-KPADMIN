@@ -27,7 +27,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-12 text-center">
-                                            <p><h2>Periode PKL<br><strong>{{ $data->tahun_periode }}</strong>
+                                            <p><h2>Periode KP<br><strong>{{ $data->tahun_periode }}</strong>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -92,16 +92,6 @@
 @endsection
 
 @section('scripts')
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- InputMask -->
-<script src="../../plugins/moment/moment.min.js"></script>
-<script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
-<!-- date-range-picker -->
-<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
-
 
 <script >
 $(document).ready(function(){   

@@ -30,6 +30,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
+                    <th>No</th>
                     <th>NIP</th>
                     <th>Nama</th>
                     <th>No.HP</th>
@@ -40,8 +41,10 @@
                   </tr>
                   </thead>
                   <tbody>
+                  @php $no = 1; @endphp
                   @foreach($data as $dosens)
                   <tr>
+                    <td>{{$no++}}</td>
                     <td>{{$dosens->nip}}</td>
                     <td>{{ $dosens->nama}}</td>
                     <td>{{$dosens->no_hp}}</td>

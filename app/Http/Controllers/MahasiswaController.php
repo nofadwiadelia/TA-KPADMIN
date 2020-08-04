@@ -88,12 +88,8 @@ class MahasiswaController extends Controller
         $userId = Auth::id();
         return view('admin.mahasiswa.add_mahasiswa', compact('userId', 'periode'));
     }
-
-    public function downloadexcel(){
-        $file = storage_path('/public/uploads/contohIsianUser.xlsx');
-        return response()->download($file);
-    }
-
+    
+    //v2
     public function export() 
     {
         return Excel::download(new MahasiswaExport, 'mahasiswa.xlsx');
@@ -209,8 +205,7 @@ class MahasiswaController extends Controller
                                 ->selectRaw("SEC_TO_TIME(SUM(TIME_TO_SEC(buku_harian.waktu_selesai) - TIME_TO_SEC(buku_harian.waktu_mulai))) as timediff")
                                 ->first();
 
-        //TAB NILAI
-
+        //TAB NILAI 
         //Hitung Skill M
         $countTemanM = Nilai::where('id_mahasiswa',$id_mahasiswa)
         ->where('id_kelompok_penilai','1')
@@ -322,11 +317,6 @@ class MahasiswaController extends Controller
         $resultInstansi1 = number_format(@($summaryInstansi / $countInstansi), 2);
         $resultInstansi2 = number_format(@(($bobotInstansi ->bobot*$resultInstansi1)/100), 2); //nilai akhir mentor
 
-
-        $nilaiDP = Nilai::where('id_mahasiswa',$id_mahasiswa)
-                        ->select('nilai.nilai')
-                        ->where('id_kelompok_penilai','3')
-                        ->get();
         
         //NILAI PENGUJI
 
@@ -360,7 +350,6 @@ class MahasiswaController extends Controller
 
 
         //NILAI PEMBIMBING
-
         $nilaiPembimbingSkill = Nilai::where('id_mahasiswa',$id_mahasiswa)
         ->where('id_kelompok_penilai','4')
         ->where('id_aspek_penilaian', '1')->sum('nilai');

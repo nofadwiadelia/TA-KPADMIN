@@ -40,6 +40,8 @@
                 <table id="magang_data" class="table table-bordered table-striped ">
                   <thead>
                   <tr>
+                    <th>No</th>
+                    <th>Periode</th>
                     <th>Nama Kelompok</th>
                     <th>Ketua</th>
                     <th>Dosen Pembimbing</th>
@@ -88,6 +90,16 @@
         },
         columns:[
           {
+            data: 'DT_RowIndex', 
+            name: 'DT_RowIndex', 
+            orderable: false,
+            searchable: false
+          },
+          {
+            data:'tahun_periode',
+            name:'tahun_periode'
+          },
+          {
             data:'nama_kelompok',
             name:'nama_kelompok'
           },
@@ -119,20 +131,6 @@
             },
             orderable: false
           },
-          // {
-          //   data:'status',
-          //   name:'status',
-          //   render: function(data, type, full, meta){
-          //     if (data == 'diproses'){
-          //       return "<span class='badge bg-warning'>"+ data + "</span>";
-          //     }else if(data == 'diterima'){
-          //       return "<span class='badge bg-success'>"+ data + "</span>";
-          //     }else if(data =='ditolak'){
-          //       return "<span class='badge bg-danger'>"+ data + "</span>"
-          //     }
-          //   },
-          //   orderable: false
-          // },
           {
             data: 'action',
             name: 'action', 

@@ -46,6 +46,7 @@
                 <table id="mahasiswa_data" class="table table-bordered table-striped">
                   <thead>
                   <tr>
+                    <th>No</th>
                     <th>NIM</th>
                     <th>Nama</th>
                     <th>Periode</th>
@@ -111,6 +112,12 @@
         },
         columns:[
           {
+            data: 'DT_RowIndex', 
+            name: 'DT_RowIndex', 
+            orderable: false,
+            searchable: false
+          },
+          {
             data:'nim',
             name:'nim'
           },
@@ -134,10 +141,14 @@
             data:'status',
             name:'status',
             render: function(data, type, full, meta){
-              if (data == 'belum magang'){
+              if (data == 'belummagang'){
                 return "<span class='badge bg-warning'>"+ data + "</span>";
               }else if(data == 'magang'){
+                return "<span class='badge bg-info'>"+ data + "</span>";
+              }else if(data == 'selesai'){
                 return "<span class='badge bg-success'>"+ data + "</span>";
+              }else{
+                return "<span class='badge bg-warning'>belum magang</span>";
               }
             },
             orderable: false

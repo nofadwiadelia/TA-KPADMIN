@@ -68,16 +68,27 @@ class PresentasiController extends Controller
     public function create()
     {
         $userId = Auth::id();
+        $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->get();
+        $ruang = Ruang::select('id_ruang', 'ruang')->get();
+        $periode = Periode::where('status', 'open')->first();
+
         $kelompok = DB::table('kelompok')->where('isDeleted', 0)
+                        ->where('id_periode', $periode->id_periode)
                         ->whereNotIn('id_kelompok', function($q){
                             $q->select('id_kelompok')->from('jadwal_presentasi');
-                        })->get();
+                        })->orderBy('nama_kelompok', 'asc')->get();
 
-        $dosen = Dosen::select('id_dosen', 'nama')->where('status', 'open')->where('isDeleted', 0)->get();
+        $dosen = Dosen::select('id_dosen', 'nama')->where('status', 'open')->where('isDeleted', 0)->orderBy('nama', 'asc')->get();
         $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->get();
         $ruang = Ruang::select('id_ruang', 'ruang')->get();
         $periode = Periode::where('status', 'open')->first();
         return view('admin.presentasi.add_presentasi', compact('userId','kelompok', 'sesi', 'ruang', 'dosen', 'periode'));
+    }
+
+    public function getDosPeng($id_kelompok){
+        $id_dosbing = Kelompok::select('id_dosen')->where('id_kelompok', $id_kelompok)->pluck('id_dosen');
+        $dospeng = Dosen::whereNotIn('dosen.id_dosen', $id_dosbing)->select('id_dosen', 'nama')->get(); 
+        return response()->json($dospeng); 
     }
 
     /**
@@ -88,12 +99,6 @@ class PresentasiController extends Controller
      */
     public function store(Request $request)
     {
-        //chect dospeng dengan dosbing belumm
-        $che = Presentasi::join('kelompok as k', 'jadwal_presentasi.id_kelompok', 'k.id_kelompok')
-                        ->select('k.id_dosen', 'k.id_kelompok')
-                        ->where('k.id_dosen', $request->id_dospeng)
-                        ->where('k.id_kelompok', $request->id_kelompok)
-                        ->first();
 
         //dospeng, waktu, ruang, tanggal periode yang sama
         $check = Presentasi::where('id_dospeng', $request->id_dospeng)
@@ -182,11 +187,11 @@ class PresentasiController extends Controller
                             ->where('jadwal_presentasi.id_jadwal_presentasi', $id_jadwal_presentasi)
                             ->first();
 
-        $kelompok = Kelompok::select('id_kelompok', 'nama_kelompok')->get();
-        $dosen = Dosen::select('id_dosen', 'nama')->where('status', 'open')->where('isDeleted', 0)->get();
-        $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->get();
-        $ruang = Ruang::select('id_ruang', 'ruang')->get();
-        $periode = Periode::where('status', 'open')->first();
+        $kelompok = Kelompok::select('id_kelompok', 'nama_kelompok')->where('isDeleted', 0)->orderBy('nama_kelompok', 'asc')->get();
+        $dosen = Dosen::select('id_dosen', 'nama')->where('status', 'open')->where('isDeleted', 0)->orderBy('nama', 'asc')->get();
+        $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->where('isDeleted', 0)->get();
+        $ruang = Ruang::select('id_ruang', 'ruang')->where('isDeleted', 0)->get();
+        $periode = Periode::where('status', 'open')->where('isDeleted', 0)->first();
         return view('admin.presentasi.edit_presentasi', compact('presentasi','data','kelompok', 'sesi', 'ruang', 'dosen', 'periode'));
     }
 

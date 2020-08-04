@@ -43,13 +43,14 @@
                   <table id="lowongan_data" class="table table-bordered table-striped ">
                     <thead>
                     <tr>
+                      <th>No</th>
                       <th>Posisi</th>
                       <th>Persyaratan</th>
                       <th>Kapasistas</th>
                       <th>Slot</th>
                       <th>Instansi</th>
                       <th>Detail</th>
-                      <th>Aksi</th>
+                      <th width="10%">Aksi</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -106,6 +107,12 @@
           data:{id_periode:id_periode}
         },
         columns:[
+          {
+            data: 'DT_RowIndex', 
+            name: 'DT_RowIndex', 
+            orderable: false,
+            searchable: false
+          },
           {
             data:'pekerjaan',
             name:'pekerjaan'

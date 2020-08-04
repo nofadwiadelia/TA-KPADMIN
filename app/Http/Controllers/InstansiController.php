@@ -51,9 +51,10 @@ class InstansiController extends Controller
             'nama' => 'required|string|max:191',
             'username' => 'required|string|unique:users|max:25',
             'password' => 'required|min:6|max:191',
+            'confirm_password' => 'same:password',
             'email' => 'required|email|max:191',
             'alamat' => 'required|max:1000',
-            'deskripsi' => 'required|max:1000',
+            'deskripsi' => 'required|max:5000',
             'website' => 'required|max:25',
             'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:1024',
         ],
@@ -126,7 +127,7 @@ class InstansiController extends Controller
         $instansi = Instansi::findOrFail($id_instansi);
         $role = Instansi::leftJoin('users', 'instansi.id_users', 'users.id_users')
                         ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                        ->select('instansi.id_instansi', 'roles.roles')
+                        ->select('roles.roles')
                         ->where('instansi.id_instansi', '=', $id_instansi)
                         ->first();
         $lowongan = Lowongan::leftJoin('instansi', 'lowongan.id_instansi', 'instansi.id_instansi')

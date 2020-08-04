@@ -6,7 +6,7 @@
             <div class="col-sm-12">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Perusahaan</li>
+                <li class="breadcrumb-item active">Instansi</li>
                 <li class="breadcrumb-item active">Detail</li>
               </ol>
             </div><!-- /.col -->
@@ -104,7 +104,7 @@
                                                     <th>Nama Kelompok</th>
                                                     <th>Periode</th>
                                                     <th>Nama Ketua</th>
-                                                    <th>Detail Kelompok</th>
+                                                    <th>Detail</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -126,7 +126,7 @@
                                                     <th>Persyaratan</th>
                                                     <th>Kapasitas</th>
                                                     <th>Slot</th>
-                                                    <th>Periode</th>
+                                                    <th >Periode</th>
                                                     <th class="text-center py-0 align-middle">Detail</th>
                                                     <th class="text-center py-0 align-middle">Aksi</th>
                                                 </tr>
@@ -190,6 +190,12 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <!-- page script -->
 <script>
+    $(function () {
+    $("#lowongan_data").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+  });
   $(document).ready(function(){
     fill_datatable();
 

@@ -120,7 +120,7 @@
                                                 <p class="text-muted"> {{$mahasiswa->alamat}}</p>
                                             </div>
                                         </div><br><br>
-                                        <strong><i class="fas fa-pencil-alt mr-1"></i> Keahlian</strong>
+                                        <strong><i class="fas fa-pencil-alt mr-1"></i> Kemampuan</strong>
                                         <p class="text-muted">{{$mahasiswa->kemampuan}}</p><br/>
                                         <strong><i class="far fa-file-alt mr-1"></i> Pengalaman</strong>
                                         <p class="text-muted">{{$mahasiswa->pengalaman}}</p>
@@ -276,7 +276,7 @@
                                                     
                                                     </li>
                                                     <li class="list-group-item">
-                                                    <p><i style="color: #de0000" class="fa fa-map-marker"></i><b> Alamat Instansi</b></p>
+                                                    <p><b> Alamat Instansi</b></p>
                                                     @if (!empty($instansi->alamat))
                                                     <p>{{$instansi->alamat}}</p>
                                                     @else

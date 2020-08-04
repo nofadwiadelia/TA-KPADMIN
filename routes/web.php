@@ -61,6 +61,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/presentasi', 'PresentasiController@index');
         Route::get('/presentasi/create', ['as' => 'presentasi.create', 'uses' => 'PresentasiController@create']);
         Route::get('/presentasi/{id}/edit', ['as' => 'presentasi.edit', 'uses' => 'PresentasiController@edit']);
+        Route::get('/getdospenglist/{id}', 'PresentasiController@getDosPeng');
         Route::get('/usulan', 'UsulanController@usulan');
         Route::get('/usulan/kelompok/{id}/detail', 'UsulanController@detailusulan');
         Route::get('/roles', 'RolesController@index');
@@ -75,6 +76,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/login', 'UsersController@loginadmin')->name('login');
     
 });
+Route::get('get-dospeng-list', 'PresentasiController@getDosPeng');
 
 Route::prefix('mahasiswa')->group(function () {
     Route::get('/index', 'dashboardController@indexmahasiswa');

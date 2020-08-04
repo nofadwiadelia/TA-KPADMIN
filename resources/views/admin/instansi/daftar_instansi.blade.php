@@ -30,6 +30,7 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
+                  <th>No</th>
                   <th>Nama Instansi</th>
                   <th>Website</th>
                   <th>Alamat</th>
@@ -40,8 +41,10 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php $no = 1; @endphp
                 @foreach($instansi as $instansis)
                 <tr>
+                  <td>{{$no++}}</td>
                   <td>{{ $instansis->nama }}</td>
                   <td>{{ $instansis->website }}</td>
                   <td>{{ $instansis->alamat }}</td>

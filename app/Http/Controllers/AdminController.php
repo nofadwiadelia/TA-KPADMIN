@@ -23,8 +23,7 @@ class AdminController extends Controller
     {
         if(request()->ajax()){
             $data = Admin::leftJoin('users', 'admin.id_users', 'users.id_users')
-                            ->leftJoin('roles', 'users.id_roles', 'roles.id_roles')
-                            ->select('admin.*','users.id_users', 'roles.roles')
+                            ->select('admin.*','users.id_users')
                             ->where('admin.isDeleted', '0')
                             ->get();
 
@@ -143,8 +142,6 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id_users)
     {
-        $data = User::findOrFail($id_users);
-
         $this->validate($request, [
             'nama' => 'required|string|max:191',
             'username' => 'required|string|max:25',
@@ -162,7 +159,7 @@ class AdminController extends Controller
             'no_hp.max' => 'no hp terlalu panjang !',
         ]);
 
-        
+        $data = User::findOrFail($id_users);
         $data->update([
             'username' => $request->username,
             'updated_by' => $request->updated_by,
@@ -177,7 +174,11 @@ class AdminController extends Controller
 
     public function updateAvatar(Request $request, $id_admin){
         $this->validate($request, [
-            'foto' => 'nullable|image|mimes:jpg,png,jpeg',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:1024',
+        ],
+        [
+            'foto.mimes' => 'format foto tidak sesuai !',
+            'foto.max' => 'foto terlalu besar !',
         ]);
 
         $data = Admin::findOrFail($id_admin);

@@ -61,6 +61,12 @@
                                       <p class="text-muted"><small><i>*jpg,png,jpeg</i></small></p>
                                   </div>
                                   <div class="form-group row">
+                                      <label for="kapasitas" class="col-sm-3 col-form-label">Kapasitas *</label>
+                                      <div class="col-sm-9">
+                                      <input type="number" class="form-control" required name="kapasitas" placeholder="">
+                                      </div>
+                                  </div>
+                                  <div class="form-group row">
                                       <label for="teusernamext" class="col-sm-3 col-form-label">Username*</label>
                                       <div class="col-sm-9">
                                       <input type="text" class="form-control" required name="username" placeholder="">
@@ -73,15 +79,9 @@
                                       </div>
                                   </div>
                                   <div class="form-group row">
-                                      <label for="password" class="col-sm-3 col-form-label">Confirm Password *</label>
+                                      <label for="confirm_password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                       <div class="col-sm-9">
-                                      <input type="password" class="form-control" required name="password" placeholder="">
-                                      </div>
-                                  </div>
-                                  <div class="form-group row">
-                                      <label for="kapasitas" class="col-sm-3 col-form-label">Kapasitas *</label>
-                                      <div class="col-sm-9">
-                                      <input type="number" class="form-control" required name="kapasitas" placeholder="">
+                                      <input type="password" class="form-control" required name="confirm_password" placeholder="">
                                       </div>
                                   </div>
                                   <input type="hidden" class="form-control" required name="created_byy" value="{{$userId}}">

@@ -73,7 +73,7 @@
                                   <td>{{$row->nama}}</td>
                                   <td class="text-center py-0 align-middle">
                                       <div class="btn-group btn-group-sm">
-                                      <button data-nama="{{$row->nama}}" data-id="{{$row->id_mahasiswa}}" data-nim="{{$row->nim}}" data-no="{{$row->no_hp}}" class="btn btn-warning add-anggota"><i class="fas fa-plus"></i></button>
+                                      <button data-nama="{{$row->nama}}" data-id="{{$row->id_mahasiswa}}" data-nim="{{$row->nim}}" class="btn btn-warning add-anggota"><i class="fas fa-plus"></i></button>
                                       </div>
                                   </td>
                                   
@@ -114,15 +114,14 @@
                 <tr>
                   <th>NIM</th>
                   <th>Nama Mahasiswa</th>
-                  <th>No.HP</th>
                   <th>Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
                 </tbody>
               </table>
-              <button type="submit" class="btn btn-primary addAnggota">Submit</button>
               <a href="{{url()->previous()}}" class="btn btn-danger"> Cancel </a>
+              <button type="submit" class="btn btn-primary addAnggota">Submit</button>
               </div>
               </div>
             </form>
@@ -168,7 +167,6 @@
 
   $(".add-anggota").click(function () {
     $(this).attr("disabled", true);
-    let no = $(this).data("no");
     let nim = $(this).data("nim");
     let nama = $(this).data("nama");
     let id = $(this).data("id");
@@ -181,7 +179,6 @@
     "<tr>"
     + "<td>" + nim + "</td>"
     + "<td>" + nama + "</td>"
-    + "<td>" + no + "</td>"
     + "<td><button class='btn btn-danger' onclick='deleteRow(this, "+id+")' >Delete</button> <input type='hidden' name='list_anggota[]' value='"+ id +"' ></td>"
     + "</tr>";
     tableBody = $("table#kelompokTable tbody"); 

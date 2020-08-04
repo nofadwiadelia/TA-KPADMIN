@@ -44,6 +44,7 @@ class dashboardController extends Controller
 
     public function datadashboard(){
         $kelompok = Kelompok::leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
+                            ->where('kelompok.isDeleted', 0)
                             ->where('periode.status', 'open')->count();
 
         $usulan = Usulan::leftJoin('periode', 'usulan.id_periode', 'periode.id_periode')

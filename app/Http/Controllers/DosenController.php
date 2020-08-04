@@ -59,6 +59,7 @@ class DosenController extends Controller
             'nama' => 'required|string|max:191',
             'username' => 'required|string|unique:users|max:25',
             'password' => 'required|min:6|max:191',
+            'confirm_password' => 'same:password',
             'email' => 'required|email|max:191',
             'nip' => 'required|string|unique:dosen|max:50',
             'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
@@ -149,7 +150,7 @@ class DosenController extends Controller
             }
             return datatables()->of($data)->addIndexColumn()
             ->addColumn('action', function($kelompok){
-                $btn = '<a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'/detail" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>';
+                $btn = '<a href="/admin/kelompok/magang/'.$kelompok->id_kelompok.'/detail" class="btn btn-info btn-sm"><i class="fas fa-list-alt"></i></a>';
                 return $btn;
             })
             ->rawColumns(['action'])

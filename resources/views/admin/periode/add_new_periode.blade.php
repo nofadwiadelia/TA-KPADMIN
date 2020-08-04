@@ -26,11 +26,6 @@
                             <form id="periodeForm">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <p><h2>Periode PKL<br><strong>2019</strong></h2><br><i class="text-muted">4 December 2019</i></p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-12">                                
                                             <div class="form-group">
                                                 <label for="fname">Tahun Periode *</label>
@@ -126,7 +121,7 @@ $(document).ready(function(){
 
               $.each(xhr.responseJSON.errors, function (key, item) 
               {
-                // $("#errors").append("<li class='alert alert-danger'>"+item+"</li>")
+               
                 toastr.options.closeButton = true;
                 toastr.options.closeMethod = 'fadeOut';
                 toastr.options.closeDuration = 200;

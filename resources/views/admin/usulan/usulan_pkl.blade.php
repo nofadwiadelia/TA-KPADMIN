@@ -45,6 +45,7 @@
                   <thead>
                   <tr>
                     <th width="5%">No</th>
+                    <th>Periode</th>
                     <th>Nama Kelompok</th>
                     <th>Ketua</th>
                     <th>Dosen Pembimbing</th>
@@ -93,6 +94,10 @@
             name: 'DT_RowIndex', 
             orderable: false,
             searchable: false
+          },
+          {
+            data:'tahun_periode',
+            name:'tahun_periode'
           },
           {
             data:'nama_kelompok',

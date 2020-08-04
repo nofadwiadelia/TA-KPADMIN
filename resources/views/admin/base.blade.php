@@ -125,12 +125,6 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{{route('mahasiswa.index')}}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Mahasiswa</p>
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a href="/admin/dosen" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Dosen</p>
@@ -140,6 +134,12 @@
                   <a href="/admin/instansi" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Instansi</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{route('mahasiswa.index')}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Mahasiswa</p>
                   </a>
                 </li>
               </ul>
@@ -230,7 +230,7 @@
                 <li class="nav-item">
                   <a href="/admin/kelompokpenilai" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Penilai</p>
+                    <p>Kelompok Penilai</p>
                   </a>
                 </li>
               </ul>

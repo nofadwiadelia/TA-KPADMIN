@@ -27,19 +27,19 @@
                                   <div class="form-group row">
                                       <label for="nama" class="col-sm-3 col-form-label">Nama Lengkap *</label>
                                       <div class="col-sm-9">
-                                      <input type="text" class="form-control" required name="nama" placeholder="">
+                                      <input type="text" class="form-control"  name="nama" placeholder="">
                                       </div>
                                   </div>
                                   <div class="form-group row">
                                       <label for="email" class="col-sm-3 col-form-label">Email *</label>
                                       <div class="col-sm-9">
-                                      <input type="text" class="form-control" required name="email" placeholder="">
+                                      <input type="text" class="form-control"  name="email" placeholder="">
                                       </div>
                                   </div>
                                   <div class="form-group row">
                                       <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
                                       <div class="col-sm-9">
-                                      <input type="text" class="form-control" required name="no_hp" placeholder="">
+                                      <input type="text" class="form-control"   name="no_hp" placeholder="">
                                       </div>
                                   </div>
                                   <div class="form-group row">
@@ -57,7 +57,7 @@
                                   <div class="form-group row">
                                       <label for="teusernamext" class="col-sm-3 col-form-label">Username*</label>
                                       <div class="col-sm-9">
-                                      <input type="text" class="form-control" required name="username" placeholder="">
+                                      <input type="text" class="form-control"   name="username" placeholder="">
                                       </div>
                                   </div>
                                   <div class="form-group row">
@@ -69,11 +69,11 @@
                                   <div class="form-group row">
                                       <label for="confirm_password" class="col-sm-3 col-form-label">Confirm Password *</label>
                                       <div class="col-sm-9">
-                                      <input type="password" class="form-control" required name="confirm_password" placeholder="">
+                                      <input type="password" class="form-control"   name="confirm_password" placeholder="">
                                       </div>
                                   </div>
-                                  <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">
-                                  <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">
+                                  <input type="hidden" class="form-control"   name="created_by" value="{{$userId}}">
+                                  <input type="hidden" class="form-control"   name="created_by" value="{{$userId}}">
                                   
                                   <div class="d-flex flex-row justify-content-end">
                                       <span class="mr-2">

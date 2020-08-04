@@ -37,13 +37,14 @@
                   </div>
                 </form>
                 <div class="col-sm-12">
-                  <a href="{{route('presentasi.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Buat Jadwal</a> <br><br>
+                  <a href="{{route('presentasi.create')}}" class="btn btn-success float-right btn-sm"><i class="fas fa-plus"></i> Tambah Jadwal</a> <br><br>
                 </div>
               <div class="card-primary">
                 <div class="table-responsive p-0">
                   <table id="presentasi_data" class="table table-bordered table-striped ">
                     <thead>
                     <tr>
+                      <th>No</th>
                       <th>Nama Kelompok</th>
                       <th>Periode</th>
                       <th>Dosen Pembimbing</th>
@@ -115,6 +116,12 @@
           data:{id_periode:id_periode}
         },
         columns:[
+          {
+            data: 'DT_RowIndex', 
+            name: 'DT_RowIndex', 
+            orderable: false,
+            searchable: false
+          },
           {
             data:'nama_kelompok',
             name:'nama_kelompok'

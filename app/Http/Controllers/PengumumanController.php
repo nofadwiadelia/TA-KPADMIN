@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Auth;
+
 use App\Pengumuman;
 use App\Periode;
 use File;
@@ -20,8 +20,7 @@ class PengumumanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request){
         $periode = DB::table('periode')->where('isDeleted', 0)->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){
@@ -37,15 +36,14 @@ class PengumumanController extends Controller
             return datatables()->of($data)->addIndexColumn()
                 ->addColumn('action', function($pengumuman){
 
-                    $btn = '<a href="/admin/pengumuman/'.$pengumuman->id_pengumuman.'/edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>';
+                    $btn = '<a href="/admin/pengumuman/'.$pengumuman->id_pengumuman.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
                     $btn .= '&nbsp;&nbsp;';
                     $btn .= '<button type="button" name="delete" id="'.$pengumuman->id_pengumuman.'" class="btn btn-danger btn-sm deletePengumuman" ><i class="fas fa-trash"></i></button>';
                     return $btn;
             })
             ->rawColumns(['action'])
             ->make(true);
-        }
-            
+        }   
         return view('admin.pengumuman.indexpengumuman', compact('periode'));
     }
 
@@ -63,8 +61,9 @@ class PengumumanController extends Controller
      */
     public function create()
     {
+        $userId = Auth::id();
         $periode = Periode::where('status', 'open')->first();
-        return view('admin.pengumuman.add_pengumuman',compact('periode'));
+        return view('admin.pengumuman.add_pengumuman',compact('periode', 'userId'));
     }
 
     /**
@@ -82,8 +81,9 @@ class PengumumanController extends Controller
             'id_periode' => 'required',
         ],
         [
-            'judul.required' => 'judul can not be empty !',
-            'deskripsi.required' => 'deskripsi can not be empty !'
+            'judul.required' => 'judul tidak boleh kosong !',
+            'deskripsi.required' => 'deskripsi tidak boleh kosong !',
+            'lampiran.mimes' => 'format gambar tidak sesuai !'
         ]);
 
         $lampiran = null;
@@ -97,7 +97,8 @@ class PengumumanController extends Controller
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'lampiran' => $lampiran,
-            'id_periode' => $request->id_periode
+            'id_periode' => $request->id_periode,
+            'created_by' => $request->created_by
         ]);
         return response()->json(['message' => 'Pengumuman berhasil ditambahkan.']);
     }
@@ -141,9 +142,9 @@ class PengumumanController extends Controller
             'lampiran' => 'nullable|mimes:jpg,png,jpeg'
         ],
         [
-            'judul.required' => 'judul can not be empty !',
-            'deskripsi.required' => 'deskripsi can not be empty !',
-            'lampiran.mimes' => 'format tidak sesuai !'
+            'judul.required' => 'judul tidak boleh kosong !',
+            'deskripsi.required' => 'deskripsi tidak boleh kosong !',
+            'lampiran.mimes' => 'format gambar tidak sesuai !'
         ]);
        
         $data = Pengumuman::findOrFail($id_pengumuman);
@@ -180,6 +181,6 @@ class PengumumanController extends Controller
             File::delete(public_path('uploads/file/' . $data->lampiran));
         }
         $data->delete();
-        return response()->json(['message' => 'Pengumuman deleted successfully.']);
+        return response()->json(['message' => 'Pengumuman berhasil dihapus.']);
     }
 }

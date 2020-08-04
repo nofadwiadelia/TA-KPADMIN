@@ -39,7 +39,7 @@
                   <div class="row">
                     <div class="col-2"><b>Persyaratan</b>
                     </div>
-                    <div class="col-3">: {{ $lowongan->persyaratan }}</div>
+                    <div class="col-9">: {{ $lowongan->persyaratan }}</div>
                   </div>
                   <div class="row">
                     <div class="col-2"><b>Kapasitas</b>
@@ -55,19 +55,6 @@
                 <div class="col-md-12">
                   <div class="card-primary">
                     <div class="table-responsive p-0">
-                    <!-- <table id="pelamar" class="table table-bordered table-striped ">
-                      <thead>
-                      <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Kelompok</th>
-                        <th scope="col">Nama Ketua</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Pesetujuan</th>
-                        <th scope="col">Detail</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                    </table> -->
                         <table class="table table-bordered table-striped">
                               <thead>
                                 <tr>
@@ -97,14 +84,7 @@
                                   @endif
                                   <td class="text-center py-0 align-middle">
                                     <a href="/admin/kelompok/{{$row->id_kelompok}}" class="btn-sm btn-info"><i class="fas fa-list-alt"></i></a>
-                                  </td>
-
-                                    <!-- <input type="hidden" id="idperiode" value="{{$row->id_periode}}">
-                                    <input type="hidden" id="idkelompok" value="{{$row->id_kelompok}}">
-                                    <input type="hidden" id="idinstansi" value="{{$row->id_instansi}}">
-                                    <input type="hidden" id="jobdesk" value="{{$row->pekerjaan}}"> -->
-
-                                    
+                                  </td>                                  
                                   <td class="text-center py-0 align-middle">
                                     <button data-id="{{$row->id_pelamar}}" data-idperiode="{{$row->id_periode}}" data-idkelompok="{{$row->id_kelompok}}" data-idinstansi="{{$row->id_instansi}}" data-jobdesk="{{$row->pekerjaan}}" class="btn btn-sm btn-info accbtn" <?php if($row->status!='melamar') {echo ' disabled=disabled ';}?>><i class="fas fa-check" ></i></button>
                                     <button type="button" id="{{$row->id_pelamar}}" class="btn btn-danger btn-sm declinebtn" <?php if($row->status!='melamar') {echo ' disabled=disabled ';}?>><i class="fas fa-times"></i></button>

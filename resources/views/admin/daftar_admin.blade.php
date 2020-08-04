@@ -31,10 +31,10 @@
                 <table id="admin_data" class="table table-bordered table-striped">
                   <thead>
                   <tr>
+                    <th>No</th>
                     <th>Nama</th>
                     <th>No.HP</th>
                     <th>Email</th>
-                    <th>Role</th>
                     <th>Aksi</th>
                   </tr>
                   </thead>
@@ -95,6 +95,12 @@
         },
         columns:[
           {
+            data: 'DT_RowIndex', 
+            name: 'DT_RowIndex', 
+            orderable: false,
+            searchable: false
+          },
+          {
             data:'nama',
             name:'nama'
           },
@@ -105,10 +111,6 @@
           {
             data:'email',
             name:'email'
-          },
-          {
-            data:'roles',
-            name:'roles'
           },
           {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
