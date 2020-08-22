@@ -178,10 +178,22 @@ $(document).ready(function(){
           $('#sesi_data').DataTable().ajax.reload();
           $('#SesiForm').trigger("reset");
           $('#ajaxModel').modal('hide');
+          toastr.options.closeButton = true;
+          toastr.options.closeMethod = 'fadeOut';
+          toastr.options.closeDuration = 100;
+          toastr.success(data.success);
         },
-        error: function (data) {
-            console.log('Error:', data);
-            $('#saveBtn').html('Save Changes');
+        error: function(xhr, status, error) 
+        {
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+               
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 200;
+                toastr.error(item);
+              });
+
         }
       });
     });

@@ -105,7 +105,7 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            url: "/api/admin/periode/add/",
+            url: "/api/admin/periode/add",
             cache:false,
             dataType: "json",
             data: $('#periodeForm').serialize(),

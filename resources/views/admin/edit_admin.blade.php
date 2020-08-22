@@ -143,6 +143,7 @@
                                               <label class="custom-file-label" for="foto">Choose file</label>
                                           </div>
                                           </div>
+                                           <p class="text-muted"><small><i>*jpg,png,jpeg &nbsp &nbsp *max 1 MB</i></small></p>
                                         </div>
                                       </div>
                                       <div class="modal-footer justify-content-between">

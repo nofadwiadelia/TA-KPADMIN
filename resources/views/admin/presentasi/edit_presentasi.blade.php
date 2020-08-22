@@ -46,9 +46,6 @@
                                             <label>Dosen Penguji *</label>
                                                 <select name="id_dospeng" id="id_dospeng" class="form-control select2" style="width: 100%;">
                                                 <option selected="selected" value="{{ $data->id_dosen }}">{{$data->dospeng}}</option>
-                                                @foreach($dosen as $dosens)
-                                                <option value="{{ $dosens->id_dosen }}">{{ $dosens->nama }}</option>
-                                                @endforeach
                                                 </select >
                                             </div>
                                             
@@ -62,12 +59,8 @@
                                             <div class="form-group">
                                                 <label>Tanggal *</label>
                                                 <div class="input-group date">
-                                                    <!-- <div class="input-group-prepend">
-                                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                                    </div> -->
                                                     <input type="date" name="tanggal" id="tanggal" class="form-control pull-right required" value="{{$presentasi->tanggal}}">
                                                 </div>
-                                                <!-- /.input group -->
                                             </div>
                                             
                                         </div>
@@ -141,10 +134,44 @@
 <script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script> -->
 
 <script >
-$(document).ready(function(){   
+$(document).ready(function(){ 
+
+
+    //GET DOSEN PENGUNJI 
+    $('#id_kelompok').on('change', function(){
+       let id = $(this).val();
+       if(id){
+            $.ajax({
+                    type: "GET",
+                    url: "/api/admin/getdospenglist/" + id,
+                    success: function(response){
+                        if(response){
+                            console.log(response);
+                            $("#id_dospeng").empty();
+                            $("#id_dospeng").append('<option value="0" disabled selected>Pilih Dosen</option>');
+                            $.each(response, function(key, value){
+                                var dos = '<option value="' +value.id_dosen+'">'+value.nama+'</option>';
+                                $("#id_dospeng").append(dos);
+                            });
+                        }else{
+                            $("#id_dospeng").empty();
+                        }
+                    }
+            });
+       }else{
+        $("#id_dospeng").empty();
+       }
+   });
+
+    //UPDATE PRESENTASI  
     $('#editPresentasi').on('submit', function(e){
         e.preventDefault();
         var id = $('#id_jadwal_presentasi').val();
+        var id_kelompok = $('#id_kelompok').val();
+        var id_dospeng = $('#id_dospeng').val();
+        var id_sesiwaktu = $('#id_sesiwaktu').val();
+        var id_ruang = $('#id_ruang').val();
+        var tanggal = $('#tanggal').val();
 
         $.ajax({
             type: "PUT",
@@ -152,7 +179,8 @@ $(document).ready(function(){
             url: "/api/admin/presentasi/"+id+"/edit",
             cache:false,
             dataType: "json",
-            data: $('#editPresentasi').serialize(),
+            data: {'id_dospeng': id_dospeng, 'id_kelompok': id_kelompok, 'id_sesiwaktu': id_sesiwaktu, 'id_ruang': id_ruang, 'tanggal': tanggal},
+            // data: $('#editPresentasi').serialize(),
             success: function(data){
                 window.location = "/admin/presentasi";
                 toastr.options.closeButton = true;

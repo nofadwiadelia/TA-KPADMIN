@@ -111,9 +111,9 @@ class UsersController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file'); //GET FILE
             Excel::import(new UsersImport, $file); //IMPORT FILE 
-            return redirect('/admin/mahasiswa');
+            return redirect('/admin/mahasiswa')->with('success','Berhasil import mahasiswa');
         }  
-        return redirect()->back()->with(['error' => 'Pilih file terlebih dahulu']);
+        return redirect()->back()->with('error', 'Gagal import mahasiswa');
 
     }
 

@@ -109,6 +109,7 @@ class KelompokController extends Controller
                             ->where('kelompok.id_periode', $request->id_periode)
                             ->select('periode.tahun_periode','kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->where('kelompok.isDeleted', 0)
+                            ->orderBy('kelompok.created_at', 'DESC')
                             ->get();
             }else{
                 $data = Kelompok::leftJoin('kelompok_detail', 'kelompok.id_kelompok', 'kelompok_detail.id_kelompok')
@@ -118,6 +119,7 @@ class KelompokController extends Controller
                             ->leftJoin('periode', 'kelompok.id_periode', 'periode.id_periode')
                             ->select('periode.tahun_periode','kelompok.id_kelompok','kelompok.nama_kelompok','kelompok.tahap', 'mahasiswa.nama', 'dosen.nama as dosen_nama')
                             ->where('kelompok.isDeleted', 0)
+                            ->orderBy('kelompok.created_at', 'DESC')
                             ->get();
             }
             return datatables()->of($data)

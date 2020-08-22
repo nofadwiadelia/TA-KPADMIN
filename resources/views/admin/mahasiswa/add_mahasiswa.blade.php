@@ -21,6 +21,12 @@
           <div class="card">
                 <div class="container">
                     <div class="row justify-content-center">
+                         @if (Session::has('error'))
+                          <div class="alert alert-danger alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button> 
+                              <strong>{{ \Illuminate\Support\Facades\Session::get('error') }}</strong>
+                          </div>
+                        @endif
                         <div class="col-8">
                           <div class="card-body">
                               <form id="addMahasiswa" method="post" enctype="multipart/form-data">
@@ -68,31 +74,23 @@
                               </form>
                               <div class="row justify-content-center">
                                   <p class="text-center">-- ATAU --</p>
-                                  <img src="{{ asset('images/IsianContoh.png') }}">
+                                  <img src="{{ asset('images/ContohIsianMhs.png') }}">
                                 </div><br>
                                 <div class="row justify-content-center">
                                   <div class="col-md-6">
-                                    <a style="display: block;" href="{{ URL::to('/') }}/uploads/contohIsianUser.xlsx" class="btn btn-sm btn-primary">Download Format Excel Disini</a>
+                                    <a style="display: block;" href="{{ URL::to('/') }}/images/contohIsianUserMhsw.xlsx" class="btn btn-sm btn-primary">Download Format Excel Disini</a>
                                   </div>
                                 </div><br>
                                   <p>
-                                    <span class="badge badge-danger">1</span> Setelah dowload format Excel diatas, pastikan Anda telah mengisikan data dengan benar.
+                                    <span class="badge badge-danger">1</span> Setelah download format Excel diatas, ubah isian contoh dengan data mahasiswa dan pastikan Anda telah mengisikan data dengan benar.
                                   </p>
                                   <p>
-                                    <span class="badge badge-danger">2</span> Unggah file Excel yang berisi data user yang akan ditambahkan, pada form input file dibawah ini.
+                                    <span class="badge badge-danger">2</span> Unggah file Excel yang berisi data mahasiswa yang akan ditambahkan, pada form input file dibawah ini.
                                   </p>
                                   <div class="row">
                                     <div class="col-md-12">
                                       <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <!-- <div class="form-group-row">
-                                          <div class="input-group">
-                                            <div class="custom-file">
-                                              <input type="file" class="form-control required" id="file" name="file">
-                                              <label class="custom-file-label" for="foto">Choose file</label>
-                                            </div>
-                                          </div>
-                                        </div> -->
                                         <div class="form-group row">
                                           <div class="input-group">
                                             <div class="custom-file">
@@ -162,19 +160,6 @@
         });
     });
 
-    $(document).on('click', '.surat', function () {
-        $.ajax({
-            url: '/api/admin/isianUser',
-            method: 'GET',
-            dataType: 'JSON',
-            success: function (response) {
-              toastr.options.closeButton = true;
-              toastr.options.closeMethod = 'fadeOut';
-              toastr.options.closeDuration = 100;
-              toastr.success(data.message);
-            }
-        });
-    });
 
   });
 </script>

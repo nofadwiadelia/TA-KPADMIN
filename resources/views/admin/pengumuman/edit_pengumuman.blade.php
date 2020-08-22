@@ -42,7 +42,7 @@
                                   <label class="custom-file-label" for="lampiran">Choose file</label>
                                 </div>
                               </div>
-                              <p class="text-muted"><small><i>*jpg,png,jpeg</i></small></p>
+                              <p class="text-muted"><small><i>*pdf,jpg,png,jpeg</i></small></p>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -84,7 +84,7 @@
             processData: false,
             data: new FormData(this),
             success: function(data){
-                window.location = "/admin/pengumuman/";
+                window.location = "/admin/pengumuman";
                 toastr.options.closeButton = true;
                 toastr.options.closeMethod = 'fadeOut';
                 toastr.options.closeDuration = 100;

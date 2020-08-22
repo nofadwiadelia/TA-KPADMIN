@@ -16,13 +16,6 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Acces-Control-Request-Method, Authorization");
 header("Acces-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-    // Route::post('/login', 'UsersController@loginadmin');
-    
-    
 
 Route::prefix('admin')->group(function () {
     Route::group(['middleware' => 'auth:api'], function(){
@@ -38,7 +31,6 @@ Route::prefix('admin')->group(function () {
     Route::put('/users/{id}', 'UsersController@destroy');
     Route::put('/password/{id}/', 'UsersController@updatePassword');
     Route::get('/mahasiswa', 'MahasiswaController@index');
-    Route::get('/mahasiswa/nilai/{id}', 'NilaiController@index');
     Route::post('/mahasiswa/add', 'MahasiswaController@store');
     Route::post('/mahasiswa/{id}', 'MahasiswaController@updateadmin');
     Route::put('/mahasiswa/delete/{id}', 'MahasiswaController@destroy');
@@ -69,11 +61,13 @@ Route::prefix('admin')->group(function () {
     Route::post('/declinelowongan', 'LowonganController@declinelowongan');
     Route::post('/persetujuanusulan', 'UsulanController@accusulan');
     Route::get('/usulan/{id}', 'UsulanController@editusulan');
+    Route::get('/pengumuman/{id}', 'PengumumanController@detaillampiran');
     Route::post('/pengumuman/add', 'PengumumanController@store');
     Route::post('/pengumuman/{id}/edit', 'PengumumanController@update');
     Route::delete('/pengumuman/{id}', 'PengumumanController@destroy');
     Route::post('/presentasi/add', 'PresentasiController@store');
     Route::put('/presentasi/{id}/edit', 'PresentasiController@update');
+    Route::get('/getdospenglist/{id}', 'PresentasiController@getDosPeng');
     Route::delete('/presentasi/{id}', 'PresentasiController@destroy');
     Route::post('/sesi', 'SesiwaktuController@store');
     Route::get('/sesi/{id}', 'SesiwaktuController@edit');

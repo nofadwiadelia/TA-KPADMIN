@@ -24,6 +24,7 @@ class InstansiController extends Controller
     public function index()
     {
         $instansi = Instansi::where('isDeleted', '0')
+                            ->orderBy('nama', 'ASC')
                             ->get();
         return view('admin.instansi.daftar_instansi',compact('instansi'));
     }
@@ -74,7 +75,7 @@ class InstansiController extends Controller
             'deskripsi.max' => 'no hp terlalu panjang !',
             'website.max' => 'website terlalu panjang !',
             'foto.mimes' => 'format foto tidak sesuai !',
-            'foto.max' => 'foto terlalu besar !',
+            'foto.max' => 'foto maksimal 1 MB !',
         ]);
 
         $foto = null;
@@ -134,6 +135,7 @@ class InstansiController extends Controller
                             ->leftJoin('periode', 'lowongan.id_periode', 'periode.id_periode')
                             ->select('lowongan.id_lowongan', 'lowongan.pekerjaan', 'lowongan.persyaratan', 'lowongan.kapasitas','lowongan.slot', 'lowongan.id_instansi', 'instansi.id_instansi', 'instansi.nama', 'periode.tahun_periode')
                             ->where('lowongan.id_instansi', '=', $id_instansi)
+                            ->where('lowongan.isDeleted', 0)
                             ->get();
         if(request()->ajax()){
             if(!empty($request->id_periode)){

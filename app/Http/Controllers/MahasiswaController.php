@@ -50,6 +50,7 @@ class MahasiswaController extends Controller
                                 ->leftJoin('periode', 'mahasiswa.id_periode', 'periode.id_periode')
                                 ->select('mahasiswa.*', 'kelompok.nama_kelompok', 'periode.tahun_periode', 'kelompok_detail.status_keanggotaan', 'magang.status')
                                 ->where('mahasiswa.isDeleted', '0')
+                                ->orderBy('mahasiswa.nama', 'ASC')
                                 ->get();
             }
             return datatables()->of($data)->addIndexColumn()
@@ -406,8 +407,8 @@ class MahasiswaController extends Controller
         $this->validate($request, [
             'nama' => 'required|string|max:191',
             'username' => 'required|string|max:25',
-            'email' => 'required|email|max:191',
-            'no_hp' => 'required|max:20|regex:/^[0-9]+$/',
+            'email' => 'nullable|email|max:191',
+            'no_hp' => 'nullable|max:20|regex:/^[0-9]+$/',
             'nim' => 'required|string|max:20',
         ],
         [
@@ -416,7 +417,6 @@ class MahasiswaController extends Controller
             'nama.max' => 'nama terlalu panjang !',
             'username.required' => 'username tidak boleh kosong !',
             'username.max' => 'username terlalu panjang !',
-            'email.required' => 'email tidak boleh kosong!',
             'email.max' => 'email terlalu panjang !',
             'nim.required' => 'nim tidak boleh kosong ! !',
             'nim.max' => 'nim terlalu panjang !',

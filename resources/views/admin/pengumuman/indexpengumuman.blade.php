@@ -49,7 +49,7 @@
                       <th width="5%">No</th>
                       <th>Judul</th>
                       <th>deskripsi</th>
-                      <th>Lampiran</th>
+                      <th width="5%">Lampiran</th>
                       <th width="10%">Aksi</th>
                     </tr>
                     </thead>
@@ -76,6 +76,32 @@
                       </div>
                   </div>
                 </div>
+
+                  <div class="modal fade" id="surat">
+                      <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                              <h5 class="modal-title judul"></h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+
+                              <div class="modal-body">
+                                  <div class="row justify-content-center" id="suratLampiran">
+                                        
+                                  </div>
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                  </div>
+                              </div>
+                          </div>
+                          <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                  </div>
+                  <!-- /.modal -->
+
               </div>
             </div>
             <!-- /.card-body -->
@@ -123,15 +149,7 @@
           {
             data:'lampiran',
             name:'lampiran',
-            render: function(data, type, full, meta){
-              if (data != null){
-                return "<img src='{{ URL::to('/') }}/uploads/pengumuman/" + data + "' width='50' height='50' />";
-
-              }else{
-                return "<img src='http://via.placeholder.com/50x50'>";
-              }
-            },
-            orderable: false
+            orderable: false, searchable: false
           },
           {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
@@ -146,7 +164,26 @@
     });
   });
 
-  
+  $(document).on('click','.showlamp', function(){
+    id = $(this).attr('id');
+    $('#surat').modal('show');
+    $.ajax({
+      url: '/api/admin/pengumuman/'+id,
+      method: 'GET',
+      dataType: 'JSON',
+      data: {id_pengumuman: id},
+      success: function (response) {
+          var lampiran = "<iframe src={{ URL::to('/') }}/uploads/pengumuman/" + response.lampiran + " width='700px' height='700px' frameborder='0' ></iframe>";
+          $("#suratLampiran").html(lampiran);
+          $('#surat').modal({
+              backdrop: 'static',
+              keyboard: true,
+              show: true
+          });
+      }
+    });
+  });
+
   $(document).on('click', '.deletePengumuman', function(){
     pengumuman_id = $(this).attr('id');
     $('#confirmModal').modal('show');

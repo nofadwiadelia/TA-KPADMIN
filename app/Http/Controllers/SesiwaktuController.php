@@ -51,11 +51,10 @@ class SesiwaktuController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'sesi' => 'required|unique|string',
+            'sesi' => 'required|string',
         ],
         [
-            'sesi.required' => 'sesi tidak boleh kosong !',
-            'sesi.unique' => 'sesi telah terdaftar !'
+            'sesi.required' => 'sesi tidak boleh kosong !'
         ]);
         Sesiwaktu::updateOrCreate(['id_sesiwaktu' => $request->id_sesiwaktu],
                 ['sesi' => $request->sesi]);        

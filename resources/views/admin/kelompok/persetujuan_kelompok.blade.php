@@ -55,7 +55,7 @@
                     <th scope="col">Dosen Pembimbing</th>
                     <th scope="col">Status</th>
                     <th scope="col">Pesetujuan</th>
-                    <th scope="col">Detail</th>
+                    <th scope="col" width="10%">Detail</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -259,7 +259,7 @@
       $.ajax({
           type: "POST",
           headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-          url: "/api/admin/persetujuan_kelompoks/",
+          url: "/api/admin/persetujuan_kelompoks",
           cache:false,
           dataType: "json",
           data: {'id_dosen': id_dosen,'id_kelompok': id_kelompok},
@@ -287,7 +287,7 @@
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            url: "/api/admin/tolak_kelompok/",
+            url: "/api/admin/tolak_kelompok",
             cache:false,
             dataType: "json",
             data: {'id_kelompok': id_kelompok},

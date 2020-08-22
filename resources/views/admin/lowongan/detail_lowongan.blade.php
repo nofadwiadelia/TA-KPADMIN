@@ -114,6 +114,26 @@
                                 </div>
                             </div>
                           </div>
+                          
+                          <div id="confirmTolak" class="modal fade" role="dialog">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Confirmation</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <h6 align="center" style="margin:0;">Anda yakin ingin menolak lamaran?</h6>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" name="button_tolak" id="button_tolak" class="btn btn-danger">OK</button>
+                                      <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
                     </div>
                   </div>
                 </div>  
@@ -155,7 +175,7 @@
     $.ajax({
         type: "POST",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-        url: "/api/admin/persetujuanlowongan/",
+        url: "/api/admin/persetujuanlowongan",
         cache:false,
         dataType: "json",
         data: {'id_pelamar': id_pelamar, 'id_lowongan': id_lowongan, 'id_kelompok': id_kelompok,'created_by': created_by, 'id_instansi': id_instansi, 'id_periode': id_periode, 'jobdesk': jobdesk},
@@ -176,26 +196,30 @@
     e.preventDefault();
 
     id_pelamar = $(this).attr('id');
+    $('#confirmTolak').modal('show');
 
-    $.ajax({
-        type: "POST",
-        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-        url: "/api/admin/declinelowongan/",
-        cache:false,
-        dataType: "json",
-        data: {'id_pelamar': id_pelamar},
-        success: function(data){
-          toastr.options.closeButton = true;
-          toastr.options.closeMethod = 'fadeOut';
-          toastr.options.closeDuration = 100;
-          toastr.success(data.message);
-          window.location.reload();
-        },
-        error: function(error){
-          console.log(error);
-        }
-    });
   });
+  
+    $('#button_tolak').click(function(){
+        $.ajax({
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            url: "/api/admin/declinelowongan",
+            cache:false,
+            dataType: "json",
+            data: {'id_pelamar': id_pelamar},
+            success: function(data){
+              toastr.options.closeButton = true;
+              toastr.options.closeMethod = 'fadeOut';
+              toastr.options.closeDuration = 100;
+              toastr.success(data.message);
+              window.location.reload();
+            },
+            error: function(error){
+              console.log(error);
+            }
+        });
+      });
 
   
 </script>

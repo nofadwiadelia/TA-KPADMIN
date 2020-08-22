@@ -33,24 +33,29 @@ class PengumumanController extends Controller
                                     ->where('isDeleted', 0)
                                     ->get();
             }
-            return datatables()->of($data)->addIndexColumn()
-                ->addColumn('action', function($pengumuman){
-
-                    $btn = '<a href="/admin/pengumuman/'.$pengumuman->id_pengumuman.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
-                    $btn .= '&nbsp;&nbsp;';
-                    $btn .= '<button type="button" name="delete" id="'.$pengumuman->id_pengumuman.'" class="btn btn-danger btn-sm deletePengumuman" ><i class="fas fa-trash"></i></button>';
-                    return $btn;
+            return datatables()->of($data)
+            ->addColumn('lampiran', function($pengumuman){
+                $lamp = '<a href="javascript:void(0)"  id="'.$pengumuman->id_pengumuman.'" class="btn btn-warning btn-sm showlamp"><i class="fas fa-eye"></i></a>';
+                return $lamp;
             })
-            ->rawColumns(['action'])
+            ->addColumn('action', function($pengumuman){
+
+                $btn = '<a href="/admin/pengumuman/'.$pengumuman->id_pengumuman.'/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i></a>';
+                $btn .= '&nbsp;&nbsp;';
+                $btn .= '<button type="button" name="delete" id="'.$pengumuman->id_pengumuman.'" class="btn btn-danger btn-sm deletePengumuman" ><i class="fas fa-trash"></i></button>';
+                return $btn;
+            })
+            ->addIndexColumn()
+            ->rawColumns(['lampiran','action'])
             ->make(true);
         }   
         return view('admin.pengumuman.indexpengumuman', compact('periode'));
     }
 
-    public function indexmahasiswa()
+    public function detaillampiran($id_pengumuman)
     {
-        $data = Pengumuman::get();
-        return view('mahasiswa.pengumuman',compact('data'));
+        $pengumuman = Pengumuman::find($id_pengumuman);
+        return response()->json($pengumuman);
     }
 
 
@@ -77,13 +82,13 @@ class PengumumanController extends Controller
         $this->validate($request, [
             'judul' => 'required|string|max:100',
             'deskripsi' => 'required|string|max:500',
-            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg',
+            'lampiran' => 'nullable|mimes:jpg,png,jpeg,pdf',
             'id_periode' => 'required',
         ],
         [
             'judul.required' => 'judul tidak boleh kosong !',
             'deskripsi.required' => 'deskripsi tidak boleh kosong !',
-            'lampiran.mimes' => 'format gambar tidak sesuai !'
+            'lampiran.mimes' => 'format file tidak sesuai !'
         ]);
 
         $lampiran = null;
@@ -139,12 +144,12 @@ class PengumumanController extends Controller
         $this->validate($request, [
             'judul' => 'required|string|max:100',
             'deskripsi' => 'required|string|max:500',
-            'lampiran' => 'nullable|mimes:jpg,png,jpeg'
+            'lampiran' => 'nullable|mimes:jpg,png,jpeg,pdf',
         ],
         [
             'judul.required' => 'judul tidak boleh kosong !',
             'deskripsi.required' => 'deskripsi tidak boleh kosong !',
-            'lampiran.mimes' => 'format gambar tidak sesuai !'
+            'lampiran.mimes' => 'format file tidak sesuai !'
         ]);
        
         $data = Pengumuman::findOrFail($id_pengumuman);

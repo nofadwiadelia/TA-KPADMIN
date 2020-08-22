@@ -8,7 +8,7 @@
             <div class="col-sm-12">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Admin</li>
+                <li class="breadcrumb-item active">Mahasiswa</li>
                 <li class="breadcrumb-item active">Edit</li>
               </ol>
             </div><!-- /.col -->
@@ -25,7 +25,7 @@
                           <div class="col-4">
                             <div class="row">
                               @if (!empty($mahasiswa->foto))
-                              <img src="{{ asset('uploads/users/admin/' . $mahasiswa->foto) }}" 
+                              <img src="{{ asset('uploads/avatar/' . $mahasiswa->foto) }}" 
                                   alt="{{ $mahasiswa->nama }}" width="200px" height="250px">
                               @else
                               <img src="{{ asset('dist/img/default-avatar.png') }}" 
@@ -51,13 +51,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                      <label for="email" class="col-sm-3 col-form-label">Email *</label>
+                                      <label for="email" class="col-sm-3 col-form-label">Email </label>
                                       <div class="col-sm-9">
                                       <input type="text" class="form-control"  name="email" value="{{ $mahasiswa->email }}">
                                       </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="no_hp" class="col-sm-3 col-form-label">No HP *</label>
+                                        <label for="no_hp" class="col-sm-3 col-form-label">No HP </label>
                                         <div class="col-sm-9">
                                         <input type="text" class="form-control"  name="no_hp" value="{{ $mahasiswa->no_hp }}">
                                         </div>

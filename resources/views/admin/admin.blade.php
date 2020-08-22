@@ -100,7 +100,7 @@
 
     $.ajax({
       type: 'GET',
-      url: '/api/admin/datadashboard/',
+      url: '/api/admin/datadashboard',
       dataType: 'JSON',
       headers: {
           Authorization : 'Bearer {{Auth::user()->api_token}}',
@@ -114,7 +114,7 @@
 
     $.ajax({
       type: 'GET',
-      url: '/api/admin/datadashboard/',
+      url: '/api/admin/datadashboard',
       dataType: 'JSON',
       headers: {
           Authorization : 'Bearer {{Auth::user()->api_token}}',
@@ -128,7 +128,7 @@
 
     $.ajax({
       type: 'GET',
-      url: '/api/admin/datadashboard/',
+      url: '/api/admin/datadashboard',
       dataType: 'JSON',
       headers: {
           Authorization : 'Bearer {{Auth::user()->api_token}}',

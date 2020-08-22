@@ -82,7 +82,7 @@ class AdminController extends Controller
             'no_hp.max' => 'no hp terlalu panjang !',
             'foto.required' => 'foto tidak boleh kosong !',
             'foto.mimes' => 'format foto tidak sesuai !',
-            'foto.max' => 'foto terlalu besar !',
+            'foto.max' => 'foto maksimal 1 MB !',
         ]);
 
         $foto = null;
@@ -178,7 +178,7 @@ class AdminController extends Controller
         ],
         [
             'foto.mimes' => 'format foto tidak sesuai !',
-            'foto.max' => 'foto terlalu besar !',
+            'foto.max' => 'foto maksimal 1 MB !',
         ]);
 
         $data = Admin::findOrFail($id_admin);

@@ -74,14 +74,14 @@ class PresentasiController extends Controller
 
         $kelompok = DB::table('kelompok')->where('isDeleted', 0)
                         ->where('id_periode', $periode->id_periode)
+                        ->where('tahap', 'diterima')
                         ->whereNotIn('id_kelompok', function($q){
                             $q->select('id_kelompok')->from('jadwal_presentasi');
                         })->orderBy('nama_kelompok', 'asc')->get();
 
         $dosen = Dosen::select('id_dosen', 'nama')->where('status', 'open')->where('isDeleted', 0)->orderBy('nama', 'asc')->get();
-        $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->get();
-        $ruang = Ruang::select('id_ruang', 'ruang')->get();
-        $periode = Periode::where('status', 'open')->first();
+        $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->where('isDeleted', 0)->get();
+        $ruang = Ruang::select('id_ruang', 'ruang')->where('isDeleted', 0)->get();
         return view('admin.presentasi.add_presentasi', compact('userId','kelompok', 'sesi', 'ruang', 'dosen', 'periode'));
     }
 
@@ -130,12 +130,11 @@ class PresentasiController extends Controller
         }else{
 
             $this->validate($request, [
-                'id_kelompok' => 'required|max:4',
+                'id_kelompok' => 'required',
                 'id_dospeng' => 'required',
                 'id_sesiwaktu' => 'required',
                 'id_ruang' => 'required',
                 'tanggal' => 'required',
-                'id_periode' => 'required',
             ],
             [
                 'judul.required' => 'kelompok tidak boleh kosong !',
@@ -187,12 +186,16 @@ class PresentasiController extends Controller
                             ->where('jadwal_presentasi.id_jadwal_presentasi', $id_jadwal_presentasi)
                             ->first();
 
-        $kelompok = Kelompok::select('id_kelompok', 'nama_kelompok')->where('isDeleted', 0)->orderBy('nama_kelompok', 'asc')->get();
-        $dosen = Dosen::select('id_dosen', 'nama')->where('status', 'open')->where('isDeleted', 0)->orderBy('nama', 'asc')->get();
+        $periode = Periode::where('status', 'open')->first();
+        $kelompok = DB::table('kelompok')->where('isDeleted', 0)
+                        ->where('id_periode', $periode->id_periode)
+                        ->where('tahap', 'diterima')
+                        ->orderBy('nama_kelompok', 'asc')->get();
+
         $sesi = Sesiwaktu::select('id_sesiwaktu', 'sesi')->where('isDeleted', 0)->get();
         $ruang = Ruang::select('id_ruang', 'ruang')->where('isDeleted', 0)->get();
         $periode = Periode::where('status', 'open')->where('isDeleted', 0)->first();
-        return view('admin.presentasi.edit_presentasi', compact('presentasi','data','kelompok', 'sesi', 'ruang', 'dosen', 'periode'));
+        return view('admin.presentasi.edit_presentasi', compact('presentasi','data','kelompok', 'sesi', 'ruang', 'periode'));
     }
 
     /**
@@ -204,70 +207,29 @@ class PresentasiController extends Controller
      */
     public function update(Request $request, $id_jadwal_presentasi)
     {
-        //chect dospeng dengan dosbing belumm
-        $che = Presentasi::join('kelompok as k', 'jadwal_presentasi.id_kelompok', 'k.id_kelompok')
-                        ->join('dosen as d', 'k.id_dosen', 'd.id_dosen')
-                        ->select('d.id_dosen', 'k.id_kelompok')
-                        ->where('d.id_dosen', $request->id_dospeng)
-                        ->where('k.id_kelompok', $request->id_kelompok)
-                        ->first();
+        $this->validate($request, [
+            'id_dospeng' => 'required',
+            'id_sesiwaktu' => 'required',
+            'id_ruang' => 'required',
+            'tanggal' => 'required',
+        ],
+        [
+            'id_dospeng.required' => 'dosen penguji tidak boleh kosong !',
+            'id_sesiwaktu.required' => 'sesi tidak boleh kosong !',
+            'id_ruang.required' => 'ruang tidak boleh kosong !',
+            'tanggal.required' => 'tanggal tidak boleh kosong !'
+        ]);
 
-        //dospeng, waktu, ruang, tanggal periode yang sama
-        $check = Presentasi::where('id_dospeng', $request->id_dospeng)
-                            ->where('id_sesiwaktu', $request->id_sesiwaktu)
-                            ->where('tanggal', $request->tanggal)
-                            ->where('id_ruang', $request->id_ruang)
-                            ->where('id_periode', $request->id_periode)
-                            ->first();
-
-        //dospeng, waktu, tanggal periode yang sama
-        $check1 = Presentasi::where('id_dospeng', $request->id_dospeng)
-                            ->where('id_sesiwaktu', $request->id_sesiwaktu)
-                            ->where('tanggal', $request->tanggal)
-                            ->where('id_periode', $request->id_periode)
-                            ->first();
-        //waktu, tanggal, ruang, periode yang sama
-        $check2 = Presentasi::where('id_sesiwaktu', $request->id_sesiwaktu)
-                            ->where('id_ruang', $request->id_ruang)
-                            ->where('tanggal', $request->tanggal)
-                            ->where('id_periode', $request->id_periode)
-                            ->first();
-
-        if($check){
-            return response()->json(['message' => 'Jadwal dosen bentrok']);
-        }else if($check1){
-            return response()->json(['message' => 'Jadwal dosen bentrok']);
-        }else if($check2){
-            return response()->json(['message' => 'Jadwal presentasi bentrok']);
-        }else{
-
-            $this->validate($request, [
-                'id_kelompok' => 'required|max:4',
-                'id_dospeng' => 'required',
-                'id_sesiwaktu' => 'required',
-                'id_ruang' => 'required',
-                'tanggal' => 'required',
-                'id_periode' => 'required',
-            ],
-            [
-                'id_kelompok.required' => 'kelompok tidak boleh kosong !',
-                'id_dospeng.required' => 'dosen penguji tidak boleh kosong !',
-                'id_sesiwaktu.required' => 'sesi tidak boleh kosong !',
-                'id_ruang.required' => 'ruang tidak boleh kosong !',
-                'tanggal.required' => 'tanggal tidak boleh kosong !'
-            ]);
-
-            $presentasi = Presentasi::findOrFail($id_jadwal_presentasi);
-            $presentasi->update([
-                'id_kelompok' => $request->id_kelompok,
-                'id_dospeng' => $request->id_dospeng,
-                'id_sesiwaktu' => $request->id_sesiwaktu,
-                'id_ruang' => $request->id_ruang,
-                'tanggal' => $request->tanggal,
-            ]);
-            $presentasi->save();
-            return response()->json(['message' => 'Jadwal berhasil diubah.']);
-        }
+        $presentasi = Presentasi::findOrFail($id_jadwal_presentasi);
+        $presentasi->update([
+            'id_kelompok' => $request->id_kelompok,
+            'id_dospeng' => $request->id_dospeng,
+            'id_sesiwaktu' => $request->id_sesiwaktu,
+            'id_ruang' => $request->id_ruang,
+            'tanggal' => $request->tanggal,
+        ]);
+        $presentasi->save();
+        return response()->json(['message' => 'Jadwal berhasil diubah.']);
     }
 
     /**

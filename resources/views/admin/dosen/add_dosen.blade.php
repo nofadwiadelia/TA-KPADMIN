@@ -58,7 +58,7 @@
                                           </div>
                                         </div>
                                       </div>
-                                      <p class="text-muted"><small><i>*jpg,png,jpeg</i></small></p>
+                                      <p class="text-muted"><small><i>*jpg,png,jpeg &nbsp &nbsp *max 1 MB</i></small></p>
                                   </div>
                                   <div class="form-group row">
                                       <label for="kapasitas" class="col-sm-3 col-form-label">Kapasitas *</label>

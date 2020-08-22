@@ -55,7 +55,7 @@
                                     
                                     <input type="hidden" name="id_periode" id="id_periode" class="form-control pull-right required" value="{{$periode->id_periode}}">
 
-                                    <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">
+                                    <input type="hidden" class="form-control" id="created_by" required name="created_by" value="{{$userId}}">
                                     
                                     <div class="row">
                                         <div class="col-md-12">                                
@@ -135,62 +135,46 @@
 <!-- Bootstrap 4 -->
 <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- InputMask -->
-<!-- <script src="../../plugins/moment/moment.min.js"></script>
-<script src="../../plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script> -->
-<!-- date-range-picker -->
-<!-- <script src="../../plugins/daterangepicker/daterangepicker.js"></script> -->
 
 
 <script >
 
+$(document).ready(function(){  
 
-   $('#id_kelompok').on('change', function(){
+    //GET DOSEN PENGUNJI 
+    $('#id_kelompok').on('change', function(){
        let id = $(this).val();
-       $('#id_dospeng').empty();
-       $('#id_dospeng').append('<option value="0" disabled selected>Proses</option>');
-       $.ajax({
-            type: "GET",
-            url: "/admin/getdospenglist/" + id,
-            success: function(response){
-                // var responses = JSON.stringify(response);
-                // console.log(responses);
-                $('#id_dospeng').empty();
-                $('#id_dospeng').append('<option value="0" disabled selected>Pilih Dosen</option>');
-                $.each(response, function(key, value){
-                        var dos = '<option value="' +key.nama+'">'+value.id_dosen+'</option>';
-                    $('#id_dospeng').append(dos);
-                });
-                // $.each(response, function(){
-                //     $.each(this, function(key, value){
-                //         var dos = '<option value="' +key['id_dosen']+'">'+value['nama']+'</option>';
-                //     $('#id_dospeng').append(dos);
-                //     });
-                // });
-                // for (var key in response){
-                //     if(response.hasOwnProperty(key)){
-                //         var dos = "<option value=" +key.id_dosen+">"+key.nama+"</option>"
-                //         $('#id_dospeng').append(dos);
-                //     }
-                // };
-            }
-        });
+       if(id){
+            $.ajax({
+                    type: "GET",
+                    url: "/api/admin/getdospenglist/" + id,
+                    success: function(response){
+                        if(response){
+                            console.log(response);
+                            $("#id_dospeng").empty();
+                            $("#id_dospeng").append('<option value="0" disabled selected>Pilih Dosen</option>');
+                            $.each(response, function(key, value){
+                                var dos = '<option value="' +value.id_dosen+'">'+value.nama+'</option>';
+                                $("#id_dospeng").append(dos);
+                            });
+                        }else{
+                            $("#id_dospeng").empty();
+                        }
+                    }
+            });
+       }else{
+        $("#id_dospeng").empty();
+       }
    });
 
-
-$(document).ready(function(){   
+    //POST JADWAL
     $('#addPresentasi').on('submit', function(e){
         e.preventDefault();
-
-        var id_kelompok = $('#id_kelompok').val();
-        var id_dosen = $('#id_dosen').val();
-        var id_sesiwaktu = $('#id_sesiwaktu').val();
-        var id_ruang = $('#id_ruang').val();
-        var id_periode = $('#id_periode').val();
 
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            url: "/api/admin/presentasi/add/",
+            url: "/api/admin/presentasi/add",
             cache:false,
             dataType: "json",
             data: $('#addPresentasi').serialize(),

@@ -96,21 +96,23 @@
                                         </div>
                                         </form><br>
                                     <div class="card-primary">
-                                    <div class="table-responsive p-0">
-                                        <table class="table table-bordered table-striped" id="kel_data">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Nama Kelompok</th>
-                                                    <th>Periode</th>
-                                                    <th>Nama Ketua</th>
-                                                    <th>Detail</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            
-                                            </tbody>
-                                        </table><br/>
+                                    <div class="col-md-12">
+                                        <div class="table-responsive p-0">
+                                            <table class="table table-bordered table-striped" id="kel_data">
+                                                <thead>
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th width="25%">Nama Kelompok</th>
+                                                        <th width="20%">Periode</th>
+                                                        <th width="25%">Nama Ketua</th>
+                                                        <th width="15%">Detail</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                
+                                                </tbody>
+                                            </table><br/>
+                                        </div>
                                     </div>
                                     </div>
                                 </div>

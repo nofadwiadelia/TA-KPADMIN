@@ -42,7 +42,7 @@
                                   <label class="custom-file-label" for="lampiran">Choose file</label>
                                 </div>
                               </div>
-                              <p class="text-muted"><small><i>*jpg,png,jpeg</i></small></p>
+                              <p class="text-muted"><small><i>*pdf,jpg,png,jpeg</i></small></p>
                         </div>
                         <input type="hidden" class="form-control" required name="created_by" value="{{$userId}}">
                         <div class="form-group">

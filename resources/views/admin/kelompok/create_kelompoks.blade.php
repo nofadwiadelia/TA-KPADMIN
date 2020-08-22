@@ -48,7 +48,7 @@
                   <div class="modal-dialog modal-lg">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title">Pilih Ketua</h5>
+                          <h5 class="modal-title">Pilih Satu Mahasiswa sebagai Ketua</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -88,25 +88,6 @@
                   </div>
                 </div>
 
-                <div id="confirmModal" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title">Confirmation</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <h6 align="center" style="margin:0;">Anda yakin ingin menghapus data ini?</h6>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
-                          <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        </div>
-                      </div>
-                  </div>
-                </div>
 
               <div class="table-responsive p-0">
               <table class="table table-bordered table-striped" id="kelompokTable">
@@ -204,9 +185,19 @@
               toastr.success(data.message);
               window.location = "/admin/persetujuan_kelompok";
           },
-          error: function(error){
-            console.log(error);
-          }
+          error: function(xhr, status, error) 
+            {
+
+              $.each(xhr.responseJSON.errors, function (key, item) 
+              {
+               
+                toastr.options.closeButton = true;
+                toastr.options.closeMethod = 'fadeOut';
+                toastr.options.closeDuration = 200;
+                toastr.error(item);
+              });
+
+            }
         });
       });
 

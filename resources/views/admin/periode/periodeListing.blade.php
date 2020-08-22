@@ -21,7 +21,8 @@
           @if (!empty($aktif))
             <p><h2>Periode KP <strong>{{$aktif->tahun_periode}}</strong></h2><i class="text-muted">{{$date}}</i></p>
           @else
-            <p><h2>Periode KP <strong>tidak aktif</strong></h2></p>
+            <p><h2>Periode KP <strong>tidak aktif</strong></h2><i class="text-muted">{{$date}}</i></p>
+            
           @endif
             <div class="row justify-content-center">
                 <div class="col-md-6 col-md-offset-3 text-center">
@@ -147,28 +148,7 @@
         });
     });
 
-    // $(document).ready(function(){
-    //     $('.deletePeriode').click(function(){
-    //         var id = $(this).data('id');
-    //         $.ajax({
-    //             type: "PUT",
-    //             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-    //             dataType: "json",
-    //             url: '/api/admin/periode/'+id,
-    //             data: {'id_periode': id,},
-    //             success: function (data) {
-    //                 toastr.options.closeButton = true;
-    //                 toastr.options.closeMethod = 'fadeOut';
-    //                 toastr.options.closeDuration = 100;
-    //                 toastr.success(data.message);
-    //                 window.location.reload();
-    //             }
-    //         });
-    //     });
-    // });
-
     $(document).on('click', '.deletePeriode', function(){
-      // var id = $(this).data('id');
       id = $(this).attr('id');
       $('#confirmModal').modal('show');
     });

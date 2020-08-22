@@ -316,7 +316,7 @@
     $.ajax({
         type: "POST",
         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-        url: "/api/admin/persetujuanusulan/",
+        url: "/api/admin/persetujuanusulan",
         cache:false,
         dataType: "json",
         data: {'id_instansi': id_instansi,'id_usulan': id_usulan, 'status': status
@@ -345,7 +345,7 @@
         $.ajax({
             type: "POST",
             headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-            url: "/api/admin/persetujuanusulan/",
+            url: "/api/admin/persetujuanusulan",
             cache:false,
             dataType: "json",
             data: {'id_usulan': id_usulan, 'id_kelompok': id_kelompok, 'status': status},
