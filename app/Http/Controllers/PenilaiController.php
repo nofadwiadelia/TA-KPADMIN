@@ -51,14 +51,22 @@ class PenilaiController extends Controller
             'bobot' => 'required',
         ],
         [
-            'nama.required' => 'sesi tidak boleh kosong !',
-            'bobot.unique' => 'sesi telah terdaftar !'
+            'nama.required' => 'nama tidak boleh kosong !',
+            'bobot.required' => 'bobot tidak boleh kosong !'
         ]);
 
-        KelompokPenilai::updateOrCreate(['id_kelompok_penilai' => $request->id_kelompok_penilai],
-        ['nama' => $request->nama, 'bobot' => $request->bobot]);        
+        $data = KelompokPenilai::findOrFail($request->id_kelompok_penilai);
 
+        $total = (KelompokPenilai::sum('bobot')) - $data->bobot;
+                                
+        if($total + $request->bobot <= 100){
+            $data->nama = $request->nama;
+            $data->bobot = $request->bobot;
+            $data->save();
         return response()->json(['message'=>'Kelompok penilai berhasil diubah']);
+        }else{
+            return response()->json(['message'=>'Total bobot tidak boleh lebih dari 100']);
+        }
     }
 
     /**
